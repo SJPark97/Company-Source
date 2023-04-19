@@ -11,6 +11,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'landing-first': "url('/landing-first.png')"
+      },
       borderWidth: px0_100,
       borderRadius: px0_100,
       fontSize: px0_100,
