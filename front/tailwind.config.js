@@ -1,4 +1,8 @@
 /** @type {import('tailwindcss').Config} */
+
+const px0_100 = { ...Array.from(Array(101)).map((_, i) => `${i}px`) };
+const px0_200 = { ...Array.from(Array(201)).map((_, i) => `${i}px`) };
+
 module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx}',
@@ -7,10 +11,20 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      borderWidth: px0_100,
+      borderRadius: px0_100,
+      fontSize: px0_100,
+      lineHeight: px0_100,
+      width: px0_200,
+      height: px0_200,
+      margin: px0_200,
+      padding: px0_200,
+      minWidth: px0_200,
+      minHeight: px0_200,
+      spacing: px0_200,
+      colors: {
+        "blue-300": "#f1f3ff",
+        "blue-400": "#d8caff",
       },
     },
   },
