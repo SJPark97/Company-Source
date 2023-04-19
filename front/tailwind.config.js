@@ -22,6 +22,9 @@ module.exports = {
       minWidth: px0_200,
       minHeight: px0_200,
       spacing: px0_200,
+      boxshadow: {
+        "wholeShadow": '0px 35px 60px -15px rgba(0, 0, 0, 0.1)'
+      },
       colors: {
         "blue-300": "#f1f3ff",
         "blue-400": "#d8caff",
@@ -38,6 +41,7 @@ module.exports = {
         "green-400": "#c4ffb6",
         "gray-service": "#3B485B",
         "red-600": "#ff2323",
+        "brand": "#1c7ff3",
       },
     },
   },
