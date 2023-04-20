@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google'
 import background from '/landing-first.png';
 import LandingDiscription from '@/components/landing/LandingDescription';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const firstTitle = '다양한 분석 기법을\n 차트로 한눈에 볼 수 있어요.'
