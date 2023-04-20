@@ -5,12 +5,15 @@ const px0_200 = { ...Array.from(Array(201)).map((_, i) => `${i}px`) };
 
 module.exports = {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx}',
-    './src/components/**/*.{js,ts,jsx,tsx}',
-    './src/app/**/*.{js,ts,jsx,tsx}',
+    "./src/pages/**/*.{js,ts,jsx,tsx}",
+    "./src/components/**/*.{js,ts,jsx,tsx}",
+    "./src/app/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'landing-first': "url('/landing-first.png')"
+      },
       borderWidth: px0_100,
       borderRadius: px0_100,
       fontSize: px0_100,
@@ -22,11 +25,28 @@ module.exports = {
       minWidth: px0_200,
       minHeight: px0_200,
       spacing: px0_200,
+      boxShadow: {
+        wholeShadow: "0px 0px 10px 3px rgba(0, 0, 0, 0.1)",
+      },
       colors: {
         "blue-300": "#f1f3ff",
         "blue-400": "#d8caff",
+        "blue-700": "#303EFF",
+        "blue-800": "#2632cc",
+        "gray-400": "#858e94",
+        "gray-500": "#D9D9D9",
+        "gray-600": "#DBDBDB",
+        "gray-700": "#969696",
+        "gray-100": "#f5f5f5",
+        "yellow-200": "#fde9b4",
+        "yellow-600": "#efad45",
+        "green-300": "#e2ffd4",
+        "green-400": "#c4ffb6",
+        "gray-service": "#3B485B",
+        "red-600": "#ff2323",
+        brand: "#1c7ff3",
       },
     },
   },
   plugins: [],
-}
+};
