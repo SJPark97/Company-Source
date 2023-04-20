@@ -29,7 +29,7 @@ export default function ChartCarousel() {
               height={180}
               className="h-full"
             />
-            <div>아오</div>
+            <div>내용 들어갈 자리</div>
           </div>
         </SwiperSlide>
         <SwiperSlide>
