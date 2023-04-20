@@ -1,12 +1,11 @@
 import NavBar from "@/components/NavBar";
 
-export default function Analysis() {
+
+export default function Comparison() {
     return (
         <>
             <NavBar />
-            <div>
-                This is Comparison Page
-            </div>
+            <div>This is Comparison Page.</div>
         </>
     )
 }
