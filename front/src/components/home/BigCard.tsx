@@ -18,7 +18,7 @@ export default function BigCard() {
         />
         <div className="font-bold mx-[26px] mb-[26px] text-20">네이버</div>
         <div>
-          <div className="text-gray-400 mx-[26px] w-[260-52px] mb-[25px] text-ellipsis">
+          <div className="text-gray-400 mx-[26px] w-[260-52px] mb-[25px] line-clamp-4">
             네이버는 대한민국 포털 사이트이다. 검색 엔진 등 포탈 서비스를
             중심으로 블로그, 카페, 포스트등의 커뮤니티 서비스를 비롯...
           </div>
