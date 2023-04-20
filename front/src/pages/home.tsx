@@ -1,4 +1,4 @@
-import Banner from "@/components/Banner";
+import Banner from "@/components/home/Banner";
 import NavBar from "@/components/NavBar";
 import SearchBar from "@/components/SearchBar";
 
