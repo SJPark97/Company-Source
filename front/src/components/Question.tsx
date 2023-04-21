@@ -13,7 +13,7 @@ export default function Question() {
           mount: { scale: 1, y: 0 },
           unmount: { scale: 0, y: 25 },
         }}
-        className="p-[10px]"
+        className="p-[10px] bg-black"
       >
         <div className="flex justify-center items-center fixed bottom-50 right-50 bg-brand w-[50px] h-[50px] text-white font-bold rounded-100">
           <div>?</div>
