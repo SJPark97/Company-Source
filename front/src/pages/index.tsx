@@ -1,6 +1,4 @@
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
-import background from '/landing-first.png';
 import LandingDiscription from '@/components/landing/LandingDescription';
 import LandingImageCard from '@/components/landing/LandingImageCard';
 
@@ -14,8 +12,8 @@ export default function Home() {
   const thirdTitle = '기업분석.\n 당신의 생각은 어떠신가요?'
   const thirdContent = '커뮤니티에서 여러사람들과\n 의견을 공유해보세요.'
   return (
-    <div className='flex flex-col w-screen'>
-      <div className='w-screen h-screen bg-top bg-no-repeat bg-cover bg-landing-first'>
+    <div className='flex flex-col w-full'>
+      <div className='h-screen bg-top bg-no-repeat bg-cover bg-landing-first'>
         <div className='text-white drop-shadow-lg font-bold text-56 w-[60vw] ml-[10vw] mt-[15vh]'>
           기업 분석이 어려우신가요? Company Source와 함께 해보세요.
         </div>
