@@ -4,17 +4,17 @@ export default function BigCard() {
   return (
     <>
       <div
-        className="flex flex-col w-[200px] h-[300px]
+        className="flex flex-col w-[190px] h-[300px]
         shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] rounded-10
       mx-[26px] my-[26px] relative hover:scale-110"
       >
         <div className="absolute bg-brand w-[100%] h-[10px] rounded-tl-5 rounded-tr-5 top-0 left-0"></div>
         <Image
-          src="/naver_logo_big.png"
-          alt="naver.logo_big.png"
+          src="/naver_logo_small.png"
+          alt="naver.logo_small.png"
           width={200 - 52}
           height={0}
-          className="mx-[26px] my-[50px]"
+          className="mx-auto my-[50px]"
         />
         <div className="font-bold mx-[26px] mb-[26px] text-20">네이버</div>
         <div>
