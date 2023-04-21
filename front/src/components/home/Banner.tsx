@@ -3,7 +3,7 @@ import ChartCarousel from "./ChartCarousel";
 export default function Banner() {
   return (
     <div className="mb-[10vh]">
-      <div className="flex flex-row justify-between bg-brand w-[100vw] h-[400px]">
+      <div className="flex flex-row justify-between bg-brand w-[100%] h-[400px]">
         <div className="flex flex-col ml-[10vw]">
           <div className="text-white font-bold mt-[10vh] lg:text-22 xl:text-25 2xl:text-28">
             지금 검색해 보세요.
