@@ -7,7 +7,7 @@ export default function NavBar() {
   console.log(router.pathname);
   return (
     <>
-      <div className="flex justify-between items-center mx-[10vw]">
+      <div className="flex justify-between items-center mx-[10vw] w-[80vw]">
         <div className="flex flex-row items-center">
           <Link href="/home">
             <div>

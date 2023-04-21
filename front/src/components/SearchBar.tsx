@@ -9,8 +9,8 @@ export default function SearchBar() {
     <>
       <div className="flex justify-center my-[5vh]">
         <form>
-          <div className="relative">
-            <span className="absolute ml-15 mt-10">
+          <div className="relative w-[60vw]">
+            <span className="absolute ml-15 mt-20">
               <Image
                 src="/search.png"
                 alt="search.png"
@@ -22,7 +22,7 @@ export default function SearchBar() {
             <input
               onChange={searchHandler}
               placeholder="기업을 검색해 보세요."
-              className="border-2 border-brand rounded-full w-[60vw] h-40
+              className="border-2 border-brand rounded-full w-[60vw] h-60
                         hover:shadow-whole shadow-brand
                         focus:outline-none placeholder-gray-400
                         px-40"

@@ -15,9 +15,6 @@ export default function Banner() {
             약 20개의 분석 방법으로 분석했습니다.
           </div>
         </div>
-        {/* <div className="bg-white w-[500px] h-[300px] mr-[10vw] mt-[5vh] rounded-lg">
-          사진 들어갈 곳
-        </div> */}
         <div className="bg-white w-[500px] h-[300px] mr-[10vw] my-auto rounded-lg">
           <ChartCarousel />
         </div>

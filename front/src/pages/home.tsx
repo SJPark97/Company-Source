@@ -11,7 +11,7 @@ export default function Home() {
       <SearchBar />
       <Banner />
       <div className="mx-[10vw] flex  w-[80vw]">
-        <div className="flex flex-col">
+        <div className="flex flex-col w-[70vw]">
           <div className="ml-[26px] text-30 font-bold">상장 기업</div>
           <div className="flex flex-wrap">
             <BigCard />
@@ -33,7 +33,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div>This is Home Page</div>
     </>
   );
 }
