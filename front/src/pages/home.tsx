@@ -14,14 +14,14 @@ export default function Home() {
         <div className="flex flex-col w-[70vw]">
           <div className="ml-[26px] text-30 font-bold">상장 기업</div>
           <div className="flex flex-wrap">
-            <BigCard />
-            <BigCard />
-            <BigCard />
-            <BigCard />
-            <BigCard />
-            <BigCard />
-            <BigCard />
-            <BigCard />
+            <BigCard companyName="네이버1" />
+            <BigCard companyName="네이버2" />
+            <BigCard companyName="네이버3" />
+            <BigCard companyName="네이버4" />
+            <BigCard companyName="네이버5" />
+            <BigCard companyName="네이버6" />
+            <BigCard companyName="네이버7" />
+            <BigCard companyName="네이버8" />
           </div>
         </div>
         <div className="flex flex-col w-[40vw]">

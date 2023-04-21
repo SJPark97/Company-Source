@@ -1,6 +1,4 @@
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
-import background from '/landing-first.png';
 import LandingDiscription from '@/components/landing/LandingDescription';
 import LandingImageCard from '@/components/landing/LandingImageCard';
 
