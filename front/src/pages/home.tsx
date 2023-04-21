@@ -24,7 +24,7 @@ export default function Home() {
             <BigCard />
           </div>
         </div>
-        <div className="flex flex-col w-[50vw]">
+        <div className="flex flex-col w-[40vw]">
           <div className="text-30 font-bold">주제별 List</div>
           <div className="flex flex-col">
             <SmallCard />

@@ -9,13 +9,13 @@ export default function BigCard() {
       mx-[26px] my-[26px] relative hover:scale-110"
       >
         <div className="absolute bg-brand w-[100%] h-[10px] rounded-tl-5 rounded-tr-5 top-0 left-0"></div>
-        {/* <Image
-          src="/naver_logo_big.png"
-          alt="naver.logo_big.png"
+        <Image
+          src="/naver_logo_small.png"
+          alt="naver.logo_small.png"
           width={200 - 52}
           height={0}
-          className="mx-[26px] my-[50px]"
-        /> */}
+          className="mx-auto my-[50px]"
+        />
         <div className="font-bold mx-[26px] mb-[26px] text-20">네이버</div>
         <div>
           <div className="text-gray-400 mx-[26px] w-[260-52px] mb-[25px] line-clamp-4">
