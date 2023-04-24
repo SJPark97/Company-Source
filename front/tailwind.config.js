@@ -12,7 +12,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'landing-first': "url('/landing-first.png')"
+        "landing-first": "url('/landing-first.png')",
       },
       borderWidth: px0_100,
       borderRadius: px0_100,
@@ -44,8 +44,21 @@ module.exports = {
         "green-400": "#c4ffb6",
         "gray-service": "#3B485B",
         "red-600": "#ff2323",
-        "brand": "#1c7ff3",
-        "analysisBg": '#F3F9FF',
+        brand: "#1c7ff3",
+        analysisBg: "#F3F9FF",
+      },
+      animation: {
+        fadeIn: "fadeIn 4s forwards",
+      },
+      keyframes: {
+        fadeIn: {
+          from: {
+            opacity: 0,
+          },
+          to: {
+            opacity: 1,
+          },
+        },
       },
     },
   },
