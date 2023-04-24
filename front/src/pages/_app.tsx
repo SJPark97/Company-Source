@@ -1,6 +1,7 @@
-import Question from '@/components/Question'
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import NavBar from "@/components/NavBar";
+import Question from "@/components/Question";
+import "@/styles/globals.css";
+import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -8,5 +9,5 @@ export default function App({ Component, pageProps }: AppProps) {
       <Component {...pageProps} />
       <Question />
     </>
-  )
+  );
 }
