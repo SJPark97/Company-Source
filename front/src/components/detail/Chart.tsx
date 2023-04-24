@@ -1,5 +1,7 @@
+import { getTempChart } from "@/pages/detail/[searchdetail]";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import {
   BarChart,
   Bar,
@@ -19,9 +21,11 @@ interface ChartLabel {
 
 export default function Chart({ chartData }: any) {
 
+  const { data: tempChart, isLoading, isError, error } = useQuery(['tempChart'], getTempChart, { refetchOnWindowFocus: false, staleTime: 10 * 1000, cacheTime: 30 * 1000, refetchInterval: 30 * 1000 })
+
   useEffect(() => {
 
-    console.log(chartData)
+    console.log(tempChart)
 
     const data = [
       {
@@ -93,17 +97,4 @@ export default function Chart({ chartData }: any) {
       <Bar dataKey="uv" fill="#82ca9d" />
     </BarChart >
   );
-}
-
-export async function getServerSideProps() {
-  const apiUrl = `http://192.168.31.142:8080/api/v1/analysis/101/234`
-  const response = await axios.get(apiUrl);
-  const data = response.data;
-  console.log("asdasdasdads")
-  console.log(data);
-  return {
-    props: {
-      chartData: data,
-    }
-  }
 }
