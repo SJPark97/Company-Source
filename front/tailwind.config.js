@@ -13,6 +13,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         "landing-first": "url('/landing-first.png')",
+        "analysis-title": "url('/analysis-title.png')",
       },
       borderWidth: px0_100,
       borderRadius: px0_100,
@@ -33,6 +34,7 @@ module.exports = {
         "blue-400": "#d8caff",
         "blue-700": "#303EFF",
         "blue-800": "#2632cc",
+        "blue-background": "#F3F9FF",
         "gray-400": "#858e94",
         "gray-500": "#D9D9D9",
         "gray-600": "#DBDBDB",
