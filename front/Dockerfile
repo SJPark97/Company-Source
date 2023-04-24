@@ -1,24 +1,25 @@
-# Base image
+## basic 이미지 생성
 FROM node:14-alpine
 
-# Set working directory
+## 작업 디렉토리 고정
 WORKDIR /app
 
-# Copy package files
+## package.json과 package-lock.json 복사
 COPY package*.json ./
 
-# Install dependencies
+## 패키지 설치
 RUN npm install --production
 
-# Copy application files
-COPY . .
+## docker 이미지로 복사
+COPY public /app/public
+COPY src /app/src
 
-# Build the application
+## Build the application
 RUN npm run build
 
+## 3000번 포트로 열기
 EXPOSE 3000
-
 ENV PORT 3000
 
-# Start the application
+# 시작 명령어
 CMD ["npm", "start"]
