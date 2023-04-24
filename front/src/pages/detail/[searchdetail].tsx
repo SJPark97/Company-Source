@@ -6,8 +6,17 @@ import OverviewContent from "@/components/detail/OverviewContent";
 import Title from "@/components/detail/Title";
 import Image from "next/image";
 import { useRouter } from "next/router"
+import { QueryClient, dehydrate } from "react-query";
+import axios from "axios";
+
+const API_URL = "http://192.168.31.142:8080/api/v1/analysis/101/234"
+export const getTempChart = async () => {
+	const { data } = await axios.get(API_URL);
+	return data;
+}
 
 export default function searchdetail() {
+
 	const router = useRouter();
 	const { searchdetail } = router.query;
 
@@ -108,4 +117,14 @@ export default function searchdetail() {
 
 		</>
 	)
+}
+
+export const getServerSideProps = async () => {
+	const queryClient = new QueryClient();
+	await queryClient.prefetchQuery(['tempChart'], getTempChart);
+	return {
+		props: {
+			dehydratedProps: dehydrate(queryClient),
+		}
+	}
 }
