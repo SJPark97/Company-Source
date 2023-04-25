@@ -1,9 +1,6 @@
-import { Inter } from "next/font/google";
 import LandingDiscription from "@/components/landing/LandingDescription";
 import LandingImageCard from "@/components/landing/LandingImageCard";
 import NavBar from "@/components/NavBar";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const firstTitle = "다양한 분석 기법을\n 차트로 한눈에 볼 수 있어요.";
