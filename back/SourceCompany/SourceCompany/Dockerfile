@@ -1,11 +1,25 @@
-# open jdk java11 버전의 환경
-FROM openjdk:11-jdk
+# basic 이미지 생성
+FROM node:14-alpine
 
-# JAR_FILE 변수 정의 -> 기본적으로 jar file이 2개이기 때문에 이름을 특정해야함
-ARG JAR_FILE=./build/libs/careerup-0.0.1-SNAPSHOT.jar
+# 작업 디렉토리 고정
+WORKDIR /app
 
-# JAR 파일 메인 디렉토리에 복사
-COPY ${JAR_FILE} app.jar
+# package.json과 package-lock.json 복사
+COPY package*.json ./
 
-# 시스템 진입점 정의
-ENTRYPOINT ["java","-jar","/app.jar"]
+# 패키지 설치
+RUN npm install --production
+
+# docker 이미지로 복사
+COPY public /app/public
+COPY src /app/src
+
+# Build the application
+RUN npm run build
+
+# 3000번 포트로 열기
+EXPOSE 3000
+ENV PORT 3000
+
+# 시작 명령어
+CMD ["npm", "start"]
