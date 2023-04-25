@@ -6,19 +6,33 @@ import OverviewContent from "@/components/detail/OverviewContent";
 import Title from "@/components/detail/Title";
 import Image from "next/image";
 import { useRouter } from "next/router"
-import { QueryClient, dehydrate } from "react-query";
+import { QueryClient, dehydrate, useQuery } from "react-query";
 import axios from "axios";
-
-const API_URL = "http://192.168.31.142:8080/api/v1/analysis/101/234"
-export const getTempChart = async () => {
-	const { data } = await axios.get(API_URL);
-	return data;
-}
+import { useEffect } from "react";
 
 export default function searchdetail() {
 
 	const router = useRouter();
-	const { searchdetail } = router.query;
+	const { companyId } = router.query;
+
+	const API_URL = `http://192.168.31.142:8080/api/v1/analysis/`
+	const getTempChart1 = async () => {
+		const { data } = await axios.get(API_URL + `101/${companyId}`);
+		return data;
+	}
+
+	const getTempChart2 = async () => {
+		const { data } = await axios.get(API_URL + `103/${companyId}`);
+		return data;
+	}
+
+	const { data: temp1 } = useQuery(['tempChart-1'], getTempChart1, { refetchOnWindowFocus: false, staleTime: 10 * 1000, cacheTime: 30 * 1000, refetchInterval: 30 * 1000 })
+	const { data: temp2 } = useQuery(['tempChart-2'], getTempChart2, { refetchOnWindowFocus: false, staleTime: 10 * 1000, cacheTime: 30 * 1000, refetchInterval: 30 * 1000 })
+
+	useEffect(() => {
+		console.log(temp1);
+		console.log(temp2);
+	}, [])
 
 	return (
 		<>
@@ -33,7 +47,7 @@ export default function searchdetail() {
 					</div>
 					<div className="flex flex-col justify-center w-[45vw] p-30">
 						<div className="h-auto bg-white rounded-10">
-							<div className="mx-[2vw] my-20 text-28">{searchdetail}</div>
+							<div className="mx-[2vw] my-20 text-28">{companyId}</div>
 							<div className="flex flex-wrap justify-between m-20">
 								{/* API랑 연결하면 map으로 바꿔줄 부분 */}
 								<OverviewContent title="기업형태" content="대기업, 주식회사" />
@@ -119,9 +133,32 @@ export default function searchdetail() {
 	)
 }
 
-export const getServerSideProps = async () => {
+export const getStaticPaths = async () => {
+
+	return {
+		paths: [],
+		fallback: true,
+	}
+}
+
+export const getStaticProps = async (params: any) => {
+	const id = params.id;
+	const API_URL = `http://192.168.31.142:8080/api/v1/analysis/`
+
+	const getTempChart1 = async () => {
+		const { data } = await axios.get(API_URL + `101/${id}`);
+		return data;
+	}
+
+	const getTempChart2 = async () => {
+		const { data } = await axios.get(API_URL + `103/${id}`);
+		return data;
+	}
+
 	const queryClient = new QueryClient();
-	await queryClient.prefetchQuery(['tempChart'], getTempChart);
+	await queryClient.prefetchQuery(['tempChart-1'], getTempChart1);
+	await queryClient.prefetchQuery(['tempChart-2'], getTempChart2);
+
 	return {
 		props: {
 			dehydratedProps: dehydrate(queryClient),
