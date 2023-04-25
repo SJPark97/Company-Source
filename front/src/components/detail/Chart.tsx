@@ -1,4 +1,4 @@
-import { getTempChart } from "@/pages/detail/[searchdetail]";
+// import { getTempChart } from "@/pages/detail/[searchdetail]";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -21,11 +21,11 @@ interface ChartLabel {
 
 export default function Chart({ chartData }: any) {
 
-  const { data: tempChart, isLoading, isError, error } = useQuery(['tempChart'], getTempChart, { refetchOnWindowFocus: false, staleTime: 10 * 1000, cacheTime: 30 * 1000, refetchInterval: 30 * 1000 })
+  // const { data: tempChart, isLoading, isError, error } = useQuery(['tempChart'], getTempChart, { refetchOnWindowFocus: false, staleTime: 10 * 1000, cacheTime: 30 * 1000, refetchInterval: 30 * 1000 })
 
   useEffect(() => {
 
-    console.log(tempChart)
+    // console.log(tempChart)
 
     const data = [
       {
