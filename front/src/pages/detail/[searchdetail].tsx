@@ -1,6 +1,5 @@
 import NavBar from "@/components/NavBar";
 import AnalysisTitle from "@/components/detail/AnalysisTitle";
-import Card from "@/components/detail/Card";
 import Chart from "@/components/detail/Chart";
 import OverviewContent from "@/components/detail/OverviewContent";
 import Title from "@/components/detail/Title";
@@ -9,6 +8,7 @@ import { useRouter } from "next/router"
 import { QueryClient, dehydrate, useQuery } from "react-query";
 import axios from "axios";
 import { useEffect } from "react";
+import useChartQueries from "@/hooks/useChartQueries";
 
 export default function searchdetail() {
 
@@ -29,10 +29,17 @@ export default function searchdetail() {
 	const { data: temp1 } = useQuery(['tempChart-1'], getTempChart1, { refetchOnWindowFocus: false, staleTime: 10 * 1000, cacheTime: 30 * 1000, refetchInterval: 30 * 1000 })
 	const { data: temp2 } = useQuery(['tempChart-2'], getTempChart2, { refetchOnWindowFocus: false, staleTime: 10 * 1000, cacheTime: 30 * 1000, refetchInterval: 30 * 1000 })
 
+	const chartQueries = useChartQueries(companyId as string);
+
 	useEffect(() => {
-		console.log(temp1);
-		console.log(temp2);
-	}, [])
+		// console.log(temp1);
+		// console.log(temp2);
+		chartQueries.map((chartQuery) => {
+			if (chartQuery.status === "success") {
+				console.log(chartQuery.data);
+			}
+		})
+	}, [chartQueries])
 
 	return (
 		<>
