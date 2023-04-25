@@ -27,7 +27,7 @@ export default function ChartCarousel() {
               alt="/chart_1.png"
               width={320}
               height={180}
-              className="h-full"
+              className="w-auto h-full"
             />
             <div>내용 들어갈 자리</div>
           </div>
@@ -38,7 +38,7 @@ export default function ChartCarousel() {
             alt="/chart_2.png"
             width={240}
             height={136}
-            className="h-full mt-40 ml-20"
+            className="w-auto h-full mt-40 ml-20"
           />
         </SwiperSlide>
         {/* <SwiperSlide>
