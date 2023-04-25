@@ -1,0 +1,1 @@
+export const SERVER_URL = `http://192.168.31.142:8080/api/v1/analysis`
