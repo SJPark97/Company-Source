@@ -1,6 +1,7 @@
 package com.jobtang.sourcecompany.api.corp.entity;
 
 
+import com.jobtang.sourcecompany.api.corp_detail.entity.CorpDetail;
 import com.jobtang.sourcecompany.util.BaseEntity;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -17,8 +18,10 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Corp  extends BaseEntity {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue
   private String corpId;
+
+  private String stockId;
 
   @Column(nullable = false)
   private String corpName;
@@ -32,33 +35,6 @@ public class Corp  extends BaseEntity {
   @Column(nullable = false)
   private Integer totalView;
 
-  //  분석용 컬럼
-//  Dart
-  @Column(nullable = true)
-  private String netWorkingCapital; // 순운전자본
-
-  @Column(nullable = true)
-  private String totalAssets; // 총자산
-
-  @Column(nullable = true)
-  private String retainedEarnings; // 이익잉여금
-
-  @Column(nullable = true)
-  private String netProfit; // 순이익
-
-  @Column(nullable = true)
-  private String interestExpenses; // 이자비용
-
-  @Column(nullable = true)
-  private String tax;// 세금
-
-  @Column(nullable = true)
-  private String sales; // 매출액
-
-  @Column(nullable = true)
-  private String totalLiabilities; // 총부채
-
-  //  주식 데이터
-  @Column(nullable = true)
-  private String marketCapitalization; // 시가총액
+  @OneToOne(mappedBy = "corp", cascade = CascadeType.ALL, orphanRemoval = true)
+  private CorpDetail corpDetail;
 }
