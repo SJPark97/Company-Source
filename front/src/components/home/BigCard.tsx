@@ -2,13 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface Iprops {
-  companyName: string,
+  id: number,
+  name: string,
 }
 
-export default function BigCard({ companyName }: Iprops) {
+export default function BigCard({ id, name }: Iprops) {
   return (
     <>
-      <Link href="/detail/[searchdetail]" as={`/detail/${companyName}`}>
+      <Link href="/detail/[searchdetail]" as={`/detail/${id}`}>
         <div
           className="flex flex-col w-[190px] h-[300px]
           shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] rounded-10
@@ -22,7 +23,7 @@ export default function BigCard({ companyName }: Iprops) {
             height={0}
             className="mx-auto my-[50px]"
           />
-          <div className="font-bold mx-[26px] mb-[26px] text-20">{companyName}</div>
+          <div className="font-bold mx-[26px] mb-[26px] text-20">{name}</div>
           <div>
             <div className="text-gray-400 mx-[26px] w-[260-52px] mb-[25px] line-clamp-4">
               네이버는 대한민국 포털 사이트이다. 검색 엔진 등 포탈 서비스를
