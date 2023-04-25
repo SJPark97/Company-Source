@@ -7,19 +7,41 @@ export default function NavBar() {
   console.log(router.pathname);
   return (
     <>
-      <div className="flex justify-between items-center mx-[10vw]">
+      <div
+        className={
+          "flex justify-between items-center mx-[10vw] w-[80vw] " +
+          `${router.pathname === "/" ? "absolute" : null}`
+        }
+      >
         <div className="flex flex-row items-center">
           <Link href="/home">
             <div>
-              <Image src="/logo.png" alt="logo.png" width={123} height={58} />
+              {router.pathname === "/" ? (
+                <Image
+                  src="/white_logo.png"
+                  alt="white_logo.png"
+                  width={123}
+                  height={58}
+                />
+              ) : (
+                <Image src="/logo.png" alt="logo.png" width={123} height={58} />
+              )}
             </div>
           </Link>
 
-          <Link href="/analysis" >
+          <Link href="/analysis">
             <div
               className={
                 "mx-[3vw] " +
-                `${router.pathname === "/analysis" ? "text-black font-bold" : "text-gray-400"}`
+                `${
+                  router.pathname === "/"
+                    ? "text-white font-bold"
+                    : `${
+                        router.pathname === "/analysis"
+                          ? "text-black font-bold"
+                          : "text-gray-400"
+                      }`
+                }`
               }
             >
               기업 분석
@@ -30,7 +52,14 @@ export default function NavBar() {
             <div
               className={
                 "mx-[3vw] " +
-                `${router.pathname === "/comparison" ? "text-black font-bold" : "text-gray-400"
+                `${
+                  router.pathname === "/"
+                    ? "text-white font-bold"
+                    : `${
+                        router.pathname === "/comparison"
+                          ? "text-black font-bold"
+                          : "text-gray-400"
+                      }`
                 }`
               }
             >
