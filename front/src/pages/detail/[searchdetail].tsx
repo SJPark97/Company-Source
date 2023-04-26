@@ -9,31 +9,16 @@ import { QueryClient, dehydrate, useQuery } from "react-query";
 import axios from "axios";
 import { useEffect } from "react";
 import useChartQueries from "@/hooks/useChartQueries";
+import chartQueryClient from "@/hooks/chartQueryClient";
 
 export default function searchdetail() {
 
 	const router = useRouter();
 	const { companyId } = router.query;
-
-	const API_URL = `http://192.168.31.142:8080/api/v1/analysis/`
-	const getTempChart1 = async () => {
-		const { data } = await axios.get(API_URL + `101/${companyId}`);
-		return data;
-	}
-
-	const getTempChart2 = async () => {
-		const { data } = await axios.get(API_URL + `103/${companyId}`);
-		return data;
-	}
-
-	const { data: temp1 } = useQuery(['tempChart-1'], getTempChart1, { refetchOnWindowFocus: false, staleTime: 10 * 1000, cacheTime: 30 * 1000, refetchInterval: 30 * 1000 })
-	const { data: temp2 } = useQuery(['tempChart-2'], getTempChart2, { refetchOnWindowFocus: false, staleTime: 10 * 1000, cacheTime: 30 * 1000, refetchInterval: 30 * 1000 })
-
 	const chartQueries = useChartQueries(companyId as string);
 
 	useEffect(() => {
-		// console.log(temp1);
-		// console.log(temp2);
+		console.log(chartQueries);
 		chartQueries.map((chartQuery) => {
 			if (chartQuery.status === "success") {
 				console.log(chartQuery.data);
@@ -85,17 +70,7 @@ export default function searchdetail() {
 									<div className="p-20 bg-white m-30 rounded-10">
 										<Chart />
 									</div>
-									<div className="p-20 bg-white my-30 mr-30 rounded-10">
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
+									<div className="p-20 bg-white text-40 my-30 mr-30 rounded-10">
 										설명설명설명설명설명설명설명설명
 									</div>
 								</div>
@@ -110,17 +85,7 @@ export default function searchdetail() {
 							<AnalysisTitle />
 							<div>
 								<div className="flex">
-									<div className="p-20 bg-white m-30 rounded-10">
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
+									<div className="p-20 bg-white text-40 m-30 rounded-10">
 										설명설명설명설명설명설명설명설명
 									</div>
 									<div className="p-20 bg-white my-30 mr-30 rounded-10">
@@ -141,7 +106,6 @@ export default function searchdetail() {
 }
 
 export const getStaticPaths = async () => {
-
 	return {
 		paths: [],
 		fallback: true,
@@ -150,25 +114,11 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (params: any) => {
 	const id = params.id;
-	const API_URL = `http://192.168.31.142:8080/api/v1/analysis/`
-
-	const getTempChart1 = async () => {
-		const { data } = await axios.get(API_URL + `101/${id}`);
-		return data;
-	}
-
-	const getTempChart2 = async () => {
-		const { data } = await axios.get(API_URL + `103/${id}`);
-		return data;
-	}
-
-	const queryClient = new QueryClient();
-	await queryClient.prefetchQuery(['tempChart-1'], getTempChart1);
-	await queryClient.prefetchQuery(['tempChart-2'], getTempChart2);
+	const queryClient = chartQueryClient(id);
 
 	return {
 		props: {
-			dehydratedProps: dehydrate(queryClient),
+			dehydratedProps: dehydrate(await queryClient),
 		}
 	}
 }
