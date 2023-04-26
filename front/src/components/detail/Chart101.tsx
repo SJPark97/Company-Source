@@ -10,24 +10,26 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend
+  Legend,
 } from "recharts";
 
 interface ChartLabel {
-  name: string,
-  잡탕마을: number,
-  산업평균: number,
+  name: string;
+  [key: string]: number;
 }
 
 interface Iprops {
-  analysisCode: string,
-  companyId: string
+  analysisCode: string;
+  companyId: string;
 }
 
-
 export default function Chart101({ analysisCode, companyId }: Iprops) {
-  const { data } = useQuery<any>(["analysis", analysisCode], () => getData(analysisCode, companyId), { refetchOnWindowFocus: false })
-  console.log(data)
+  const { data } = useQuery<any>(
+    ["analysis", analysisCode],
+    () => getData(analysisCode, companyId),
+    { refetchOnWindowFocus: false }
+  );
+
   return (
     <BarChart
       width={400}
@@ -37,7 +39,7 @@ export default function Chart101({ analysisCode, companyId }: Iprops) {
         top: 5,
         right: 30,
         left: 20,
-        bottom: 5
+        bottom: 5,
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />
@@ -47,6 +49,6 @@ export default function Chart101({ analysisCode, companyId }: Iprops) {
       <Legend />
       <Bar dataKey="잡탕마을" fill="#8884d8" />
       <Bar dataKey="산업평균" fill="#82ca9d" />
-    </BarChart >
+    </BarChart>
   );
 }
