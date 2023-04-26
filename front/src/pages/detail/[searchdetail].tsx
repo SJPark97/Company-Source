@@ -1,32 +1,16 @@
 import NavBar from "@/components/NavBar";
 import AnalysisTitle from "@/components/detail/AnalysisTitle";
-import Chart from "@/components/detail/Chart";
+import Chart_101 from "@/components/detail/Chart101";
 import OverviewContent from "@/components/detail/OverviewContent";
 import Title from "@/components/detail/Title";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { QueryClient, dehydrate, useQuery } from "react-query";
-import axios from "axios";
-import { useEffect } from "react";
-import useChartQueries from "@/hooks/useChartQueries";
+import { dehydrate } from "react-query";
 import chartQueryClient from "@/hooks/chartQueryClient";
-import Chart103 from "@/components/detail/Chart103";
-import { SERVER_URL } from "@/utils/url";
 
-export default function searchdetail({ post }: any) {
-  //   console.log(post);
-  //   const router = useRouter();
-  //   const { searchdetail } = router.query;
-  const chartQueries = useChartQueries(searchdetail as string);
-
-  useEffect(() => {
-    // console.log(chartQueries);
-    chartQueries.map((chartQuery) => {
-      if (chartQuery.status === "success") {
-        // console.log(chartQuery.data);
-      }
-    });
-  }, [chartQueries]);
+export default function searchdetail() {
+  const router = useRouter();
+  const { searchdetail } = router.query;
 
   return (
     <>
@@ -73,7 +57,12 @@ export default function searchdetail({ post }: any) {
               <div>
                 <div className="flex">
                   <div className="p-20 bg-white m-30 rounded-10">
-                    <Chart />
+                    {searchdetail && (
+                      <Chart_101
+                        analysisCode="101"
+                        companyId={searchdetail as string}
+                      />
+                    )}
                   </div>
                   <div className="p-20 bg-white text-40 my-30 mr-30 rounded-10">
                     설명설명설명설명설명설명설명설명
@@ -94,7 +83,12 @@ export default function searchdetail({ post }: any) {
                     설명설명설명설명설명설명설명설명
                   </div>
                   <div className="p-20 bg-white my-30 mr-30 rounded-10">
-                    <Chart />
+                    {searchdetail && (
+                      <Chart_101
+                        analysisCode="101"
+                        companyId={searchdetail as string}
+                      />
+                    )}
                   </div>
                 </div>
               </div>
@@ -103,7 +97,6 @@ export default function searchdetail({ post }: any) {
 
           <div className="mt-20"></div>
         </div>
-        <Chart103 />
       </div>
     </>
   );
@@ -118,16 +111,10 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }: any) => {
   const id = params.searchdetail;
-  // const res = await fetch(SERVER_URL + `/101/${id}`);
-  // const post = await res.json();
   const queryClient = chartQueryClient(id);
-  //   console.log(queryClient);
-  //   const temp = queryClient.json();
   return {
     props: {
-      dehydratedProps: dehydrate(await queryClient),
-      //   dehydratedProps: dehydrate(temp),
-      // post,
+      dehydratedProps: dehydrate(queryClient),
     },
   };
 };
