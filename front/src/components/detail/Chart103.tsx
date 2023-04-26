@@ -1,49 +1,41 @@
-import React, { PureComponent } from "react";
-import axios from "axios";
+import getData from "@/hooks/getData";
+import React from "react";
 import {
   BarChart,
   Bar,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer,
 } from "recharts";
-import useChartQueries from "@/hooks/useChartQueries";
-import { useRouter } from "next/router";
-import { useQuery, useQueryClient } from "react-query";
-import { SERVER_URL } from "@/utils/url";
+import { useQuery } from "react-query";
 
 interface Iprops {
-  status: string;
-  data: {
-    results: Array<any>;
-  };
+  analysisCode: string;
+  companyId: string;
 }
-// export default function Chart103({ props }: Iprops) {
-export default function Chart103() {
-  const queryClient = useQueryClient();
-  const { data, isLoading, error } = useQuery('["analysis", 101]');
-  console.log(data);
-  //   console.log(queryClient, "22222222222222222222");
-  //   const { isLoading, data, error } = useQuery(["\\analysis\\", 101], () => {
-  //     return queryClient.getQueryData(["\\analysis\\", 101]);
-  //   });
-  //   console.log(data, "here");
 
-  //   console.log(router);
-  //   const chartQuery = useChartQueries;
+export default function Chart103({ analysisCode, companyId }: Iprops) {
+  const { data } = useQuery<any>(
+    ["analysis", analysisCode],
+    () => getData(analysisCode, companyId),
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+  if (data) {
+    console.log(data.data.data, "here");
+  }
 
-  const formatYLabel = (value) => `${value}%`;
+  const formatYLabel = (value: string) => `${value}%`;
   return (
     <>
-      <ResponsiveContainer width="100%" height="100%">
+      <div className="flex flex-wrap">
         <BarChart
           width={500}
           height={300}
-          //   data={data.result[0]}
+          data={data && [data.data.data.result[0]]}
           margin={{
             top: 5,
             right: 30,
@@ -59,12 +51,10 @@ export default function Chart103() {
           <Bar dataKey="잡탕마을" fill="#8884d8" />
           <Bar dataKey="산업평균" fill="#82ca9d" />
         </BarChart>
-      </ResponsiveContainer>
-      <ResponsiveContainer width="100%" height="100%">
         <BarChart
           width={500}
           height={300}
-          //   data={data.result[1]}
+          data={data && [data.data.data.result[1]]}
           margin={{
             top: 5,
             right: 30,
@@ -77,10 +67,10 @@ export default function Chart103() {
           <YAxis tickFormatter={formatYLabel} />
           <Tooltip />
           <Legend />
-          <Bar dataKey="잡탕마을" fill="#8884d8" />
+          <Bar dataKey={data && `${data.data.data.corp_name}`} fill="#8884d8" />
           <Bar dataKey="산업평균" fill="#82ca9d" />
         </BarChart>
-      </ResponsiveContainer>
+      </div>
     </>
   );
 }

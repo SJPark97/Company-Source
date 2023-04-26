@@ -1,12 +1,13 @@
 import NavBar from "@/components/NavBar";
 import AnalysisTitle from "@/components/detail/AnalysisTitle";
-import Chart_101 from "@/components/detail/Chart101";
+import Chart101 from "@/components/detail/Chart101";
 import OverviewContent from "@/components/detail/OverviewContent";
 import Title from "@/components/detail/Title";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { dehydrate } from "react-query";
 import chartQueryClient from "@/hooks/chartQueryClient";
+import Chart103 from "@/components/detail/Chart103";
 
 export default function searchdetail() {
   const router = useRouter();
@@ -58,7 +59,7 @@ export default function searchdetail() {
                 <div className="flex">
                   <div className="p-20 bg-white m-30 rounded-10">
                     {searchdetail && (
-                      <Chart_101
+                      <Chart101
                         analysisCode="101"
                         companyId={searchdetail as string}
                       />
@@ -84,7 +85,7 @@ export default function searchdetail() {
                   </div>
                   <div className="p-20 bg-white my-30 mr-30 rounded-10">
                     {searchdetail && (
-                      <Chart_101
+                      <Chart101
                         analysisCode="101"
                         companyId={searchdetail as string}
                       />
@@ -94,9 +95,9 @@ export default function searchdetail() {
               </div>
             </div>
           </div>
-
           <div className="mt-20"></div>
         </div>
+        <Chart103 analysisCode="103" companyId={searchdetail as string} />
       </div>
     </>
   );
