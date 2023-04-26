@@ -15,7 +15,7 @@ export default function Home() {
     <div className="relative flex flex-col w-full">
       <NavBar />
       <div className="h-screen bg-top bg-no-repeat bg-cover bg-landing-first">
-        <div className="text-white drop-shadow-lg font-bold text-56 w-[60vw] ml-[10vw] mt-[15vh]">
+        <div className="text-white drop-shadow-lg font-bold text-56 w-[60vw] ml-[10vw] mt-[15vh] animate-fadeIn">
           기업 분석이 어려우신가요? Company Source와 함께 해보세요.
         </div>
       </div>
@@ -40,7 +40,10 @@ export default function Home() {
 
       <div className="flex items-center h-screen bg-white bg-cover">
         <div className="flex flex-col justify-center h-full">
-          <LandingImageCard src="/landing-community.png" className="w-[30vw] h-[60vh]" />
+          <LandingImageCard
+            src="/landing-community.png"
+            className="w-[30vw] h-[60vh]"
+          />
         </div>
         <LandingDiscription title={secondTitle} content={secondContent} />
       </div>
