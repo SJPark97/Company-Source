@@ -28,6 +28,7 @@ public class Corp  extends BaseEntity {
 
   private String corpImg;  // 로고 이미지
 
+  private String corpSize; // 회사 규모 ( 대기업 , 중소기업 , 중견기업 ...)
 //  @Column(nullable = false)
   private String indutyCode; // 산업코드
 
