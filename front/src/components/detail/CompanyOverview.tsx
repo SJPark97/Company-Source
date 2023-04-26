@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Title from "./Title";
-import OverviewContent from "./OverviewContent";
+import CompanyOverviewContent from "./CompanyOverviewContent";
 
 interface Iprops {
   companyId?: string,
@@ -19,17 +19,17 @@ export default function CompanyOverview({ companyName }: Iprops) {
             <div className="mx-[2vw] my-20 text-28">{companyName}</div>
             <div className="flex flex-wrap justify-between m-20">
               {/* API랑 연결하면 map으로 바꿔줄 부분 */}
-              <OverviewContent title="기업형태" content="대기업, 주식회사" />
-              <OverviewContent title="기업형태" content="대기업, 주식회사" />
-              <OverviewContent title="기업형태" content="대기업, 주식회사" />
-              <OverviewContent title="기업형태" content="대기업, 주식회사" />
-              <OverviewContent title="기업형태" content="대기업, 주식회사" />
-              <OverviewContent title="기업형태" content="대기업, 주식회사" />
-              <OverviewContent title="기업형태" content="대기업, 주식회사" />
-              <OverviewContent title="기업형태" content="대기업, 주식회사" />
-              <OverviewContent title="기업형태" content="대기업, 주식회사" />
-              <OverviewContent title="기업형태" content="대기업, 주식회사" />
-              <OverviewContent title="기업형태" content="대기업, 주식회사" />
+              <CompanyOverviewContent title="기업형태" content="대기업, 주식회사" />
+              <CompanyOverviewContent title="기업형태" content="대기업, 주식회사" />
+              <CompanyOverviewContent title="기업형태" content="대기업, 주식회사" />
+              <CompanyOverviewContent title="기업형태" content="대기업, 주식회사" />
+              <CompanyOverviewContent title="기업형태" content="대기업, 주식회사" />
+              <CompanyOverviewContent title="기업형태" content="대기업, 주식회사" />
+              <CompanyOverviewContent title="기업형태" content="대기업, 주식회사" />
+              <CompanyOverviewContent title="기업형태" content="대기업, 주식회사" />
+              <CompanyOverviewContent title="기업형태" content="대기업, 주식회사" />
+              <CompanyOverviewContent title="기업형태" content="대기업, 주식회사" />
+              <CompanyOverviewContent title="기업형태" content="대기업, 주식회사" />
             </div>
           </div>
         </div>

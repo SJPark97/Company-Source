@@ -1,7 +1,7 @@
 import NavBar from "@/components/NavBar";
 import AnalysisTitle from "@/components/detail/AnalysisTitle";
 import Chart101 from "@/components/detail/Chart101";
-import OverviewContent from "@/components/detail/OverviewContent";
+import OverviewContent from "@/components/detail/CompanyOverviewContent";
 import Title from "@/components/detail/Title";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -17,13 +17,17 @@ export default function searchdetail() {
 
 	return (
 		<>
-			{/* 기업 개요 부분 */}
-			<Title name="기업 개요" />
-			<CompanyOverview />
+			<NavBar />
+			<div className="flex flex-col">
 
-			{/* 재무 분석 부분 */}
-			<Title name="재무 분석" />
-			{searchdetail && <FinancialAnalysis companyId={searchdetail as string} />}
+				{/* 기업 개요 부분 */}
+				<Title name="기업 개요" />
+				<CompanyOverview />
+
+				{/* 재무 분석 부분 */}
+				<Title name="재무 분석" />
+				{searchdetail && <FinancialAnalysis companyId={searchdetail as string} />}
+			</div >
 		</>
 	)
 }

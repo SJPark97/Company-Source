@@ -21,9 +21,10 @@ interface ChartLabel {
 interface Iprops {
   analysisCode: string;
   companyId: string;
+  chartData: string;
 }
 
-export default function Chart101({ analysisCode, companyId }: Iprops) {
+export default function Chart101({ analysisCode, companyId, chartData }: Iprops) {
   const { data } = useQuery<any>(
     ["analysis", analysisCode],
     () => getData(analysisCode, companyId),
