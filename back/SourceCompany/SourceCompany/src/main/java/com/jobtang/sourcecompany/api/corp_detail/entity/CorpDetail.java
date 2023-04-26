@@ -2,54 +2,65 @@ package com.jobtang.sourcecompany.api.corp_detail.entity;
 
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.util.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 public class CorpDetail extends BaseEntity {
     @Id
-    @GeneratedValue
     private String corpDetailId;
 
-    private int currentAsset; // 유동자산
+    private Integer currentAsset; // 유동자산
 
-    private int currentLiabilities; // 유동부채
+    private Integer currentLiabilities; // 유동부채
 
-    private int totalAssets; // 총자산
+    private Integer totalAssets; // 총자산
 
-    private int retainedEarnings; // 이익잉여금
+    private Integer retainedEarnings; // 이익잉여금
 
-    private int netProfit; // 순이익(영업이익)
+    private Integer netProfit; // 순이익(영업이익)
 
-    private int cashAndCashEquivalents; // 현금 및 현금성 자산
+    private Integer cashAndCashEquivalents; // 현금 및 현금성 자산
 
-    private int equityCapital; // 자기자본
+    private Integer equityCapital; // 자기자본(자본금)
 
-    private int nonCurrentAssets; // 비유동자산
+    private Integer nonCurrentAssets; // 비유동자산
 
-    private int nonCurrentLiabilities; // 비유동부채
+    private Integer nonCurrentLiabilities; // 비유동부채
 
-    private int tangibleAssets; // 유형자산
+    private Integer tangibleAssets; // 유형자산
 
-    private int previousSales; // 전기매출액
+    private Integer previousSales; // 전기매출액
 
-    private int previousTotalAssets; // 전기총자산
+    private Integer previousTotalAssets; // 전기총자산
 
-    private int previousEquityCapital; // 전기자기자본
+    private Integer previousEquityCapital; // 전기자기자본
 
-    private int previousNetProfit; // 전기순이익
+    private Integer previousNetProfit; // 전기순이익
 
-    private int beforePreviousNetProfit; // 2년전 순이익
+    private Integer beforePreviousNetProfit; // 2년전 순이익
 
-    private int sales; // 매출액
+    private Integer sales; // 매출액
 
-    private int totalLiabilities; // 총부채
+    private Integer totalLiabilities; // 총부채
 
-    private int cashFlow; // 현금흐름
+    private Integer cashFlow; // 현금흐름
 
-    private int OperatingFundExpenditure; // 영업자금지출
+    private Integer OperatingFundExpenditure; // 영업자금지출
 
-    private float tax; // 세금
+    private Float tax; // 세금
+
+    private Integer inventories; // 재고자산
+
+    private Float earningPerShare; // 주당이익(보통주)
+
+    private Float previousEarningPerShare; // 전기주당이익(보통주)
+
+    private Float capitalSurplus; // 자본잉여금
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "corp_id")
