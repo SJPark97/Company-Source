@@ -1,4 +1,4 @@
-package com.jobtang.sourcecompany.api.user.dto;
+package com.jobtang.sourcecompany.api.user.entity;
 
 import com.jobtang.sourcecompany.api.comment.entity.Comment;
 import com.jobtang.sourcecompany.api.community.entity.Community;
@@ -6,6 +6,7 @@ import com.jobtang.sourcecompany.api.faq.entity.Faq;
 import com.jobtang.sourcecompany.api.inquiry.entity.Inquiry;
 import com.jobtang.sourcecompany.api.inquiry_comment.entity.InquiryComment;
 import com.jobtang.sourcecompany.api.scrap.entity.Scrap;
+import com.jobtang.sourcecompany.api.user.dto.Role;
 import com.jobtang.sourcecompany.util.BaseEntity;
 import com.sun.istack.NotNull;
 import lombok.*;
