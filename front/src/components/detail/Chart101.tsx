@@ -25,9 +25,9 @@ interface Iprops {
 }
 
 
-export default function Chart({ analysisCode, companyId }: Iprops) {
+export default function Chart101({ analysisCode, companyId }: Iprops) {
   const { data } = useQuery<any>(["analysis", analysisCode], () => getData(analysisCode, companyId), { refetchOnWindowFocus: false })
-  const [chartData, setchartData] = useState<ChartLabel[]>([]);
+  console.log(data)
   return (
     <BarChart
       width={400}
