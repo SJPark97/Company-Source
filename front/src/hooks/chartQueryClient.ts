@@ -11,15 +11,18 @@ const analysisCodeList: IanaysisCode[] = [
   { id: "103" },
 ];
 
-const chartQueryClient = async (companyId: string) => {
+const chartQueryClient = (companyId: string) => {
   const queryClient = new QueryClient();
-  await Promise.all(
+  // console.log(companyId)
+  Promise.all(
     analysisCodeList.map((analysisCode: IanaysisCode) => {
       const getChartData = async () => {
         const { data } = await axios.get(SERVER_URL + `/${analysisCode.id}/${companyId}`)
+        // console.log(data)
         return data;
       }
       queryClient.prefetchQuery(['analysis', analysisCode.id], getChartData);
+      // console.log(queryClient);
     })
   )
   return queryClient;

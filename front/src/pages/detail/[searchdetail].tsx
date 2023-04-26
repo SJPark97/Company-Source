@@ -1,30 +1,17 @@
 import NavBar from "@/components/NavBar";
 import AnalysisTitle from "@/components/detail/AnalysisTitle";
-import Chart from "@/components/detail/Chart";
+import Chart_101 from "@/components/detail/Chart101";
 import OverviewContent from "@/components/detail/OverviewContent";
 import Title from "@/components/detail/Title";
 import Image from "next/image";
 import { useRouter } from "next/router"
-import { QueryClient, dehydrate, useQuery } from "react-query";
-import axios from "axios";
-import { useEffect } from "react";
-import useChartQueries from "@/hooks/useChartQueries";
+import { dehydrate } from "react-query";
 import chartQueryClient from "@/hooks/chartQueryClient";
 
 export default function searchdetail() {
 
 	const router = useRouter();
-	const { companyId } = router.query;
-	const chartQueries = useChartQueries(companyId as string);
-
-	useEffect(() => {
-		console.log(chartQueries);
-		chartQueries.map((chartQuery) => {
-			if (chartQuery.status === "success") {
-				console.log(chartQuery.data);
-			}
-		})
-	}, [chartQueries])
+	const { searchdetail } = router.query;
 
 	return (
 		<>
@@ -39,7 +26,7 @@ export default function searchdetail() {
 					</div>
 					<div className="flex flex-col justify-center w-[45vw] p-30">
 						<div className="h-auto bg-white rounded-10">
-							<div className="mx-[2vw] my-20 text-28">{companyId}</div>
+							<div className="mx-[2vw] my-20 text-28">{searchdetail}</div>
 							<div className="flex flex-wrap justify-between m-20">
 								{/* API랑 연결하면 map으로 바꿔줄 부분 */}
 								<OverviewContent title="기업형태" content="대기업, 주식회사" />
@@ -68,7 +55,7 @@ export default function searchdetail() {
 							<div>
 								<div className="flex">
 									<div className="p-20 bg-white m-30 rounded-10">
-										<Chart />
+										{searchdetail && <Chart_101 analysisCode="101" companyId={searchdetail as string} />}
 									</div>
 									<div className="p-20 bg-white text-40 my-30 mr-30 rounded-10">
 										설명설명설명설명설명설명설명설명
@@ -89,7 +76,7 @@ export default function searchdetail() {
 										설명설명설명설명설명설명설명설명
 									</div>
 									<div className="p-20 bg-white my-30 mr-30 rounded-10">
-										<Chart />
+										{searchdetail && <Chart_101 analysisCode="101" companyId={searchdetail as string} />}
 									</div>
 								</div>
 							</div>
@@ -112,13 +99,12 @@ export const getStaticPaths = async () => {
 	}
 }
 
-export const getStaticProps = async (params: any) => {
-	const id = params.id;
+export const getStaticProps = async ({ params }: any) => {
+	const id = params.searchdetail;
 	const queryClient = chartQueryClient(id);
-
 	return {
 		props: {
-			dehydratedProps: dehydrate(await queryClient),
+			dehydratedProps: dehydrate(queryClient),
 		}
 	}
 }
