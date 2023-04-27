@@ -33,4 +33,11 @@ public class CorpController {
     public ResponseEntity<CorpInfoDto> corpInfo(@PathVariable String corpId) {
         return new ResponseEntity<>(corpService.corpInfo(corpId), HttpStatus.valueOf(200));
     }
+
+    // 랜덤기업 레디스에 저장
+    @GetMapping("/makerandomcorp/2kdmqkwm")
+    public String makeRandomCorp() {
+        corpService.randCorp();
+        return "랜덤 기업 저장 완료";
+    }
 }

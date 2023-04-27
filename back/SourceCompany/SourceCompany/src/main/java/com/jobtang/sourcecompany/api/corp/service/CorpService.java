@@ -11,4 +11,6 @@ public interface CorpService {
     List<CorpSearchListDto> searchCorp(String inputValue);
 
     CorpInfoDto corpInfo(String corpId);
+
+    void randCorp();
 }
