@@ -17,17 +17,6 @@ interface Iprops {
 }
 
 export default function Chart103({ analysisCode, companyId }: Iprops) {
-  const { data } = useQuery<any>(
-    ["analysis", analysisCode],
-    () => getData(analysisCode, companyId),
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
-  if (data) {
-    console.log(data.data.data, "here");
-  }
-
   const formatYLabel = (value: string) => `${value}%`;
   return (
     <>

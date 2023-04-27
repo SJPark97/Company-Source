@@ -24,12 +24,6 @@ interface Iprops {
 }
 
 export default function Chart101({ analysisCode, companyId }: Iprops) {
-  const { data } = useQuery<any>(
-    ["analysis", analysisCode],
-    () => getData(analysisCode, companyId),
-    { refetchOnWindowFocus: false }
-  );
-
   return (
     <BarChart
       width={400}
