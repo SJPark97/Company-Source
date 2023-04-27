@@ -12,9 +12,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CorpVariable {
 
-    @Autowired
-    private Calculator calculator;
-
     public Corp corp;
     public CorpDetail corpDetail;
 
@@ -54,11 +51,14 @@ public class CorpVariable {
         this.corp = corp;
         this.corpDetail = corp.getCorpDetail();
         calculatevVriables();
-        log.info("기업정보 생성완료 : "+corp.getCorpName());
+        log.info("기업변수 생성완료 : "+corp.getCorpName());
     }
 
     // 변수값 계산하기
     private void calculatevVriables() {
+        Calculator calculator = new Calculator();
+
+        log.info("기업번수 계산");
         this.netWorkingCapital = calculator.mySubtraction(corpDetail.getCurrentAsset(), corpDetail.getCurrentLiabilities()); // 순운전자본 = 유동자산 - 유동부채
         this.liquidityRatio = calculator.myRatio(corpDetail.getCurrentAsset(), corpDetail.getCurrentLiabilities()); // 유동비율 = 유동자산/유동부채 * 100
         this.quickAsset = calculator.mySubtraction(corpDetail.getCurrentAsset(), corpDetail.getInventories());// 당좌자산 = 유동자산 - 재고자산
