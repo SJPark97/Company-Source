@@ -14,7 +14,7 @@ import {
 } from "recharts";
 
 interface ChartLabel {
-  name: string;
+  // name: string;
   [key: string]: number;
 }
 
