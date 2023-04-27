@@ -1,7 +1,7 @@
 package com.jobtang.sourcecompany.api.inquiry.entity;
 
 import com.jobtang.sourcecompany.api.inquiry_comment.entity.InquiryComment;
-import com.jobtang.sourcecompany.api.user.dto.User;
+import com.jobtang.sourcecompany.api.user.entity.User;
 import com.jobtang.sourcecompany.util.BaseEntity;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
