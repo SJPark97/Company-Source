@@ -1,20 +1,18 @@
 package com.jobtang.sourcecompany.api.corp_detail.service;
 
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
-import com.jobtang.sourcecompany.api.corp.repository.CorpRepo;
+import com.jobtang.sourcecompany.api.corp.repository.CorpRepository;
 import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisDocument;
 import com.jobtang.sourcecompany.api.corp_detail.entity.CorpDetail;
 import com.jobtang.sourcecompany.api.corp_detail.repository.CorpDetailRepository;
 import com.jobtang.sourcecompany.api.corp_detail.util.Analysis100;
 import com.jobtang.sourcecompany.api.corp_detail.util.BasicSetting;
-import com.jobtang.sourcecompany.api.corp_detail.util.Calculator;
 import com.jobtang.sourcecompany.api.corp_detail.util.CorpVariable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CorpDetailServiceImpl implements CorpDetailService{
 
-    private final CorpRepo corpRepository;
+    private final CorpRepository corpRepository;
     private final CorpDetailRepository corpDetailRepository;
     private final MongoTemplate mongoTemplate;
 
