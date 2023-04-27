@@ -1,8 +1,8 @@
-package com.jobtang.sourcecompany.api.induty.repository;
+package com.jobtang.sourcecompany.api.induty_detail.repository;
 
-import com.jobtang.sourcecompany.api.induty.entity.Induty;
+import com.jobtang.sourcecompany.api.induty_detail.entity.IndutyDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IndutyRepository extends JpaRepository<Induty, String> {
-    Induty findByIndutyCode(String indutyCord);
+public interface IndutyDetailRepository extends JpaRepository<IndutyDetail, String> {
+    IndutyDetail findByIndutyCode(String indutyCord);
 }

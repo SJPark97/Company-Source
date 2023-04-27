@@ -1,6 +1,5 @@
-package com.jobtang.sourcecompany.api.induty.entity;
+package com.jobtang.sourcecompany.api.induty_detail.entity;
 
-import com.jobtang.sourcecompany.api.corp_detail.entity.CorpDetail;
 import com.jobtang.sourcecompany.util.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,9 +13,11 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Induty  extends BaseEntity {
+public class IndutyDetail extends BaseEntity {
     @Id
     private String indutyCode; // 산업코드
+
+    private String indutyName;  // 산업명
 
     private Integer currentAsset; // 유동자산
 
