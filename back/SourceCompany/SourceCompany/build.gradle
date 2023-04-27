@@ -32,6 +32,11 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    // json 파서를 위한 라이브러리
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    // rest 템플릿을 위한 라이브러리
+    implementation 'org.apache.httpcomponents:httpcore:4.4.15'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
 }
 
 tasks.named('test') {
