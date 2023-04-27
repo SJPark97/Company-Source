@@ -11,8 +11,7 @@ COPY package*.json ./
 RUN npm install --production
 
 # docker 이미지로 복사
-COPY public /app/public
-COPY src /app/src
+COPY . .
 
 # Build the application
 RUN npm run build
