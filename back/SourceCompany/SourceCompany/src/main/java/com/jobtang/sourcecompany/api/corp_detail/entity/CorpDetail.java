@@ -2,6 +2,7 @@ package com.jobtang.sourcecompany.api.corp_detail.entity;
 
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.util.BaseEntity;
+import lombok.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,9 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CorpDetail extends BaseEntity {
     @Id
     private String corpDetailId;
