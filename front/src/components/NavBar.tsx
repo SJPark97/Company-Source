@@ -18,20 +18,12 @@ export default function NavBar() {
             {/* <div className="relative w-[123px] h-[58px] mx-[3vw]"> */}
             <div>
               {router.pathname === "/" ? (
-                // <Image
-                //   src="/white_logo.png"
-                //   alt="white_logo.png"
-                //   sizes="(max-width: 692px) 123px,
-                //           (max-width: 300px) 123px
-                //           123px"
-                //   fill
-                // />
                 <Image
                   src="/white_logo.png"
                   alt="white_logo.png"
                   width={123}
                   height={58}
-                  className="w-auto"
+                  className="w-auto mx-[3vw]"
                 />
               ) : (
                 <Image
@@ -39,7 +31,7 @@ export default function NavBar() {
                   alt="logo.png"
                   width={123}
                   height={58}
-                  className="w-auto"
+                  className="w-auto mx-[3vw]"
                 />
               )}
             </div>

@@ -3,6 +3,9 @@
  * */
 const nextConfig = {
   reactStrictMode: false,
+  images: {
+    domains: ["board.jinhak.com"],
+  },
   swcMinify: true,
   experimental: {},
   eslint: {

@@ -4,17 +4,24 @@ import SmallCard from "@/components/home/SmallCard";
 import NavBar from "@/components/NavBar";
 import SearchBar from "@/components/SearchBar";
 import { useState } from "react";
-
-// const API_URL_1 = "http://192.168.31.142:8080/api/v1/analysis/101/234"
-// const API_URL_2 = "http://192.168.31.142:8080/api/v1/analysis/103/234"
+import axios from "axios";
+import { SERVER_URL } from "@/utils/url";
 
 export default function Home() {
-  const [tempCompanyInfo, setTempCompanyInfo] = useState({ id: "234", name: "잡탕마을" });
-
+  const [tempCompanyInfo, setTempCompanyInfo] = useState({
+    id: 234,
+    name: "잡탕마을",
+  });
+  const [searchResult, setSearchResult] = useState<Array<bigCard>>([]);
+  const getData = async (keyWord: string) => {
+    const { data } = await axios.get(SERVER_URL + `/corp/list/${keyWord}`);
+    setSearchResult(data);
+    console.log(data);
+  };
   return (
     <>
       <NavBar />
-      <SearchBar />
+      <SearchBar getData={getData} />
       <Banner />
       <div className="mx-[10vw] flex  w-[80vw]">
         <div className="flex flex-col w-[70vw]">
@@ -42,6 +49,3 @@ export default function Home() {
     </>
   );
 }
-
-
-
