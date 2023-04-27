@@ -16,7 +16,7 @@ public class CorpDetailController {
     private final CorpDetailService corpDetailService;
     @GetMapping("/update")
     public void updateCorpAnalysis(){
-//        corpDetailService.updateCorpDetails();
+        corpDetailService.updateCorp();
         log.info("기업분석 업데이트 완료!");
     }
 }
