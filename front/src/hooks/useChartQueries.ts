@@ -1,6 +1,7 @@
 import { SERVER_URL } from "@/utils/url";
 import axios from "axios";
 import { useQueries, useQuery } from "react-query";
+import getData from "./getData";
 
 interface IanaysisCode {
   id: string;
@@ -13,9 +14,7 @@ const useChartQueries = (companyId: string) => {
     analysisCodeList.map((analysisCode: IanaysisCode) => {
       return {
         // queryKey: ["analysis", analysisCode.id],
-        queryKey: `["analysis", ${analysisCode.id}]`,
-        queryFn: () =>
-          axios.get(SERVER_URL + `/${analysisCode.id}/${companyId}`),
+        queryKey: ["analysis", analysisCode.id, companyId]
       };
     })
   );

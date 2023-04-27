@@ -1,8 +1,4 @@
-// import { getTempChart } from "@/pages/detail/[searchdetail]";
-import getData from "@/hooks/getData";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
 import {
   BarChart,
   Bar,
@@ -13,42 +9,55 @@ import {
   Legend,
 } from "recharts";
 
-interface ChartLabel {
-  // name: string;
-  [key: string]: number;
-}
+// interface ChartLabel {
+//   name: string;
+//   [key: string]: number;
+// }
 
 interface Iprops {
   analysisCode: string;
   companyId: string;
+  chartData: any;
 }
 
-export default function Chart101({ analysisCode, companyId }: Iprops) {
-  const { data } = useQuery<any>(
-    ["analysis", analysisCode],
-    () => getData(analysisCode, companyId),
-    { refetchOnWindowFocus: false }
-  );
+export default function Chart101({ chartData }: Iprops) {
+
+  const [data, setData] = useState<any>();
+
+  useEffect(() => {
+    setData(chartData)
+  }, [])
 
   return (
-    <BarChart
-      width={400}
-      height={300}
-      data={data && data.data.data.result}
-      margin={{
-        top: 5,
-        right: 30,
-        left: 20,
-        bottom: 5,
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="잡탕마을" fill="#8884d8" />
-      <Bar dataKey="산업평균" fill="#82ca9d" />
-    </BarChart>
+    <>
+      <div className="flex flex-wrap text-15">
+        {data ? data.data.result.map((item: any) => {
+          console.log(item)
+          return (
+            <div>
+              <BarChart
+                width={150}
+                height={300}
+                data={[item]}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey={Object.keys(item)[0]} fill={Object.values(item)[3] === "양호" ? "#8884d8" : "red"} />
+                <Bar dataKey="산업평균" fill="#82ca9d" />
+              </BarChart>
+            </div>
+          )
+        }) : "데이터가 없어요 ㅠㅠ"}
+      </div>
+    </>
   );
 }
