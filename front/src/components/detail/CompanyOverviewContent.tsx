@@ -3,7 +3,7 @@ interface Iprops {
   content: string
 }
 
-export default function OverviewContent({ title, content }: Iprops) {
+export default function CompanyOverviewContent({ title, content }: Iprops) {
   return (
     <div className="flex">
       <div className="mx-10 text-20">{title}</div>

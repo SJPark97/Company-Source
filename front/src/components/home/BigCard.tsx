@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface Iprops {
-  id: number,
+  id: string,
   name: string,
 }
 

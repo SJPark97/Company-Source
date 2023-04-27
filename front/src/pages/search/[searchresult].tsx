@@ -16,19 +16,19 @@ export default function searchresult() {
           {keyWord}로 검색한 결과 입니다.
         </div>
         <div className="flex flex-wrap mx-[10vw]">
-          <BigCard id={234} name="네이버1" />
-          <BigCard id={234} name="네이버2" />
-          <BigCard id={234} name="네이버3" />
-          <BigCard id={234} name="네이버4" />
-          <BigCard id={234} name="네이버5" />
-          <BigCard id={234} name="네이버6" />
-          <BigCard id={234} name="네이버7" />
-          <BigCard id={234} name="네이버8" />
-          <BigCard id={234} name="네이버9" />
-          <BigCard id={234} name="네이버10" />
-          <BigCard id={234} name="네이버11" />
-          <BigCard id={234} name="네이버12" />
-          <BigCard id={234} name="네이버13" />
+          <BigCard id={"234"} name="네이버1" />
+          <BigCard id={"234"} name="네이버2" />
+          <BigCard id={"234"} name="네이버3" />
+          <BigCard id={"234"} name="네이버4" />
+          <BigCard id={"234"} name="네이버5" />
+          <BigCard id={"234"} name="네이버6" />
+          <BigCard id={"234"} name="네이버7" />
+          <BigCard id={"234"} name="네이버8" />
+          <BigCard id={"234"} name="네이버9" />
+          <BigCard id={"234"} name="네이버10" />
+          <BigCard id={"234"} name="네이버11" />
+          <BigCard id={"234"} name="네이버12" />
+          <BigCard id={"234"} name="네이버13" />
         </div>
       </div>
     </>

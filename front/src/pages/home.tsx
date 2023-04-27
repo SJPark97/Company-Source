@@ -9,7 +9,7 @@ import { useState } from "react";
 // const API_URL_2 = "http://192.168.31.142:8080/api/v1/analysis/103/234"
 
 export default function Home() {
-  const [tempCompanyInfo, setTempCompanyInfo] = useState({ id: 234, name: "잡탕마을" });
+  const [tempCompanyInfo, setTempCompanyInfo] = useState({ id: "234", name: "잡탕마을" });
 
   return (
     <>
