@@ -1,22 +1,23 @@
-package com.jobtang.sourcecompany.api.corp_detail.entity;
+package com.jobtang.sourcecompany.api.induty_detail.entity;
 
-import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.util.BaseEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CorpDetail extends BaseEntity {
+public class IndutyDetail extends BaseEntity {
     @Id
-    private String corpDetailId;
+    private String indutyCode; // 산업코드
+
+    private String indutyName;  // 산업명
 
     private Integer currentAsset; // 유동자산
 
@@ -65,10 +66,4 @@ public class CorpDetail extends BaseEntity {
     private Double previousEarningPerShare; // 전기주당이익(보통주)
 
     private Double capitalSurplus; // 자본잉여금
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "corp_id")
-    private Corp corp;
-
-
 }
