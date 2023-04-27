@@ -11,9 +11,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class IndutyVariable {
 
-    @Autowired
-    private Calculator calculator;
-
     public IndutyDetail indutyDetail;
 
     // 주가정보
@@ -51,11 +48,14 @@ public class IndutyVariable {
     public IndutyVariable(IndutyDetail indutyDetail) {
         this.indutyDetail = indutyDetail;
         calculatevVriables();
-        log.info("산업정보 생성완료 : "+indutyDetail.getIndutyCode());
+        log.info("산업변수 생성완료 : "+indutyDetail.getIndutyCode());
     }
 
     // 변수값 계산하기
     private void calculatevVriables() {
+        Calculator calculator = new Calculator();
+
+        log.info("산업번수 계산");
         this.netWorkingCapital = calculator.mySubtraction(indutyDetail.getCurrentAsset(), indutyDetail.getCurrentLiabilities()); // 순운전자본 = 유동자산 - 유동부채
         this.liquidityRatio = calculator.myRatio(indutyDetail.getCurrentAsset(), indutyDetail.getCurrentLiabilities()); // 유동비율 = 유동자산/유동부채 * 100
         this.quickAsset = calculator.mySubtraction(indutyDetail.getCurrentAsset(), indutyDetail.getInventories());// 당좌자산 = 유동자산 - 재고자산

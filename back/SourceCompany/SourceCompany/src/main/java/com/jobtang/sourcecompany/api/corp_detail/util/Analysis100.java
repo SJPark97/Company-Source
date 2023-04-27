@@ -19,6 +19,7 @@ public class Analysis100 {
 
     // 유동성분석 101
     public HashMap analysis101(CorpVariable target) {
+        log.info("유동성분석(101) 진입");
 
 //        1. 유동비율 = 유동자산/유동부채 * 100
 //        2. 당좌비율 = 당좌자산/유동부채 * 100 = (유동자산-재고자산)/유동부채 * 100
@@ -105,12 +106,13 @@ public class Analysis100 {
         result.put("corp_id", target.corp.getCorpId());
         result.put("analysis_name", "유동성 분석");
         result.put("data101", data);
+        log.info("유동성분석(101) 완료");
         return result;
     }
 
     //자본배분의 안정성분석 103
     public HashMap analysis103(CorpVariable target) {
-
+        log.info("자본배분의 안정성 분석(103) 진입");
 //        1. 비유동비율 = 비유동자산/자기자본 * 100
 //        2. 비유동장기적합률 = 비유동자산/(자기자본+비유동부채)*100
 
@@ -170,6 +172,7 @@ public class Analysis100 {
         result.put("corp_id", target.corp.getCorpId());
         result.put("analysis_name", "자본배분의 안정성 분석");
         result.put("data103", data);
+        log.info("자본배분의 안정성 분석(103) 진입");
         return result;
     }
 
