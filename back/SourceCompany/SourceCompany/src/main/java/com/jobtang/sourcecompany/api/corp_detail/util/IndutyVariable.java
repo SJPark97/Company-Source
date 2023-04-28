@@ -14,13 +14,13 @@ public class IndutyVariable {
     public IndutyDetail indutyDetail;
 
     // 주가정보
-    public Integer marketCapitalization; // 시가총액
+    public Long marketCapitalization; // 시가총액
     public Double earningsPerShare; // 주당이익
 
     //  세부계산 항목
-    public Integer netWorkingCapital; // 순운전자본 = 유동자산 - 유동부채
+    public Long netWorkingCapital; // 순운전자본 = 유동자산 - 유동부채
     public Double liquidityRatio; // 유동비율 = 유동자산/유동부채 * 100
-    public Integer quickAsset;// 당좌자산 = 유동자산 - 재고자산
+    public Long quickAsset;// 당좌자산 = 유동자산 - 재고자산
     public Double quickRatio; // 당좌비율 = 당좌자산/유동부채 * 100 = (유동자산-재고자산)/유동부채 * 100
     public Double cashRatio; // 현금비율 = 현금및현금성자산/유동부채 * 100
     public Double netWorkingCapitalToTotalAsset; // 순운전자본비율 = 순운전자본/총자산 * 100 = (유동자산-유동부채)/총자산 * 100
