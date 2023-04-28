@@ -10,7 +10,6 @@ export default function Analysis() {
   return (
     <>
       <NavBar />
-      <SearchBar />
     </>
   );
 }
