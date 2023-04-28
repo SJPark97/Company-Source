@@ -48,7 +48,9 @@ public class CorpDetailServiceImpl implements CorpDetailService{
 
         // 종합담기
         data.put("result101", result101);
+
         data.put("result103", result103);
+
 
         // 기본 세팅 잡기
 
@@ -60,6 +62,7 @@ public class CorpDetailServiceImpl implements CorpDetailService{
         analysisDocument.setCorpId(corpId);
         analysisDocument.setData(result);
         mongoTemplate.save(analysisDocument);
+        log.info(result.toString());
         log.info("기업분석 저장완료! : "+corpDetail.getCorp().getCorpName());
     }
 
