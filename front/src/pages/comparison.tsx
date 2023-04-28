@@ -5,7 +5,6 @@ export default function Comparison() {
     <>
       <NavBar />
       <div>This is Comparison Page.</div>
-      {/* <ChartTest /> */}
     </>
   );
 }
