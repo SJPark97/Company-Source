@@ -99,13 +99,13 @@ public class Analysis100 {
         // 리턴값 정리
         HashMap result = new HashMap();
         String totalRate = goodCount >= 2 ? "양호" : "불량";
-        result.put("status101", isExistAll);
+        result.put("is_exist_all", isExistAll);
         result.put("rate", totalRate);
         result.put("analysis_method", 101);
         result.put("corp_name", target.corp.getCorpName());
         result.put("corp_id", target.corp.getCorpId());
         result.put("analysis_name", "유동성 분석");
-        result.put("data101", data);
+        result.put("result", data);
         log.info("유동성분석(101) 완료");
         return result;
     }
@@ -165,13 +165,13 @@ public class Analysis100 {
         // 리턴값 정리
         HashMap result = new HashMap();
         String totalRate = goodCount >= 1 ? "양호" : "불량";
-        result.put("status101", isExistAll);
+        result.put("is_exist_all", isExistAll);
         result.put("rate", totalRate);
         result.put("analysis_method", 103);
         result.put("corp_name", target.corp.getCorpName());
         result.put("corp_id", target.corp.getCorpId());
         result.put("analysis_name", "자본배분의 안정성 분석");
-        result.put("data103", data);
+        result.put("result", data);
         log.info("자본배분의 안정성 분석(103) 진입");
         return result;
     }
