@@ -72,7 +72,7 @@ public class CorpController {
     @GetMapping("/randcorp/{page}")
     public ResponseEntity<?> randCorp(@PathVariable int page) {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("totalPage", "116");
+        headers.set("totalPage", "385");
         return new ResponseEntity<>(corpService.randCorp(page), headers, HttpStatus.valueOf(200));
     }
 }
