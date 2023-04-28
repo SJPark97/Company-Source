@@ -9,10 +9,10 @@ import { SERVER_URL } from "@/utils/url";
 
 export default function Home() {
   const [tempCompanyInfo, setTempCompanyInfo] = useState({
-    id: 234,
+    id: "77777777",
     name: "잡탕마을",
   });
-  const [searchResult, setSearchResult] = useState<Array<bigCard>>([]);
+  const [searchResult, setSearchResult] = useState<Array<typeof BigCard>>([]);
   const getData = async (keyWord: string) => {
     const { data } = await axios.get(SERVER_URL + `/corp/list/${keyWord}`);
     setSearchResult(data);
