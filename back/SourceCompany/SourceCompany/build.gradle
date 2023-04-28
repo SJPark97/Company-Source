@@ -42,3 +42,24 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+task sendErrorToMattermost(type: Exec) {
+    def log = file("$buildDir/logs/application.log")
+    def logContent = log.text
+    def webhookUrl = "https://meeting.ssafy.com/hooks/pngm4uzqkt8mbgateix93i7k7h"
+
+    // send only error log
+    if (logContent.contains("ERROR")) {
+        commandLine 'curl', '-X', 'POST', webhookUrl, '-H', 'Content-Type: application/json', '-d',
+                "{\"text\": \"${logContent}\"}"
+    }
+}
+
+bootRun {
+    standardOutput = new ByteArrayOutputStream()
+    errorOutput = new ByteArrayOutputStream()
+    doFirst {
+        classpath = sourceSets.main.runtimeClasspath
+    }
+    finalizedBy 'sendErrorToMattermost'
+}
