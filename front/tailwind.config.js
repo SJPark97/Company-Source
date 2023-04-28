@@ -49,18 +49,31 @@ module.exports = {
         brand: "#1c7ff3",
         analysisBg: "#F3F9FF",
       },
-      animation: {
-        fadeIn: "fadeIn 4s forwards",
-      },
       keyframes: {
         fadeIn: {
           from: {
             opacity: 0,
+            transform: "translateY(50px)",
           },
           to: {
             opacity: 1,
+            transform: "translateY(0)",
           },
         },
+        fadeInRight: {
+          from: {
+            opacity: 0,
+            transform: "translateX(-50px)",
+          },
+          to: {
+            opacity: 1,
+            transform: "translateY(0)",
+          },
+        },
+      },
+      animation: {
+        fadeIn: "fadeIn 2s",
+        fadeInRight: "fadeInRight 2s",
       },
     },
   },
