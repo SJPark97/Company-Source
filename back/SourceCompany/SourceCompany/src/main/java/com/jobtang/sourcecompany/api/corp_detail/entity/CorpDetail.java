@@ -5,6 +5,7 @@ import com.jobtang.sourcecompany.util.BaseEntity;
 import lombok.*;
 import lombok.Getter;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -68,6 +69,7 @@ public class CorpDetail extends BaseEntity {
 
     private Long marketCapitalization; // 시가총액
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "corp_id")
     private Corp corp;
