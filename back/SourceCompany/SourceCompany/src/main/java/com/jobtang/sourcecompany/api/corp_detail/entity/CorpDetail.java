@@ -2,6 +2,7 @@ package com.jobtang.sourcecompany.api.corp_detail.entity;
 
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.util.BaseEntity;
+import lombok.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,9 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CorpDetail extends BaseEntity {
     @Id
     private String corpDetailId;
@@ -48,19 +52,19 @@ public class CorpDetail extends BaseEntity {
 
     private Integer totalLiabilities; // 총부채
 
-    private Integer cashFlow; // 현금흐름
+//    private Integer cashFlow; // 현금흐름
 
-    private Integer OperatingFundExpenditure; // 영업자금지출
+//    private Integer OperatingFundExpenditure; // 영업자금지출
 
-    private Float tax; // 세금
+    private Double tax; // 세금
 
     private Integer inventories; // 재고자산
 
-    private Float earningPerShare; // 주당이익(보통주)
+    private Double earningPerShare; // 주당이익(보통주)
 
-    private Float previousEarningPerShare; // 전기주당이익(보통주)
+    private Double previousEarningPerShare; // 전기주당이익(보통주)
 
-    private Float capitalSurplus; // 자본잉여금
+    private Double capitalSurplus; // 자본잉여금
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "corp_id")
