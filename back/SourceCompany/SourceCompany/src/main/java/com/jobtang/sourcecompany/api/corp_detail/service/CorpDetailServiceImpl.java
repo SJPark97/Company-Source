@@ -11,6 +11,7 @@ import com.jobtang.sourcecompany.api.corp_detail.util.CorpVariable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -47,7 +48,9 @@ public class CorpDetailServiceImpl implements CorpDetailService{
 
         // 종합담기
         data.put("result101", result101);
-        data.put("result102", result103);
+
+        data.put("result103", result103);
+
 
         // 기본 세팅 잡기
 
@@ -65,11 +68,23 @@ public class CorpDetailServiceImpl implements CorpDetailService{
 
     @Override
     public void updateCorp() {
+        deleteCorp();
+
         List<Corp> corps = corpRepository.findAll();
         for (Corp corp : corps) {
             log.info("기업 분석 진입 : " + corp.getCorpName());
-            updateCorpDetails(corp);
+            try {
+                updateCorpDetails(corp);
+                log.info("성공기업 : " + corp.getCorpName());
+
+            } catch (Exception e) {}
         }
+    }
+
+    @Override
+    public void deleteCorp() {
+        mongoTemplate.remove(new Query(), AnalysisDocument.class);
+        log.info("기존 데이터 삭제 완료!");
     }
 
 
