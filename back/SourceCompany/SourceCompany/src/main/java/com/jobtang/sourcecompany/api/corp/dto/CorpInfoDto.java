@@ -28,6 +28,4 @@ public class CorpInfoDto {
     private String address; // 회사주소
     private int yesterdayView;
     private int totalView;
-    private CorpDetail corpDetail;
-
 }
