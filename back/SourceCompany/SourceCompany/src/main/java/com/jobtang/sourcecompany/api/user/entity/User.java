@@ -50,7 +50,7 @@ public class User extends BaseEntity {
 
 
   @Column(nullable = false)
-  private String  sex;
+  private String sex;
 
 
   @Column(nullable = false)
