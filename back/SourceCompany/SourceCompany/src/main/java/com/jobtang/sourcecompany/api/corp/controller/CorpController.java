@@ -27,8 +27,8 @@ public class CorpController {
 
     // 기업 이름 검색
     @ApiOperation(
-            value = "사용자 평균 데이터 리스트",
-            notes = "사용자 평균 데이터 리스트",
+            value = "기업 검색",
+            notes = "검색명으로 LIKE 쿼리로 모든 기업명 반환",
             response = CorpSearchListDto.class,
             responseContainer = "List"
     )
