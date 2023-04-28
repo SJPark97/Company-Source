@@ -1,30 +1,21 @@
 import NavBar from "@/components/NavBar";
-import AnalysisTitle from "@/components/detail/AnalysisTitle";
-import Chart101 from "@/components/detail/Chart101";
-import OverviewContent from "@/components/detail/CompanyOverviewContent";
 import Title from "@/components/detail/Title";
-import Image from "next/image";
 import { useRouter } from "next/router";
-import { QueryClient, dehydrate } from "react-query";
-import chartQueryClient from "@/hooks/chartQueryClient";
 import CompanyOverview from "@/components/detail/CompanyOverview";
 import FinancialAnalysis from "@/components/detail/FinancialAnalysis";
-import Chart103 from "@/components/detail/Chart103";
-import { GetStaticProps, GetStaticPropsContext } from "next";
 import axios from "axios";
-import { SERVER_URL } from "@/utils/url";
+import { SERVER_URL, TEST_URL } from "@/utils/url";
 import analysisCodeList from "@/models/analysisCodeList";
 
 interface searchdetaiProps {
 	analysisList: []
+	companyOverviewInfo: any;
 }
 
-export default function searchdetail({ analysisList }: searchdetaiProps) {
-	console.log(analysisList)
+export default function searchdetail({ analysisList, companyOverviewInfo }: searchdetaiProps) {
+
 	const router = useRouter();
 	const { searchdetail } = router.query;
-
-	// console.log(analysisList)
 
 	return (
 		<>
@@ -33,7 +24,7 @@ export default function searchdetail({ analysisList }: searchdetaiProps) {
 
 				{/* 기업 개요 부분 */}
 				<Title name="기업 개요" />
-				<CompanyOverview />
+				{searchdetail && <CompanyOverview companyOverviewInfo={companyOverviewInfo} />}
 
 				{/* 재무 분석 부분 */}
 				<Title name="재무 분석" />
@@ -45,7 +36,7 @@ export default function searchdetail({ analysisList }: searchdetaiProps) {
 
 export const getStaticPaths = async () => {
 	return {
-		paths: [{ params: { searchdetail: "234" } }],
+		paths: [{ params: { searchdetail: "" } }],
 		fallback: true,
 	};
 };
@@ -57,13 +48,16 @@ export const getStaticProps = async ({ params }: any) => {
 	const getAnalysisList = [];
 
 	for (const analysisCode of analysisCodeList) {
-		const res = await axios.get(SERVER_URL + `/${analysisCode.id}/${companyId}`);
+		const res = await axios.get(SERVER_URL + `/analysis/${analysisCode.id}/${companyId}`);
 		getAnalysisList.push(res.data);
 	}
+
+	const { data: getCompanyOverviewInfo } = await axios.get(SERVER_URL + `/corp/info/${companyId}`);
 
 	return {
 		props: {
 			analysisList: getAnalysisList,
+			companyOverviewInfo: getCompanyOverviewInfo,
 		},
 	};
 };

@@ -15,7 +15,7 @@ interface bigCard {
 
 export default function Home() {
   const [tempCompanyInfo, setTempCompanyInfo] = useState({
-    id: 234,
+    id: "77777777",
     name: "잡탕마을",
   });
   const [searchResult, setSearchResult] = useState<Array<bigCard>>([]);
