@@ -4,7 +4,7 @@ import Link from "next/link";
 interface Iprops {
   id: string;
   name: string;
-  image: string;
+  image?: string;
 }
 
 export default function BigCard({ id, name, image }: Iprops) {
