@@ -39,7 +39,7 @@ export default function SearchBar({ getData }: Iprops) {
 
   return (
     <>
-      <div className="flex justify-center my-[5vh]">
+      <div className="flex justify-center my-[50px]">
         <form onSubmit={onSubmitSearchHandler}>
           <div className="relative w-[60vw]">
             <span className="absolute ml-15 mt-20">
