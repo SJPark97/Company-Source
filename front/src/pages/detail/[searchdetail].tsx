@@ -36,7 +36,7 @@ export default function searchdetail({ analysisList, companyOverviewInfo }: sear
 
 export const getStaticPaths = async () => {
 	return {
-		paths: [{ params: { searchdetail: "" } }],
+		paths: [{ params: { searchdetail: "77777777" } }],
 		fallback: true,
 	};
 };
