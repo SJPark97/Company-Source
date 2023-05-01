@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function SmallCard() {
   return (
     <div
-      className="flex relative w-[400px] my-[10px] hover:scale-110
+      className="flex relative w-[400px] my-[10px] hover:transform hover:scale-110 transition-transform duration-200 ease-out
             "
     >
       <div className="absolute bg-brand h-[100%] w-[10px] rounded-tl-5 rounded-bl-5"></div>

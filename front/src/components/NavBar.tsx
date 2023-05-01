@@ -17,7 +17,7 @@ export default function NavBar() {
           <Link href="/home">
             {/* <div className="relative w-[123px] h-[58px] mx-[3vw]"> */}
             <div>
-              {router.pathname === "/" ? (
+              {router.pathname === "/" || router.pathname === "/home" ? (
                 <Image
                   src="/white_logo.png"
                   alt="white_logo.png"
@@ -46,7 +46,7 @@ export default function NavBar() {
                     ? "text-white font-bold"
                     : `${
                         router.pathname === "/home"
-                          ? "text-black font-bold"
+                          ? "text-white font-bold"
                           : "text-gray-400"
                       }`
                 }`
@@ -66,7 +66,7 @@ export default function NavBar() {
                     : `${
                         router.pathname === "/comparison"
                           ? "text-black font-bold"
-                          : "text-gray-400"
+                          : "text-white"
                       }`
                 }`
               }
@@ -76,7 +76,7 @@ export default function NavBar() {
           </Link>
         </div>
         <div>
-          {router.pathname === "/" ? (
+          {router.pathname === "/" || router.pathname === "/home" ? (
             <Image
               src="/white_user.png"
               alt="white_user.png"

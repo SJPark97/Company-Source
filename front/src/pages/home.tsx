@@ -58,9 +58,25 @@ export default function Home() {
   const getData = async (keyWord: string | string[] | undefined) => {};
   return (
     <>
-      <NavBar />
-      <SearchBar getData={getData} />
-      <Banner />
+      <div className="z-50bg-cover bg-[url('/carousel3.jpg')] h-[500px] mb-[50px]">
+        <NavBar />
+        <div className="flex flex-col items-center mt-[50px]">
+          <div
+            className="text-white font-bold  lg:text-26 xl:text-29 2xl:text-32 text-shadow animate-fadeIn"
+            style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)" }}
+          >
+            코스피 상장 기업 정보를
+          </div>
+          <div
+            className="text-white font-bold lg:text-26 xl:text-29 2xl:text-32 text-shadow animate-fadeIn"
+            style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)" }}
+          >
+            약 20개의 분석 방법으로 분석했습니다.
+          </div>
+        </div>
+        <SearchBar getData={getData} />
+      </div>
+      {/* <Banner /> */}
       <div className="mx-[10vw] flex  w-[80vw]">
         <div className="flex flex-col w-[70vw]">
           <div className="ml-[26px] text-30 font-bold">상장 기업</div>
