@@ -9,11 +9,12 @@ interface Iprops {
 }
 
 export default function CompanyOverview({ companyOverviewInfo }: Iprops) {
+  console.log(companyOverviewInfo.corpImg)
   return (
     <>
       <div className="flex justify-between bg-blue-background h-auto mx-[11vw] rounded-10">
         <div className="flex flex-col justify-center mx-[4vw]">
-          <Image src="/samsung-detail.png" alt="logo" width={364} height={129} />
+          <Image src={companyOverviewInfo.corpImg} alt="logo" width={300} height={300} />
         </div>
         <div className="flex flex-col justify-center w-[45vw] p-30">
           <div className="h-auto bg-white rounded-10">

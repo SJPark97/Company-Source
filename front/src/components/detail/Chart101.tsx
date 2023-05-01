@@ -53,9 +53,9 @@ export default function Chart101({ chartData }: Iprops) {
                   <Tooltip />
                   {/* <Legend /> */}
                   <Bar
-                    dataKey={Object.keys(item)[0]}
+                    dataKey={item[chartData.data.corp_name]}
                     fill={
-                      Object.values(item)[3] === "양호" ? "#8884d8" : ("불량" ? "red" : "orange")
+                      item["평가"] === "양호" ? "#8884d8" : ("불량" ? "red" : "orange")
                     }
                   />
                   <Bar dataKey="산업평균" fill="#82ca9d" />
