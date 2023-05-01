@@ -68,8 +68,8 @@ public class CorpServiceImpl implements CorpService{
         Set<String> redisKeys = redisTemplate.keys("randcorp_*");
         // stream으로
         List<String> keys = redisKeys.stream()
-                .skip((long) (page-1) *20)
-                .limit(20)
+                .skip((long) (page-1) *6)
+                .limit(6)
                 .collect(Collectors.toList());
 //                .map(key-> corpSearchListDtoList.add(redisTemplate.opsForValue().get(key)))
         for (String key:keys) {

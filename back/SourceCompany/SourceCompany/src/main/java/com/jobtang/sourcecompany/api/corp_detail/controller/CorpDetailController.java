@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CorpDetailController {
 
     private final CorpDetailService corpDetailService;
+
     @GetMapping("/update")
     public void updateCorpAnalysis(){
         corpDetailService.updateCorp();
