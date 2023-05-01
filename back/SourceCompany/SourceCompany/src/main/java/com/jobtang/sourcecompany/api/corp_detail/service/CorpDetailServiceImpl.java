@@ -43,13 +43,16 @@ public class CorpDetailServiceImpl implements CorpDetailService{
         CorpVariable corpVariable = new CorpVariable(corpDetail.getCorp());
 
         // 분석법 별로 계산하기기
-        HashMap result101 = analysis100.analysis101(corpVariable);
-        HashMap result103 = analysis100.analysis103(corpVariable);
 
-        // 종합담기
-        data.put("result101", result101);
-
-        data.put("result103", result103);
+        data.put("result101", analysis100.analysis101(corpVariable));
+        data.put("result103", analysis100.analysis103(corpVariable));
+        data.put("result104", analysis100.analysis104(corpVariable));
+//        data.put("result106", analysis100.analysis106(corpVariable));
+//        data.put("result108", analysis100.analysis108(corpVariable));
+        data.put("result109", analysis100.analysis109(corpVariable));
+        data.put("result110", analysis100.analysis110(corpVariable));
+        data.put("result111", analysis100.analysis111(corpVariable));
+        data.put("result113", analysis100.analysis113(corpVariable));
 
 
         // 기본 세팅 잡기
@@ -78,6 +81,10 @@ public class CorpDetailServiceImpl implements CorpDetailService{
                 log.info("성공기업 : " + corp.getCorpName());
 
             } catch (Exception e) {}
+
+//            updateCorpDetails(corp);
+//            log.info("성공기업 : " + corp.getCorpName());
+
         }
     }
 
