@@ -35,11 +35,12 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, CorpSearchListDto> redisTemplate() {
+    public RedisTemplate<String, CorpSearchListDto> redisTemplateSearchCorp() {
         RedisTemplate<String, CorpSearchListDto> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(CorpSearchListDto.class));
         return redisTemplate;
     }
+
 }

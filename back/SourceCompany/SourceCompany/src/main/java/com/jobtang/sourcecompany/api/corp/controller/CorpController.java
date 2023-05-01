@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
@@ -56,7 +58,21 @@ public class CorpController {
     )
     @GetMapping("/makerandomcorp/2kdmqkwm")
     public String makeRandomCorp() {
-        corpService.randCorp();
+        corpService.makeRandCorp();
         return "랜덤 기업 저장 완료";
+    }
+
+    // 홈화면 랜덤 기업 리스트 출력
+    @ApiOperation(
+            value = "랜덤 기업 출력",
+            notes = "홈 화면에 랜덤으로 섞은 기업 출력",
+            response = CorpSearchListDto.class,
+            responseContainer = "List"
+    )
+    @GetMapping("/randcorp/{page}")
+    public ResponseEntity<?> randCorp(@PathVariable int page) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("totalPage", "385");
+        return new ResponseEntity<>(corpService.randCorp(page), headers, HttpStatus.valueOf(200));
     }
 }

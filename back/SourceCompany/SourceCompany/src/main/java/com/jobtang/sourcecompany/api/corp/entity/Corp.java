@@ -5,6 +5,7 @@ import com.jobtang.sourcecompany.api.corp_detail.entity.CorpDetail;
 import com.jobtang.sourcecompany.util.BaseEntity;
 import com.sun.istack.NotNull;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -46,6 +47,7 @@ public class Corp  extends BaseEntity {
   @Column(nullable = false)
   private int totalView;
 
+  @JsonIgnore
   @OneToOne(mappedBy = "corp", cascade = CascadeType.ALL, orphanRemoval = true)
   private CorpDetail corpDetail;
 }

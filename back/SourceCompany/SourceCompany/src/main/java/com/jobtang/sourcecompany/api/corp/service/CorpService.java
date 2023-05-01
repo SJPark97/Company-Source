@@ -4,6 +4,7 @@ import com.jobtang.sourcecompany.api.corp.dto.CorpInfoDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface CorpService {
@@ -12,5 +13,9 @@ public interface CorpService {
 
     CorpInfoDto corpInfo(String corpId);
 
-    void randCorp();
+    void makeRandCorp();
+
+//    HashMap<String, Object> randCorp();
+
+    List<CorpSearchListDto> randCorp(int page);
 }
