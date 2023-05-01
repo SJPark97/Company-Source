@@ -68,6 +68,10 @@ public class CorpDetail extends BaseEntity {
 
     private Long marketCapitalization; // 시가총액
 
+    private Long numberOfListedShares; // 주식 수
+
+    private Long closingPrcie; // 종가
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "corp_id")
     private Corp corp;

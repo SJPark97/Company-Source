@@ -1,6 +1,7 @@
 package com.jobtang.sourcecompany.api.corp_detail.util;
 
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
+import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisInfoDocument;
 import com.jobtang.sourcecompany.api.corp_detail.entity.CorpDetail;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ public class BasicSetting {
         result.put("analysis", data);
         return new HashMap(Map.of(corp.getCorpId(), result));
     }
+
 }
 //                {"00578321":{
 //                corpName:"잡탕기업",

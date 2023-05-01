@@ -63,7 +63,7 @@ public class Analysis100 {
         // 2) 당좌비율
         HashMap data2 = new HashMap();
         data2.put(target.corp.getCorpName(), target.quickRatio);
-        data2.put("name", "유동비율");
+        data2.put("name", "당좌비율");
         data2.put("산업평균", indutyVariable.quickRatio);
 
         String rate2 = target.quickRatio >= 80 ? "양호" : "불량";
@@ -75,7 +75,7 @@ public class Analysis100 {
         // 3) 현금비율
         HashMap data3 = new HashMap();
         data3.put(target.corp.getCorpName(), target.cashRatio);
-        data3.put("name", "유동비율");
+        data3.put("name", "현금비율");
         data3.put("산업평균", indutyVariable.cashRatio);
 
         String rate3 = target.cashRatio >= 20 || target.cashRatio < 30 ? "양호" : "불량";
@@ -87,7 +87,7 @@ public class Analysis100 {
         // 4) 순운전자본비율
         HashMap data4 = new HashMap();
         data4.put(target.corp.getCorpName(), target.netWorkingCapital);
-        data4.put("name", "유동비율");
+        data4.put("name", "순운전자본비율");
         data4.put("산업평균", indutyVariable.netWorkingCapital);
 
         String rate4 = target.netWorkingCapital >= indutyVariable.netWorkingCapital ? "양호" : "불량";
@@ -143,6 +143,7 @@ public class Analysis100 {
         data1.put(target.corp.getCorpName(), target.nonCurrentRatio);
         data1.put("name", "비유동비율");
         data1.put("산업평균", indutyVariable.nonCurrentRatio);
+        System.out.println("값 : "+target.nonCurrentRatio.toString());
 
         String rate1 = target.nonCurrentRatio <= indutyVariable.nonCurrentRatio ? "양호" : "불량";
         if (rate1.equals("양호")) {goodCount += 1;}
@@ -175,7 +176,6 @@ public class Analysis100 {
         log.info("자본배분의 안정성 분석(103) 진입");
         return result;
     }
-
 
 }
 // result : {"status101" : true,
