@@ -37,7 +37,7 @@ export default function NavBar() {
             </div>
           </Link>
 
-          <Link href="/analysis">
+          <Link href="/home">
             <div
               className={
                 "mx-[3vw] " +
@@ -45,7 +45,7 @@ export default function NavBar() {
                   router.pathname === "/"
                     ? "text-white font-bold"
                     : `${
-                        router.pathname === "/analysis"
+                        router.pathname === "/home"
                           ? "text-black font-bold"
                           : "text-gray-400"
                       }`
@@ -76,7 +76,16 @@ export default function NavBar() {
           </Link>
         </div>
         <div>
-          <Image src="/user.png" alt="user.png" width={40} height={40} />
+          {router.pathname === "/" ? (
+            <Image
+              src="/white_user.png"
+              alt="white_user.png"
+              width={40}
+              height={40}
+            />
+          ) : (
+            <Image src="/user.png" alt="user.png" width={40} height={40} />
+          )}
         </div>
       </div>
     </>

@@ -12,11 +12,31 @@ export default function Home() {
   const thirdTitle = "기업분석.\n 당신의 생각은 어떠신가요?";
   const thirdContent = "커뮤니티에서 여러사람들과\n 의견을 공유해보세요.";
   return (
-    <div className="relative flex flex-col w-full">
-      <NavBar />
-      <div className="h-screen bg-top bg-no-repeat bg-cover bg-landing-first">
+    <div className="flex flex-col w-full">
+      {/* <div className="h-screen bg-top bg-no-repeat bg-cover bg-landing-first">
         <div className="text-white drop-shadow-lg font-bold text-56 w-[60vw] ml-[10vw] mt-[15vh] animate-fadeIn">
-          기업 분석이 어려우신가요? Company Source와 함께 해보세요.
+        기업 분석이 어려우신가요? Company Source와 함께 해보세요.
+        </div>
+      </div> */}
+      {/* <div className="relative"> */}
+      <div className="z-50">
+        <NavBar />
+      </div>
+
+      <div className="relative">
+        <video
+          className="w-full h-auto filter brightness-[45%]"
+          autoPlay
+          muted
+          loop
+        >
+          <source src="/randing_video.mp4" className="w-full" />
+        </video>
+        <div
+          className="text-white drop-shadow-lg font-bold text-[3vw] w-[65vw] text-center animate-fadeIn absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2"
+          style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)" }}
+        >
+          기업 분석이 어려우신가요? <br></br> Company Source와 함께 해보세요.
         </div>
       </div>
 
