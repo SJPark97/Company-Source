@@ -12,7 +12,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        "landing-first": "url('/landing-first.png')",
+        // "landing-first": "url('/landing-first.png')",
+        "landing-first": "url('/vidoe1.mp4')",
         "analysis-title": "url('/analysis-title.png')",
       },
       borderWidth: px0_100,
@@ -53,11 +54,11 @@ module.exports = {
         fadeIn: {
           from: {
             opacity: 0,
-            transform: "translateY(50px)",
+            // transform: "translateY(50px)",
           },
           to: {
             opacity: 1,
-            transform: "translateY(0)",
+            // transform: "translateY(0)",
           },
         },
         fadeInRight: {
