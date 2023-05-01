@@ -1,7 +1,7 @@
 export default function Banner() {
   return (
     <div className="mb-[10vh]">
-      <div className="flex flex-row justify-between w-[100%] h-[400px] bg-cover bg-[url('/carousel3.jpg')]">
+      <div className="flex flex-row justify-between w-[100%] h-[500px] bg-cover bg-[url('/carousel3.jpg')]">
         <div className="flex flex-col ml-[10vw] animate-fadeInRight">
           <div
             className="text-white font-bold mt-[10vh] lg:text-22 xl:text-25 2xl:text-28 text-shadow"
