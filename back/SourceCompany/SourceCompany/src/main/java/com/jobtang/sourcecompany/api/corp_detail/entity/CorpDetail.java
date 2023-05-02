@@ -57,7 +57,7 @@ public class CorpDetail extends BaseEntity {
 
 //    private Integer OperatingFundExpenditure; // 영업자금지출
 
-    private Double tax; // 세금
+    private Long tax; // 세금
 
     private Long inventories; // 재고자산
 
@@ -72,6 +72,8 @@ public class CorpDetail extends BaseEntity {
     private Long numberOfListedShares; // 주식 수
 
     private Long closingPrcie; // 종가
+    
+    private Long interestExpense; // 이자비용
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)

@@ -87,11 +87,11 @@ public class Analysis100 {
 
             // 4) 순운전자본비율
             HashMap data4 = new HashMap();
-            data4.put(target.corp.getCorpName(), target.netWorkingCapital);
+            data4.put(target.corp.getCorpName(), target.netWorkingCapitalToTotalAsset);
             data4.put("name", "순운전자본비율");
-            data4.put("산업평균", indutyVariable.netWorkingCapital);
+            data4.put("산업평균", indutyVariable.netWorkingCapitalToTotalAsset);
 
-            String rate4 = target.netWorkingCapital >= indutyVariable.netWorkingCapital ? "양호" : "불량";
+            String rate4 = target.netWorkingCapitalToTotalAsset >= indutyVariable.netWorkingCapitalToTotalAsset ? "양호" : "불량";
             if (rate4.equals("양호")) {goodCount += 1;}
             data4.put("평가", rate4);
 
@@ -652,39 +652,3 @@ public class Analysis100 {
 
     }
 }
-// result : {"status101" : true,
-//            "data101": [
-//            {
-//                "잡탕마을": 151.3,
-//                    "name": "유동비율",
-//                    "산업평균": 130.2,
-//                    "평가": "양호"
-//            },
-//            {
-//                "잡탕마을": 55.1,
-//                    "name": "당좌비율",
-//                    "산업평균": 80.4,
-//                    "평가": "불량"
-//            },
-//            {
-//                "잡탕마을": 9.6,
-//                    "name": "현금비율",
-//                    "산업평균": 20,
-//                    "평가": "불량"
-//            },
-//            {
-//                "잡탕마을": 19,
-//                    "name": "순운전자본비율",
-//                    "산업평균": 10,
-//                    "평가": "양호"
-//            }
-//        ],
-//            "rate": "보통",
-//                    "analysis_name": "유동성 분석",
-//                    "corp_id": "00425351",
-//                    "analysis_method": 101
-//        }
-//        }
-//    }
-//  ]
-//}

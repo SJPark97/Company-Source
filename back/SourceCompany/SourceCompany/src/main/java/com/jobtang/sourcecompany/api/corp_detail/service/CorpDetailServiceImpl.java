@@ -6,6 +6,7 @@ import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisDocument;
 import com.jobtang.sourcecompany.api.corp_detail.entity.CorpDetail;
 import com.jobtang.sourcecompany.api.corp_detail.repository.CorpDetailRepository;
 import com.jobtang.sourcecompany.api.corp_detail.util.Analysis100;
+import com.jobtang.sourcecompany.api.corp_detail.util.Analysis400;
 import com.jobtang.sourcecompany.api.corp_detail.util.BasicSetting;
 import com.jobtang.sourcecompany.api.corp_detail.util.CorpVariable;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class CorpDetailServiceImpl implements CorpDetailService{
     private final MongoTemplate mongoTemplate;
 
     private final Analysis100 analysis100;
+    private final Analysis400 analysis400;
     private final BasicSetting basicSetting;
 
     @Override
@@ -42,8 +44,8 @@ public class CorpDetailServiceImpl implements CorpDetailService{
         // 분석변수 생성하기
         CorpVariable corpVariable = new CorpVariable(corpDetail.getCorp());
 
-        // 분석법 별로 계산하기기
-
+        // 분석법 별로 계산하기
+        //100
         data.put("result101", analysis100.analysis101(corpVariable));
         data.put("result103", analysis100.analysis103(corpVariable));
         data.put("result104", analysis100.analysis104(corpVariable));
@@ -53,6 +55,9 @@ public class CorpDetailServiceImpl implements CorpDetailService{
         data.put("result110", analysis100.analysis110(corpVariable));
         data.put("result111", analysis100.analysis111(corpVariable));
         data.put("result113", analysis100.analysis113(corpVariable));
+
+        //400
+        data.put("result405", analysis400.analysis405(corpVariable));
 
 
         // 기본 세팅 잡기
