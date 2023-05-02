@@ -57,7 +57,7 @@ public class IndutyDetail extends BaseEntity {
 
 //    private Integer OperatingFundExpenditure; // 영업자금지출
 
-    private Double tax; // 세금
+    private Long tax; // 세금
 
     private Long inventories; // 재고자산
 
@@ -66,4 +66,12 @@ public class IndutyDetail extends BaseEntity {
     private Double previousEarningPerShare; // 전기주당이익(보통주)
 
     private Double capitalSurplus; // 자본잉여금
+
+    private Long marketCapitalization; // 시가총액
+
+    private Long numberOfListedShares; // 주식 수
+
+    private Long closingPrcie; // 종가
+
+    private Long interestExpense; // 이자비용
 }
