@@ -43,7 +43,7 @@ export default function NavBar() {
                 "mx-[3vw] " +
                 `${
                   router.pathname === "/"
-                    ? "text-white font-bold"
+                    ? "text-white"
                     : `${
                         router.pathname === "/home"
                           ? "text-white font-bold"
@@ -61,12 +61,12 @@ export default function NavBar() {
               className={
                 "mx-[3vw] " +
                 `${
-                  router.pathname === "/"
-                    ? "text-white font-bold"
+                  router.pathname === "/" || router.pathname === "/home"
+                    ? "text-white"
                     : `${
                         router.pathname === "/comparison"
                           ? "text-black font-bold"
-                          : "text-white"
+                          : "text-gray-400"
                       }`
                 }`
               }
@@ -74,7 +74,28 @@ export default function NavBar() {
               기업 비교
             </div>
           </Link>
+
+          <Link href="/board">
+            <div
+              className={
+                "mx-[3vw] " +
+                `${
+                  router.pathname === "/board"
+                    ? "text-black font-bold"
+                    : `${
+                        router.pathname === "/" || router.pathname === "/home"
+                          ? "text-white"
+                          : "text-gray-400"
+                      }`
+                }`
+              }
+            >
+              커뮤니티
+            </div>
+          </Link>
         </div>
+
+        {/* User Icon */}
         <div>
           {router.pathname === "/" || router.pathname === "/home" ? (
             <Image
