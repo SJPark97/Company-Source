@@ -69,6 +69,10 @@ public class CorpVariable {
 //        System.out.println("############테스트#############");
         this.nonCurrentRatio = calculator.myRatio(corpDetail.getNonCurrentAssets(), corpDetail.getEquityCapital()); // 비유동비율(고정비율) = 비유동자산/자기자본 * 100
         this.nonCurrentAssetToStockholdersEquityAndNonCurrentLiability = calculator.myRatioWithSum(corpDetail.getNonCurrentAssets(), corpDetail.getEquityCapital(), corpDetail.getNonCurrentLiabilities()); // 비유동장기적합률(고정장기적합률) = 비유동자산/(자기자본 + 비유동부채) * 100
+//        System.out.println("############테스트#############");
+//        System.out.println(nonCurrentRatio);
+//        System.out.println(nonCurrentAssetToStockholdersEquityAndNonCurrentLiability);
+//        System.out.println("############테스트#############");
         this.currentAssetCompositionRatio = calculator.myDivision(corpDetail.getCurrentAsset(), corpDetail.getTotalAssets()); // 유동자산구성비율 = 유동자산/총자산
         this.tangibleAssetCompositionRatio = calculator.myDivision(corpDetail.getTangibleAssets(), corpDetail.getTotalAssets()); // 유형자산구성비율 = 유형자산/총자산
         this.salesGrowthRate = calculator.myRatioWithSubtraction(corpDetail.getSales(), corpDetail.getPreviousSales(), corpDetail.getPreviousSales()); // 매출액증가율 = (당기 매출액 - 전기 매출액) / 전기 매출액 * 100
