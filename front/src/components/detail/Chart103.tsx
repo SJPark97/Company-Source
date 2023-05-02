@@ -8,7 +8,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import AnalysisInfo from "./AnalysisInfo";
+import AnalysisResult from "./AnalysisResult";
 
 interface Iprops {
   chartData: any;
@@ -26,7 +26,7 @@ export default function Chart103({
   const formatYLabel = (value: string) => `${value}%`;
   return (
     <>
-      <AnalysisInfo rate={chartData.data.rate} />
+      <AnalysisResult rate={chartData.data.rate} />
       <div className="flex flex-wrap justify-center text-12">
         {data
           ? data.data.result.map((item: any) => {

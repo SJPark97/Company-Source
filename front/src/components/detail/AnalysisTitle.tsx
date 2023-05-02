@@ -1,8 +1,9 @@
 interface Iprops {
   name: string,
+  info: string,
 }
 
-export default function AnalysisTitle({ name }: Iprops) {
+export default function AnalysisTitle({ name, info }: Iprops) {
 
   return (
     <div className="flex text-white text-28">

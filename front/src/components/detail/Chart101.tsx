@@ -9,7 +9,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import AnalysisInfo from "./AnalysisInfo";
+import AnalysisResult from "./AnalysisResult";
 
 // interface ChartLabel {
 //   name: string;
@@ -29,7 +29,7 @@ export default function Chart101({ chartData }: Iprops) {
 
   return (
     <>
-      <AnalysisInfo rate={chartData.data.rate} />
+      <AnalysisResult rate={chartData.data.rate} />
       <div className="flex flex-wrap content-start justify-center text-12">
         {data
           ? data.data.result.map((item: any) => {
@@ -50,12 +50,12 @@ export default function Chart101({ chartData }: Iprops) {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" tickMargin={16} />
                   <YAxis />
-                  <Tooltip />
+                  <Tooltip wrapperStyle={{ zIndex: "50" }} />
                   {/* <Legend /> */}
                   <Bar
-                    dataKey={Object.keys(item)[0]}
+                    dataKey={item[chartData.data.corp_name]}
                     fill={
-                      Object.values(item)[3] === "양호" ? "#8884d8" : ("불량" ? "red" : "orange")
+                      item["평가"] === "양호" ? "#8884d8" : ("불량" ? "red" : "orange")
                     }
                   />
                   <Bar dataKey="산업평균" fill="#82ca9d" />
