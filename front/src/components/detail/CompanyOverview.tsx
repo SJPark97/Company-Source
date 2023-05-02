@@ -1,38 +1,37 @@
 import Image from "next/image";
 import Title from "./Title";
 import CompanyOverviewContent from "./CompanyOverviewContent";
+import InnerCard from "./InnerCard";
+import tempOverview from "@/models/tempOverview";
 
 interface Iprops {
   companyId?: string,
   companyName?: string,
-  companyOverviewInfo: any
+  companyOverviewInfo: any,
+  evaluationSummary: [],
 }
 
-export default function CompanyOverview({ companyOverviewInfo }: Iprops) {
+export default function CompanyOverview({ companyOverviewInfo, evaluationSummary }: Iprops) {
+  console.log(companyOverviewInfo, "ejhfoiqjh")
+
   return (
     <>
-      <div className="flex justify-between bg-blue-background h-auto mx-[11vw] rounded-10">
-        <div className="flex flex-col justify-center mx-[4vw]">
-          <Image src="/samsung-detail.png" alt="logo" width={364} height={129} />
-        </div>
-        <div className="flex flex-col justify-center w-[45vw] p-30">
-          <div className="h-auto bg-white rounded-10">
-            <div className="mx-[2vw] my-20 text-28">{companyOverviewInfo.corpName}</div>
-            <div className="flex flex-wrap justify-between m-20">
-              {/* API랑 연결하면 map으로 바꿔줄 부분 */}
-              <CompanyOverviewContent title="기업형태" content={companyOverviewInfo.corpSize} />
-              <CompanyOverviewContent title="산업코드" content={companyOverviewInfo.indutyCode} />
-              <CompanyOverviewContent title="산업종류" content={companyOverviewInfo.indutyName} />
-              <CompanyOverviewContent title="홈페이지" content={companyOverviewInfo.homepage} />
-              <CompanyOverviewContent title="사원 수" content={companyOverviewInfo.employees} />
-              <CompanyOverviewContent title="설립일" content={companyOverviewInfo.foundationDate} />
-              <CompanyOverviewContent title="주소" content={companyOverviewInfo.address} />
-              <CompanyOverviewContent title="어제 조회 수" content={companyOverviewInfo.yesterdayView} />
-              <CompanyOverviewContent title="오늘 조회 수" content={companyOverviewInfo.totalView} />
-            </div>
+      <div className="flex grow">
+        <div className="flex flex-col ml-[3vw]">
+          <div className="flex mt-20">
+            <Image src="/evaluation.svg" alt="evaluation" width={24} height={24} />
+            <span className="ml-10 text-20">평가요약</span>
           </div>
+          <InnerCard cardItemList={evaluationSummary} type="evaluation" />
         </div>
-      </div>
+        <div className="flex flex-col ml-[3vw] mr-[3vw] grow">
+          <div className="flex mt-20">
+            <Image src="/flag.svg" alt="flag" width={24} height={24} />
+            <span className="ml-10 text-20">기업정보</span>
+          </div>
+          <InnerCard cardItemList={companyOverviewInfo.infoList} type="corpInfo" />
+        </div>
+      </div >
     </>
   )
 }
