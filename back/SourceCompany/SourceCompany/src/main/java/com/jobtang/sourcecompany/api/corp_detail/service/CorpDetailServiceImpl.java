@@ -12,6 +12,7 @@ import com.jobtang.sourcecompany.api.corp_detail.util.CorpVariable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
@@ -99,5 +100,21 @@ public class CorpDetailServiceImpl implements CorpDetailService{
         log.info("기존 데이터 삭제 완료!");
     }
 
+    // 테스트용
+    @Override
+    public void updateOne(String corpId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("corpId").is(corpId));
+        mongoTemplate.remove(query, AnalysisDocument.class);
+        log.info("기존 정보 삭제 완료!");
+
+        Corp corp = corpRepository.findByCorpId(corpId);
+        try {
+            updateCorpDetails(corp);
+            log.info("성공기업 : " + corp.getCorpName());
+
+        } catch (Exception e) {log.warn("실패기업 : " + corp.getCorpName());}
+
+    }
 
 }

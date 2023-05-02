@@ -17,9 +17,6 @@ spring:
     url: jdbc:mysql://company-source.com:8306/cs?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: comso
     password: B107
-#    url: jdbc:mysql://localhost:3306/cs?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-#    username: root
-#    password: bms1226@
     hikari:
       leak-detection-threshold: 2000
   # swagger
@@ -34,14 +31,15 @@ spring:
       password: B107
       database: company-source
       port: 9000
-#    mongodb:
+
+#    mongodb: # 테스트
 #      host: company-source.com
 #      authentication-database: admin
 #      username: comso
 #      password: B107
 #      database: cs-test
 #      port: 9000
-  #      mongodb://comso:B107@company-source.com:9000/?authMechanism=DEFAULT
+#        mongodb://comso:B107@company-source.com:9000/?authMechanism=DEFAULT
   redis:
 #    host: localhost # 3.38.106.18
 #    port: 6379

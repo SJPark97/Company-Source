@@ -54,25 +54,14 @@ public class CorpVariable {
     // 변수값 계산하기
     private void calculatevVriables() {
         Calculator calculator = new Calculator();
-
-        log.info("기업번수 계산");
         this.netWorkingCapital = calculator.mySubtraction(corpDetail.getCurrentAsset(), corpDetail.getCurrentLiabilities()); // 순운전자본 = 유동자산 - 유동부채
         this.liquidityRatio = calculator.myRatio(corpDetail.getCurrentAsset(), corpDetail.getCurrentLiabilities()); // 유동비율 = 유동자산/유동부채 * 100
         this.quickAsset = calculator.mySubtraction(corpDetail.getCurrentAsset(), corpDetail.getInventories());// 당좌자산 = 유동자산 - 재고자산
         this.quickRatio = calculator.myRatio(quickAsset, corpDetail.getCurrentLiabilities()); // 당좌비율 = 당좌자산/유동부채 * 100 = (유동자산-재고자산)/유동부채 * 100
         this.cashRatio = calculator.myRatio(corpDetail.getCashAndCashEquivalents(), corpDetail.getCurrentLiabilities()); // 현금비율 = 현금및현금성자산/유동부채 * 100
         this.netWorkingCapitalToTotalAsset = calculator.myRatio(netWorkingCapital, corpDetail.getTotalAssets()); // 순운전자본비율 = 순운전자본/총자산 * 100 = (유동자산-유동부채)/총자산 * 100
-//        System.out.println("############테스트#############");
-//        System.out.println(netWorkingCapitalToTotalAsset);
-//        System.out.println(netWorkingCapital);
-//        System.out.println(corpDetail.getTotalAssets());
-//        System.out.println("############테스트#############");
         this.nonCurrentRatio = calculator.myRatio(corpDetail.getNonCurrentAssets(), corpDetail.getEquityCapital()); // 비유동비율(고정비율) = 비유동자산/자기자본 * 100
         this.nonCurrentAssetToStockholdersEquityAndNonCurrentLiability = calculator.myRatioWithSum(corpDetail.getNonCurrentAssets(), corpDetail.getEquityCapital(), corpDetail.getNonCurrentLiabilities()); // 비유동장기적합률(고정장기적합률) = 비유동자산/(자기자본 + 비유동부채) * 100
-//        System.out.println("############테스트#############");
-//        System.out.println(nonCurrentRatio);
-//        System.out.println(nonCurrentAssetToStockholdersEquityAndNonCurrentLiability);
-//        System.out.println("############테스트#############");
         this.currentAssetCompositionRatio = calculator.myDivision(corpDetail.getCurrentAsset(), corpDetail.getTotalAssets()); // 유동자산구성비율 = 유동자산/총자산
         this.tangibleAssetCompositionRatio = calculator.myDivision(corpDetail.getTangibleAssets(), corpDetail.getTotalAssets()); // 유형자산구성비율 = 유형자산/총자산
         this.salesGrowthRate = calculator.myRatioWithSubtraction(corpDetail.getSales(), corpDetail.getPreviousSales(), corpDetail.getPreviousSales()); // 매출액증가율 = (당기 매출액 - 전기 매출액) / 전기 매출액 * 100

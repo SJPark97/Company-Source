@@ -60,10 +60,6 @@ public class IndutyVariable {
         this.netWorkingCapitalToTotalAsset = calculator.myRatio(netWorkingCapital, indutyDetail.getTotalAssets()); // 순운전자본비율 = 순운전자본/총자산 * 100 = (유동자산-유동부채)/총자산 * 100
         this.nonCurrentRatio = calculator.myRatio(indutyDetail.getNonCurrentAssets(), indutyDetail.getEquityCapital()); // 비유동비율(고정비율) = 비유동자산/자기자본 * 100
         this.nonCurrentAssetToStockholdersEquityAndNonCurrentLiability = calculator.myRatioWithSum(indutyDetail.getNonCurrentAssets(), indutyDetail.getEquityCapital(), indutyDetail.getNonCurrentLiabilities()); // 비유동장기적합률(고정장기적합률) = 비유동자산/(자기자본 + 비유동부채) * 100
-//        System.out.println("############테스트#############");
-//        System.out.println(nonCurrentRatio);
-//        System.out.println(nonCurrentAssetToStockholdersEquityAndNonCurrentLiability);
-//        System.out.println("############테스트#############");
         this.currentAssetCompositionRatio = calculator.myDivision(indutyDetail.getCurrentAsset(), indutyDetail.getTotalAssets()); // 유동자산구성비율 = 유동자산/총자산
         this.tangibleAssetCompositionRatio = calculator.myDivision(indutyDetail.getTangibleAssets(), indutyDetail.getTotalAssets()); // 유형자산구성비율 = 유형자산/총자산
         this.salesGrowthRate = calculator.myRatioWithSubtraction(indutyDetail.getSales(), indutyDetail.getPreviousSales(), indutyDetail.getPreviousSales()); // 매출액증가율 = (당기 매출액 - 전기 매출액) / 전기 매출액 * 100
