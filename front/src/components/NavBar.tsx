@@ -23,7 +23,7 @@ export default function NavBar() {
                   alt="white_logo.png"
                   width={123}
                   height={58}
-                  className="w-auto mx-[3vw]"
+                  className="w-auto mr-[3vw]"
                 />
               ) : (
                 <Image
@@ -31,7 +31,7 @@ export default function NavBar() {
                   alt="logo.png"
                   width={123}
                   height={58}
-                  className="w-auto mx-[3vw]"
+                  className="w-auto mr-[3vw]"
                 />
               )}
             </div>
@@ -75,12 +75,12 @@ export default function NavBar() {
             </div>
           </Link>
 
-          <Link href="/board">
+          <Link href="/community">
             <div
               className={
                 "mx-[3vw] " +
                 `${
-                  router.pathname === "/board"
+                  router.pathname.slice(0, 10) === "/community" // community 하위 라우터들을 모두 처리
                     ? "text-black font-bold"
                     : `${
                         router.pathname === "/" || router.pathname === "/home"
