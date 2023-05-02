@@ -13,10 +13,6 @@ public class IndutyVariable {
 
     public IndutyDetail indutyDetail;
 
-    // 주가정보
-    public Long marketCapitalization; // 시가총액
-    public Double earningsPerShare; // 주당이익
-
     //  세부계산 항목
     public Long netWorkingCapital; // 순운전자본 = 유동자산 - 유동부채
     public Double liquidityRatio; // 유동비율 = 유동자산/유동부채 * 100
@@ -64,10 +60,6 @@ public class IndutyVariable {
         this.netWorkingCapitalToTotalAsset = calculator.myRatio(netWorkingCapital, indutyDetail.getTotalAssets()); // 순운전자본비율 = 순운전자본/총자산 * 100 = (유동자산-유동부채)/총자산 * 100
         this.nonCurrentRatio = calculator.myRatio(indutyDetail.getNonCurrentAssets(), indutyDetail.getEquityCapital()); // 비유동비율(고정비율) = 비유동자산/자기자본 * 100
         this.nonCurrentAssetToStockholdersEquityAndNonCurrentLiability = calculator.myRatioWithSum(indutyDetail.getNonCurrentAssets(), indutyDetail.getEquityCapital(), indutyDetail.getNonCurrentLiabilities()); // 비유동장기적합률(고정장기적합률) = 비유동자산/(자기자본 + 비유동부채) * 100
-//        System.out.println("############테스트#############");
-//        System.out.println(nonCurrentRatio);
-//        System.out.println(nonCurrentAssetToStockholdersEquityAndNonCurrentLiability);
-//        System.out.println("############테스트#############");
         this.currentAssetCompositionRatio = calculator.myDivision(indutyDetail.getCurrentAsset(), indutyDetail.getTotalAssets()); // 유동자산구성비율 = 유동자산/총자산
         this.tangibleAssetCompositionRatio = calculator.myDivision(indutyDetail.getTangibleAssets(), indutyDetail.getTotalAssets()); // 유형자산구성비율 = 유형자산/총자산
         this.salesGrowthRate = calculator.myRatioWithSubtraction(indutyDetail.getSales(), indutyDetail.getPreviousSales(), indutyDetail.getPreviousSales()); // 매출액증가율 = (당기 매출액 - 전기 매출액) / 전기 매출액 * 100
@@ -81,9 +73,9 @@ public class IndutyVariable {
         this.netProfitBeforeTax = calculator.myPlus(indutyDetail.getNetProfit(), indutyDetail.getTax()); // 세전순이익 = 순이익 + 세금
         this.reserveRatio = calculator.myCalculate(indutyDetail.getNetProfit(), indutyDetail.getPreviousNetProfit(), indutyDetail.getPreviousNetProfit(), returnOnEquity); // 유보율 = 세전순이익/납입자본금 * 100 = 유보율 = (당기순이익 - 전기순이익) / 전기순이익 * ROE
         this.sustainableGrowthRate = calculator.myMultiply(reserveRatio, returnOnEquity); // 지속가능성장률 = 유보율 * 자기자본순이익률 = b * ROE
-        this.priceEarningRatio = calculator.myDivision(marketCapitalization, indutyDetail.getNetProfit()); // PER = 시가총액/순이익
-        this.priceBookValueRatio = calculator.myDivision(marketCapitalization, indutyDetail.getEquityCapital()); // PBR = 시가총액/자기자본
-        this.priceSalesRatio = calculator.myDivision(marketCapitalization, indutyDetail.getSales()); // PSR = 시가총액/매출액
+        this.priceEarningRatio = calculator.myDivision(indutyDetail.getMarketCapitalization(), indutyDetail.getNetProfit()); // PER = 시가총액/순이익
+        this.priceBookValueRatio = calculator.myDivision(indutyDetail.getMarketCapitalization(), indutyDetail.getEquityCapital()); // PBR = 시가총액/자기자본
+        this.priceSalesRatio = calculator.myDivision(indutyDetail.getMarketCapitalization(), indutyDetail.getSales()); // PSR = 시가총액/매출액
 //        this.turnoverRatioOfTotalOperatingCapital = c.getTotalAssets(); // 경영자본 = 총자산 - 투자자산 - 건설중인자산 = 경영자본회전율
     }
 }

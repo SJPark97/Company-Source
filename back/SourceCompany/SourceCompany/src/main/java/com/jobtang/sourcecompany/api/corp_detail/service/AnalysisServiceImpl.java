@@ -27,9 +27,6 @@ public class AnalysisServiceImpl implements AnalysisService{
     public HashMap getCorpAnalysis(String analysisId, String corpId) {
         AnalysisDocument analysisDocument = analysisRepository.findByCorpId(corpId);
         AnalysisInfoDocument analysisInfoDocument = analysisInfoRepository.findByAnalysisId(analysisId);
-        System.out.println("ㅇㅅㅇ");
-        log.info("ㅇㅅㅇ");
-        System.out.println(analysisInfoDocument.toString());
 
         HashMap<String, HashMap> data = analysisDocument.getData().get(corpId);
 
