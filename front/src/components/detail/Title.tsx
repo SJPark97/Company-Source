@@ -1,12 +1,20 @@
+import Image from "next/image";
+import Views from "./Views";
+
 interface Iprops {
+	companyLogo?: string,
 	name: string,
 }
 
-export default function Title({ name }: Iprops) {
+export default function Title({ name, companyLogo }: Iprops) {
 	return (
-		<div className="flex flex-col mx-[10vw] mt-[150px] text-28">
-			<div>{name}</div>
-			<div className="bg-black px-[10vw] my-15 h-1"></div>
-		</div>
+		<>
+			<div className="flex font-bold text-24">
+				{companyLogo ?
+					<Image src={companyLogo} alt="companyLogo" width={82} height={30} className="mr-16" />
+					: null}
+				<span className="self-center">{name}</span>
+			</div>
+		</>
 	)
 }

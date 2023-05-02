@@ -2,7 +2,12 @@ import Image from "next/image";
 import AnalysisTitle from "./AnalysisTitle";
 import Chart101 from "./Chart101";
 import Chart103 from "./Chart103";
-import AnalysisRate from "./AnalysisInfo";
+import Chart104 from "./Chart104";
+import Chart109 from "./Chart109";
+import Chart110 from "./Chart110";
+import Chart111 from "./Chart111";
+import Chart405 from "./Chart405";
+import Chart113 from "./Chart113";
 
 
 interface Iprops {
@@ -16,7 +21,13 @@ interface iChartCode {
 
 const chartCode: iChartCode = {
   "101": Chart101,
-  "103": Chart103
+  "103": Chart103,
+  "104": Chart104,
+  "109": Chart109,
+  "110": Chart110,
+  "111": Chart111,
+  // "405": Chart405,
+  "113": Chart113,
 }
 
 export default function FinancialAnalysis({ companyId, analysisList }: Iprops) {
