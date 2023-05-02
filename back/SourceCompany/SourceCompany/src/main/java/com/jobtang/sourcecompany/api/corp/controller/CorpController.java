@@ -46,8 +46,18 @@ public class CorpController {
             response = CorpInfoDto.class
     )
     @GetMapping("/info/{corpId}")
-    public ResponseEntity<CorpInfoDto> corpInfo(@PathVariable String corpId) {
-        return new ResponseEntity<>(corpService.corpInfo(corpId), HttpStatus.valueOf(200));
+    public ResponseEntity<?> corpInfo(@PathVariable String corpId) {
+        HashMap<String,Object> result = new HashMap<>();
+        CorpInfoDto corpInfoDto = corpService.corpInfo(corpId);
+        if (corpInfoDto == null) {
+            result.put("status", "400");
+            result.put("message", "잘못된 요청입니다");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("data", corpInfoDto);
+        result.put("message", "");
+        result.put("status", 200);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     // 랜덤기업 레디스에 저장
