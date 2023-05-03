@@ -23,6 +23,7 @@ public class CorpServiceImpl implements CorpService{
     private final ModelMapper mapper = new ModelMapper();
     @Autowired
     private final RedisTemplate<String, CorpSearchListDto> redisTemplate;
+    private final RedisTemplate<String, Integer> integerRedisTemplate;
 
     public List<CorpSearchListDto> searchCorp(String inputValue) {
         // %value% 형식으로 LIKE 검색
@@ -39,6 +40,8 @@ public class CorpServiceImpl implements CorpService{
         Optional<Corp> corp = corpRepository.findById(corpId);
         // null 에러 처리
         if (corp.isPresent()) {
+            //기업분석조회 처리
+            corpViewCnt(corp.get());
             return mapper.map(corp.get(), CorpInfoDto.class);
         } else {
             return new CorpInfoDto();
@@ -87,4 +90,19 @@ public class CorpServiceImpl implements CorpService{
 //        }
         return corpSearchListDtoList;
     }
+
+    // 기업 조회시 Redis에서 조회수 증가
+    private void corpViewCnt(Corp corp){
+        corp.getCorpId();
+        ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
+        if (valueOperations == null) {
+            valueOperations.set("viewCorp"+corp.getCorpId(), 1);
+            System.out.println();
+        }
+
+
+
+    }
 }
+
+// viewCorp77777777

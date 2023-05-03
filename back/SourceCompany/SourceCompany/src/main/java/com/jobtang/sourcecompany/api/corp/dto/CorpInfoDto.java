@@ -26,6 +26,4 @@ public class CorpInfoDto {
     private int employees; // 사원수
     private LocalDateTime foundationDate; // 설립일
     private String address; // 회사주소
-    private int yesterdayView;
-    private int totalView;
 }
