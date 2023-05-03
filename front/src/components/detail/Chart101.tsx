@@ -6,15 +6,8 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
-  ResponsiveContainer,
 } from "recharts";
 import AnalysisResult from "./AnalysisResult";
-
-// interface ChartLabel {
-//   name: string;
-//   [key: string]: number;
-// }
 
 interface Iprops {
   chartData: any;
@@ -29,8 +22,7 @@ export default function Chart101({ chartData }: Iprops) {
 
   return (
     <>
-      <AnalysisResult rate={chartData.data.rate} />
-      <div className="flex flex-wrap content-start justify-center text-12">
+      <div className="flex justify-center flex-nowrap text-12">
         {data
           ? data.data.result.map((item: any) => {
             console.log(item);
@@ -41,19 +33,19 @@ export default function Chart101({ chartData }: Iprops) {
                   height={300}
                   data={[item]}
                   margin={{
-                    top: 5,
-                    right: 10,
-                    left: 10,
-                    bottom: 5,
+                    top: 40,
+                    right: 30,
+                    left: 0,
+                    bottom: 40,
                   }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" tickMargin={16} />
+                  <XAxis dataKey="name" tickMargin={16} interval={1} />
                   <YAxis />
                   <Tooltip wrapperStyle={{ zIndex: "50" }} />
                   {/* <Legend /> */}
                   <Bar
-                    dataKey={item[chartData.data.corp_name]}
+                    dataKey={data.data.corp_name}
                     fill={
                       item["평가"] === "양호" ? "#8884d8" : ("불량" ? "red" : "orange")
                     }

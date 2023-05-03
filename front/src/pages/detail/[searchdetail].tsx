@@ -28,7 +28,7 @@ export default function searchdetail({
       <NavBar />
       <div className="flex flex-col bg-gray-100">
         {/* 기업 개요 부분 */}
-        <div className="bg-white border-gray-500 rounded-5 my-100 mx-[13vw] border-1">
+        <div className="bg-white border-gray-500 rounded-5 mt-100 mx-[13vw] border-1">
           {searchdetail && (
             <>
               <div className="flex justify-between mx-[3vw] mt-20">
@@ -43,13 +43,17 @@ export default function searchdetail({
         </div>
 
         {/* 재무 분석 부분 */}
-        <Title name="재무 분석" />
-        {searchdetail && (
-          <FinancialAnalysis
-            companyId={searchdetail as string}
-            analysisList={analysisList}
-          />
-        )}
+        <div className="bg-white border-gray-500 rounded-5 mt-100 mx-[13vw] border-1">
+          {searchdetail && (
+            <>
+              <div className="ml-[3vw] mt-40 text-24 font-bold" >재무분석</div>
+              <FinancialAnalysis
+                companyId={searchdetail as string}
+                analysisList={analysisList}
+              />
+            </>
+          )}
+        </div>
       </div>
     </>
   );
@@ -57,7 +61,7 @@ export default function searchdetail({
 
 export const getStaticPaths = async () => {
   return {
-    paths: [{ params: { searchdetail: "77777777" } }],
+    paths: [],
     fallback: true,
   };
 };
