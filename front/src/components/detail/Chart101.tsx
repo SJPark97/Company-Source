@@ -8,6 +8,7 @@ import {
   Tooltip,
 } from "recharts";
 import AnalysisResult from "./AnalysisResult";
+import Legend from "./Legend";
 
 interface Iprops {
   chartData: any;
@@ -47,10 +48,10 @@ export default function Chart101({ chartData }: Iprops) {
                   <Bar
                     dataKey={data.data.corp_name}
                     fill={
-                      item["평가"] === "양호" ? "#8884d8" : ("불량" ? "red" : "orange")
+                      item["평가"] === "양호" ? "#82ca9d" : (item["평가"] === "불량" ? "red" : "#fef33f")
                     }
                   />
-                  <Bar dataKey="산업평균" fill="#82ca9d" />
+                  <Bar dataKey="산업평균" fill="#8884d8" />
                 </BarChart>
               </>
             );

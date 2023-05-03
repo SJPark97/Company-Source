@@ -9,6 +9,7 @@ import Chart111 from "./Chart111";
 import Chart405 from "./Chart405";
 import Chart113 from "./Chart113";
 import AnalysisResult from "./AnalysisResult";
+import Legend from "./Legend";
 
 
 interface Iprops {
@@ -27,7 +28,7 @@ const chartCode: iChartCode = {
   "109": Chart109,
   "110": Chart110,
   "111": Chart111,
-  // "405": Chart405,
+  "405": Chart405,
   "113": Chart113,
 }
 
@@ -36,18 +37,19 @@ export default function FinancialAnalysis({ analysisList }: Iprops) {
   return (
     <>
       <div className="flex flex-col">
-        <div className="flex flex-wrap mx-[1.5vw]">
+        <div className="flex flex-wrap mx-[1.5vw] mt-30">
 
           {analysisList.map((analysisItem: any) => {
             const ChartComponent = chartCode[analysisItem.data.analysis_method]
             return (
               analysisItem.data.is_exist_all ?
                 <>
-                  <div className="flex flex-col mx-[1.5vw] mt-40 w-[45.7%]">
-                    <AnalysisTitle name={analysisItem.data.analysis_name} rate={analysisItem.data.rate} />
+                  <div className="flex flex-col mx-[1.5vw] mt-10 w-[45.7%]">
+                    <AnalysisTitle name={analysisItem.data.analysis_name} rate={analysisItem.data.rate} description={analysisItem.data.analysisInfo.analysis_description} />
                     {/* 차트 부분 */}
-                    <div className="h-auto pr-20 mt-10 mb-40 bg-white border-gray-500 rounded-5 border-1">
+                    <div className="h-auto pr-20 mt-10 mb-20 bg-white border-gray-500 rounded-5 border-1">
                       <ChartComponent chartData={analysisItem} />
+                      <Legend />
                     </div>
                   </div>
                   <div className="mt-20"></div>

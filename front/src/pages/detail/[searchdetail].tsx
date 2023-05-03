@@ -6,7 +6,7 @@ import FinancialAnalysis from "@/components/detail/FinancialAnalysis";
 import axios from "axios";
 import { SERVER_URL } from "@/utils/url";
 import analysisCodeList from "@/models/analysisCodeList";
-import Views from "@/components/detail/Views";
+import Image from "next/image";
 
 interface searchdetaiProps {
   analysisList: [];
@@ -33,7 +33,6 @@ export default function searchdetail({
             <>
               <div className="flex justify-between mx-[3vw] mt-20">
                 <Title companyLogo={companyOverviewInfo.corpImg} name={companyOverviewInfo.corpName} />
-                <Views total={companyOverviewInfo.totalView} yesterday={companyOverviewInfo.yesterdayView} />
               </div>
               <div className="flex">
                 <CompanyOverview companyOverviewInfo={companyOverviewInfo} evaluationSummary={evaluaionSummary} />
@@ -46,7 +45,12 @@ export default function searchdetail({
         <div className="bg-white border-gray-500 rounded-5 mt-100 mx-[13vw] border-1">
           {searchdetail && (
             <>
-              <div className="ml-[3vw] mt-40 text-24 font-bold" >재무분석</div>
+              <div className="ml-[3vw] mt-40 text-24 font-bold" >
+                <div className="flex">
+                  <Image src="/analysis.svg" alt="analysis" width={30} height={30} />
+                  <span className="ml-12">재무분석</span>
+                </div>
+              </div>
               <FinancialAnalysis
                 companyId={searchdetail as string}
                 analysisList={analysisList}
