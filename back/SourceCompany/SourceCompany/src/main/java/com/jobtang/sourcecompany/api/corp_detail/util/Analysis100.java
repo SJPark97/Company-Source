@@ -467,7 +467,7 @@ public class Analysis100 {
             System.out.println("값 : "+target.priceBookValueRatio.toString());
             String rate1 = target.priceBookValueRatio >= indutyVariable.priceBookValueRatio ? "고평가" : "저평가";
 
-            if (rate1.equals("양호")) {goodCount += 1;}
+            if (rate1.equals("고평가")) {goodCount += 1;}
             data1.put("평가", rate1);
 
             data.add(data1);
@@ -536,7 +536,7 @@ public class Analysis100 {
             System.out.println("값 : "+target.priceSalesRatio.toString());
             String rate1 = target.priceSalesRatio >= indutyVariable.priceSalesRatio ? "고평가" : "저평가";
 
-            if (rate1.equals("양호")) {goodCount += 1;}
+            if (rate1.equals("고평가")) {goodCount += 1;}
             data1.put("평가", rate1);
 
             data.add(data1);
