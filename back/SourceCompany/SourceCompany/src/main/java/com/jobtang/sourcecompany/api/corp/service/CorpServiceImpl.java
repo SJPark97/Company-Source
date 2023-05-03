@@ -85,6 +85,7 @@ public class CorpServiceImpl implements CorpService{
     public List<CorpSearchListDto> randCorp(int page) {
         List<CorpSearchListDto> corpSearchListDtoList = new ArrayList<>();
         // 모든 randCorp 기업은 randcorp_corpId 이므로 randcorp_* 형태로 모든 키 가져오기
+        // jpa에 비유하면 findAllRandcorp 같은상태
         Set<String> redisKeys = redisTemplate.keys("randcorp_*");
         // stream으로
         List<String> keys = redisKeys.stream()
