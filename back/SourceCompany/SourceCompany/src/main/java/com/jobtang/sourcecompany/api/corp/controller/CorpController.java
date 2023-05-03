@@ -83,18 +83,9 @@ public class CorpController {
         return new ResponseEntity<>(corpService.randCorp(page), headers, HttpStatus.valueOf(200));
     }
 
-<<<<<<< HEAD
-//    @GetMapping("//{page}")
-//    public ResponseEntity<?> randCorp(@PathVariable int page) {
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.set("totalPage", "385");
-//        return new ResponseEntity<>(corpService.randCorp(page), headers, HttpStatus.valueOf(200));
-//    }
-=======
-    @GetMapping("/test")
-    public ResponseEntity<?> test() {
-        corpService.updateViewCorp();
-        return new ResponseEntity<>("good", HttpStatus.valueOf(200));
+    @GetMapping("/all")
+    public ResponseEntity getCorpAll() {
+        List<String> result = corpService.getCorpAll();
+        return new ResponseEntity<List<String>>(result, HttpStatus.OK);
     }
->>>>>>> edace508e3100a57375368abf1c634d08f6537f1
 }

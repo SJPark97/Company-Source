@@ -8,5 +8,6 @@ import java.util.List;
 public interface CorpRepository extends JpaRepository<Corp, String> {
     List<Corp> findByCorpNameContains(String value);
     Corp findByCorpId(String corpId);
-    List<Corp> findAllByOrderByViewCountDesc();
+    List<Corp> findAllByOrderByYesterdayViewDesc();
+    List<Corp> findAll();
 }

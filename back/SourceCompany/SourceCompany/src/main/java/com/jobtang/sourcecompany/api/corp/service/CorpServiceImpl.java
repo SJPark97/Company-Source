@@ -142,5 +142,14 @@ public class CorpServiceImpl implements CorpService{
         updateViewCorp();
         log.info("스케쥴링 : 기업 조회 업데이트 완료!");
     }
+
+    public List<String> getCorpAll() {
+        List<Corp> corps = corpRepository.findAll();
+        List<String> result = new ArrayList<>();
+        for (Corp corp:corps) {
+            result.add(corp.getCorpId());
+        }
+        return result;
+    }
 }
 
