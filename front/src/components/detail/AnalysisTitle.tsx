@@ -1,16 +1,19 @@
+import AnalysisResult from "./AnalysisResult";
+
 interface Iprops {
   name: string,
-  info: string,
+  rate: string,
 }
 
-export default function AnalysisTitle({ name, info }: Iprops) {
+export default function AnalysisTitle({ name, rate }: Iprops) {
 
   return (
-    <div className="flex text-white text-28">
-      <div className="flex w-screen px-10 bg-blue-500 py-7 rounded-tr-5 rounded-tl-5">
-        <div>
-          {name}
-        </div>
+    <div className="flex justify-between text-16">
+      <div className="px-10 py-7">
+        {name}
+      </div>
+      <div className="px-10 py-7">
+        <AnalysisResult rate={rate} />
       </div>
     </div>
   )

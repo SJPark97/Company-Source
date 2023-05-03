@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 interface Iprops {
-  rate: string
+  rate?: string
 }
 
 interface IrateState {
@@ -27,8 +27,8 @@ export default function AnalysisResult({ rate }: Iprops) {
   }
 
   return (
-    <div className="flex min-w-50">
-      {rateState.imageSrc ? < Image src={rateState.imageSrc} alt="evaluation" width={30} height={30} className="mr-5" /> : null}
+    <div className="flex h-24 min-w-50 text-16">
+      {rateState.imageSrc ? < Image src={rateState.imageSrc} alt="evaluation" width={24} height={24} className="mr-5" /> : null}
       <span className={rateState.textColor + " mr-10"}>{rate}</span>
     </div >
   )

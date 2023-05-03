@@ -1,8 +1,5 @@
 import Image from "next/image";
-import Title from "./Title";
-import CompanyOverviewContent from "./CompanyOverviewContent";
 import InnerCard from "./InnerCard";
-import tempOverview from "@/models/tempOverview";
 
 interface Iprops {
   companyId?: string,
