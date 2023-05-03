@@ -18,4 +18,7 @@ public interface CorpService {
 //    HashMap<String, Object> randCorp();
 
     List<CorpSearchListDto> randCorp(int page);
+
+    // 조회수 적용
+    void updateViewCorp();
 }

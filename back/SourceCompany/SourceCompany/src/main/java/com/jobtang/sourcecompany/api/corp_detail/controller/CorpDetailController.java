@@ -30,4 +30,5 @@ public class CorpDetailController {
         corpDetailService.deleteCorp();
         log.info("기업분석 데이터 삭제 완료!");
     }
+
 }

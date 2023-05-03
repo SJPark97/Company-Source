@@ -31,7 +31,6 @@ public class AnalysisServiceImpl implements AnalysisService{
         HashMap<String, HashMap> data = analysisDocument.getData().get(corpId);
 
         if (data == null) {log.warn("해당 회사 분석정보가 없습니다" + corpId);return null;}
-
         String key = "result" + analysisId;
         HashMap result = (HashMap) data.get("analysis").get(key);
         result.put("analysisInfo", analysisInfoDocument.getData());
