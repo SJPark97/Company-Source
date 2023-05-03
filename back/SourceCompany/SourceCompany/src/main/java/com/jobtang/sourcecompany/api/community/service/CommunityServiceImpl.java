@@ -19,7 +19,14 @@ public class CommunityServiceImpl implements CommunityService{
    * @param createCommunityRequest
    */
   @Override
-  public void createCommunity(User user, CreateCommunityRequest createCommunityRequest) {
+  public void createCommunity(User user, CreateCommunityRequest createCommunityRequest) throws Exception {
+
+    // user 확인을 위한 코드
+    // user.isActive 값이 false 이거나 , null 인 경우
+    if( user == null || user.isActive() == false) {
+      throw new Exception("올바른 유저가 아닙니다");
+    }
+    // Builder 로 community 객체 생성
     Community community = Community.builder()
             .communityType(createCommunityRequest.getCommunityType())
             .content(createCommunityRequest.getContent())
