@@ -21,7 +21,12 @@ public class CorpInfoDto {
     private String corpId;  // 회사 코드,pk
     private String corpName;  // 회사명
     private String corpImg;  // 로고 이미지
-    private int yesterdayView; // 어제 조회수
-    private int totalView; // 총 조회수
+    private String corpSize; // 회사 규모 ( 대기업 , 중소기업 , 중견기업 ...)
+    private String indutyCode; // 산업코드
+    private String indutyName; // 산업명
+    private String homepage; // 홈페이지주소
+    private int employees; // 사원수
+    private LocalDateTime foundationDate; // 설립일
+    private String address; // 회사주소
     private List<Info> infoList = new ArrayList<>(); // 기업개요 정보 리스트
 }

@@ -50,4 +50,9 @@ public class Corp  extends BaseEntity {
   @JsonIgnore
   @OneToOne(mappedBy = "corp", cascade = CascadeType.ALL, orphanRemoval = true)
   private CorpDetail corpDetail;
+
+  public void updateViewCnt(Integer todayViewCnt) {
+    this.totalView += yesterdayView;
+    this.yesterdayView = todayViewCnt;
+  }
 }
