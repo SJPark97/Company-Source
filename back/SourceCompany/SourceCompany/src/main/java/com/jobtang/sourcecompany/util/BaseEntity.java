@@ -29,6 +29,6 @@ public abstract class BaseEntity {
   private LocalDateTime updatedDate; //수정일자
 
   @NotNull
-  private boolean isActive;
+  private boolean isActive=true;
 
 }
