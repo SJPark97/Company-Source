@@ -41,9 +41,9 @@ spring:
 #      port: 9000
 #        mongodb://comso:B107@company-source.com:9000/?authMechanism=DEFAULT
   redis:
-    host: localhost # 3.38.106.18
-    port: 6379
-    password: "1234"
-#    host: company-source.com
-#    port: 8379
-#    password: "B107"
+#    host: localhost # 3.38.106.18
+#    port: 6379
+#    password: "1234"
+    host: company-source.com
+    port: 8379
+    password: "B107"
