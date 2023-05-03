@@ -2,6 +2,7 @@ package com.jobtang.sourcecompany.api.corp.service;
 
 import com.jobtang.sourcecompany.api.corp.dto.CorpInfoDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
+import com.jobtang.sourcecompany.api.corp.dto.Info;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp.repository.CorpRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,12 +38,24 @@ public class CorpServiceImpl implements CorpService{
 
     public CorpInfoDto corpInfo(String corpId) {
         // jpa를 사용해서 해당 corpid로 조회
+        HashMap<String,Object> result = new HashMap<>();
         Optional<Corp> corp = corpRepository.findById(corpId);
         // null 에러 처리
         if (corp.isPresent()) {
-            //기업분석조회 처리
             corpViewCnt(corp.get());
-            return mapper.map(corp.get(), CorpInfoDto.class);
+            Corp data = corp.get();
+            CorpInfoDto corpInfoDto = mapper.map(data, CorpInfoDto.class);
+            List<Info> infoList = new ArrayList<>();
+            infoList.add(new Info("기업형태",data.getCorpSize()));
+            infoList.add(new Info("산업코드",data.getIndutyCode()));
+            infoList.add(new Info("주식코드",data.getStockId()));
+            infoList.add(new Info("산업종류",data.getIndutyName()));
+            infoList.add(new Info("주소",data.getAddress()));
+            infoList.add(new Info("홈페이지",data.getHomepage()));
+            infoList.add(new Info("설립일",data.getFoundationDate()));
+            infoList.add(new Info("사원수",data.getEmployees()));
+            corpInfoDto.setInfoList(infoList);
+            return corpInfoDto;
         } else {
             return new CorpInfoDto();
         }
