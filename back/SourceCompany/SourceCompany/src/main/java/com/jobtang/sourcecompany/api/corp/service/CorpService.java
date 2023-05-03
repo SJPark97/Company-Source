@@ -21,4 +21,6 @@ public interface CorpService {
 
     // 조회수 적용
     void updateViewCorp();
+
+    List<String> getCorpAll();
 }
