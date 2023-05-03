@@ -6,24 +6,27 @@ import com.jobtang.sourcecompany.api.corp.dto.Info;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp.repository.CorpRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CorpServiceImpl implements CorpService{
     private final CorpRepository corpRepository;
     private final ModelMapper mapper = new ModelMapper();
-    @Autowired
     private final RedisTemplate<String, CorpSearchListDto> redisTemplate;
+    private final RedisTemplate<String, Integer> integerRedisTemplate;
 
     public List<CorpSearchListDto> searchCorp(String inputValue) {
         // %value% 형식으로 LIKE 검색
@@ -41,6 +44,9 @@ public class CorpServiceImpl implements CorpService{
         Optional<Corp> corp = corpRepository.findById(corpId);
         // null 에러 처리
         if (corp.isPresent()) {
+            // 조회 처리
+            corpViewCnt(corp.get());
+            System.out.println(corp.toString());
             Corp data = corp.get();
             CorpInfoDto corpInfoDto = mapper.map(data, CorpInfoDto.class);
             List<Info> infoList = new ArrayList<>();
@@ -101,4 +107,34 @@ public class CorpServiceImpl implements CorpService{
 //        }
         return corpSearchListDtoList;
     }
+
+    // 기업 조회시 Redis에서 조회수 증가
+    private void corpViewCnt(Corp corp){
+        System.out.println("조회수 저장하러 들옴");
+        String key = "viewCorp:" + corp.getCorpId();
+        ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
+        if (valueOperations.get(key) == null) {
+            valueOperations.set(key, 1);
+        } else {
+          Integer viewCnt = valueOperations.get(key);
+          valueOperations.set(key, viewCnt +1);
+        }
+    }
+
+    public void updateViewCorp(){
+        List<Corp> corps = corpRepository.findAll();
+        for (Corp corp : corps) {
+            String key = "viewCorp:" + corp.getCorpId();
+            ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
+            if (valueOperations.get(key) == null) {
+                corp.updateViewCnt(0);
+            } else {
+                corp.updateViewCnt(valueOperations.get(key));
+                redisTemplate.delete(key);
+            }
+            corpRepository.save(corp);
+        }
+        log.info("기업분석 조회수 업데이트 완료!");
+    }
 }
+
