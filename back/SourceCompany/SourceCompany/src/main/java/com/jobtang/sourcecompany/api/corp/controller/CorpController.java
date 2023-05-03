@@ -123,9 +123,9 @@ public class CorpController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<?> test() {
-        corpService.updateViewCorp();
-        return new ResponseEntity<>("good", HttpStatus.valueOf(200));
+    @GetMapping("/all")
+    public ResponseEntity getCorpAll() {
+        List<String> result = corpService.getCorpAll();
+        return new ResponseEntity<List<String>>(result, HttpStatus.OK);
     }
 }

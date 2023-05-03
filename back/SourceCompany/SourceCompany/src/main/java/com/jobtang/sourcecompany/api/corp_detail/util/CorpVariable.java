@@ -15,7 +15,6 @@ public class CorpVariable {
     public Corp corp;
     public CorpDetail corpDetail;
 
-
     //  세부계산 항목
     public Long netWorkingCapital; // 순운전자본 = 유동자산 - 유동부채
     public Double liquidityRatio; // 유동비율 = 유동자산/유동부채 * 100
