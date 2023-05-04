@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -136,7 +139,7 @@ public class CorpServiceImpl implements CorpService{
         }
         log.info("기업분석 조회수 업데이트 완료!");
     }
-    @Scheduled(cron = "0 0 5 * * ?") // 새벽 5시마다 업데이트
+    @Scheduled(cron = "0 0 3 * * ?") // 새벽 3시마다 업데이트
     public void schedule() {
         log.info("스케쥴링 : 기업 조회 업데이트 시작!");
         updateViewCorp();
@@ -144,11 +147,21 @@ public class CorpServiceImpl implements CorpService{
     }
 
     public List<String> getCorpAll() {
-        List<Corp> corps = corpRepository.findAll();
-        List<String> result = new ArrayList<>();
-        for (Corp corp:corps) {
-            result.add(corp.getCorpId());
+        List<String> result = corpRepository.findAllCorpIds();
+        return result;
+    }
+
+    @Override
+    public List<CorpSearchListDto> getHotCorps(int page, int size) {
+        Pageable pageSetting = PageRequest.of(size, page);
+        Page<Corp> corps = corpRepository.findAllByOrderByYesterdayViewDesc(pageSetting);
+
+        List<CorpSearchListDto> result = new ArrayList<>();
+
+        for (Corp corp: corps) {
+            result.add(mapper.map(corp, CorpSearchListDto.class));
         }
+
         return result;
     }
 }

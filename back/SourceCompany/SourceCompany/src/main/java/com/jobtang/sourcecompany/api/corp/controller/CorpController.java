@@ -4,6 +4,7 @@ import com.jobtang.sourcecompany.api.corp.dto.CorpInfoDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp.service.CorpService;
+import io.lettuce.core.dynamic.annotation.Param;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -87,5 +88,20 @@ public class CorpController {
     public ResponseEntity getCorpAll() {
         List<String> result = corpService.getCorpAll();
         return new ResponseEntity<List<String>>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/hotcorp")
+    public ResponseEntity<?> getHotCorp(int page, int size) {
+        List<CorpSearchListDto> data = corpService.getHotCorps(size, page);
+        HashMap<String, Object> result = new HashMap<>();
+        if (data == null) {
+            result.put("status", "400");
+            result.put("message", "잘못된 요청입니다");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("data", data);
+        result.put("message", "");
+        result.put("status", 200);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
