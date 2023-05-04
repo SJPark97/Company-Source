@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>company ssource</title>
+        <title>company source</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name='description' content='재무제표를 이용한 기업분석을 제공하며 여러 기업들과 결과를 비교해볼 수 있습니다. 커뮤니티에서 기업에 대한 여러분의 의견을 다른 사람들과 공유해보세요.' />
         <meta property="og:type" content="website" />
@@ -27,12 +27,6 @@ export default function Home() {
         <meta property='og:description' content='기업분석이 어려우신가요? Company Source와 함께 해보세요.' />
       </Head>
       <div className="flex flex-col w-full">
-        {/* <div className="h-screen bg-top bg-no-repeat bg-cover bg-landing-first">
-        <div className="text-white drop-shadow-lg font-bold text-56 w-[60vw] ml-[10vw] mt-[15vh] animate-fadeIn">
-        기업 분석이 어려우신가요? Company Source와 함께 해보세요.
-        </div>
-      </div> */}
-        {/* <div className="relative"> */}
         <div className="z-50">
           <NavBar />
         </div>
