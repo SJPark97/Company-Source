@@ -23,4 +23,6 @@ public interface CorpService {
     void updateViewCorp();
 
     List<String> getCorpAll();
+
+    List<CorpSearchListDto> getHotCorps(int size, int page);
 }
