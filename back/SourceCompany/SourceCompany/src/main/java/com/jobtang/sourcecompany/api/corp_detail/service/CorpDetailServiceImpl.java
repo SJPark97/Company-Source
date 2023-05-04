@@ -65,7 +65,9 @@ public class CorpDetailServiceImpl implements CorpDetailService{
 
 
         // 기본 세팅 잡기
-
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        System.out.println(data.toString());
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$");
         HashMap result = basicSetting.basicSettings(corpDetail.getCorp(), data);
         log.info("몽고DB 저장시도");
 
