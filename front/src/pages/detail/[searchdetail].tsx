@@ -64,6 +64,19 @@ export default function searchdetail({
 }
 
 export const getStaticPaths = async () => {
+  // const res = await axios.get(
+  //   SERVER_URL + `/corp/all`
+  // );
+  // const data = res.data;
+
+  // return {
+  //   paths: data.map((corpId: string) => ({
+  //     params: {
+  //       searchdetail: corpId.toString()
+  //     }
+  //   })),
+  //   fallback: true,
+  // };
   return {
     paths: [],
     fallback: true,
