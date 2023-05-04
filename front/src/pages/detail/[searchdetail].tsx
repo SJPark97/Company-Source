@@ -20,6 +20,7 @@ export default function searchdetail({
   companyOverviewInfo,
   evaluaionSummary,
 }: searchdetaiProps) {
+
   const router = useRouter();
   const { searchdetail } = router.query;
 
@@ -86,7 +87,6 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }: any) => {
   // 회사의 id를 router의 params에서 받아와서 저장
   const companyId = params?.searchdetail;
-  console.log(companyId);
   const getAnalysisList = [];
   const evaluaionSummary = [];
 
