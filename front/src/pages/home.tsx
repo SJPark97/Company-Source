@@ -22,7 +22,7 @@ export default function Home() {
   const getRandomCorpList = async (page: number) => {
     await axios
       .get(SERVER_URL + `/corp/randcorp/${page}`)
-      .then((res) => setCorpList([...corpList, ...res.data]))
+      .then((res) => setCorpList([...corpList, ...res.data.data]))
       .then(() => setLoading(false));
   };
 
@@ -78,7 +78,7 @@ export default function Home() {
       </div>
       {/* <Banner /> */}
       <div className="mx-[10vw] flex  w-[80vw]">
-        <div className="flex flex-col w-[70vw]">
+        <div className="flex flex-col w-[90vw]">
           <div className="ml-[26px] text-30 font-bold">상장 기업</div>
           <div className="flex flex-wrap">
             {corpList &&
@@ -93,14 +93,14 @@ export default function Home() {
           {loading && <div>loading 중 ...</div>}
           {!loading && <div ref={loaderRef}>loading more...</div>}
         </div>
-        <div className="flex flex-col w-[40vw]">
+        {/* <div className="flex flex-col w-[40vw]">
           <div className="font-bold text-30">주제별 List</div>
           <div className="flex flex-col">
             <SmallCard />
             <SmallCard />
             <SmallCard />
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
