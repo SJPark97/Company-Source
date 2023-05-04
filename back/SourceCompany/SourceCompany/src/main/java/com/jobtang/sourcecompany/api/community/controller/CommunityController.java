@@ -58,7 +58,7 @@ public class CommunityController {
     HttpHeaders headers = new HttpHeaders();
     try{
 
-//      communityService.createCommunity(user , createCommunityRequest);
+
       return new ResponseEntity<>(  headers, HttpStatus.OK);
     }
     catch (Exception e){
