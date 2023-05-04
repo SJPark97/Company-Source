@@ -41,5 +41,18 @@ public class CommunityServiceImpl implements CommunityService{
   @Override
   public void readCommunity(Long communityId) {
 
+    // 게시판이 있는 지 확인
+
+    // 없다면 에러 던지기
+
+    // 있다면 가져오고 ,
+
+    // 레디스에 조회수 기록해두고
+
+    // 레디스의 조회수와 해당 게시판의 토탈 조회수를 더한 값을 조회수로 기록
+
+    //
+
+
   }
 }
