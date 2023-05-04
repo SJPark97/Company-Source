@@ -6,6 +6,7 @@ import SearchBar from "@/components/SearchBar";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { SERVER_URL } from "@/utils/url";
+import HomeQuickMenu from "@/components/home/HomeQuickMenu";
 
 interface bigCard {
   corpId: string;
@@ -20,25 +21,27 @@ export default function Home() {
   const loaderRef = useRef(null);
 
   const getRandomCorpList = async (page: number) => {
-    await axios
-      .get(SERVER_URL + `/corp/randcorp/${page}`)
-      .then((res) => setCorpList([...corpList, ...res.data.data]))
-      .then(() => setLoading(false));
+    setLoading(true);
+    await axios.get(SERVER_URL + `/corp/randcorp/${page}`).then((res) => {
+      setCorpList([...corpList, ...res.data.data]);
+    });
+    setLoading(false);
+    // .then(() => setLoading(false));
   };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         const firstEntry = entries[0];
-        console.log(entries);
+        // console.log(entries);
         if (firstEntry.isIntersecting && !loading) {
           setPage((prevPage) => prevPage + 1);
         }
       },
       { threshold: 1 }
     );
-
     if (loaderRef.current) {
+      console.log(loaderRef.current);
       observer.observe(loaderRef.current);
     }
 
@@ -60,15 +63,16 @@ export default function Home() {
     <>
       <div className="z-50bg-cover bg-[url('/carousel3.jpg')] h-[500px] mb-[50px]">
         <NavBar />
+        <HomeQuickMenu />
         <div className="flex flex-col items-center mt-[50px]">
           <div
-            className="text-white font-bold  lg:text-26 xl:text-29 2xl:text-32 text-shadow animate-fadeIn"
+            className="font-bold text-white lg:text-26 xl:text-29 2xl:text-32 text-shadow animate-fadeIn"
             style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)" }}
           >
             코스피 상장 기업 정보를
           </div>
           <div
-            className="text-white font-bold lg:text-26 xl:text-29 2xl:text-32 text-shadow animate-fadeIn"
+            className="font-bold text-white lg:text-26 xl:text-29 2xl:text-32 text-shadow animate-fadeIn"
             style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)" }}
           >
             약 20개의 분석 방법으로 분석했습니다.
