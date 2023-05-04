@@ -51,14 +51,15 @@ public class CommunityController {
    */
   @ApiOperation(
           value = "기업 분석 게시글 상세조회",
-          notes = "해당 게시판의 detail한 정보를 리턴해주고 , 조회수를 늘려주는 메소드"
+          notes = "해당 게시판의 detail한 정보와 달린 댓글들을 리턴해주고 , 조회수를 늘려주는 메소드"
   )
   @GetMapping("/corp")
   public ResponseEntity<?>  findCommunity (@PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
     try{
+
 //      communityService.createCommunity(user , createCommunityRequest);
-      return new ResponseEntity<>( headers, HttpStatus.OK);
+      return new ResponseEntity<>(  headers, HttpStatus.OK);
     }
     catch (Exception e){
       e.printStackTrace();
@@ -68,8 +69,8 @@ public class CommunityController {
   /**
    * /community/randing GET
    // 랜딩 게시판을 리턴해주는 메소드
-   *
    */
+
 
   /**
    * /community/corp/search?type={type}&content={content} GET
@@ -79,7 +80,7 @@ public class CommunityController {
    */
 
   /**
-   * /community/corp/{community_id} GET
+   * /community/corp/{communityId} GET
    *  기업 분석 게시판을 전체조회하는 메소드
    *  redis에 조회수를 추가해야함
    */
@@ -87,12 +88,12 @@ public class CommunityController {
 
 
   /**
-   * /community/corp PUT
+   * /community/corp/{communityId} PUT
    *  기업 분석 게시판을 수정하는 메소드
    */
 
   /**
-   * /community/corp DELETE
+   * /community/corp/{communityId} DELETE
    * 기업 분석 게시판을 삭제하는 메소드
    */
 

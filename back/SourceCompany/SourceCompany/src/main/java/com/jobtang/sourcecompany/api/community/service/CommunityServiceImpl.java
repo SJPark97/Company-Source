@@ -37,4 +37,9 @@ public class CommunityServiceImpl implements CommunityService{
             .build();
     communityRepository.save(community);
   }
+
+  @Override
+  public void readCommunity(Long communityId) {
+
+  }
 }

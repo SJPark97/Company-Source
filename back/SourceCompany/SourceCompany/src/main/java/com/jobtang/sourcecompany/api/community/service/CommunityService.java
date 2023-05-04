@@ -5,4 +5,6 @@ import com.jobtang.sourcecompany.api.user.entity.User;
 
 public interface CommunityService {
   void createCommunity(User user, CreateCommunityRequest createCommunityRequest) throws Exception;
+
+  void readCommunity(Long communityId);
 }
