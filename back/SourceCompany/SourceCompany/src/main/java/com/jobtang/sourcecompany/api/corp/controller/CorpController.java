@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,9 +34,36 @@ public class CorpController {
             responseContainer = "List"
     )
     @GetMapping("/list/{inputValue}")
-    public ResponseEntity<List<CorpSearchListDto>> searchCorp(@PathVariable String inputValue) {
-        return new ResponseEntity<>(corpService.searchCorp(inputValue), HttpStatus.valueOf(200));
+//    public ResponseEntity<List<CorpSearchListDto>> searchCorp(@PathVariable String inputValue) {
+//        HashMap result = new HashMap();
+//        data =
+//        return new ResponseEntity<>(corpService.searchCorp(inputValue), HttpStatus.valueOf(200));
+//
+//        if (data == null) {
+//            result.put("status", "400");
+//            result.put("message", "잘못된 요청입니다");
+//            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+//        }
+//
+//        result.put("data", data);
+//        result.put("message", "");
+//        result.put("status", 200);
+//        return new ResponseEntity(result, HttpStatus.OK);
+//    }
+    public ResponseEntity<?> searchCorp(@PathVariable String inputValue) {
+        HashMap<String,Object> result = new HashMap<>();
+        List<CorpSearchListDto> data = corpService.searchCorp(inputValue);
+        if (data.size() == 0) {
+            result.put("status", "400");
+            result.put("message", "검색 결과가 없습니다");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("data", data);
+        result.put("message", "");
+        result.put("status", "200");
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
 
     // 기업 개요 조회
     @ApiOperation(
@@ -79,9 +107,21 @@ public class CorpController {
     )
     @GetMapping("/randcorp/{page}")
     public ResponseEntity<?> randCorp(@PathVariable int page) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("totalPage", "385");
-        return new ResponseEntity<>(corpService.randCorp(page), headers, HttpStatus.valueOf(200));
+        HashMap<String,Object> result = new HashMap<>();
+        List<CorpSearchListDto> data = corpService.randCorp(page);
+        if (data.size() == 0) {
+            result.put("status", "400");
+            result.put("message", "잘못된 페이징입니다");
+            result.put("pageNum", page);
+            result.put("totalPageNum", "385");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        result.put("data", data);
+        result.put("message", "");
+        result.put("status", "200");
+        result.put("pageNum", page);
+        result.put("totalPageNum", "385");
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/all")
