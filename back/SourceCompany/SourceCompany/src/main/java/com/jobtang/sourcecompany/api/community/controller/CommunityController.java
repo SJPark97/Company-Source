@@ -2,6 +2,7 @@ package com.jobtang.sourcecompany.api.community.controller;
 
 
 import com.jobtang.sourcecompany.api.community.dto.CreateCommunityRequest;
+import com.jobtang.sourcecompany.api.community.dto.UpdateCommunityRequest;
 import com.jobtang.sourcecompany.api.community.service.CommunityService;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
 import com.jobtang.sourcecompany.api.user.entity.User;
@@ -58,7 +59,7 @@ public class CommunityController {
     HttpHeaders headers = new HttpHeaders();
     try{
 
-
+      communityService.readCommunity(communityId);
       return new ResponseEntity<>(  headers, HttpStatus.OK);
     }
     catch (Exception e){
@@ -80,7 +81,7 @@ public class CommunityController {
    */
 
   /**
-   * /community/corp/{communityId} GET
+   * /community/corp GET
    *  기업 분석 게시판을 전체조회하는 메소드
    *  redis에 조회수를 추가해야함
    */
@@ -91,12 +92,44 @@ public class CommunityController {
    * /community/corp/{communityId} PUT
    *  기업 분석 게시판을 수정하는 메소드
    */
+  @ApiOperation(
+          value = "기업 분석 게시글 수정",
+          notes = "해당 게시판 메소드"
+  )
+  @PutMapping("/corp")
+  public ResponseEntity<?>  updateCommunity (@RequestBody UpdateCommunityRequest updateCommunityRequest, @PathVariable Long communityId) {
+    HttpHeaders headers = new HttpHeaders();
+    try{
 
+      communityService.readCommunity(communityId);
+      return new ResponseEntity<>(  headers, HttpStatus.OK);
+    }
+    catch (Exception e){
+      e.printStackTrace();
+      return new ResponseEntity<>( "fail",headers, HttpStatus.BAD_REQUEST);
+    }
+  }
   /**
    * /community/corp/{communityId} DELETE
    * 기업 분석 게시판을 삭제하는 메소드
    */
+  @ApiOperation(
+          value = "기업 분석 게시글 삭제",
+          notes = "해당 게시판의 detail한 정보와 달린 댓글들을 리턴해주고 , 조회수를 늘려주는 메소드"
+  )
+  @DeleteMapping("/corp")
+  public ResponseEntity<?>  removeCommunity (@PathVariable Long communityId) {
+    HttpHeaders headers = new HttpHeaders();
+    try{
 
+      communityService.readCommunity(communityId);
+      return new ResponseEntity<>(  headers, HttpStatus.OK);
+    }
+    catch (Exception e){
+      e.printStackTrace();
+      return new ResponseEntity<>( "fail",headers, HttpStatus.BAD_REQUEST);
+    }
+  }
 
 
 
