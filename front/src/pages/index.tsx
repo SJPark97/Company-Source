@@ -52,16 +52,22 @@ export default function Home() {
           <LandingDiscription title={firstTitle} content={firstContent} />
           <div className="h-full">
             <LandingImageCard
-              src="/landing-community.png"
-              className="relative left-0 top-[20vh] w-[30vw] h-[40vh]"
+              src="/chart3.jpg"
+              className="relative left-0 top-[20vh]"
+              width={460}
+              height={306}
             />
             <LandingImageCard
-              src="/landing-community.png"
-              className="relative left-[5vw] -top-[10vh] w-[30vw] h-[40vh]"
+              src="/chart2.jpg"
+              className="relative left-[5vw] -top-[10vh]"
+              width={460}
+              height={306}
             />
             <LandingImageCard
-              src="/landing-community.png"
-              className="relative left-[10vw] -top-[40vh] w-[30vw] h-[40vh]"
+              src="/chart1.jpg"
+              className="relative left-[10vw] -top-[40vh]"
+              width={460}
+              height={306}
             />
           </div>
         </div>
@@ -69,8 +75,10 @@ export default function Home() {
         <div className="flex items-center h-screen bg-white bg-cover">
           <div className="flex flex-col justify-center h-full">
             <LandingImageCard
-              src="/landing-community.png"
-              className="w-[30vw] h-[60vh]"
+              src="/chart-comparison.jpg"
+              className=""
+              width={460}
+              height={393}
             />
           </div>
           <LandingDiscription title={secondTitle} content={secondContent} />
@@ -79,8 +87,10 @@ export default function Home() {
         <div className="flex bg-cover bg-gradient-to-b from-[#F9FAFB] to-[#FFFFFF] h-screen items-center">
           <LandingDiscription title={thirdTitle} content={thirdContent} />
           <LandingImageCard
-            src="/landing-community.png"
-            className=" w-[40vw] h-[59vh]"
+            src="/community.jpg"
+            className=""
+            width={600}
+            height={400}
           />
         </div>
       </div>
