@@ -101,7 +101,7 @@ public class CommunityController {
     HttpHeaders headers = new HttpHeaders();
     try{
 
-      communityService.readCommunity(communityId);
+//      communityService.readCommunity(communityId);
       return new ResponseEntity<>(  headers, HttpStatus.OK);
     }
     catch (Exception e){
@@ -122,7 +122,7 @@ public class CommunityController {
     HttpHeaders headers = new HttpHeaders();
     try{
 
-      communityService.readCommunity(communityId);
+//      communityService.readCommunity(communityId);
       return new ResponseEntity<>(  headers, HttpStatus.OK);
     }
     catch (Exception e){

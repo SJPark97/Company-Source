@@ -1,16 +1,23 @@
 package com.jobtang.sourcecompany.api.community.service;
 
 import com.jobtang.sourcecompany.api.community.dto.CreateCommunityRequest;
+import com.jobtang.sourcecompany.api.community.dto.ReadCommunityDetailResponse;
 import com.jobtang.sourcecompany.api.community.entity.Community;
 import com.jobtang.sourcecompany.api.community.repository.CommunityRepository;
+import com.jobtang.sourcecompany.api.exception.CustomException;
+import com.jobtang.sourcecompany.api.exception.ErrorCode;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class CommunityServiceImpl implements CommunityService{
+
+  private final RedisTemplate<String, Integer> integerRedisTemplate;
   private  final CommunityRepository communityRepository;
   private final ModelMapper mapper ;
   /**
@@ -39,20 +46,31 @@ public class CommunityServiceImpl implements CommunityService{
   }
 
   @Override
-  public void readCommunity(Long communityId) {
+  public ReadCommunityDetailResponse readCommunity(Long communityId) {
 
-    // 게시판이 있는 지 확인
+    // 게시판이 있는 지 확인 없다면 에러 던지기 있다면 가져오고 ,
+    Community community = communityRepository.findById(communityId).orElseThrow(() -> new CustomException(ErrorCode.COMM_EXISTS));
 
-    // 없다면 에러 던지기
-
-    // 있다면 가져오고 ,
 
     // 레디스에 조회수 기록해두고
+    String key = "viewComm"+community.getId();
+    ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
+    if (valueOperations.get(key) == null) {
+      valueOperations.set(key, 1);
+    } else {
+      Integer viewCnt = valueOperations.get(key);
+      valueOperations.set(key, viewCnt +1);
+    }
+//    레디스에서 key로 밸류 가져오는 코드
+    int viewcnt= integerRedisTemplate.opsForValue().get(key);
+
 
     // 레디스의 조회수와 해당 게시판의 토탈 조회수를 더한 값을 조회수로 기록
+    viewcnt += community.getTotalView();
+    // 해당 커뮤니티의 댓글들을 List<DTO> 로 바꾸는 부분
 
-    //
-
+    // 마지막에 ReadCommunityResponse 로 바꾸는 부분
+    return ReadCommunityDetailResponse.EntityToDTO(community , viewcnt);
 
   }
 }
