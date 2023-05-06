@@ -17,6 +17,7 @@ public class Analysis100 {
 
     private final IndutyDetailRepository indutyDetailRepository;
 
+
     // 유동성분석 101
     public HashMap analysis101(CorpVariable target) {
         log.info("유동성분석(101) 진입");
@@ -619,7 +620,7 @@ public class Analysis100 {
             String rate2 = target.returnOnInvestment >= indutyVariable.returnOnInvestment ? "양호" : "불량";
 
             if (rate2.equals("양호")) {goodCount += 2;}
-            data1.put("평가", rate2);
+            data2.put("평가", rate2);
 
             data.add(data2);
 

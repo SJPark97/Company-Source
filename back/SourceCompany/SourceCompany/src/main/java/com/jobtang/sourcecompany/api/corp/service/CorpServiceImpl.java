@@ -17,6 +17,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -57,8 +58,8 @@ public class CorpServiceImpl implements CorpService{
             infoList.add(new Info("산업종류",data.getIndutyName()));
             infoList.add(new Info("주소",data.getAddress()));
             infoList.add(new Info("홈페이지",data.getHomepage()));
-            infoList.add(new Info("설립일",data.getFoundationDate()));
-            infoList.add(new Info("사원수",data.getEmployees()));
+            infoList.add(new Info("설립일", DateTimeFormatter.ofPattern("yyyy-MM-dd").format(data.getFoundationDate())));
+            infoList.add(new Info("사원수",data.getEmployees()+"명"));
             corpInfoDto.setInfoList(infoList);
             return corpInfoDto;
         } else {
@@ -67,6 +68,13 @@ public class CorpServiceImpl implements CorpService{
     }
 
     public void makeRandCorp() {
+        // 랜덤 corp 만든거 전부 삭제
+//        Set<String> keysSet = redisTemplate.keys("randcorp_*");
+//        Iterator<String> keysIterator = keysSet.iterator();
+//        while (keysIterator.hasNext()) {
+//            redisTemplate.delete(keysIterator.next());
+//        }
+
         // 모든 기업 가져오기
         List<Corp> corps = corpRepository.findAll();
 //        List<Corp> corps = corpRepository.findByCorpNameContains("삼성");
@@ -74,10 +82,18 @@ public class CorpServiceImpl implements CorpService{
         Collections.shuffle(corps);
         // 순회하면서 하나의 기업정보 객체를 CorpSearchListDto로 매핑해주고
         // randcorp_corpId key 형태로 집어넣기
+//        for (Corp corp:corps) {
+//            ValueOperations<String, CorpSearchListDto> vop = redisTemplate.opsForValue();
+//            CorpSearchListDto randCorp = mapper.map(corp, CorpSearchListDto.class);
+//            vop.set("randcorp_"+corp.getCorpId(), randCorp);
+//        }
+        // randcorp:1~N key 형태로 집어넣기
+        int idx = 0;
         for (Corp corp:corps) {
             ValueOperations<String, CorpSearchListDto> vop = redisTemplate.opsForValue();
             CorpSearchListDto randCorp = mapper.map(corp, CorpSearchListDto.class);
-            vop.set("randcorp_"+corp.getCorpId(), randCorp);
+            vop.set("randcorp:"+idx, randCorp);
+            idx += 1;
         }
     }
 
@@ -87,16 +103,20 @@ public class CorpServiceImpl implements CorpService{
         List<CorpSearchListDto> corpSearchListDtoList = new ArrayList<>();
         // 모든 randCorp 기업은 randcorp_corpId 이므로 randcorp_* 형태로 모든 키 가져오기
         // jpa에 비유하면 findAllRandcorp 같은상태
-        Set<String> redisKeys = redisTemplate.keys("randcorp_*");
-        // stream으로
-        List<String> keys = redisKeys.stream()
-                .skip((long) (page-1) *6)
-                .limit(6)
-                .collect(Collectors.toList());
-//                .map(key-> corpSearchListDtoList.add(redisTemplate.opsForValue().get(key)))
-        for (String key:keys) {
-            corpSearchListDtoList.add(redisTemplate.opsForValue().get(key));
+//        Set<String> redisKeys = redisTemplate.keys("randcorp_*");
+//        // stream으로
+//        List<String> keys = redisKeys.stream()
+//                .skip((long) (page-1) *6)
+//                .limit(6)
+//                .collect(Collectors.toList());
+////                .map(key-> corpSearchListDtoList.add(redisTemplate.opsForValue().get(key)))
+//        for (String key:keys) {
+//            corpSearchListDtoList.add(redisTemplate.opsForValue().get(key));
+//        }
+        for (int i = (page-1)*6; i < page * 6 ; i++) {
+            corpSearchListDtoList.add(redisTemplate.opsForValue().get("randcorp:"+i));
         }
+
 
         // 순회를 위해(hasNext) Iterator로 변경
 //        Iterator<String> it = redisKeys.iterator();

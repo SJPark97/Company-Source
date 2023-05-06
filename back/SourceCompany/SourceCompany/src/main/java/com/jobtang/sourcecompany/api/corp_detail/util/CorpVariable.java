@@ -59,6 +59,11 @@ public class CorpVariable {
         this.quickRatio = calculator.myRatio(quickAsset, corpDetail.getCurrentLiabilities()); // 당좌비율 = 당좌자산/유동부채 * 100 = (유동자산-재고자산)/유동부채 * 100
         this.cashRatio = calculator.myRatio(corpDetail.getCashAndCashEquivalents(), corpDetail.getCurrentLiabilities()); // 현금비율 = 현금및현금성자산/유동부채 * 100
         this.netWorkingCapitalToTotalAsset = calculator.myRatio(netWorkingCapital, corpDetail.getTotalAssets()); // 순운전자본비율 = 순운전자본/총자산 * 100 = (유동자산-유동부채)/총자산 * 100
+//        System.out.println("##############################################");
+//        System.out.println("netWorkingCapitalToTotalAsset : " + netWorkingCapitalToTotalAsset);
+//        System.out.println("netWorkingCapital : " + netWorkingCapital);
+//        System.out.println("TotalAsset : " + corpDetail.getTotalAssets());
+//        System.out.println("##############################################");
         this.nonCurrentRatio = calculator.myRatio(corpDetail.getNonCurrentAssets(), corpDetail.getEquityCapital()); // 비유동비율(고정비율) = 비유동자산/자기자본 * 100
         this.nonCurrentAssetToStockholdersEquityAndNonCurrentLiability = calculator.myRatioWithSum(corpDetail.getNonCurrentAssets(), corpDetail.getEquityCapital(), corpDetail.getNonCurrentLiabilities()); // 비유동장기적합률(고정장기적합률) = 비유동자산/(자기자본 + 비유동부채) * 100
         this.currentAssetCompositionRatio = calculator.myDivision(corpDetail.getCurrentAsset(), corpDetail.getTotalAssets()); // 유동자산구성비율 = 유동자산/총자산
