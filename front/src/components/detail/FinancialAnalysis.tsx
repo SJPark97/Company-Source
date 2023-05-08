@@ -1,7 +1,7 @@
 import Image from "next/image";
 import AnalysisTitle from "./AnalysisTitle";
 import Chart101 from "./Chart101";
-import Chart103 from "./Chart103";
+// import Chart103 from "./Chart103";
 import Chart104 from "./Chart104";
 import Chart109 from "./Chart109";
 import Chart110 from "./Chart110";
@@ -10,6 +10,7 @@ import Chart405 from "./Chart405";
 import Chart113 from "./Chart113";
 import AnalysisResult from "./AnalysisResult";
 import Legend from "./Legend";
+import dynamic from "next/dynamic";
 
 
 interface Iprops {
@@ -20,6 +21,8 @@ interface Iprops {
 interface iChartCode {
   [key: string]: any
 }
+
+const Chart103 = dynamic(() => import('./Chart103'), { ssr: false })
 
 const chartCode: iChartCode = {
   "101": Chart101,
@@ -33,7 +36,6 @@ const chartCode: iChartCode = {
 }
 
 export default function FinancialAnalysis({ analysisList }: Iprops) {
-  console.log(analysisList)
   return (
     <>
       <div className="flex flex-col">

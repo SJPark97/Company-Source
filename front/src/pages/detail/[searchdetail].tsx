@@ -7,6 +7,8 @@ import axios from "axios";
 import { SERVER_URL } from "@/utils/url";
 import analysisCodeList from "@/models/analysisCodeList";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+import Head from "next/head";
 
 interface searchdetaiProps {
   analysisList: [];
@@ -14,6 +16,7 @@ interface searchdetaiProps {
   companyOverviewInfo: any;
 }
 
+const Chart103 = dynamic(() => import('../../components/detail/Chart103'), { ssr: false })
 
 export default function searchdetail({
   analysisList,
@@ -26,6 +29,9 @@ export default function searchdetail({
 
   return (
     <>
+      <Head>
+        <title>컴퍼니소스 | {searchdetail ? companyOverviewInfo.corpName : "기업"}의 분석 결과</title>
+      </Head>
       <NavBar />
       <div className="flex flex-col bg-gray-100">
         {/* 기업 개요 부분 */}
@@ -59,6 +65,7 @@ export default function searchdetail({
             </>
           )}
         </div>
+
       </div>
     </>
   );

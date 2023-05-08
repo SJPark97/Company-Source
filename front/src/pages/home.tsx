@@ -6,6 +6,7 @@ import SearchBar from "@/components/SearchBar";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { SERVER_URL } from "@/utils/url";
+import Head from "next/head";
 
 interface bigCard {
   corpId: string;
@@ -58,6 +59,9 @@ export default function Home() {
   const getData = async (keyWord: string | string[] | undefined) => { };
   return (
     <>
+      <Head>
+        <title>컴퍼니소스 | 기업 분석</title>
+      </Head>
       <div className="z-50bg-cover bg-[url('/carousel3.jpg')] h-[500px] mb-[50px]">
         <NavBar />
         <div className="flex flex-col items-center mt-[50px]">

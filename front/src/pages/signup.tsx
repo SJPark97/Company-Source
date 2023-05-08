@@ -65,7 +65,7 @@ export default function SignUp() {
         <div className="flex flex-col border-gray-300 border-1 w-[550px] h-[550px] p-56">
           <form onSubmit={signUpHandler}>
             <div className="mb-[50px] relative">
-              <label htmlFor="id" className="text-16 font-bold">
+              <label htmlFor="id" className="font-bold text-16">
                 아이디
               </label>
               <input
@@ -76,14 +76,14 @@ export default function SignUp() {
                 onChange={idHandler}
               />
               {!idIsValid ? (
-                <div className="text-red-600 absolute text-13">
+                <div className="absolute text-red-600 text-13">
                   아이디는 영문+숫자 8~16글자로 입력해주세요.
                 </div>
               ) : // <div className="text-white">blank area</div>
-              null}
+                null}
             </div>
             <div className="mb-[50px]">
-              <label htmlFor="password" className="text-16 font-bold">
+              <label htmlFor="password" className="font-bold text-16">
                 비밀번호
               </label>
               <input
@@ -95,7 +95,7 @@ export default function SignUp() {
             </div>
 
             <div className="mb-[100px] relative">
-              <label htmlFor="password2" className="text-16 font-bold">
+              <label htmlFor="password2" className="font-bold text-16">
                 비밀번호확인
               </label>
               <input
@@ -105,7 +105,7 @@ export default function SignUp() {
                 onChange={secondPasswordHandler}
               />
               {!passwordIsValid ? (
-                <div className="text-red-600 absolute">
+                <div className="absolute text-red-600">
                   <div className="text-13">
                     비밀번호가 일치하지 않거나 양식에 맞지 않습니다.
                   </div>
@@ -114,7 +114,7 @@ export default function SignUp() {
                   </div>
                 </div>
               ) : // <div className="text-white">blank area</div>
-              null}
+                null}
             </div>
             <button className="bg-brand w-[100%] h-50 font-bold text-white rounded-5">
               회원 가입
