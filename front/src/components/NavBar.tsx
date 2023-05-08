@@ -14,7 +14,7 @@ export default function NavBar() {
         }
       >
         <div className="flex flex-row items-center">
-          <Link href="/home">
+          <Link href="/">
             {/* <div className="relative w-[123px] h-[58px] mx-[3vw]"> */}
             <div>
               {router.pathname === "/" || router.pathname === "/home" ? (
@@ -96,7 +96,7 @@ export default function NavBar() {
         </div>
 
         {/* User Icon */}
-        <div>
+        {/* <div>
           {router.pathname === "/" || router.pathname === "/home" ? (
             <Image
               src="/white_user.png"
@@ -107,7 +107,7 @@ export default function NavBar() {
           ) : (
             <Image src="/user.png" alt="user.png" width={40} height={40} />
           )}
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -12,7 +12,7 @@ export default function BigCard({ id, name, image }: Iprops) {
     <>
       <Link href="/detail/[searchdetaipl]" as={`/detail/${id}`}>
         <div
-          className="flex flex-col items-center w-[190px] h-[200px]
+          className="flex flex-col w-[190px] h-[190px]
           shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] rounded-10
           mx-[26px] my-[26px] relative hover:transform hover:scale-110 transition-transform duration-200 ease-out bg-white"
         >
@@ -21,7 +21,6 @@ export default function BigCard({ id, name, image }: Iprops) {
             <Image
               src={image}
               alt="naver.logo_small.ng"
-              // width={200 - 52}
               width={100}
               height={0}
               className="mx-auto mt-[20px] h-[100]"
@@ -40,15 +39,9 @@ export default function BigCard({ id, name, image }: Iprops) {
             />
           )}
 
-          <div className="font-bold mx-[26px] mt-[30px] mb-[20px] text-15 line-clamp-1">
+          <div className="font-bold mx-auto mt-[30px] mb-[20px] text-15 line-clamp-1">
             {name}
           </div>
-          {/* <div>
-            <div className="text-gray-400 mx-[26px] w-[260-52px] mt-[10px] line-clamp-4 text-12">
-              네이버는 대한민국 포털 사이트이다. 검색 엔진 등 포탈 서비스를
-              중심으로 블로그, 카페, 포스트등의 커뮤니티 서비스를 비롯...
-            </div>
-          </div> */}
         </div>
       </Link>
     </>
