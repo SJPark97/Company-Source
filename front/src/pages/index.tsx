@@ -1,6 +1,9 @@
 import LandingDiscription from "@/components/landing/LandingDescription";
 import LandingImageCard from "@/components/landing/LandingImageCard";
 import NavBar from "@/components/NavBar";
+import Head from "next/head";
+
+
 
 export default function Home() {
   const firstTitle = "다양한 분석 기법을\n 차트로 한눈에 볼 수 있어요.";
@@ -12,69 +15,85 @@ export default function Home() {
   const thirdTitle = "기업분석.\n 당신의 생각은 어떠신가요?";
   const thirdContent = "커뮤니티에서 여러사람들과\n 의견을 공유해보세요.";
   return (
-    <div className="flex flex-col w-full">
-      {/* <div className="h-screen bg-top bg-no-repeat bg-cover bg-landing-first">
-        <div className="text-white drop-shadow-lg font-bold text-56 w-[60vw] ml-[10vw] mt-[15vh] animate-fadeIn">
-        기업 분석이 어려우신가요? Company Source와 함께 해보세요.
+    <>
+      <Head>
+        <title>company source</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name='description' content='재무제표를 이용한 기업분석을 제공하며 여러 기업들과 결과를 비교해볼 수 있습니다. 커뮤니티에서 기업에 대한 여러분의 의견을 다른 사람들과 공유해보세요.' />
+        <meta property="og:type" content="website" />
+        <meta property='og:url' content='https://company-source.com/' />
+        <meta property='og:title' content='Company Source' />
+        <meta property='og:image' content='/company_default.jpg' />
+        <meta property='og:description' content='기업분석이 어려우신가요? Company Source와 함께 해보세요.' />
+      </Head>
+      <div className="flex flex-col w-full">
+        <div className="z-50">
+          <NavBar />
         </div>
-      </div> */}
-      {/* <div className="relative"> */}
-      <div className="z-50">
-        <NavBar />
-      </div>
 
-      <div className="relative">
-        <video
-          className="w-full h-auto filter brightness-[45%]"
-          autoPlay
-          muted
-          loop
-        >
-          <source src="/randing_video.mp4" className="w-full" />
-        </video>
-        <div
-          className="text-white drop-shadow-lg font-bold text-[3vw] w-[65vw] text-center animate-fadeIn absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)" }}
-        >
-          기업 분석이 어려우신가요? <br></br> Company Source와 함께 해보세요.
+        <div className="relative">
+          <video
+            className="w-full h-auto filter brightness-[45%]"
+            autoPlay
+            muted
+            loop
+          >
+            <source src="/randing_video.mp4" className="w-full" />
+          </video>
+          <div
+            className="text-white drop-shadow-lg font-bold text-[3vw] w-[65vw] text-center animate-fadeIn absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)" }}
+          >
+            기업 분석이 어려우신가요? <br></br> Company Source와 함께 해보세요.
+          </div>
+        </div>
+
+        <div className="flex bg-cover bg-gradient-to-b from-[#ffffff] to-[#F9FAFB] h-screen items-center">
+          <LandingDiscription title={firstTitle} content={firstContent} />
+          <div className="h-full">
+            <LandingImageCard
+              src="/chart3.jpg"
+              className="relative left-0 top-[20vh]"
+              width={460}
+              height={306}
+            />
+            <LandingImageCard
+              src="/chart2.jpg"
+              className="relative left-[5vw] -top-[10vh]"
+              width={460}
+              height={306}
+            />
+            <LandingImageCard
+              src="/chart1.jpg"
+              className="relative left-[10vw] -top-[40vh]"
+              width={460}
+              height={306}
+            />
+          </div>
+        </div>
+
+        <div className="flex items-center h-screen bg-white bg-cover">
+          <div className="flex flex-col justify-center h-full">
+            <LandingImageCard
+              src="/chart-comparison.jpg"
+              className=""
+              width={460}
+              height={393}
+            />
+          </div>
+          <LandingDiscription title={secondTitle} content={secondContent} />
+        </div>
+
+        <div className="flex bg-cover bg-gradient-to-b from-[#F9FAFB] to-[#FFFFFF] h-screen items-center">
+          <LandingDiscription title={thirdTitle} content={thirdContent} />
+          <LandingImageCard
+            src="/community.jpg"
+            className=""
+            width={600}
+            height={400}
+          />
         </div>
       </div>
-
-      <div className="flex bg-cover bg-gradient-to-b from-[#ffffff] to-[#F9FAFB] h-screen items-center">
-        <LandingDiscription title={firstTitle} content={firstContent} />
-        <div className="h-full">
-          <LandingImageCard
-            src="/landing-community.png"
-            className="relative left-0 top-[20vh] w-[30vw] h-[40vh]"
-          />
-          <LandingImageCard
-            src="/landing-community.png"
-            className="relative left-[5vw] -top-[10vh] w-[30vw] h-[40vh]"
-          />
-          <LandingImageCard
-            src="/landing-community.png"
-            className="relative left-[10vw] -top-[40vh] w-[30vw] h-[40vh]"
-          />
-        </div>
-      </div>
-
-      <div className="flex items-center h-screen bg-white bg-cover">
-        <div className="flex flex-col justify-center h-full">
-          <LandingImageCard
-            src="/landing-community.png"
-            className="w-[30vw] h-[60vh]"
-          />
-        </div>
-        <LandingDiscription title={secondTitle} content={secondContent} />
-      </div>
-
-      <div className="flex bg-cover bg-gradient-to-b from-[#F9FAFB] to-[#FFFFFF] h-screen items-center">
-        <LandingDiscription title={thirdTitle} content={thirdContent} />
-        <LandingImageCard
-          src="/landing-community.png"
-          className=" w-[40vw] h-[59vh]"
-        />
-      </div>
-    </div>
+    </>
   );
 }

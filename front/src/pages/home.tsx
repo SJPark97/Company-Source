@@ -58,7 +58,7 @@ export default function Home() {
     getRandomCorpList(page);
   }, [page]);
 
-  const getData = async (keyWord: string | string[] | undefined) => {};
+  const getData = async (keyWord: string | string[] | undefined) => { };
   return (
     <>
       <div className="z-50bg-cover bg-[url('/carousel3.jpg')] h-[500px] mb-[50px]">

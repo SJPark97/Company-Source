@@ -49,7 +49,6 @@ export default function FinancialAnalysis({ analysisList }: Iprops) {
                     {/* 차트 부분 */}
                     <div className="h-auto pr-20 mt-10 mb-20 bg-white border-gray-500 rounded-5 border-1">
                       <ChartComponent chartData={analysisItem} />
-                      <Legend />
                     </div>
                   </div>
                   <div className="mt-20"></div>
