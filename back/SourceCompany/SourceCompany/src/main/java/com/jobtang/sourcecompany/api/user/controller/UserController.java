@@ -75,7 +75,7 @@ public class UserController {
             result.put("data", validatorResult);
             result.put("message", "회원 가입 유효성 에러");
             result.put("status", "400");
-            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
 
         User signUser = userService.signupUser(request);

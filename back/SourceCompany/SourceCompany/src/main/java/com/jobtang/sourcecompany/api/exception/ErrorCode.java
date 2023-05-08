@@ -14,7 +14,7 @@ public enum ErrorCode implements EnumModel {
     RESOURCE_NOT_FOUND(204, "C002", "Resource not found"),
     EXPIRED_CODE(400, "C003", "Expired Code"),
     TEMPORARY_SERVER_ERROR(401,"C004","TEMPORARY_SERVER_ERROR"),
-    USER_EXISTS(409,"C005","Duplicated Data"),
+    USER_EXISTS(202,"C005","Duplicated Data"),
     SAVE_FAILED(400,"C006","Save Error"),
     USER_NOT_FOUND(204, "C007", "UserEmail Not Found"),
 
