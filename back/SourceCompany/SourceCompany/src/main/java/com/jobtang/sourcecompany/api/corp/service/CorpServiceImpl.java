@@ -159,6 +159,7 @@ public class CorpServiceImpl implements CorpService{
         log.info("기업분석 조회수 업데이트 완료!");
     }
 
+
     @Scheduled(cron = "0 0 3 * * ?") // 새벽 3시마다 업데이트
     public void schedule() {
         log.info("스케쥴링 : 기업 조회 업데이트 시작!");

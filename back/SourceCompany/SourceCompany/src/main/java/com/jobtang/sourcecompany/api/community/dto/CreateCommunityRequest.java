@@ -15,9 +15,4 @@ public class CreateCommunityRequest {
 
   private String content;
 
-  private User user;
-
-  private int totalView;
-
-  private int yesterdayView;
 }
