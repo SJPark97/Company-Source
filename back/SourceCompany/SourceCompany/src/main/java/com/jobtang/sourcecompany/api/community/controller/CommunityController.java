@@ -31,9 +31,10 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Api("게시판 API")
 public class CommunityController {
-  private  final CommunityService communityService;
+  private final CommunityService communityService;
   // 테스트 용 유저 가져오기
   private final UserRepository userRepository;
+
   @ApiOperation(
           value = "기업분석 게시글 작성",
           notes = "현재 로그인한 유저 명의로 기업분석 게시글 작성"
@@ -44,65 +45,60 @@ public class CommunityController {
     jwt token을 통해 User 객체 가져오는 코드로 대체
     User user = token.getLoginedUser();
      */
-    User user = userRepository.findById(10L).orElseThrow(()->new CustomException(ErrorCode.USER_NOT_FOUND));
+    User user = userRepository.findById(10L).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
 
-    HashMap<String, Object> result  = new HashMap<>();
+    HashMap<String, Object> result = new HashMap<>();
     HttpHeaders headers = new HttpHeaders();
-//    try{
-      communityService.createCommunity(user , createCommunityRequest);
-      result.put("data" , "success");
-    return new ResponseEntity<>( result, HttpStatus.CREATED);
-//    }
-//    catch (Exception e){
-//      result.put("data",null);
-//      result.put("message",e.getMessage());
-//      if(e.getClass()==CustomException.class){
-//        result.put("code",((CustomException) e).getErrorCode().getCode());
-//      }
-//      return new ResponseEntity<>( result,headers, HttpStatus.BAD_REQUEST);
-//    }
+
+    communityService.createCommunity(user, createCommunityRequest);
+    result.put("data", "success");
+    return new ResponseEntity<>(result, HttpStatus.CREATED);
+
   }
 
   /**
    * /community/corp/{community_id} GET
-   *  기업 분석 게시판을 상세조회하는 메소드
-   *  redis에 조회수를 추가해야함
+   * 기업 분석 게시판을 상세조회하는 메소드
+   * redis에 조회수를 추가해야함
    */
   @ApiOperation(
           value = "기업 분석 게시글 상세조회",
           notes = "해당 게시판의 detail한 정보와 달린 댓글들을 리턴해주고 , 조회수를 늘려주는 메소드"
   )
   @GetMapping("/corp/{communityId}")
-  public ResponseEntity<?>  findCommunityDetail (@PathVariable Long communityId) {
+  public ResponseEntity<?> findCommunityDetail(@PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
-    HashMap<String, Object> result  = new HashMap<>();
-//    try{
-      ReadCommunityDetailResponse response =  communityService.readCommunityDetail(communityId);
-      result.put("data" , response);
-      return new ResponseEntity<>( result,  headers, HttpStatus.OK);
-//    }
-//    catch (Exception e){
-//      result.put("data",null);
-//      result.put("message",e.getMessage());
-//      if(e.getClass()==CustomException.class){
-//        result.put("code",((CustomException) e).getErrorCode().getCode());
-//      }
-//      return new ResponseEntity<>( result,headers, HttpStatus.BAD_REQUEST);
-//    }
+    HashMap<String, Object> result = new HashMap<>();
+
+    ReadCommunityDetailResponse response = communityService.readCommunityDetail(communityId);
+    result.put("data", response);
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
 
   }
   /**
    * /community/randing GET
    // 랜딩 게시판을 리턴해주는 메소드
    */
+  @ApiOperation(
+          value = "게시글 랜딩 페이지",
+          notes = "기업 및 자유게시판들의 랜딩게시판 조회"
 
+  )
+  @GetMapping("/corp/randing")
+  public ResponseEntity<?> readRandingCommunity(Pageable pageable) {
+    HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result = new HashMap<>();
+//    List<ReadAllCommunityResponse> response = communityService.searchCommunity(content,type,pageable);
+//    result.put("data", response);
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+  }
 
   /**
    * /community/corp/search?type={type}&content={content} GET
-   *  기업 분석 게시판의 글들을 검색하는 메소드
-   *  is_active ==0 인 것들은 거르는 것 필요
-   *  type == (글쓴이, 내용 ,제목) 으로 거르기
+   * 기업 분석 게시판의 글들을 검색하는 메소드
+   * is_active ==0 인 것들은 거르는 것 필요
+   * type == (글쓴이, 내용 ,제목) 으로 거르기
    */
   @ApiOperation(
           value = "기업 분석 게시글 전체조회",
@@ -110,31 +106,18 @@ public class CommunityController {
 
   )
   @GetMapping("/corp/search")
-  public ResponseEntity<?>  searchCommunity (@RequestParam String  string  ,@RequestParam String type ,  Pageable pageable) {
+  public ResponseEntity<?> searchCommunity(@RequestParam String content, @RequestParam String type, Pageable pageable) {
     HttpHeaders headers = new HttpHeaders();
-//    System.out.println("string  : "+string);
-//    System.out.println("type  : "+type);
-//    System.out.println("pageable  : "+pageable);
-    HashMap<String, Object> result  = new HashMap<>();
-//    try{
-//      List<ReadAllCommunityResponse> response =  communityService.readAllCommunity(pageable);
-
-      return new ResponseEntity<>(result,  headers, HttpStatus.OK);
-//    }
-//    catch (Exception e){
-//      result.put("data",null);
-//      result.put("message",e.getMessage());
-//      if(e.getClass()==CustomException.class){
-//        result.put("code",((CustomException) e).getErrorCode().getCode());
-//      }
-//      return new ResponseEntity<>( result,headers, HttpStatus.BAD_REQUEST);
-//    }
+    HashMap<String, Object> result = new HashMap<>();
+    List<ReadAllCommunityResponse> response = communityService.searchCommunity(content,type,pageable);
+    result.put("data", response);
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 
 
   /**
    * /community/corp GET
-   *  기업 분석 게시판을 전체조회하는 메소드
+   * 기업 분석 게시판을 전체조회하는 메소드
    */
   @ApiOperation(
           value = "기업 분석 게시글 전체조회",
@@ -142,50 +125,35 @@ public class CommunityController {
 
   )
   @GetMapping("/corp")
-  public ResponseEntity<?>  findAllCommunity (Pageable pageable) {
+  public ResponseEntity<?> findAllCommunity(Pageable pageable) {
     HttpHeaders headers = new HttpHeaders();
-    HashMap<String, Object> result  = new HashMap<>();
-//    try{
-      List<ReadAllCommunityResponse> response =  communityService.readAllCommunity(pageable);
-      result.put("data" , response);
-      return new ResponseEntity<>( result,  headers, HttpStatus.OK);
-//    }
-//    catch (Exception e){
-//      result.put("data",null);
-//      result.put("message",e.getMessage());
-//      if(e.getClass()==CustomException.class){
-//        result.put("code",((CustomException) e).getErrorCode().getCode());
-//      }
-//      return new ResponseEntity<>( result,headers, HttpStatus.BAD_REQUEST);
-//    }
+    HashMap<String, Object> result = new HashMap<>();
+    System.out.println(pageable);
+    List<ReadAllCommunityResponse> response = communityService.readAllCommunity(pageable);
+    result.put("data", response);
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+
   }
 
 
   /**
    * /community/corp/{communityId} PUT
-   *  기업 분석 게시판을 수정하는 메소드
+   * 기업 분석 게시판을 수정하는 메소드
    */
   @ApiOperation(
           value = "기업 분석 게시글 수정",
           notes = "해당 게시판 메소드"
   )
   @PutMapping("/corp")
-  public ResponseEntity<?>  updateCommunity (@RequestBody UpdateCommunityRequest updateCommunityRequest ) {
+  public ResponseEntity<?> updateCommunity(@RequestBody UpdateCommunityRequest updateCommunityRequest) {
     HttpHeaders headers = new HttpHeaders();
-    HashMap<String, Object> result  = new HashMap<>();
-//    try{
-      result.put("data" ,communityService.updateCommunity(updateCommunityRequest ));
-      return new ResponseEntity<>( result,  headers, HttpStatus.OK);
-//    }
-//    catch (Exception e){
-//      result.put("data",null);
-//      result.put("message",e.getMessage());
-//      if(e.getClass()==CustomException.class){
-//        result.put("code",((CustomException) e).getErrorCode().getCode());
-//      }
-//      return new ResponseEntity<>( result,headers, HttpStatus.BAD_REQUEST);
-//    }
+    HashMap<String, Object> result = new HashMap<>();
+
+    result.put("data", communityService.updateCommunity(updateCommunityRequest));
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+
   }
+
   /**
    * /community/corp/{communityId} DELETE
    * 기업 분석 게시판을 삭제하는 메소드
@@ -195,26 +163,15 @@ public class CommunityController {
           notes = "해당 게시판의 detail한 정보와 달린 댓글들을 리턴해주고 , 조회수를 늘려주는 메소드"
   )
   @DeleteMapping("/corp/{communityId}")
-  public ResponseEntity<?>  removeCommunity (@PathVariable Long communityId) {
+  public ResponseEntity<?> removeCommunity(@PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
-    HashMap<String, Object> result  = new HashMap<>();
-//    try{
-      communityService.deleteCommunity(communityId);
-      result.put("data" , "success");
-      return new ResponseEntity<>(result,  headers, HttpStatus.OK);
-//    }
-//    catch (Exception e){
-//      result.put("data",null);
-//      result.put("message",e.getMessage());
-//      if(e.getClass()==CustomException.class){
-//        result.put("code",((CustomException) e).getErrorCode().getCode());
-//      }
-//      return new ResponseEntity<>( result,headers, HttpStatus.BAD_REQUEST);
-//    }
- }
+    HashMap<String, Object> result = new HashMap<>();
 
+    communityService.deleteCommunity(communityId);
+    result.put("data", "success");
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
 
-
+  }
 
 
 }

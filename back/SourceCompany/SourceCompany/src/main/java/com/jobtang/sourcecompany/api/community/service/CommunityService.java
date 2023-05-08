@@ -9,6 +9,8 @@ import java.util.List;
 public interface CommunityService {
   void createCommunity(User user, CreateCommunityRequest createCommunityRequest) throws Exception;
 
+  List<ReadAllCommunityResponse> searchCommunity(String content , String  type , Pageable pageable );
+
   ReadCommunityDetailResponse readCommunityDetail(Long communityId);
   void deleteCommunity(Long communityId);
 

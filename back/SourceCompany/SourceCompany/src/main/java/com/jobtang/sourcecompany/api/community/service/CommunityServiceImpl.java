@@ -54,6 +54,42 @@ public class CommunityServiceImpl implements CommunityService {
     communityRepository.save(community);
   }
 
+  @Override
+  public List<ReadAllCommunityResponse> searchCommunity(String content, String type, Pageable pageable) {
+    if(type.equals("content")){
+      Page<Community> communities= communityRepository.findAllByContentAndIsActiveTrue(content, pageable);
+      return communities.stream()
+              .map(community -> {
+                // 레디스에 저장된 해당 커뮤니티의 key값
+                String key = "viewComm" + community.getId();
+                int redisViewCnt = 0;
+                ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
+                if (valueOperations.get(key) != null) {
+                  redisViewCnt = valueOperations.get(key);
+                }
+                return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
+              })
+              .collect(Collectors.toList());
+    } else if (type.equals("title")) {
+      Page<Community> communities= communityRepository.findAllByTitleAndIsActiveTrue(content, pageable);
+      return communities.stream()
+              .map(community -> {
+                // 레디스에 저장된 해당 커뮤니티의 key값
+                String key = "viewComm" + community.getId();
+                int redisViewCnt = 0;
+                ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
+                if (valueOperations.get(key) != null) {
+                  redisViewCnt = valueOperations.get(key);
+                }
+                return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
+              })
+              .collect(Collectors.toList());
+    }
+    else{
+      throw new CustomException(ErrorCode.WRONG_INPUT_DATA);
+    }
+  }
+
 
   @Override
   public ReadCommunityDetailResponse readCommunityDetail(Long communityId) {
@@ -62,6 +98,9 @@ public class CommunityServiceImpl implements CommunityService {
     Community community = communityRepository.findById(communityId).orElseThrow(() -> new CustomException(ErrorCode.COMM_EXISTS));
     if (community.isActive() == false) {
       throw new CustomException(ErrorCode.COMM_DELETED);
+    }
+    if(community.getCommunityType() !="기업"){
+      throw new CustomException(ErrorCode.COMM_WRONG_TYPE);
     }
 
     // 레디스에 조회수 기록해두고
@@ -100,7 +139,7 @@ public class CommunityServiceImpl implements CommunityService {
   @Override
   public List<ReadAllCommunityResponse> readAllCommunity(Pageable pageable) {
     // 인자로 받은 Pageable 객체의 정보를 토대로 DB에서 Community값들 가져오기
-    Page<Community> communities = communityRepository.findAllByIsActiveTrue(pageable);
+    Page<Community> communities = communityRepository.findAllByIsActiveTrueAndCommunityType(true, "기업" ,pageable);
     // 받아온 정보에 redis의 조회수를 더하는 코드
     return communities.stream()
             .map(community -> {

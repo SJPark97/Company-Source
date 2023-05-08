@@ -10,9 +10,12 @@ import java.util.Optional;
 public interface CommunityRepository  extends JpaRepository<Community , Long> {
 
   // 삭제 되지 않은 값들만 검색
-  Optional<Community> findByIdAndIsActiveTrue(Long Id);
 
   //삭제 되지 않은 값들만 검색
-  Page<Community> findAllByIsActiveTrue (Pageable pageable);
+  Page<Community> findAllByIsActiveTrueAndCommunityType (boolean isActive , String communityType , Pageable pageable);
+
+  Page<Community> findAllByContentAndIsActiveTrue (String content , Pageable pageable);
+
+  Page<Community> findAllByTitleAndIsActiveTrue (String type , Pageable pageable);
 
 }
