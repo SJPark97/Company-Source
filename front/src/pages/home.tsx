@@ -58,9 +58,9 @@ export default function Home() {
     getRandomCorpList(page);
   }, [page]);
 
-  const getData = async (keyWord: string | string[] | undefined) => { };
+  const getData = async (keyWord: string | string[] | undefined) => {};
   return (
-    <>
+    <div className="relative">
       <div className="z-50bg-cover bg-[url('/carousel3.jpg')] h-[500px] mb-[50px]">
         <NavBar />
         <HomeQuickMenu />
@@ -94,18 +94,12 @@ export default function Home() {
                 />
               ))}
           </div>
-          {loading && <div>loading 중 ...</div>}
-          {!loading && <div ref={loaderRef}>loading more...</div>}
+          {loading && <div></div>}
+          {!loading && (
+            <div ref={loaderRef} className="absolute bottom-[400px]"></div>
+          )}
         </div>
-        {/* <div className="flex flex-col w-[40vw]">
-          <div className="font-bold text-30">주제별 List</div>
-          <div className="flex flex-col">
-            <SmallCard />
-            <SmallCard />
-            <SmallCard />
-          </div>
-        </div> */}
       </div>
-    </>
+    </div>
   );
 }

@@ -42,10 +42,7 @@ export default function HomeQuickMenu() {
   useEffect(() => {
     if (quickMenuRef.current) {
       const quickMenuTop = quickMenuRef.current.getBoundingClientRect().top;
-      quickMenuRef.current.style.transform = `translateY(${
-        // scrollY - quickMenuTop
-        scrollY
-      }px)`;
+      quickMenuRef.current.style.transform = `translateY(${scrollY}px)`;
       quickMenuRef.current.style.transition = "transform 1s ease-out";
     }
   }, [scrollY]);
