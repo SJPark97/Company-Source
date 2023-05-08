@@ -102,10 +102,10 @@ export default function SignUp() {
             {/* 아이디 입력 */}
             <div className="mb-[50px] relative">
               <div className="flex items-center">
-                <label htmlFor="id" className="text-16 font-bold">
+                <label htmlFor="id" className="font-bold text-16">
                   아이디
                 </label>
-                <div className="text-10 text-gray-400 ml-30">
+                <div className="text-gray-400 text-10 ml-30">
                   예시 : companysource@companysource.com
                 </div>
               </div>
@@ -117,11 +117,11 @@ export default function SignUp() {
                 onChange={idHandler}
               />
               {!idIsValid && id.length !== 0 ? (
-                <div className="text-red-600 absolute text-13">
+                <div className="absolute text-red-600 text-13">
                   아이디는 이메일 형식으로 입력해주세요.
                 </div>
               ) : !id ? null : (
-                <div className="text-blue-500 absolute text-13 font-bold">
+                <div className="absolute font-bold text-blue-500 text-13">
                   올바른 아이디 형식입니다.
                 </div>
               )}
@@ -129,7 +129,7 @@ export default function SignUp() {
 
             {/* 비밀번호 입력 */}
             <div className="mb-[50px]">
-              <label htmlFor="password" className="text-16 font-bold">
+              <label htmlFor="password" className="font-bold text-16">
                 비밀번호
               </label>
               <input
@@ -140,7 +140,7 @@ export default function SignUp() {
               />
             </div>
             <div className="mb-[50px] relative">
-              <label htmlFor="password2" className="text-16 font-bold">
+              <label htmlFor="password2" className="font-bold text-16">
                 비밀번호확인
               </label>
               <input
@@ -150,7 +150,7 @@ export default function SignUp() {
                 onChange={secondPasswordHandler}
               />
               {!passwordIsValid && firstPassword.length !== 0 ? (
-                <div className="text-red-600 absolute">
+                <div className="absolute text-red-600">
                   <div className="text-13">
                     비밀번호가 일치하지 않거나 양식에 맞지 않습니다.
                   </div>
@@ -159,22 +159,22 @@ export default function SignUp() {
                   </div>
                 </div>
               ) : // <div className="text-white">blank area</div>
-              firstPassword.length === 0 ? null : (
-                <div className="text-blue-500 absolute text-13 font-bold">
-                  올바른 비밀번호 형식입니다.
-                </div>
-              )}
+                firstPassword.length === 0 ? null : (
+                  <div className="absolute font-bold text-blue-500 text-13">
+                    올바른 비밀번호 형식입니다.
+                  </div>
+                )}
             </div>
 
             {/* 닉네임 입력 */}
             <div className="mb-[50px] relative">
               <div className="flex items-center">
-                <label htmlFor="nickname" className="text-16 font-bold">
+                <label htmlFor="nickname" className="font-bold text-16">
                   닉네임
                 </label>
 
                 <button
-                  className="border-1 rounded-10 ml-30 pl-5 pr-5"
+                  className="pl-5 pr-5 border-1 rounded-10 ml-30"
                   type="button"
                   onClick={nickNameCheckHandler}
                 >
@@ -189,7 +189,7 @@ export default function SignUp() {
                 onChange={nickNameHandler}
               />
               {!nickNameIsValid && nickName.length !== 0 ? (
-                <div className="text-13 text-red-600 absolute">
+                <div className="absolute text-red-600 text-13">
                   닉네임 특수문자나 공백이 없는 2~10자로 해주세요.
                 </div>
               ) : null}
@@ -197,7 +197,7 @@ export default function SignUp() {
 
             {/* 성별 선택 */}
             <fieldset className="mb-50">
-              <legend className="font-bold mb-10">성별</legend>
+              <legend className="mb-10 font-bold">성별</legend>
               <label htmlFor="male" className="cursor-pointer mr-30">
                 <input
                   id="male"

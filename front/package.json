@@ -27,5 +27,8 @@
     "swiper": "^9.2.3",
     "tailwindcss": "3.3.1",
     "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "@types/gtag.js": "^0.0.12"
   }
 }

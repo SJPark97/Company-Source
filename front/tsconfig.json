@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "types": [
+      "@types/gtag.js"
+    ],
     "baseUrl": ".",
     "target": "es5",
     "lib": [
