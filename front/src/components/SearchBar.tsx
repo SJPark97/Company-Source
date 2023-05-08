@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { SERVER_URL } from "@/utils/url";
+import axios from "axios";
 
 export interface Iprops {
   getData: (keyWord: string | string[] | undefined) => void;
@@ -8,15 +10,17 @@ export interface Iprops {
 
 export default function SearchBar({ getData }: Iprops) {
   const router = useRouter();
-  const [searchWord, setSearchWord] = useState<
-    string | string[] | undefined | null
-  >(undefined);
+  const [searchWord, setSearchWord] = useState<string | string[] | undefined | null>("");
+  const [isHaveInputValue, setIsHaveInputValue] = useState<boolean>(false);
+  const [autoCompleteList, setAutoCompleteList] = useState<Array<object>>([]);
 
   // 검색 키워드 onChange 함수
-  const onChangeSearchWordHandler = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const onChangeSearchWordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(e.target.value);
+    if (e.target.value) {
+      setIsHaveInputValue(true)
+      console.log('트루로 변경함')
+    }
   };
 
   // 검색 onSubmit 함수
@@ -36,6 +40,18 @@ export default function SearchBar({ getData }: Iprops) {
       query: { searchresult: searchWord },
     });
   };
+
+  const getKeyWordSearchResult = async () => {
+    await axios.get(SERVER_URL + `/corp/list/${searchWord}`)
+      .then((res) => console.log(res))
+  }
+
+  useEffect(() => {
+    if (searchWord) {
+      getKeyWordSearchResult()
+    }
+
+  }, [searchWord])
 
   return (
     <>
@@ -64,6 +80,7 @@ export default function SearchBar({ getData }: Iprops) {
                         focus:outline-none placeholder-gray-400
                         px-40"
             />
+
           </div>
         </form>
       </div>
