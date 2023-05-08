@@ -23,11 +23,10 @@ export default function Home() {
 
   const getRandomCorpList = async (page: number) => {
     setLoading(true);
-    await axios.get(SERVER_URL + `/corp/randcorp/${page}`).then((res) => {
+    await axios.get(SERVER_URL + `/corp/randcorp/${page}`).then((res: any) => {
       setCorpList([...corpList, ...res.data.data]);
     });
     setLoading(false);
-    // .then(() => setLoading(false));
   };
 
   useEffect(() => {
@@ -94,6 +93,7 @@ export default function Home() {
                     id={corp.corpId}
                     name={corp.corpName}
                     image={corp.corpImg}
+                    key={corp.corpName}
                   />
                 ))}
             </div>
