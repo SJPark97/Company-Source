@@ -6,6 +6,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  ReferenceLine,
 } from "recharts";
 import AnalysisResult from "./AnalysisResult";
 import Legend from "./Legend";
@@ -31,7 +32,6 @@ export default function Chart104({
         <div className="flex flex-wrap justify-center text-12">
           {data
             ? data.data.result.map((item: any) => {
-              console.log(item);
               return (
                 <BarChart
                   width={140}
@@ -49,6 +49,7 @@ export default function Chart104({
                   <YAxis tickFormatter={formatYLabel} />
                   <Tooltip wrapperStyle={{ zIndex: "50" }} />
                   {/* <Legend /> */}
+                  <ReferenceLine y={0} stroke="#000" />
                   <Bar
                     dataKey={data.data.corp_name}
                     fill={

@@ -31,7 +31,6 @@ export default function Chart109({
         <div className="flex flex-wrap justify-center text-12">
           {data
             ? data.data.result.map((item: any) => {
-              console.log(item);
               return (
                 <BarChart
                   width={140}

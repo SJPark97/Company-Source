@@ -27,11 +27,10 @@ export default function Chart405({ chartData }: Iprops) {
         <div className="flex justify-center flex-nowrap text-12">
           {data
             ? data.data.result.map((item: any) => {
-              console.log(item);
               return (
                 <>
                   <BarChart
-                    width={120}
+                    width={140}
                     height={300}
                     data={[item]}
                     margin={{
@@ -49,7 +48,7 @@ export default function Chart405({ chartData }: Iprops) {
                     <Bar
                       dataKey={data.data.corp_name}
                       fill={
-                        item["평가"] === "양호" ? "#82ca9d" : (item["평가"] === "불량" ? "red" : "#efad45")
+                        data.data.rate === "정상" ? "#82ca9d" : (data.data.rate === "부실" ? "red" : "#efad45")
                       }
                     />
                     <Bar dataKey="산업평균" fill="#8884d8" />

@@ -6,6 +6,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  ReferenceLine,
 } from "recharts";
 import Legend from "./Legend";
 
@@ -27,7 +28,6 @@ export default function Chart101({ chartData }: Iprops) {
         <div className="flex justify-center flex-nowrap text-12">
           {data
             ? data.data.result.map((item: any) => {
-              console.log(item);
               return (
                 <>
                   <BarChart
@@ -46,6 +46,7 @@ export default function Chart101({ chartData }: Iprops) {
                     <YAxis />
                     <Tooltip wrapperStyle={{ zIndex: "50" }} />
                     {/* <Legend /> */}
+                    <ReferenceLine y={0} stroke="#000" />
                     <Bar
                       dataKey={data.data.corp_name}
                       fill={

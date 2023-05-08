@@ -9,7 +9,6 @@ interface Iprops {
 }
 
 export default function CompanyOverview({ companyOverviewInfo, evaluationSummary }: Iprops) {
-  console.log(companyOverviewInfo, "ejhfoiqjh")
 
   return (
     <>
