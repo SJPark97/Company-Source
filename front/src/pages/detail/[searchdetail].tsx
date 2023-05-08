@@ -14,13 +14,11 @@ interface searchdetaiProps {
   companyOverviewInfo: any;
 }
 
-
 export default function searchdetail({
   analysisList,
   companyOverviewInfo,
   evaluaionSummary,
 }: searchdetaiProps) {
-
   const router = useRouter();
   const { searchdetail } = router.query;
 
@@ -33,10 +31,16 @@ export default function searchdetail({
           {searchdetail && (
             <>
               <div className="flex justify-between mx-[3vw] mt-20">
-                <Title companyLogo={companyOverviewInfo.corpImg} name={companyOverviewInfo.corpName} />
+                <Title
+                  companyLogo={companyOverviewInfo.corpImg}
+                  name={companyOverviewInfo.corpName}
+                />
               </div>
               <div className="flex">
-                <CompanyOverview companyOverviewInfo={companyOverviewInfo} evaluationSummary={evaluaionSummary} />
+                <CompanyOverview
+                  companyOverviewInfo={companyOverviewInfo}
+                  evaluationSummary={evaluaionSummary}
+                />
               </div>
             </>
           )}
@@ -46,9 +50,14 @@ export default function searchdetail({
         <div className="bg-white border-gray-500 rounded-5 mt-100 mx-[13vw] border-1">
           {searchdetail && (
             <>
-              <div className="ml-[3vw] mt-40 text-24 font-bold" >
+              <div className="ml-[3vw] mt-40 text-24 font-bold">
                 <div className="flex">
-                  <Image src="/analysis.svg" alt="analysis" width={30} height={30} />
+                  <Image
+                    src="/analysis.svg"
+                    alt="analysis"
+                    width={30}
+                    height={30}
+                  />
                   <span className="ml-12">재무분석</span>
                 </div>
               </div>
@@ -97,9 +106,15 @@ export const getStaticProps = async ({ params }: any) => {
 
     getAnalysisList.push(res.data);
     if (res.data.data.is_exist_all) {
-      evaluaionSummary.push({ analysisName: res.data.data.analysis_name, rate: res.data.data.rate })
+      evaluaionSummary.push({
+        analysisName: res.data.data.analysis_name,
+        rate: res.data.data.rate,
+      });
     } else {
-      evaluaionSummary.push({ analysisName: res.data.data.analysis_name, rate: "정보없음" })
+      evaluaionSummary.push({
+        analysisName: res.data.data.analysis_name,
+        rate: "정보없음",
+      });
     }
   }
 
