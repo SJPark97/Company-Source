@@ -39,7 +39,7 @@ public class CommunityController {
           notes = "현재 로그인한 유저 명의로 기업분석 게시글 작성"
   )
   @PostMapping("/corp")
-  public ResponseEntity<?> createCommunity(@RequestBody CreateCommunityRequest createCommunityRequest) {
+  public ResponseEntity<?> createCommunity(@RequestBody CreateCommunityRequest createCommunityRequest) throws Exception {
     /*
     jwt token을 통해 User 객체 가져오는 코드로 대체
     User user = token.getLoginedUser();
@@ -90,6 +90,7 @@ public class CommunityController {
 //      }
 //      return new ResponseEntity<>( result,headers, HttpStatus.BAD_REQUEST);
 //    }
+
   }
   /**
    * /community/randing GET
@@ -210,7 +211,7 @@ public class CommunityController {
 //      }
 //      return new ResponseEntity<>( result,headers, HttpStatus.BAD_REQUEST);
 //    }
-  }
+ }
 
 
 

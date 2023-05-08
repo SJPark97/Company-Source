@@ -35,7 +35,7 @@ public class CommunityServiceImpl implements CommunityService {
    */
   @Override
   @Transactional
-  public void createCommunity(User user, CreateCommunityRequest createCommunityRequest) {
+  public void createCommunity(User user, CreateCommunityRequest createCommunityRequest) throws Exception {
 
     // user 확인을 위한 코드
     // user.isActive 값이 false 이거나 , null 인 경우
