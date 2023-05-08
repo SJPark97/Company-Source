@@ -5,13 +5,11 @@ export default function BoardSearchBar() {
   const [searchWord, setSearchWord] = useState<string | undefined | null>("");
 
   const searchTypeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value);
     setSearchType(e.target.value);
   };
 
   const searchWordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(e.target.value);
-    console.log(e.target.value);
   };
 
   return (
