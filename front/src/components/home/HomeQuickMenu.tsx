@@ -49,39 +49,45 @@ export default function HomeQuickMenu() {
 
   return (
     <div
-      className="flex flex-col border-1 border-gray-200 rounded-tr-10 rounded-tl-10 rounded-br-10 rounded-bl-10 absolute right-30 top-[100px] bg-white"
+      className="flex flex-col items-center border-1 border-gray-200 rounded-tr-10 rounded-tl-10 absolute right-30 top-[100px] bg-white w-[100px] shadow-lg"
       ref={quickMenuRef}
     >
-      <div className="bg-white font-bold rounded-tr-9 rounded-tl-9 mx-auto">
-        Hot
-      </div>
-      <hr></hr>
+      <div className="bg-white font-bold rounded-tr-9 rounded-tl-9">Hot</div>
+      <hr className="w-full items-center"></hr>
       {hotCorpList &&
-        hotCorpList.map((corp) => (
-          <div className="bg-white items-center w-[130px] h-[20%]">
-            {corp.corpImg ? (
-              <Image
-                src={corp.corpImg}
-                alt="기업 로고"
-                width={60}
-                height={50}
-                className="mx-auto"
-              />
-            ) : (
-              <Image
-                src="/company_default.jpg"
-                alt="기업 로고"
-                width={50}
-                height={50}
-                className="mx-auto"
-              />
-            )}
-            <div className="font-bold text-center text-13 mb-10">
-              {corp.corpName}
+        hotCorpList.map((corp, index) => (
+          <Link
+            href="/detail/[searchdetaipl]"
+            as={`/detail/${corp.corpId}`}
+            className="w-full"
+          >
+            <div className="bg-white items-center w-full h-[20%] flex flex-col">
+              {corp.corpImg ? (
+                <Image
+                  src={corp.corpImg}
+                  alt="기업 로고"
+                  width={60}
+                  height={50}
+                  className="mx-auto"
+                />
+              ) : (
+                <Image
+                  src="/company_default.jpg"
+                  alt="기업 로고"
+                  width={50}
+                  height={50}
+                  className="mx-auto"
+                />
+              )}
+              <div className="font-bold text-center text-13 mb-10">
+                {corp.corpName}
+              </div>
+              <div className="text-13">{corp.industyName}</div>
+              {index !== hotCorpList.length - 1 ? (
+                <div className="border-1 w-full"></div>
+              ) : null}
             </div>
-            <div className="text-13">{corp.industyName}</div>
-            <hr></hr>
-          </div>
+          </Link>
         ))}
     </div>
   );

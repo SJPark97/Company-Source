@@ -33,7 +33,6 @@ export default function Home() {
     const observer = new IntersectionObserver(
       (entries) => {
         const firstEntry = entries[0];
-        // console.log(entries);
         if (firstEntry.isIntersecting && !loading) {
           setPage((prevPage) => prevPage + 1);
         }
@@ -41,7 +40,6 @@ export default function Home() {
       { threshold: 1 }
     );
     if (loaderRef.current) {
-      console.log(loaderRef.current);
       observer.observe(loaderRef.current);
     }
 
@@ -61,7 +59,7 @@ export default function Home() {
   const getData = async (keyWord: string | string[] | undefined) => {};
   return (
     <div className="relative">
-      <div className="z-50bg-cover bg-[url('/carousel3.jpg')] h-[500px] mb-[50px]">
+      <div className="z-50bg-cover bg-[url('/carousel3.jpg')] h-[400px] mb-[50px]">
         <NavBar />
         <HomeQuickMenu />
         <div className="flex flex-col items-center mt-[50px]">
@@ -83,7 +81,7 @@ export default function Home() {
       {/* <Banner /> */}
       <div className="mx-[10vw] flex  w-[80vw]">
         <div className="flex flex-col w-[90vw]">
-          <div className="ml-[26px] text-30 font-bold">상장 기업</div>
+          {/* <div className="ml-[26px] text-30 font-bold">상장 기업</div> */}
           <div className="flex flex-wrap">
             {corpList &&
               corpList.map((corp) => (

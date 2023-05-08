@@ -30,9 +30,8 @@ export default function SignUp() {
 
   const nickNameCheckHandler = async () => {
     if (nickNameIsValid) {
-      await axios
-        .get(SERVER_URL + `/user/validnickname/${nickName}`)
-        .then((res) => console.log(res));
+      await axios.get(SERVER_URL + `/user/validnickname/${nickName}`);
+      // .then((res) => console.log(res));
     } else {
       alert("닉네임이 유효하지 않습니다.");
     }
@@ -72,10 +71,8 @@ export default function SignUp() {
   useEffect(() => {
     var regExpNickName = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{2,10}$/;
     if (regExpNickName.test(nickName)) {
-      console.log("유효함");
       setNickNameIsValid(true);
     } else {
-      console.log("유효하지않음");
       setNickNameIsValid(false);
     }
   }, [nickName]);

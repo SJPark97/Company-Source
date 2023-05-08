@@ -14,7 +14,7 @@ export default function NavBar() {
         }
       >
         <div className="flex flex-row items-center">
-          <Link href="/home">
+          <Link href="/">
             {/* <div className="relative w-[123px] h-[58px] mx-[3vw]"> */}
             <div>
               {router.pathname === "/" || router.pathname === "/home" ? (
