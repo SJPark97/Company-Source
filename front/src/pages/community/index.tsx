@@ -9,7 +9,7 @@ export default function Community() {
   return (
     // 준비중 페이지
     <div className="flex flex-col items-center">
-      <NavBar />
+      {/* <NavBar /> */}
       <Image
         src="/service_waiting.jpg"
         alt="서비스 준비 페이지"
