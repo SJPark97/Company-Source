@@ -21,7 +21,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -44,14 +46,21 @@ public class CommunityController {
      */
     User user = userRepository.findById(10L).orElseThrow(()->new CustomException(ErrorCode.USER_NOT_FOUND));
 
+
+    HashMap<String, Object> result  = new HashMap<>();
     HttpHeaders headers = new HttpHeaders();
     try{
       communityService.createCommunity(user , createCommunityRequest);
-    return new ResponseEntity<>( headers, HttpStatus.CREATED);
+      result.put("data" , "success");
+    return new ResponseEntity<>( result, HttpStatus.CREATED);
     }
     catch (Exception e){
-      e.printStackTrace();
-      return new ResponseEntity<>( "fail",headers, HttpStatus.BAD_REQUEST);
+      result.put("data",null);
+      result.put("message",e.getMessage());
+      if(e.getClass()==CustomException.class){
+        result.put("code",((CustomException) e).getErrorCode().getCode());
+      }
+      return new ResponseEntity<>( result,headers, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -65,15 +74,21 @@ public class CommunityController {
           notes = "해당 게시판의 detail한 정보와 달린 댓글들을 리턴해주고 , 조회수를 늘려주는 메소드"
   )
   @GetMapping("/corp/{communityId}")
-  public ResponseEntity<?>  findCommunity (@PathVariable Long communityId) {
+  public ResponseEntity<?>  findCommunityDetail (@PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result  = new HashMap<>();
     try{
       ReadCommunityDetailResponse response =  communityService.readCommunityDetail(communityId);
-      return new ResponseEntity<>( response,  headers, HttpStatus.OK);
+      result.put("data" , response);
+      return new ResponseEntity<>( result,  headers, HttpStatus.OK);
     }
     catch (Exception e){
-      e.printStackTrace();
-      return new ResponseEntity<>( "fail",headers, HttpStatus.BAD_REQUEST);
+      result.put("data",null);
+      result.put("message",e.getMessage());
+      if(e.getClass()==CustomException.class){
+        result.put("code",((CustomException) e).getErrorCode().getCode());
+      }
+      return new ResponseEntity<>( result,headers, HttpStatus.BAD_REQUEST);
     }
   }
   /**
@@ -88,6 +103,33 @@ public class CommunityController {
    *  is_active ==0 인 것들은 거르는 것 필요
    *  type == (글쓴이, 내용 ,제목) 으로 거르기
    */
+  @ApiOperation(
+          value = "기업 분석 게시글 전체조회",
+          notes = "기업 분석 게시글들을 전체 조회. 페이지와 한페이지 안의 사이즈 요청"
+
+  )
+  @GetMapping("/corp/search")
+  public ResponseEntity<?>  searchCommunity (@RequestParam String  string  ,@RequestParam String type ,  Pageable pageable) {
+    HttpHeaders headers = new HttpHeaders();
+//    System.out.println("string  : "+string);
+//    System.out.println("type  : "+type);
+//    System.out.println("pageable  : "+pageable);
+    HashMap<String, Object> result  = new HashMap<>();
+    try{
+//      List<ReadAllCommunityResponse> response =  communityService.readAllCommunity(pageable);
+
+      return new ResponseEntity<>(result,  headers, HttpStatus.OK);
+    }
+    catch (Exception e){
+      result.put("data",null);
+      result.put("message",e.getMessage());
+      if(e.getClass()==CustomException.class){
+        result.put("code",((CustomException) e).getErrorCode().getCode());
+      }
+      return new ResponseEntity<>( result,headers, HttpStatus.BAD_REQUEST);
+    }
+  }
+
 
   /**
    * /community/corp GET
@@ -101,14 +143,19 @@ public class CommunityController {
   @GetMapping("/corp")
   public ResponseEntity<?>  findAllCommunity (Pageable pageable) {
     HttpHeaders headers = new HttpHeaders();
-    System.out.println(pageable);
+    HashMap<String, Object> result  = new HashMap<>();
     try{
       List<ReadAllCommunityResponse> response =  communityService.readAllCommunity(pageable);
-      return new ResponseEntity<>( response,  headers, HttpStatus.OK);
+      result.put("data" , response);
+      return new ResponseEntity<>( result,  headers, HttpStatus.OK);
     }
     catch (Exception e){
-      e.printStackTrace();
-      return new ResponseEntity<>( "fail",headers, HttpStatus.BAD_REQUEST);
+      result.put("data",null);
+      result.put("message",e.getMessage());
+      if(e.getClass()==CustomException.class){
+        result.put("code",((CustomException) e).getErrorCode().getCode());
+      }
+      return new ResponseEntity<>( result,headers, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -124,14 +171,18 @@ public class CommunityController {
   @PutMapping("/corp")
   public ResponseEntity<?>  updateCommunity (@RequestBody UpdateCommunityRequest updateCommunityRequest ) {
     HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result  = new HashMap<>();
     try{
-
-      communityService.updateCommunity(updateCommunityRequest );
-      return new ResponseEntity<>(  headers, HttpStatus.OK);
+      result.put("data" ,communityService.updateCommunity(updateCommunityRequest ));
+      return new ResponseEntity<>( result,  headers, HttpStatus.OK);
     }
     catch (Exception e){
-      e.printStackTrace();
-      return new ResponseEntity<>( "fail",headers, HttpStatus.BAD_REQUEST);
+      result.put("data",null);
+      result.put("message",e.getMessage());
+      if(e.getClass()==CustomException.class){
+        result.put("code",((CustomException) e).getErrorCode().getCode());
+      }
+      return new ResponseEntity<>( result,headers, HttpStatus.BAD_REQUEST);
     }
   }
   /**
@@ -145,13 +196,19 @@ public class CommunityController {
   @DeleteMapping("/corp/{communityId}")
   public ResponseEntity<?>  removeCommunity (@PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result  = new HashMap<>();
     try{
       communityService.deleteCommunity(communityId);
-      return new ResponseEntity<>(  headers, HttpStatus.OK);
+      result.put("data" , "success");
+      return new ResponseEntity<>(result,  headers, HttpStatus.OK);
     }
     catch (Exception e){
-      e.printStackTrace();
-      return new ResponseEntity<>( "fail",headers, HttpStatus.BAD_REQUEST);
+      result.put("data",null);
+      result.put("message",e.getMessage());
+      if(e.getClass()==CustomException.class){
+        result.put("code",((CustomException) e).getErrorCode().getCode());
+      }
+      return new ResponseEntity<>( result,headers, HttpStatus.BAD_REQUEST);
     }
   }
 
