@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 function pageViewHandler() {
   if (window.gtag) {
-    window.gtag('config', process.env.GA_TRACKING_ID as string, {
+    window.gtag('config', process.env.NEXT_PUBLIC_GA_ID as string, {
       page_path: window.location.pathname + window.location.search
     })
   }
