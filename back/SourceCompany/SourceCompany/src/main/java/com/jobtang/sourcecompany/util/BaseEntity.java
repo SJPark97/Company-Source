@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BaseEntity {
+public  class BaseEntity {
 
   @CreatedDate
   @NotNull
@@ -31,4 +31,7 @@ public abstract class BaseEntity {
   @NotNull
   private boolean isActive=true;
 
+  public void deleteEntity(){
+    this.isActive=false;
+  }
 }

@@ -19,14 +19,14 @@ public enum ErrorCode implements EnumModel {
     USER_NOT_FOUND(204, "C007", "UserEmail Not Found"),
 
     // AWS
-    AWS_ERROR(400, "A001", "aws client error");
+    AWS_ERROR(400, "A001", "aws client error"),
 
     // 분석
 
 
     // 커뮤니티
-
-
+    COMM_EXISTS(400 , "G001","community not exists"),
+    COMM_DELETED(401, "G002","community is deleted");
 
     private int status;
     private String code;
