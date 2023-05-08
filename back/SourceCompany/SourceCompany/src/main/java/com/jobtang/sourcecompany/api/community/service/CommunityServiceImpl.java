@@ -1,7 +1,6 @@
 package com.jobtang.sourcecompany.api.community.service;
 
-import com.jobtang.sourcecompany.api.community.dto.CreateCommunityRequest;
-import com.jobtang.sourcecompany.api.community.dto.ReadCommunityDetailResponse;
+import com.jobtang.sourcecompany.api.community.dto.*;
 import com.jobtang.sourcecompany.api.community.entity.Community;
 import com.jobtang.sourcecompany.api.community.repository.CommunityRepository;
 import com.jobtang.sourcecompany.api.exception.CustomException;
@@ -9,11 +8,17 @@ import com.jobtang.sourcecompany.api.exception.ErrorCode;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CommunityServiceImpl implements CommunityService{
 
@@ -26,6 +31,7 @@ public class CommunityServiceImpl implements CommunityService{
    * @param createCommunityRequest
    */
   @Override
+  @Transactional
   public void createCommunity(User user, CreateCommunityRequest createCommunityRequest) throws Exception {
 
     // user 확인을 위한 코드
@@ -45,8 +51,10 @@ public class CommunityServiceImpl implements CommunityService{
     communityRepository.save(community);
   }
 
+
+
   @Override
-  public ReadCommunityDetailResponse readCommunity(Long communityId) {
+  public ReadCommunityDetailResponse readCommunityDetail(Long communityId) {
 
     // 게시판이 있는 지 확인 없다면 에러 던지기 있다면 가져오고 ,
     Community community = communityRepository.findById(communityId).orElseThrow(() -> new CustomException(ErrorCode.COMM_EXISTS));
@@ -71,6 +79,39 @@ public class CommunityServiceImpl implements CommunityService{
 
     // 마지막에 ReadCommunityResponse 로 바꾸는 부분
     return ReadCommunityDetailResponse.EntityToDTO(community , viewcnt);
+  }
 
+
+
+  @Override
+  @Transactional
+  public void deleteCommunity(Long communityId) {
+    Community community = communityRepository.findById(communityId).orElseThrow(() -> new CustomException(ErrorCode.COMM_EXISTS));
+    // 이미 삭제된 게시글이였던 경우
+    if(community.isActive()==false){
+      throw  new CustomException(ErrorCode.COMM_DELETED);
+    }
+    community.deleteEntity();
+  }
+
+  @Override
+  public List<ReadAllCommunityResponse> readAllCommunity(Pageable pageable) {
+    Page<Community> communities = communityRepository.findAll(pageable);
+
+    return null;
+  }
+
+  @Override
+  @Transactional
+  public UpdateCommunityResponse updateCommunity(UpdateCommunityRequest updateCommunityRequest) {
+    Community community = communityRepository
+            .findById(updateCommunityRequest.getId()).orElseThrow(() -> new CustomException(ErrorCode.COMM_EXISTS));
+    community.setContent(updateCommunityRequest.getContent());
+    community.setTitle(updateCommunityRequest.getTitle());
+    return   UpdateCommunityResponse.builder()
+            .id(community.getId())
+            .content(community.getContent())
+            .title(community.getTitle())
+            .build();
   }
 }

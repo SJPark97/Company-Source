@@ -2,18 +2,26 @@ package com.jobtang.sourcecompany.api.community.controller;
 
 
 import com.jobtang.sourcecompany.api.community.dto.CreateCommunityRequest;
+import com.jobtang.sourcecompany.api.community.dto.ReadAllCommunityResponse;
+import com.jobtang.sourcecompany.api.community.dto.ReadCommunityDetailResponse;
 import com.jobtang.sourcecompany.api.community.dto.UpdateCommunityRequest;
 import com.jobtang.sourcecompany.api.community.service.CommunityService;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
+import com.jobtang.sourcecompany.api.exception.CustomException;
+import com.jobtang.sourcecompany.api.exception.ErrorCode;
 import com.jobtang.sourcecompany.api.user.entity.User;
+import com.jobtang.sourcecompany.api.user.repository.UserRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -22,7 +30,8 @@ import org.springframework.web.bind.annotation.*;
 @Api("게시판 API")
 public class CommunityController {
   private  final CommunityService communityService;
-
+  // 테스트 용 유저 가져오기
+  private final UserRepository userRepository;
   @ApiOperation(
           value = "기업분석 게시글 작성",
           notes = "현재 로그인한 유저 명의로 기업분석 게시글 작성"
@@ -33,7 +42,8 @@ public class CommunityController {
     jwt token을 통해 User 객체 가져오는 코드로 대체
     User user = token.getLoginedUser();
      */
-    User user = null;
+    User user = userRepository.findById(10L).orElseThrow(()->new CustomException(ErrorCode.USER_NOT_FOUND));
+
     HttpHeaders headers = new HttpHeaders();
     try{
       communityService.createCommunity(user , createCommunityRequest);
@@ -54,13 +64,12 @@ public class CommunityController {
           value = "기업 분석 게시글 상세조회",
           notes = "해당 게시판의 detail한 정보와 달린 댓글들을 리턴해주고 , 조회수를 늘려주는 메소드"
   )
-  @GetMapping("/corp")
+  @GetMapping("/corp/{communityId}")
   public ResponseEntity<?>  findCommunity (@PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
     try{
-
-      communityService.readCommunity(communityId);
-      return new ResponseEntity<>(  headers, HttpStatus.OK);
+      ReadCommunityDetailResponse response =  communityService.readCommunityDetail(communityId);
+      return new ResponseEntity<>( response,  headers, HttpStatus.OK);
     }
     catch (Exception e){
       e.printStackTrace();
@@ -83,9 +92,25 @@ public class CommunityController {
   /**
    * /community/corp GET
    *  기업 분석 게시판을 전체조회하는 메소드
-   *  redis에 조회수를 추가해야함
    */
-  
+  @ApiOperation(
+          value = "기업 분석 게시글 전체조회",
+          notes = "기업 분석 게시글들을 전체 조회. 페이지와 한페이지 안의 사이즈 요청"
+
+  )
+  @GetMapping("/corp")
+  public ResponseEntity<?>  findAllCommunity (Pageable pageable) {
+    HttpHeaders headers = new HttpHeaders();
+    System.out.println(pageable);
+    try{
+      List<ReadAllCommunityResponse> response =  communityService.readAllCommunity(pageable);
+      return new ResponseEntity<>( response,  headers, HttpStatus.OK);
+    }
+    catch (Exception e){
+      e.printStackTrace();
+      return new ResponseEntity<>( "fail",headers, HttpStatus.BAD_REQUEST);
+    }
+  }
 
 
   /**
@@ -97,11 +122,11 @@ public class CommunityController {
           notes = "해당 게시판 메소드"
   )
   @PutMapping("/corp")
-  public ResponseEntity<?>  updateCommunity (@RequestBody UpdateCommunityRequest updateCommunityRequest, @PathVariable Long communityId) {
+  public ResponseEntity<?>  updateCommunity (@RequestBody UpdateCommunityRequest updateCommunityRequest ) {
     HttpHeaders headers = new HttpHeaders();
     try{
 
-//      communityService.readCommunity(communityId);
+      communityService.updateCommunity(updateCommunityRequest );
       return new ResponseEntity<>(  headers, HttpStatus.OK);
     }
     catch (Exception e){
@@ -117,12 +142,11 @@ public class CommunityController {
           value = "기업 분석 게시글 삭제",
           notes = "해당 게시판의 detail한 정보와 달린 댓글들을 리턴해주고 , 조회수를 늘려주는 메소드"
   )
-  @DeleteMapping("/corp")
+  @DeleteMapping("/corp/{communityId}")
   public ResponseEntity<?>  removeCommunity (@PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
     try{
-
-//      communityService.readCommunity(communityId);
+      communityService.deleteCommunity(communityId);
       return new ResponseEntity<>(  headers, HttpStatus.OK);
     }
     catch (Exception e){

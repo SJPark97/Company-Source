@@ -13,6 +13,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -47,5 +48,7 @@ public class Community extends BaseEntity {
   @JsonIgnore
   @OneToMany(mappedBy = "user" )
   private List<Comment> comments = new ArrayList<>();
+
+
 
 }
