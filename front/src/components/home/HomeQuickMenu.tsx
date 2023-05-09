@@ -57,9 +57,10 @@ export default function HomeQuickMenu() {
       {hotCorpList &&
         hotCorpList.map((corp, index) => (
           <Link
-            href="/detail/[searchdetaipl]"
+            href="/detail/[searchdetail]"
             as={`/detail/${corp.corpId}`}
             className="w-full"
+            key={`Quick + ${corp.corpName}`}
           >
             <div className="bg-white items-center w-full h-[20%] flex flex-col">
               {corp.corpImg ? (
@@ -67,16 +68,16 @@ export default function HomeQuickMenu() {
                   src={corp.corpImg}
                   alt="기업 로고"
                   width={60}
-                  height={50}
-                  className="mx-auto"
+                  height={0}
+                  className="mx-auto rounded-5 mt-10 h-50"
                 />
               ) : (
                 <Image
                   src="/company_default.jpg"
                   alt="기업 로고"
-                  width={50}
+                  width={60}
                   height={50}
-                  className="mx-auto"
+                  className="mx-auto rounded-5 mt-10 h-50"
                 />
               )}
               <div className="font-bold text-center text-13 mb-10">
