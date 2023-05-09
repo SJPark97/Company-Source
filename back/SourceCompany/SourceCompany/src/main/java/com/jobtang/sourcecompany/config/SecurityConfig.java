@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // csrf 검증 비활성화
         http.csrf().disable();
+        http.formLogin().disable();
         // basic한 방법은 거절. 보통 아는 bearer 방식을 사용
 //        http.httpBasic().disable();
         http.httpBasic().disable()
@@ -46,9 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //                .antMatchers("/user/**").hasRole("USER")
                     .antMatchers("/**").permitAll() // 모든 url에 대해서 일단 허용
                     .and()
-                    .formLogin()
-                        .permitAll()
-                        .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class); // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
         // 세션 미사용 설정
