@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface InquiryService {
-    void createInquiry(Long userId, CreateInquiryRequest createInquiryRequest) throws Exception;
+    void createInquiry(Long userId, CreateInquiryRequest createInquiryRequest);
 }
