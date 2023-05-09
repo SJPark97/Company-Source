@@ -3,15 +3,18 @@ package com.jobtang.sourcecompany.api.community.service;
 import com.jobtang.sourcecompany.api.community.dto.*;
 import com.jobtang.sourcecompany.api.community.entity.Community;
 import com.jobtang.sourcecompany.api.community.repository.CommunityRepository;
+import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.exception.CustomException;
 import com.jobtang.sourcecompany.api.exception.ErrorCode;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CommunityServiceImpl implements CommunityService {
@@ -35,7 +39,7 @@ public class CommunityServiceImpl implements CommunityService {
    */
   @Override
   @Transactional
-  public void createCommunity(User user, CreateCommunityRequest createCommunityRequest) throws Exception {
+  public void createCommunity(String communityType ,User user, CreateCommunityRequest createCommunityRequest) throws Exception {
 
     // user 확인을 위한 코드
     // user.isActive 값이 false 이거나 , null 인 경우
@@ -44,7 +48,7 @@ public class CommunityServiceImpl implements CommunityService {
     }
     // Builder 로 community 객체 생성
     Community community = Community.builder()
-            .communityType(createCommunityRequest.getCommunityType())
+            .communityType(communityType)
             .content(createCommunityRequest.getContent())
             .title(createCommunityRequest.getTitle())
             .user(user)
@@ -57,7 +61,7 @@ public class CommunityServiceImpl implements CommunityService {
   @Override
   public List<ReadAllCommunityResponse> searchCommunity(String content, String type, Pageable pageable) {
     if(type.equals("content")){
-      Page<Community> communities= communityRepository.findAllByContentAndIsActiveTrue(content, pageable);
+      Page<Community> communities= communityRepository.findAllByCommunityTypeAndContentContainingAndIsActiveTrue("기업", content, pageable);
       return communities.stream()
               .map(community -> {
                 // 레디스에 저장된 해당 커뮤니티의 key값
@@ -71,7 +75,7 @@ public class CommunityServiceImpl implements CommunityService {
               })
               .collect(Collectors.toList());
     } else if (type.equals("title")) {
-      Page<Community> communities= communityRepository.findAllByTitleAndIsActiveTrue(content, pageable);
+      Page<Community> communities= communityRepository.findAllByCommunityTypeAndContentContainingAndIsActiveTrue("기업",content, pageable);
       return communities.stream()
               .map(community -> {
                 // 레디스에 저장된 해당 커뮤니티의 key값
@@ -92,14 +96,15 @@ public class CommunityServiceImpl implements CommunityService {
 
 
   @Override
-  public ReadCommunityDetailResponse readCommunityDetail(Long communityId) {
+  public ReadCommunityDetailResponse readCommunityDetail(String communityType , Long communityId) {
 
     // 게시판이 있는 지 확인 없다면 에러 던지기 있다면 가져오고 ,
     Community community = communityRepository.findById(communityId).orElseThrow(() -> new CustomException(ErrorCode.COMM_EXISTS));
     if (community.isActive() == false) {
       throw new CustomException(ErrorCode.COMM_DELETED);
     }
-    if(community.getCommunityType() !="기업"){
+    System.out.println(community.getCommunityType());
+    if(!community.getCommunityType().equals(communityType)){
       throw new CustomException(ErrorCode.COMM_WRONG_TYPE);
     }
 
@@ -139,7 +144,7 @@ public class CommunityServiceImpl implements CommunityService {
   @Override
   public List<ReadAllCommunityResponse> readAllCommunity(Pageable pageable) {
     // 인자로 받은 Pageable 객체의 정보를 토대로 DB에서 Community값들 가져오기
-    Page<Community> communities = communityRepository.findAllByIsActiveTrueAndCommunityType(true, "기업" ,pageable);
+    Page<Community> communities = communityRepository.findAllByIsActiveAndCommunityType(true, "기업" ,pageable);
     // 받아온 정보에 redis의 조회수를 더하는 코드
     return communities.stream()
             .map(community -> {
@@ -169,4 +174,29 @@ public class CommunityServiceImpl implements CommunityService {
             .title(community.getTitle())
             .build();
   }
+
+  @Override
+  public void updateViewCommunity() {
+    List<Community> communities = communityRepository.findAll();
+    for (Community community : communities) {
+      String key = "viewComm" + community.getId();
+      ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
+      if (valueOperations.get(key) == null) {
+        community.updateViewCnt(0);
+      } else {
+        community.updateViewCnt(valueOperations.get(key));
+        integerRedisTemplate.delete(key);
+      }
+      communityRepository.save(community);
+    }
+    log.info("커뮤니티 조회수 업데이트 완료!");
+  }
+
+  @Scheduled(cron = "0 0 3 * * ?") // 새벽 3시마다 업데이트
+  public void schedule() {
+    log.info("스케쥴링 : 커뮤니티 업데이트 시작!");
+    updateViewCommunity();
+    log.info("스케쥴링 : 커뮤니티 업데이트 완료!");
+  }
+
 }

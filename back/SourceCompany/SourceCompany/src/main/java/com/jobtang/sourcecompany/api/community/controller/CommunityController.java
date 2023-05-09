@@ -51,7 +51,7 @@ public class CommunityController {
     HashMap<String, Object> result = new HashMap<>();
     HttpHeaders headers = new HttpHeaders();
 
-    communityService.createCommunity(user, createCommunityRequest);
+    communityService.createCommunity("기업",user, createCommunityRequest);
     result.put("data", "success");
     return new ResponseEntity<>(result, HttpStatus.CREATED);
 
@@ -71,7 +71,7 @@ public class CommunityController {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
 
-    ReadCommunityDetailResponse response = communityService.readCommunityDetail(communityId);
+    ReadCommunityDetailResponse response = communityService.readCommunityDetail("기업",communityId);
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
 
@@ -132,7 +132,6 @@ public class CommunityController {
     List<ReadAllCommunityResponse> response = communityService.readAllCommunity(pageable);
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
-
   }
 
 

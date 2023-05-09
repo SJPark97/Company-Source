@@ -12,10 +12,10 @@ public interface CommunityRepository  extends JpaRepository<Community , Long> {
   // 삭제 되지 않은 값들만 검색
 
   //삭제 되지 않은 값들만 검색
-  Page<Community> findAllByIsActiveTrueAndCommunityType (boolean isActive , String communityType , Pageable pageable);
+  Page<Community> findAllByIsActiveAndCommunityType (boolean isActive , String communityType , Pageable pageable);
 
-  Page<Community> findAllByContentAndIsActiveTrue (String content , Pageable pageable);
+  Page<Community> findAllByCommunityTypeAndContentContainingAndIsActiveTrue (String communityType,String content , Pageable pageable);
 
-  Page<Community> findAllByTitleAndIsActiveTrue (String type , Pageable pageable);
+  Page<Community> findAllByCommunityTypeAndTitleContainingAndIsActiveTrue (String communityType , String type , Pageable pageable);
 
 }
