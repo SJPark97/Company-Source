@@ -20,14 +20,13 @@ public class TestController {
     private final JwtService jwtService;
     private final UserRepository userRepository;
 
-    @PostMapping("")
-    public String test(){
-        return "test 통과";
-    }
+//    @PostMapping("")
+//    public String test(){
+//        return "test 통과";
+//    }
 
-    @PostMapping("/token")
-    public User test2(HttpServletRequest request) {
-        Long userId = jwtService.userPkByRequest(request);
-        return userRepository.findById(userId).get();
-    }
+//    @PostMapping("/token")
+//    public User test2() {
+//        return userRepository.findById(userId).get();
+//    }
 }

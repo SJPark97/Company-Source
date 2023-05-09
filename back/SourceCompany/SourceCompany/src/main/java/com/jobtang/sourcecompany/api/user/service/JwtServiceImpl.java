@@ -12,9 +12,8 @@ public class JwtServiceImpl implements JwtService {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    // HttpServletRequest를 받고 거기서 토큰을 가져와서 userId값으로 반환
-    public Long userPkByRequest(HttpServletRequest request) {
-        String token = jwtTokenProvider.resolveToken(request);
-        return  Long.parseLong(jwtTokenProvider.getUserPk(token));
+    // token을 userId값으로 반환
+    public Long userPkByToken(String token) {
+        return Long.parseLong(jwtTokenProvider.getUserPk(token));
     }
 }
