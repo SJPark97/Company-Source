@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class ReadAllCommunityResponse {
+  private Long communityId;
   private String title;
   private String userName;
   private int viewCount;
@@ -20,6 +21,7 @@ public class ReadAllCommunityResponse {
   private int commentCount;
   public static ReadAllCommunityResponse EntityToDTO (Community community , int viewCount){
     return ReadAllCommunityResponse.builder()
+            .communityId(community.getId())
             .title(community.getTitle())
             .userName(community.getUser().getNickname())
             .viewCount(viewCount+community.getTotalView())

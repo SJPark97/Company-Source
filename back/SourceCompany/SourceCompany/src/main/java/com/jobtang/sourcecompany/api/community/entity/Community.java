@@ -50,5 +50,8 @@ public class Community extends BaseEntity {
   private List<Comment> comments = new ArrayList<>();
 
 
-
+  public void updateViewCnt(Integer todayViewCnt) {
+    this.totalView += yesterdayView;
+    this.yesterdayView = todayViewCnt;
+  }
 }
