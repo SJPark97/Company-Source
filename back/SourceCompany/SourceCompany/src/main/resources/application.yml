@@ -14,7 +14,9 @@ spring:
       max-request-size: 10MB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+    # 운영서버
 #    url: jdbc:mysql://company-source.com:8306/cs?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    # 개발서버
     url: jdbc:mysql://k8b107.p.ssafy.io:8306/cs?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: comso
     password: B107
@@ -26,7 +28,9 @@ spring:
       matching-strategy: ant_path_matcher
   data:
     mongodb:
+      # 운영서버
 #      host: company-source.com
+      # 개발서버
       host : k8b107.p.ssafy.io
       authentication-database: admin
       username: comso
@@ -43,7 +47,9 @@ spring:
 #      port: 9000
 #        mongodb://comso:B107@company-source.com:9000/?authMechanism=DEFAULT
   redis:
+    # 운영서버
 #    host: company-source.com
+    # 개발서버
     host: k8b107.p.ssafy.io
     port: 8379
     password: "B107"
