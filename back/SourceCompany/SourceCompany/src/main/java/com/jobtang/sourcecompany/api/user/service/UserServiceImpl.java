@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -70,7 +71,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.existsByNickname(Nickname);
     }
 
-//    // 로그인. 일단은 username만
-//    public String loginUser(LoginRequestDto request) {
-//
+
 }
