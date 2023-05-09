@@ -34,9 +34,6 @@ public class Comment extends BaseEntity {
   @Column(nullable = false)
   private Long commentGroup;
 
-  @NotNull
-  @Column(nullable = false)
-  private boolean isParent;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
