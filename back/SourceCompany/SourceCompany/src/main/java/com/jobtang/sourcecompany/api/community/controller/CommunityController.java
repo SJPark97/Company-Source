@@ -1,10 +1,7 @@
 package com.jobtang.sourcecompany.api.community.controller;
 
 
-import com.jobtang.sourcecompany.api.community.dto.CreateCommunityRequest;
-import com.jobtang.sourcecompany.api.community.dto.ReadAllCommunityResponse;
-import com.jobtang.sourcecompany.api.community.dto.ReadCommunityDetailResponse;
-import com.jobtang.sourcecompany.api.community.dto.UpdateCommunityRequest;
+import com.jobtang.sourcecompany.api.community.dto.*;
 import com.jobtang.sourcecompany.api.community.service.CommunityService;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
 import com.jobtang.sourcecompany.api.exception.CustomException;
@@ -23,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -79,6 +75,8 @@ public class CommunityController {
   /**
    * /community/randing GET
    // 랜딩 게시판을 리턴해주는 메소드
+   // 기업  / 자유 게시판의  최근 게시글
+   // 기업  / 자유 게시판의  어제자 조회수 높은 게시글
    */
   @ApiOperation(
           value = "게시글 랜딩 페이지",
@@ -86,11 +84,11 @@ public class CommunityController {
 
   )
   @GetMapping("/corp/randing")
-  public ResponseEntity<?> readRandingCommunity(Pageable pageable) {
+  public ResponseEntity<?> readRandingCommunity() {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-//    List<ReadAllCommunityResponse> response = communityService.searchCommunity(content,type,pageable);
-//    result.put("data", response);
+    ReadRandingCommunityResponse response = communityService.readRandingCommunity();
+    result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 

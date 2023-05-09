@@ -176,6 +176,55 @@ public class CommunityServiceImpl implements CommunityService {
   }
 
   @Override
+  public ReadRandingCommunityResponse readRandingCommunity() {
+    // corpHot
+    List<ReadAllCommunityResponse>  corpHot = communityRepository.findTop5ByCommunityTypeAndIsActiveTrueOrderByYesterdayViewDesc("기업")
+            .stream().map(community ->{
+            String key = "viewComm" + community.getId();
+            int redisViewCnt = 0;
+            ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
+            if (valueOperations.get(key) != null) {
+              redisViewCnt = valueOperations.get(key);
+            }
+            return ReadAllCommunityResponse.EntityToDTO(community,redisViewCnt);
+    }).collect(Collectors.toList());
+    // freeHot
+    List<ReadAllCommunityResponse>  freeHot = communityRepository.findTop5ByCommunityTypeAndIsActiveTrueOrderByYesterdayViewDesc("자유")
+            .stream().map(community ->{
+              String key = "viewComm" + community.getId();
+              int redisViewCnt = 0;
+              ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
+              if (valueOperations.get(key) != null) {
+                redisViewCnt = valueOperations.get(key);
+              }
+              return ReadAllCommunityResponse.EntityToDTO(community,redisViewCnt);
+            }).collect(Collectors.toList());
+    // corpRecent
+    List<ReadAllCommunityResponse>  corpRecent = communityRepository.findTop5ByCommunityTypeAndIsActiveTrueOrderByCreatedDateDesc("기업")
+            .stream().map(community ->{
+              String key = "viewComm" + community.getId();
+              int redisViewCnt = 0;
+              ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
+              if (valueOperations.get(key) != null) {
+                redisViewCnt = valueOperations.get(key);
+              }
+              return ReadAllCommunityResponse.EntityToDTO(community,redisViewCnt);
+            }).collect(Collectors.toList());
+    // freeRecent
+    List<ReadAllCommunityResponse>  freeRecent = communityRepository.findTop5ByCommunityTypeAndIsActiveTrueOrderByCreatedDateDesc("자유")
+            .stream().map(community ->{
+              String key = "viewComm" + community.getId();
+              int redisViewCnt = 0;
+              ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
+              if (valueOperations.get(key) != null) {
+                redisViewCnt = valueOperations.get(key);
+              }
+              return ReadAllCommunityResponse.EntityToDTO(community,redisViewCnt);
+            }).collect(Collectors.toList());
+    return new ReadRandingCommunityResponse(corpHot , freeHot , corpRecent , freeRecent);
+  }
+
+  @Override
   public void updateViewCommunity() {
     List<Community> communities = communityRepository.findAll();
     for (Community community : communities) {
