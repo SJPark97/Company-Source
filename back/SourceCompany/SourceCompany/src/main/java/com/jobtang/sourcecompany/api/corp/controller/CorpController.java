@@ -70,6 +70,27 @@ public class CorpController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+//    @ApiOperation(
+//            value = "기업 추천",
+//            notes = "랜덤 기업 코드를 가진 5개 랜덤 기업 보여주기",
+//            response = CorpSearchListDto.class,
+//            responseContainer = "List"
+//    )
+//    @GetMapping("/recommend")
+//    public ResponseEntity<?> recommendCorp() {
+//        HashMap<String,Object> result = new HashMap<>();
+//        List<CorpSearchListDto> data = corpService.recommendCorp();
+//        if (data.size() == 0) {
+//            result.put("status", "204");
+//            result.put("message", "검색 결과가 없습니다");
+//            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+//        }
+//        result.put("data", data);
+//        result.put("message", "");
+//        result.put("status", "200");
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
+
 
     // 기업 개요 조회
     @ApiOperation(
