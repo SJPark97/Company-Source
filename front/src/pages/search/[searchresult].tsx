@@ -5,6 +5,7 @@ import SearchBar from "@/components/SearchBar";
 import BigCard from "@/components/home/BigCard";
 import { SERVER_URL } from "@/utils/url";
 import { useRouter } from "next/router";
+import HomeQuickMenu from "@/components/home/HomeQuickMenu";
 
 type bigCard = {
   corpId: string;
@@ -27,13 +28,16 @@ export default function searchresult() {
   }, [router]);
 
   return (
-    <>
-      <NavBar />
-      <SearchBar getData={getData} />
+    <div className="relative">
+      <div className="h-[250px] bg-white">
+        <NavBar />
+        <HomeQuickMenu />
+        <SearchBar getData={getData} />
+      </div>
       <hr></hr>
       <div className="w-[100vw] bg-analysisBg">
         <div className="mx-[12vw] py-[3vh] font-bold text-20">
-          {/* '{router.query && router.query.searchresult}' 으로 검색한 결과입니다. */}
+          '{router.query && router.query.searchresult}' 으로 검색한 결과입니다.
         </div>
         <div className="flex flex-wrap mx-[10vw]">
           {searchResult &&
@@ -46,6 +50,6 @@ export default function searchresult() {
             ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }

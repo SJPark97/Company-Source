@@ -56,7 +56,7 @@ export default function Home() {
     getRandomCorpList(page);
   }, [page]);
 
-  const getData = async (keyWord: string | string[] | undefined) => { };
+  const getData = async (keyWord: string | string[] | undefined) => {};
   return (
     <>
       <Head>
@@ -84,24 +84,21 @@ export default function Home() {
         </div>
         {/* <Banner /> */}
         <div className="mx-[10vw] flex  w-[80vw]">
-          <div className="flex flex-col w-[90vw]">
-            {/* <div className="ml-[26px] text-30 font-bold">상장 기업</div> */}
-            <div className="flex flex-wrap">
-              {corpList &&
-                corpList.map((corp) => (
-                  <BigCard
-                    id={corp.corpId}
-                    name={corp.corpName}
-                    image={corp.corpImg}
-                    key={corp.corpName}
-                  />
-                ))}
-            </div>
-            {loading && <div></div>}
-            {!loading && (
-              <div ref={loaderRef} className="absolute bottom-[400px]"></div>
-            )}
+          <div className="flex flex-wrap">
+            {corpList &&
+              corpList.map((corp) => (
+                <BigCard
+                  id={corp.corpId}
+                  name={corp.corpName}
+                  image={corp.corpImg}
+                  key={corp.corpName}
+                />
+              ))}
           </div>
+          {loading && <div></div>}
+          {!loading && (
+            <div ref={loaderRef} className="absolute bottom-[400px]"></div>
+          )}
         </div>
       </div>
     </>
