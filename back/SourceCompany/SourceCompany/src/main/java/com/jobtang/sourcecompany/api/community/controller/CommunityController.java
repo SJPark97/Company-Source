@@ -34,6 +34,7 @@ public class CommunityController {
   private final UserRepository userRepository;
 
 
+
   /**
    * /community/randing GET
    * // 랜딩 게시판을 리턴해주는 메소드
@@ -56,6 +57,7 @@ public class CommunityController {
 
   /**
    * 기업 메소드들 -----------------------------------------------------------------------------------------------
+
    */
   @ApiOperation(
           value = "기업분석 게시글 작성",
@@ -73,7 +75,7 @@ public class CommunityController {
     HashMap<String, Object> result = new HashMap<>();
     HttpHeaders headers = new HttpHeaders();
 
-    communityService.createCommunity("기업", user, createCommunityRequest);
+    communityService.createCommunity("기업",user, createCommunityRequest);
     result.put("data", "success");
     return new ResponseEntity<>(result, HttpStatus.CREATED);
 
@@ -94,6 +96,7 @@ public class CommunityController {
     HashMap<String, Object> result = new HashMap<>();
 
     ReadCommunityDetailResponse response = communityService.readCommunityDetail("기업", communityId);
+
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
 
@@ -119,6 +122,7 @@ public class CommunityController {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
     List<ReadAllCommunityResponse> response = communityService.searchCommunity("기업", content, type, pageable);
+
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
@@ -139,6 +143,7 @@ public class CommunityController {
           @ApiParam(value = "페이지 크기", required = true, defaultValue = "5", example = "5")  @RequestParam(value = "size", required = true, defaultValue = "20") Integer size
   ) {
     Pageable pageable = PageRequest.of(page, size);
+
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
     System.out.println(pageable);
@@ -192,7 +197,12 @@ public class CommunityController {
 
 
   /**
+<<<<<<< HEAD
    * 자유 게시판 메소드들 -----------------------------------------------------------------------------------------------
+=======
+   *
+   *  자유 게시판 메소드들 -----------------------------------------------------------------------------------------------
+>>>>>>> 9c9a9bc595360ecacd476fc640356fa6232f797c
    */
 
   @ApiOperation(
@@ -212,6 +222,7 @@ public class CommunityController {
     HttpHeaders headers = new HttpHeaders();
 
     communityService.createCommunity("자유", user, createCommunityRequest);
+
     result.put("data", "success");
     return new ResponseEntity<>(result, HttpStatus.CREATED);
 
@@ -232,6 +243,7 @@ public class CommunityController {
     HashMap<String, Object> result = new HashMap<>();
 
     ReadCommunityDetailResponse response = communityService.readCommunityDetail("자유", communityId);
+
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
 

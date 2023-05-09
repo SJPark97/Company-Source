@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 public class CreateCommentRequest {
   private String content;
 
-  private Long CommunityId;
+  private Long communityId;
+
+  private Long commentGroup;
+
+  private int commentDepth;
 
 }
