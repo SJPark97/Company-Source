@@ -10,7 +10,7 @@ import java.util.List;
 public interface CommunityService {
   void createCommunity(String communityType, User user, CreateCommunityRequest createCommunityRequest) throws Exception;
 
-  List<ReadAllCommunityResponse> searchCommunity(String content , String  type , Pageable pageable );
+  List<ReadAllCommunityResponse> searchCommunity(String communityType , String content , String  type , Pageable pageable );
 
   ReadCommunityDetailResponse readCommunityDetail(String communityType,Long communityId);
   void deleteCommunity(Long communityId);

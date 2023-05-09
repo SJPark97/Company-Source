@@ -59,9 +59,9 @@ public class CommunityServiceImpl implements CommunityService {
   }
 
   @Override
-  public List<ReadAllCommunityResponse> searchCommunity(String content, String type, Pageable pageable) {
+  public List<ReadAllCommunityResponse> searchCommunity(String communityType,String content, String type, Pageable pageable) {
     if(type.equals("content")){
-      Page<Community> communities= communityRepository.findAllByCommunityTypeAndContentContainingAndIsActiveTrue("기업", content, pageable);
+      Page<Community> communities= communityRepository.findAllByCommunityTypeAndContentContainingAndIsActiveTrue(communityType, content, pageable);
       return communities.stream()
               .map(community -> {
                 // 레디스에 저장된 해당 커뮤니티의 key값
@@ -75,7 +75,7 @@ public class CommunityServiceImpl implements CommunityService {
               })
               .collect(Collectors.toList());
     } else if (type.equals("title")) {
-      Page<Community> communities= communityRepository.findAllByCommunityTypeAndContentContainingAndIsActiveTrue("기업",content, pageable);
+      Page<Community> communities= communityRepository.findAllByCommunityTypeAndContentContainingAndIsActiveTrue(communityType,content, pageable);
       return communities.stream()
               .map(community -> {
                 // 레디스에 저장된 해당 커뮤니티의 key값

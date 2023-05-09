@@ -31,12 +31,38 @@ public class CommunityController {
   // 테스트 용 유저 가져오기
   private final UserRepository userRepository;
 
+
+
+  /**
+   * /community/randing GET
+   // 랜딩 게시판을 리턴해주는 메소드
+   // 기업  / 자유 게시판의  최근 게시글
+   // 기업  / 자유 게시판의  어제자 조회수 높은 게시글
+   */
+  @ApiOperation(
+          value = "게시글 랜딩 페이지",
+          notes = "기업 및 자유게시판들의 랜딩게시판 조회"
+
+  )
+  @GetMapping("/randing")
+  public ResponseEntity<?> readRandingCommunity() {
+    HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result = new HashMap<>();
+    ReadRandingCommunityResponse response = communityService.readRandingCommunity();
+    result.put("data", response);
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+  }
+
+  /**
+   *
+   *  기업 메소드들 -----------------------------------------------------------------------------------------------
+   */
   @ApiOperation(
           value = "기업분석 게시글 작성",
           notes = "현재 로그인한 유저 명의로 기업분석 게시글 작성"
   )
   @PostMapping("/corp")
-  public ResponseEntity<?> createCommunity(@RequestBody CreateCommunityRequest createCommunityRequest) throws Exception {
+  public ResponseEntity<?> createCorpCommunity(@RequestBody CreateCommunityRequest createCommunityRequest) throws Exception {
     /*
     jwt token을 통해 User 객체 가져오는 코드로 대체
     User user = token.getLoginedUser();
@@ -63,7 +89,7 @@ public class CommunityController {
           notes = "해당 게시판의 detail한 정보와 달린 댓글들을 리턴해주고 , 조회수를 늘려주는 메소드"
   )
   @GetMapping("/corp/{communityId}")
-  public ResponseEntity<?> findCommunityDetail(@PathVariable Long communityId) {
+  public ResponseEntity<?> findCorpCommunityDetail(@PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
 
@@ -72,25 +98,7 @@ public class CommunityController {
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
 
   }
-  /**
-   * /community/randing GET
-   // 랜딩 게시판을 리턴해주는 메소드
-   // 기업  / 자유 게시판의  최근 게시글
-   // 기업  / 자유 게시판의  어제자 조회수 높은 게시글
-   */
-  @ApiOperation(
-          value = "게시글 랜딩 페이지",
-          notes = "기업 및 자유게시판들의 랜딩게시판 조회"
 
-  )
-  @GetMapping("/corp/randing")
-  public ResponseEntity<?> readRandingCommunity() {
-    HttpHeaders headers = new HttpHeaders();
-    HashMap<String, Object> result = new HashMap<>();
-    ReadRandingCommunityResponse response = communityService.readRandingCommunity();
-    result.put("data", response);
-    return new ResponseEntity<>(result, headers, HttpStatus.OK);
-  }
 
   /**
    * /community/corp/search?type={type}&content={content} GET
@@ -104,10 +112,10 @@ public class CommunityController {
 
   )
   @GetMapping("/corp/search")
-  public ResponseEntity<?> searchCommunity(@RequestParam String content, @RequestParam String type, Pageable pageable) {
+  public ResponseEntity<?> searchCorpCommunity(@RequestParam String content, @RequestParam String type, Pageable pageable) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    List<ReadAllCommunityResponse> response = communityService.searchCommunity(content,type,pageable);
+    List<ReadAllCommunityResponse> response = communityService.searchCommunity("기업",content,type,pageable);
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
@@ -123,7 +131,7 @@ public class CommunityController {
 
   )
   @GetMapping("/corp")
-  public ResponseEntity<?> findAllCommunity(Pageable pageable) {
+  public ResponseEntity<?> findAllCorpCommunity(Pageable pageable) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
     System.out.println(pageable);
@@ -135,14 +143,14 @@ public class CommunityController {
 
   /**
    * /community/corp/{communityId} PUT
-   * 기업 분석 게시판을 수정하는 메소드
+   * 기업 분석 게시글을 수정하는 메소드
    */
   @ApiOperation(
           value = "기업 분석 게시글 수정",
-          notes = "해당 게시판 메소드"
+          notes = "해당 게시글을 수정하는 메소드"
   )
   @PutMapping("/corp")
-  public ResponseEntity<?> updateCommunity(@RequestBody UpdateCommunityRequest updateCommunityRequest) {
+  public ResponseEntity<?> updateCorpCommunity(@RequestBody UpdateCommunityRequest updateCommunityRequest) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
 
@@ -153,14 +161,14 @@ public class CommunityController {
 
   /**
    * /community/corp/{communityId} DELETE
-   * 기업 분석 게시판을 삭제하는 메소드
+   * 기업 분석 게시글을 삭제하는 메소드
    */
   @ApiOperation(
           value = "기업 분석 게시글 삭제",
-          notes = "해당 게시판의 detail한 정보와 달린 댓글들을 리턴해주고 , 조회수를 늘려주는 메소드"
+          notes = "해당 게시글을 삭제하는 메소드"
   )
   @DeleteMapping("/corp/{communityId}")
-  public ResponseEntity<?> removeCommunity(@PathVariable Long communityId) {
+  public ResponseEntity<?> removeCorpCommunity(@PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
 
@@ -170,5 +178,138 @@ public class CommunityController {
 
   }
 
+  /**
+   *
+   *  기업 메소드들 -----------------------------------------------------------------------------------------------
+   */
 
+
+  /**
+   *
+   *  자유 게시판 메소드들 -----------------------------------------------------------------------------------------------
+   */
+
+  @ApiOperation(
+          value = "자유 게시글 작성",
+          notes = "현재 로그인한 유저 명의로 자유 게시글 작성"
+  )
+  @PostMapping("/free")
+  public ResponseEntity<?> createFreeCommunity(@RequestBody CreateCommunityRequest createCommunityRequest) throws Exception {
+    /*
+    jwt token을 통해 User 객체 가져오는 코드로 대체
+    User user = token.getLoginedUser();
+     */
+    User user = userRepository.findById(10L).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+
+    HashMap<String, Object> result = new HashMap<>();
+    HttpHeaders headers = new HttpHeaders();
+
+    communityService.createCommunity("자유",user, createCommunityRequest);
+    result.put("data", "success");
+    return new ResponseEntity<>(result, HttpStatus.CREATED);
+
+  }
+
+  /**
+   * /community/free/{community_id} GET
+   * 자유 게시판을 상세조회하는 메소드
+   * redis에 조회수를 추가해야함
+   */
+  @ApiOperation(
+          value = "자유 게시글 상세조회",
+          notes = "해당 게시판의 detail한 정보와 달린 댓글들을 리턴해주고 , 조회수를 늘려주는 메소드"
+  )
+  @GetMapping("/free/{communityId}")
+  public ResponseEntity<?> findFreeCommunityDetail(@PathVariable Long communityId) {
+    HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result = new HashMap<>();
+
+    ReadCommunityDetailResponse response = communityService.readCommunityDetail("자유",communityId);
+    result.put("data", response);
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+
+  }
+
+
+  /**
+   * /community/free/search?type={type}&content={content} GET
+   * 자유 게시판의 글들을 검색하는 메소드
+   * is_active ==0 인 것들은 거르는 것 필요
+   * type == (글쓴이, 내용 ,제목) 으로 거르기
+   */
+  @ApiOperation(
+          value = "자유 게시글 전체조회",
+          notes = "자유 게시글들을 전체 조회. 페이지와 한페이지 안의 사이즈 요청"
+
+  )
+  @GetMapping("/free/search")
+  public ResponseEntity<?> searchFreeCommunity(@RequestParam String content, @RequestParam String type, Pageable pageable) {
+    HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result = new HashMap<>();
+    List<ReadAllCommunityResponse> response = communityService.searchCommunity("자유",content,type,pageable);
+    result.put("data", response);
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+  }
+
+
+  /**
+   * /community/free GET
+   * 자유 게시판을 전체조회하는 메소드
+   */
+  @ApiOperation(
+          value = "자유 게시글 전체조회",
+          notes = "자유 게시글들을 전체 조회. 페이지와 한페이지 안의 사이즈 요청"
+
+  )
+  @GetMapping("/free")
+  public ResponseEntity<?> findAllFreeCommunity(Pageable pageable) {
+    HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result = new HashMap<>();
+    List<ReadAllCommunityResponse> response = communityService.readAllCommunity(pageable);
+    result.put("data", response);
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+  }
+
+
+  /**
+   * /community/free/{communityId} PUT
+   * 자유 게시글 수정하는 메소드
+   */
+  @ApiOperation(
+          value = "자유 게시글 수정",
+          notes = "해당 게시글을 수정하는 메소드"
+  )
+  @PutMapping("/free")
+  public ResponseEntity<?> updateFreeCommunity(@RequestBody UpdateCommunityRequest updateCommunityRequest) {
+    HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result = new HashMap<>();
+
+    result.put("data", communityService.updateCommunity(updateCommunityRequest));
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+
+  }
+
+  /**
+   * /community/free/{communityId} DELETE
+   * 자유 게시판을 삭제하는 메소드
+   */
+  @ApiOperation(
+          value = "자유 게시글 삭제",
+          notes = "해당 게시글을 삭제하는 메소드"
+  )
+  @DeleteMapping("/free/{communityId}")
+  public ResponseEntity<?> removeFreeCommunity(@PathVariable Long communityId) {
+    HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result = new HashMap<>();
+
+    communityService.deleteCommunity(communityId);
+    result.put("data", "success");
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+
+  }
+  /**
+   *
+   *  자유 게시판 메소드들 -----------------------------------------------------------------------------------------------
+   */
 }
