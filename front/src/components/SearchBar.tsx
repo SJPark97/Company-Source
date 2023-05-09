@@ -142,7 +142,7 @@ export default function SearchBar({ getData }: Iprops) {
                         height={20}
                       />
                     </span>
-                    <div className="text-black pl-32">
+                    <div className="text-black pl-30">
                       {highlightSearchWord(item.corpName, searchWord)}
                     </div>
                   </div>
