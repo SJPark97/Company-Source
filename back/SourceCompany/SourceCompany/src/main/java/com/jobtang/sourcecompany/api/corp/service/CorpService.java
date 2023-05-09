@@ -14,6 +14,8 @@ public interface CorpService {
 
     List<CorpAutoSearchDto> autoSearchCorp(String inputValue);
 
+//    List<CorpSearchListDto> recommendCorp();
+
     CorpInfoDto corpInfo(String corpId);
 
     void makeRandCorp();
