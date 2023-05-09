@@ -41,14 +41,12 @@ export default function NavBar() {
             <div
               className={
                 "mx-[3vw] " +
-                `${
-                  router.pathname === "/"
-                    ? "text-white"
-                    : `${
-                        router.pathname === "/home"
-                          ? "text-white font-bold"
-                          : "text-gray-400"
-                      }`
+                `${router.pathname === "/"
+                  ? "text-white"
+                  : `${router.pathname === "/home"
+                    ? "text-white font-bold"
+                    : "text-gray-400"
+                  }`
                 }`
               }
             >
@@ -60,14 +58,12 @@ export default function NavBar() {
             <div
               className={
                 "mx-[3vw] " +
-                `${
-                  router.pathname === "/" || router.pathname === "/home"
-                    ? "text-white"
-                    : `${
-                        router.pathname === "/comparison"
-                          ? "text-black font-bold"
-                          : "text-gray-400"
-                      }`
+                `${router.pathname === "/" || router.pathname === "/home"
+                  ? "text-white"
+                  : `${router.pathname === "/comparison"
+                    ? "text-black font-bold"
+                    : "text-gray-400"
+                  }`
                 }`
               }
             >
@@ -79,14 +75,12 @@ export default function NavBar() {
             <div
               className={
                 "mx-[3vw] " +
-                `${
-                  router.pathname.slice(0, 10) === "/community" // community 하위 라우터들을 모두 처리
-                    ? "text-black font-bold"
-                    : `${
-                        router.pathname === "/" || router.pathname === "/home"
-                          ? "text-white"
-                          : "text-gray-400"
-                      }`
+                `${router.pathname.slice(0, 10) === "/community" // community 하위 라우터들을 모두 처리
+                  ? "text-black font-bold"
+                  : `${router.pathname === "/" || router.pathname === "/home"
+                    ? "text-white"
+                    : "text-gray-400"
+                  }`
                 }`
               }
             >
@@ -96,18 +90,22 @@ export default function NavBar() {
         </div>
 
         {/* User Icon */}
-        {/* <div>
+        <div>
           {router.pathname === "/" || router.pathname === "/home" ? (
-            <Image
-              src="/white_user.png"
-              alt="white_user.png"
-              width={40}
-              height={40}
-            />
+            <Link href="/login">
+              <Image
+                src="/white_user.png"
+                alt="white_user.png"
+                width={40}
+                height={40}
+              />
+            </Link>
           ) : (
-            <Image src="/user.png" alt="user.png" width={40} height={40} />
+            <Link href="/login">
+              <Image src="/user.png" alt="user.png" width={40} height={40} />
+            </Link>
           )}
-        </div> */}
+        </div>
       </div>
     </>
   );

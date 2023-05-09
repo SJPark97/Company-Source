@@ -6,8 +6,12 @@ import {
   nickNameCheckAxios,
   signUpAxios,
 } from "@/utils/user/api";
+import { useRouter } from "next/router";
 
 export default function SignUp() {
+
+  const router = useRouter()
+
   const [id, setId] = useState<string>("");
   const [idIsValid, setIdIsValid] = useState<boolean>(false);
   const [idIsDuplicate, setIdIsDuplicate] = useState<boolean>(true);
@@ -132,6 +136,11 @@ export default function SignUp() {
       return;
     }
 
+    if (idIsDuplicate) {
+      alert('ID중복 체크를 해주세요.')
+      return
+    }
+
     // password 유효성 통과 못하면 경고
     if (!passwordIsValid) {
       alert("password 경고");
@@ -153,12 +162,15 @@ export default function SignUp() {
       return;
     }
 
-    await signUpAxios(birthDate, id, nickName, firstPassword, sex);
-    console.log(birthDate);
-    console.log(id);
-    console.log(nickName);
-    console.log(firstPassword);
-    console.log(sex);
+    if (!birthDate) {
+      alert('생년월일을 선택해주세요')
+      return
+    }
+
+    const res = await signUpAxios(birthDate, id, nickName, firstPassword, sex);
+    if (res && res.status === 200) {
+      router.push('/')
+    }
   };
 
   return (
