@@ -56,7 +56,7 @@ export default function Home() {
     getRandomCorpList(page);
   }, [page]);
 
-  const getData = async (keyWord: string | string[] | undefined) => {};
+  const getData = async (keyWord: string | string[] | undefined) => { };
   return (
     <>
       <Head>
@@ -83,15 +83,15 @@ export default function Home() {
           <SearchBar getData={getData} />
         </div>
         {/* <Banner /> */}
-        <div className="mx-[10vw] flex  w-[80vw]">
-          <div className="flex flex-wrap">
+        <div className="mx-[10vw] flex">
+          <div className="flex flex-wrap justify-around">
             {corpList &&
               corpList.map((corp) => (
                 <BigCard
                   id={corp.corpId}
                   name={corp.corpName}
                   image={corp.corpImg}
-                  key={corp.corpName}
+                  key={"home" + `${corp.corpName}`}
                 />
               ))}
           </div>
