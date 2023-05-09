@@ -14,7 +14,8 @@ spring:
       max-request-size: 10MB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://company-source.com:8306/cs?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+#    url: jdbc:mysql://company-source.com:8306/cs?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://k8b107.p.ssafy.io:8306/cs?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: comso
     password: B107
     hikari:
@@ -25,7 +26,8 @@ spring:
       matching-strategy: ant_path_matcher
   data:
     mongodb:
-      host: company-source.com
+#      host: company-source.com
+      host : k8b107.p.ssafy.io
       authentication-database: admin
       username: comso
       password: B107
@@ -41,7 +43,8 @@ spring:
 #      port: 9000
 #        mongodb://comso:B107@company-source.com:9000/?authMechanism=DEFAULT
   redis:
-    host: company-source.com
+#    host: company-source.com
+    host: k8b107.p.ssafy.io
     port: 8379
     password: "B107"
 
