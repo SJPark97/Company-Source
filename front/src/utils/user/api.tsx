@@ -39,7 +39,7 @@ export const signUpAxios = async (
       sex,
     });
     console.log(response);
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error);
     return null;
