@@ -1,5 +1,6 @@
 package com.jobtang.sourcecompany.api.corp.service;
 
+import com.jobtang.sourcecompany.api.corp.dto.CorpAutoSearchDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpInfoDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
 import com.jobtang.sourcecompany.api.corp.dto.Info;
@@ -37,6 +38,17 @@ public class CorpServiceImpl implements CorpService{
         return corpRepository.findByCorpNameContains(inputValue).stream()
                 .sorted(Comparator.comparing(Corp::getTotalView).reversed())
                 .map(c -> mapper.map(c, CorpSearchListDto.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<CorpAutoSearchDto> autoSearchCorp(String inputValue) {
+        // value% 형식으로 LIKE 검색
+        // totalview 기준으로 역순(내림차순) 정렬
+        // 5개만 추출
+        return corpRepository.findByCorpNameStartingWith(inputValue).stream()
+                .sorted(Comparator.comparing(Corp::getTotalView).reversed())
+                .limit(5)
+                .map(c -> mapper.map(c, CorpAutoSearchDto.class))
                 .collect(Collectors.toList());
     }
 
@@ -185,5 +197,9 @@ public class CorpServiceImpl implements CorpService{
 
         return result;
     }
+
+
+
+
 }
 
