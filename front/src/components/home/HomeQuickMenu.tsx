@@ -80,7 +80,7 @@ export default function HomeQuickMenu() {
                   className="mx-auto rounded-5 mt-10 h-50"
                 />
               )}
-              <div className="font-bold text-center text-13 mb-10">
+              <div className="font-bold text-center text-13 mb-10 line-clamp-1">
                 {corp.corpName}
               </div>
               <div className="text-13">{corp.industyName}</div>
