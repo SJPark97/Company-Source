@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface CommunityService {
-  void createCommunity(String communityType, User user, CreateCommunityRequest createCommunityRequest) throws Exception;
+  void createCommunity(String communityType, Long userId, CreateCommunityRequest createCommunityRequest) throws Exception;
 
   List<ReadAllCommunityResponse> searchCommunity(String communityType , String content , String  type , Pageable pageable );
 

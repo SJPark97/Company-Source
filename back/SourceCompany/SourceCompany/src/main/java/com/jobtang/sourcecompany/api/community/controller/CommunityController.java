@@ -8,10 +8,14 @@ import com.jobtang.sourcecompany.api.exception.CustomException;
 import com.jobtang.sourcecompany.api.exception.ErrorCode;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import com.jobtang.sourcecompany.api.user.repository.UserRepository;
+import com.jobtang.sourcecompany.api.user.service.JwtService;
+import com.jobtang.sourcecompany.config.JwtTokenProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,15 +33,15 @@ import java.util.List;
 public class CommunityController {
   private final CommunityService communityService;
   // 테스트 용 유저 가져오기
-  private final UserRepository userRepository;
+  private final JwtService jwtService;
 
 
 
   /**
    * /community/randing GET
-   // 랜딩 게시판을 리턴해주는 메소드
-   // 기업  / 자유 게시판의  최근 게시글
-   // 기업  / 자유 게시판의  어제자 조회수 높은 게시글
+   * // 랜딩 게시판을 리턴해주는 메소드
+   * // 기업  / 자유 게시판의  최근 게시글
+   * // 기업  / 자유 게시판의  어제자 조회수 높은 게시글
    */
   @ApiOperation(
           value = "게시글 랜딩 페이지",
@@ -54,26 +58,26 @@ public class CommunityController {
   }
 
   /**
-   *
-   *  기업 메소드들 -----------------------------------------------------------------------------------------------
+   * 기업 메소드들 -----------------------------------------------------------------------------------------------
+
    */
   @ApiOperation(
           value = "기업분석 게시글 작성",
           notes = "현재 로그인한 유저 명의로 기업분석 게시글 작성"
   )
   @PostMapping("/corp")
-  public ResponseEntity<?> createCorpCommunity(@RequestBody CreateCommunityRequest createCommunityRequest) throws Exception {
+  public ResponseEntity<?> createCorpCommunity(@RequestHeader("Authorization") String token ,@RequestBody CreateCommunityRequest createCommunityRequest) throws Exception {
     /*
     jwt token을 통해 User 객체 가져오는 코드로 대체
     User user = token.getLoginedUser();
      */
-    User user = userRepository.findById(10L).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
+//    User user = userRepository.findById(10L).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    Long userId = jwtService.userPkByToken(token);
 
     HashMap<String, Object> result = new HashMap<>();
     HttpHeaders headers = new HttpHeaders();
 
-    communityService.createCommunity("기업",user, createCommunityRequest);
+    communityService.createCommunity("기업",userId, createCommunityRequest);
     result.put("data", "success");
     return new ResponseEntity<>(result, HttpStatus.CREATED);
 
@@ -93,7 +97,8 @@ public class CommunityController {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
 
-    ReadCommunityDetailResponse response = communityService.readCommunityDetail("기업",communityId);
+    ReadCommunityDetailResponse response = communityService.readCommunityDetail("기업", communityId);
+
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
 
@@ -112,10 +117,14 @@ public class CommunityController {
 
   )
   @GetMapping("/corp/search")
-  public ResponseEntity<?> searchCorpCommunity(@RequestParam String content, @RequestParam String type, Pageable pageable) {
+  public ResponseEntity<?> searchCorpCommunity(@RequestParam String content, @RequestParam String type,
+                                               @ApiParam(value = "페이지 번호", required = true, defaultValue = "0", example = "0") @RequestParam(value = "page", required = true, defaultValue = "0") Integer page,
+                                               @ApiParam(value = "페이지 크기", required = true, defaultValue = "5", example = "5") @RequestParam(value = "size", required = true, defaultValue = "20") Integer size) {
+    Pageable pageable = PageRequest.of(page, size);
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    List<ReadAllCommunityResponse> response = communityService.searchCommunity("기업",content,type,pageable);
+    List<ReadAllCommunityResponse> response = communityService.searchCommunity("기업", content, type, pageable);
+
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
@@ -131,7 +140,12 @@ public class CommunityController {
 
   )
   @GetMapping("/corp")
-  public ResponseEntity<?> findAllCorpCommunity(Pageable pageable) {
+  public ResponseEntity<?> findAllCorpCommunity(
+          @ApiParam(value = "페이지 번호", required = true, defaultValue = "0", example = "0")  @RequestParam(value = "page", required = true, defaultValue = "0") Integer page,
+          @ApiParam(value = "페이지 크기", required = true, defaultValue = "5", example = "5")  @RequestParam(value = "size", required = true, defaultValue = "20") Integer size
+  ) {
+    Pageable pageable = PageRequest.of(page, size);
+
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
     System.out.println(pageable);
@@ -185,8 +199,12 @@ public class CommunityController {
 
 
   /**
+<<<<<<< HEAD
+   * 자유 게시판 메소드들 -----------------------------------------------------------------------------------------------
+=======
    *
    *  자유 게시판 메소드들 -----------------------------------------------------------------------------------------------
+>>>>>>> 9c9a9bc595360ecacd476fc640356fa6232f797c
    */
 
   @ApiOperation(
@@ -194,18 +212,19 @@ public class CommunityController {
           notes = "현재 로그인한 유저 명의로 자유 게시글 작성"
   )
   @PostMapping("/free")
-  public ResponseEntity<?> createFreeCommunity(@RequestBody CreateCommunityRequest createCommunityRequest) throws Exception {
+  public ResponseEntity<?> createFreeCommunity(@RequestHeader("Authorization") String token , @RequestBody CreateCommunityRequest createCommunityRequest) throws Exception {
     /*
     jwt token을 통해 User 객체 가져오는 코드로 대체
     User user = token.getLoginedUser();
      */
-    User user = userRepository.findById(10L).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
+//    User user = userRepository.findById(10L).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    Long userId= jwtService.userPkByToken(token);
 
     HashMap<String, Object> result = new HashMap<>();
     HttpHeaders headers = new HttpHeaders();
 
-    communityService.createCommunity("자유",user, createCommunityRequest);
+    communityService.createCommunity("자유", userId, createCommunityRequest);
+
     result.put("data", "success");
     return new ResponseEntity<>(result, HttpStatus.CREATED);
 
@@ -225,7 +244,8 @@ public class CommunityController {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
 
-    ReadCommunityDetailResponse response = communityService.readCommunityDetail("자유",communityId);
+    ReadCommunityDetailResponse response = communityService.readCommunityDetail("자유", communityId);
+
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
 
@@ -244,10 +264,13 @@ public class CommunityController {
 
   )
   @GetMapping("/free/search")
-  public ResponseEntity<?> searchFreeCommunity(@RequestParam String content, @RequestParam String type, Pageable pageable) {
+  public ResponseEntity<?> searchFreeCommunity(@RequestParam String content, @RequestParam String type,
+                                               @ApiParam(value = "페이지 번호", required = true, defaultValue = "0", example = "0") @RequestParam(value = "page", required = true, defaultValue = "0") Integer page,
+                                               @ApiParam(value = "페이지 크기", required = true, defaultValue = "5", example = "5") @RequestParam(value = "size", required = true, defaultValue = "20") Integer size) {
+    Pageable pageable = PageRequest.of(page, size);
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    List<ReadAllCommunityResponse> response = communityService.searchCommunity("자유",content,type,pageable);
+    List<ReadAllCommunityResponse> response = communityService.searchCommunity("자유", content, type, pageable);
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
@@ -263,7 +286,10 @@ public class CommunityController {
 
   )
   @GetMapping("/free")
-  public ResponseEntity<?> findAllFreeCommunity(Pageable pageable) {
+  public ResponseEntity<?> findAllFreeCommunity(
+          @ApiParam(value = "페이지 번호", required = true, defaultValue = "0", example = "0")  @RequestParam(value = "page", required = true, defaultValue = "0") Integer page,
+          @ApiParam(value = "페이지 크기", required = true, defaultValue = "5", example = "5")  @RequestParam(value = "size", required = true, defaultValue = "20") Integer size) {
+    Pageable pageable = PageRequest.of(page, size);
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
     List<ReadAllCommunityResponse> response = communityService.readAllCommunity(pageable);
