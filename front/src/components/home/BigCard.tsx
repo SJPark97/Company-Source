@@ -19,7 +19,6 @@ export default function BigCard({ id, name, image }: Iprops) {
           <div className="bg-brand w-[100%] h-[10px] rounded-tl-5 rounded-tr-5"></div>
           {image ? (
             <div className="relative">
-
               <Image
                 src={image}
                 alt="naver.logo_small.ng"
