@@ -62,25 +62,25 @@ export default function HomeQuickMenu() {
             className="w-full"
             key={`Quick + ${corp.corpName}`}
           >
-            <div className="bg-white items-center w-full h-[20%] flex flex-col">
+            <div className="bg-white items-center flex flex-col">
               {corp.corpImg ? (
                 <Image
                   src={corp.corpImg}
                   alt="기업 로고"
                   width={60}
-                  height={0}
-                  className="mx-auto rounded-5 mt-10 h-50"
+                  height={60}
+                  className="mx-auto rounded-5 mt-10"
                 />
               ) : (
                 <Image
                   src="/company_default.jpg"
                   alt="기업 로고"
-                  width={60}
-                  height={50}
-                  className="mx-auto rounded-5 mt-10 h-50"
+                  width={164}
+                  height={164}
+                  className="mx-auto rounded-5 mt-10 w-60"
                 />
               )}
-              <div className="font-bold text-center text-13 mb-10">
+              <div className="font-bold text-center text-13 mb-10 line-clamp-1">
                 {corp.corpName}
               </div>
               <div className="text-13">{corp.industyName}</div>

@@ -22,9 +22,10 @@ export default function BigCard({ id, name, image }: Iprops) {
               <Image
                 src={image}
                 alt="naver.logo_small.ng"
-                width={100}
-                height={0}
-                className="mx-auto mt-[20px] h-auto"
+                // fill
+                width={164}
+                height={164}
+                className="mx-auto mt-[20px] w-auto h-auto"
                 placeholder="blur"
                 blurDataURL={image}
               />
@@ -33,9 +34,9 @@ export default function BigCard({ id, name, image }: Iprops) {
             <Image
               src="/company_default.jpg"
               alt="default_image"
-              width={190}
-              height={0}
-              className="mx-auto h-[120px]"
+              width={164}
+              height={164}
+              className="mx-auto w-auto h-auto"
               placeholder="blur"
               blurDataURL="/company_default.jpg"
             />
