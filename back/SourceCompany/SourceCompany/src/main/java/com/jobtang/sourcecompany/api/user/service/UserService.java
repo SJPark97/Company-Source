@@ -14,5 +14,5 @@ public interface UserService {
 
     Map<String, String>  validateHandling(Errors errors);
 
-    Long userPkByRequest(HttpServletRequest request);
+
 }
