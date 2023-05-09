@@ -1,5 +1,9 @@
 package com.jobtang.sourcecompany.api.user.controller;
 
+import com.jobtang.sourcecompany.api.user.entity.User;
+import com.jobtang.sourcecompany.api.user.repository.UserRepository;
+import com.jobtang.sourcecompany.api.user.service.JwtService;
+import com.jobtang.sourcecompany.api.user.service.UserService;
 import com.jobtang.sourcecompany.config.JwtTokenProvider;
 //import com.jobtang.sourcecompany.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +17,8 @@ import java.net.http.HttpRequest;
 @RequiredArgsConstructor
 public class TestController {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtService jwtService;
+    private final UserRepository userRepository;
 
     @PostMapping("")
     public String test(){
@@ -21,8 +26,8 @@ public class TestController {
     }
 
     @PostMapping("/token")
-    public String test2(HttpServletRequest request) {
-        String token = jwtTokenProvider.resolveToken(request);
-        return jwtTokenProvider.getUserPk(token);
+    public User test2(HttpServletRequest request) {
+        Long userId = jwtService.userPkByRequest(request);
+        return userRepository.findById(userId).get();
     }
 }
