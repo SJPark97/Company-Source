@@ -77,7 +77,7 @@ export default function Home() {
               className="font-bold text-white lg:text-26 xl:text-29 2xl:text-32 text-shadow animate-fadeIn"
               style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)" }}
             >
-              약 20개의 분석 방법으로 분석했습니다.
+              약 10개의 분석 방법으로 분석했습니다.
             </div>
           </div>
           <SearchBar getData={getData} />

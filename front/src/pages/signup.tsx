@@ -1,19 +1,23 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { SERVER_URL } from "@/utils/url";
+import { idCheckAxios, nickNameCheckAxios } from "@/utils/user/api";
 
 export default function SignUp() {
   const [id, setId] = useState<string>("");
   const [idIsValid, setIdIsValid] = useState<boolean>(false);
+  const [idIsDuplicate, setIdIsDuplicate] = useState<boolean>(true);
   const [firstPassword, setFirstPassword] = useState<string>("");
   const [secondPassword, setSecondPassword] = useState<string>("");
   const [passwordIsValid, setPasswordIsValid] = useState<boolean>(false);
   const [nickName, setNickName] = useState<string>("");
   const [nickNameIsValid, setNickNameIsValid] = useState<boolean>(false);
-  const [isDuplicate, setIsDuplicate] = useState<boolean>(true);
+  const [nickNameIsDuplicate, setNickNameIsDuplicate] = useState<boolean>(true);
+  const [sex, setSex] = useState<string>("");
 
   const idHandler = (e: any) => {
     setId(e.target.value);
+    setIdIsDuplicate(true);
   };
 
   const firstPasswordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,15 +30,44 @@ export default function SignUp() {
 
   const nickNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickName(e.target.value);
+    setNickNameIsDuplicate(true);
   };
 
+  // Id 중복체크 함수
+  const idCheckHandler = async () => {
+    // 아이디가 유효하면 back에 Id 중복체크 요청
+    if (idIsValid) {
+      const res = await idCheckAxios(id);
+      console.log(res);
+      if (res.code === "C005") {
+        alert("중복된 ID 입니다.");
+        setIdIsDuplicate(true);
+      } else if (!res.code) {
+        setIdIsDuplicate(false);
+      }
+    } else {
+      alert("유효하지 않은 ID 형식입니다.");
+    }
+  };
+
+  // 닉네임 중복체크 함수
   const nickNameCheckHandler = async () => {
     if (nickNameIsValid) {
-      await axios.get(SERVER_URL + `/user/validnickname/${nickName}`);
-      // .then((res) => console.log(res));
+      const res = await nickNameCheckAxios(nickName);
+      if (res.code === "C005") {
+        alert("중복된 닉네임 입니다.");
+        setNickNameIsDuplicate(true);
+      } else if (!res.code) {
+        setNickNameIsDuplicate(false);
+      }
     } else {
-      alert("닉네임이 유효하지 않습니다.");
+      alert("유효하지 않은 닉네임 형식 입니다.");
     }
+  };
+
+  const sexHandler = (e) => {
+    setSex(e.target.value);
+    console.log(e.target.value);
   };
 
   // ID 유효성 검사
@@ -91,12 +124,27 @@ export default function SignUp() {
       alert("password 경고");
       return;
     }
+
+    if (!nickNameIsValid) {
+      alert("닉네임 유효성 경고");
+      return;
+    }
+
+    if (nickNameIsDuplicate) {
+      alert("닉네임 중복체크 해주세요");
+      return;
+    }
+
+    if (!sex) {
+      alert("성별 선택해주세요");
+      return;
+    }
   };
 
   return (
     <>
-      <div className="flex flex-col items-center my-[40px]">
-        <p className="text-40 text-brand font-bold mb-[5vh]">Sign Up</p>
+      <div className="flex flex-col items-center my-[10px]">
+        <p className="text-40 text-brand font-bold mb-10">Sign Up</p>
         <div className="flex flex-col border-gray-300 border-1 w-[550px] h-[650px] p-56">
           <form onSubmit={signUpHandler}>
             {/* 아이디 입력 */}
@@ -105,9 +153,25 @@ export default function SignUp() {
                 <label htmlFor="id" className="font-bold text-16">
                   아이디
                 </label>
-                <div className="text-gray-400 text-10 ml-30">
+                {/* <div className="text-gray-400 text-10 ml-30">
                   예시 : companysource@companysource.com
-                </div>
+                </div> */}
+                <button
+                  className="pl-5 pr-5 border-1 rounded-10 ml-30 mr-30"
+                  type="button"
+                  onClick={idCheckHandler}
+                >
+                  중복체크
+                </button>
+                {!idIsDuplicate && id.length !== 0 ? (
+                  <div className="text-10 text-brand">
+                    사용할 수 있는 닉네임 입니다.
+                  </div>
+                ) : id !== null && id.length === 0 ? null : (
+                  <div className="text-10 text-red-500">
+                    중복체크를 해주세요.
+                  </div>
+                )}
               </div>
               <input
                 id="id"
@@ -115,6 +179,7 @@ export default function SignUp() {
                 maxLength={30}
                 className="border-b-2 focus:outline-none w-[436px]"
                 onChange={idHandler}
+                placeholder="예시 : companysource@companysource.com"
               />
               {!idIsValid && id.length !== 0 ? (
                 <div className="absolute text-red-600 text-13">
@@ -158,12 +223,11 @@ export default function SignUp() {
                     8 ~ 16자 영문, 숫자, 특수문자를 최소 한가지씩 조합해주세요.
                   </div>
                 </div>
-              ) : // <div className="text-white">blank area</div>
-                firstPassword.length === 0 ? null : (
-                  <div className="absolute font-bold text-blue-500 text-13">
-                    올바른 비밀번호 형식입니다.
-                  </div>
-                )}
+              ) : firstPassword.length === 0 ? null : (
+                <div className="absolute font-bold text-blue-500 text-13">
+                  올바른 비밀번호 형식입니다.
+                </div>
+              )}
             </div>
 
             {/* 닉네임 입력 */}
@@ -174,12 +238,21 @@ export default function SignUp() {
                 </label>
 
                 <button
-                  className="pl-5 pr-5 border-1 rounded-10 ml-30"
+                  className="pl-5 pr-5 border-1 rounded-10 ml-30 mr-30"
                   type="button"
                   onClick={nickNameCheckHandler}
                 >
                   중복체크
                 </button>
+                {!nickNameIsDuplicate && nickName.length !== 0 ? (
+                  <div className="text-10 text-brand">
+                    사용할 수 있는 닉네임 입니다.
+                  </div>
+                ) : nickName !== null && nickName.length === 0 ? null : (
+                  <div className="text-10 text-red-500">
+                    중복체크를 해주세요.
+                  </div>
+                )}
               </div>
               <input
                 id="nickname"
@@ -204,6 +277,9 @@ export default function SignUp() {
                   type="radio"
                   name="sex"
                   className="peer peer-male"
+                  value="m"
+                  onChange={sexHandler}
+                  checked={sex === "m"}
                 />
                 <span className="peer-checked:text-sky-500">남성</span>
               </label>
@@ -214,6 +290,9 @@ export default function SignUp() {
                   type="radio"
                   name="sex"
                   className="peer peer-female"
+                  value="w"
+                  onChange={sexHandler}
+                  checked={sex === "w"}
                 />
                 <span className="peer-checked:text-sky-500">여성</span>
               </label>
