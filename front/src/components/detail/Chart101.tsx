@@ -10,57 +10,72 @@
 //   console.log(chartData)
 //   const canvasEl = useRef<any>(null);
 
-//   const colors = {
-//     purple: {
-//       default: "rgba(149, 76, 233, 1)",
-//       half: "rgba(149, 76, 233, 0.5)",
-//       quarter: "rgba(149, 76, 233, 0.25)",
-//       zero: "rgba(149, 76, 233, 0)"
-//     },
-//     indigo: {
-//       default: "rgba(80, 102, 120, 1)",
-//       quarter: "rgba(80, 102, 120, 0.25)"
-//     }
-//   };
-
 //   useEffect(() => {
 //     const ctx = canvasEl.current.getContext("2d");
-//     const gradient = ctx.createLinearGradient(0, 16, 0, 600);
-//     gradient.addColorStop(0, colors.purple.half);
-//     gradient.addColorStop(0.65, colors.purple.quarter);
-//     gradient.addColorStop(1, colors.purple.zero);
+
 
 //     const data = {
 //       labels: chartData.data.result.map((item: any) => {
 //         return item.name
 //       }),
-//       datasets: [{
-//         type: 'bar',
-//         label: 'Bar Dataset',
-//         data: chartData.data.result.map((item: any) => {
-//           return item[chartData.data.corp_name]
-//         }),
-//         borderColor: 'rgb(255, 99, 132)',
-//         backgroundColor: 'rgba(255, 99, 132, 0.2)'
-//       }, {
-//         type: 'line',
-//         label: 'Line Dataset',
-//         data: chartData.data.result.map((item: any) => {
-//           return item["산업평균"]
-//         }),
-//         fill: false,
-//         borderColor: 'rgb(54, 162, 235)'
-//       }]
+//       datasets: [
+//         {
+//           label: "양호",
+//           data: chartData.data.result.map((item: any) => {
+//             return item["평가"] == "양호" && item[chartData.data.corp_name]
+//           }),
+//           borderColor: 'rgb(255, 99, 132)',
+//           backgroundColor: '#82ca9d',
+//           stack: 'Stack 0'
+//         },
+//         {
+//           label: "불량",
+//           data: chartData.data.result.map((item: any) => {
+//             return item["평가"] == "불량" && item[chartData.data.corp_name]
+//           }),
+//           borderColor: 'rgb(255, 99, 132)',
+//           backgroundColor: '#FF0000',
+//           stack: 'Stack 0'
+//         },
+//         {
+//           label: "보통",
+//           data: chartData.data.result.map((item: any) => {
+//             return item["평가"] == "보통" && item[chartData.data.corp_name]
+//           }),
+//           borderColor: 'rgb(255, 99, 132)',
+//           backgroundColor: '#EFAD45',
+//           stack: 'Stack 0'
+//         },
+//         {
+//           label: "산업평균",
+//           data: chartData.data.result.map((item: any) => {
+//             return item["산업평균"]
+//           }),
+//           borderColor: 'rgb(54, 162, 235)',
+//           backgroundColor: '#8884d8',
+//           stack: 'Stack 1'
+//         }
+//       ]
 //     };
+
+
 //     const config = {
-//       type: 'scatter',
+//       type: 'bar',
 //       data: data,
 //       options: {
-//         scales: {
-//           y: {
-//             beginAtZero: true
-//           }
-//         }
+//         plugins: {
+//           legend: {
+//             position: 'bottom'
+//           },
+//           title: {
+//             display: true,
+//             text: 'Chart.js Bar Chart - Stacked'
+//           },
+//         },
+//         responsive: true,
+//         interaction: {
+//           intersect: false,
+//         },
 //       }
 //     };
 //     const myLineChart = new Chart(ctx, config as ChartConfiguration);
@@ -78,8 +93,6 @@
 //     </>
 //   );
 // }
-
-
 
 import React, { useEffect, useState } from "react";
 import {

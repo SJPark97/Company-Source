@@ -1,6 +1,6 @@
 import Image from "next/image";
 import AnalysisTitle from "./AnalysisTitle";
-import Chart101 from "./Chart101";
+// import Chart101 from "./Chart101";
 import Chart103 from "./Chart103";
 import Chart104 from "./Chart104";
 import Chart109 from "./Chart109";
@@ -22,7 +22,7 @@ interface iChartCode {
   [key: string]: any
 }
 
-// const Chart103 = dynamic(() => import('./Chart103'), { ssr: false })
+const Chart101 = dynamic(() => import('./Chart101'), { ssr: false })
 
 const chartCode: iChartCode = {
   "101": Chart101,
