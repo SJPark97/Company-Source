@@ -12,6 +12,6 @@ public class CreateCommentRequest {
 
   private Long commentGroup;
 
-  private int commentDepth;
+  private Long parent;
 
 }

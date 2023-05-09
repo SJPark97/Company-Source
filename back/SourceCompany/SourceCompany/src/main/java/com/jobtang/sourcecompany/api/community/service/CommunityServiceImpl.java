@@ -7,6 +7,7 @@ import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.exception.CustomException;
 import com.jobtang.sourcecompany.api.exception.ErrorCode;
 import com.jobtang.sourcecompany.api.user.entity.User;
+import com.jobtang.sourcecompany.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CommunityServiceImpl implements CommunityService {
+  private final UserRepository userRepository;
 
   private final RedisTemplate<String, Integer> integerRedisTemplate;
   private final CommunityRepository communityRepository;
@@ -39,8 +41,8 @@ public class CommunityServiceImpl implements CommunityService {
    */
   @Override
   @Transactional
-  public void createCommunity(String communityType ,User user, CreateCommunityRequest createCommunityRequest) throws Exception {
-
+  public void createCommunity(String communityType ,Long userId, CreateCommunityRequest createCommunityRequest) throws Exception {
+    User user = userRepository.findById(userId).get();
     // user 확인을 위한 코드
     // user.isActive 값이 false 이거나 , null 인 경우
     if (user == null || user.isActive() == false) {

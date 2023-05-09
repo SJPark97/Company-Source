@@ -31,11 +31,11 @@ public class CommentController {
           notes = "게시판에 댓글을 작성하는 API"
   )
   @PostMapping
-  public ResponseEntity<?> updateFreeCommunity(@RequestBody UpdateCommunityRequest updateCommunityRequest) {
+  public ResponseEntity<?> updateFreeCommunity(@RequestHeader("Authorization") String token , @RequestBody UpdateCommunityRequest updateCommunityRequest) {
     HttpHeaders headers = new HttpHeaders();
+
     HashMap<String, Object> result = new HashMap<>();
-//
-//    result.put("data", communityService.updateCommunity(updateCommunityRequest));
+
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 

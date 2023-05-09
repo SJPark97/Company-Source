@@ -8,6 +8,8 @@ import com.jobtang.sourcecompany.api.exception.CustomException;
 import com.jobtang.sourcecompany.api.exception.ErrorCode;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import com.jobtang.sourcecompany.api.user.repository.UserRepository;
+import com.jobtang.sourcecompany.api.user.service.JwtService;
+import com.jobtang.sourcecompany.config.JwtTokenProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -31,7 +33,7 @@ import java.util.List;
 public class CommunityController {
   private final CommunityService communityService;
   // 테스트 용 유저 가져오기
-  private final UserRepository userRepository;
+  private final JwtService jwtService;
 
 
 
@@ -64,18 +66,18 @@ public class CommunityController {
           notes = "현재 로그인한 유저 명의로 기업분석 게시글 작성"
   )
   @PostMapping("/corp")
-  public ResponseEntity<?> createCorpCommunity(@RequestBody CreateCommunityRequest createCommunityRequest) throws Exception {
+  public ResponseEntity<?> createCorpCommunity(@RequestHeader("Authorization") String token ,@RequestBody CreateCommunityRequest createCommunityRequest) throws Exception {
     /*
     jwt token을 통해 User 객체 가져오는 코드로 대체
     User user = token.getLoginedUser();
      */
-    User user = userRepository.findById(10L).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
+//    User user = userRepository.findById(10L).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    Long userId = jwtService.userPkByToken(token);
 
     HashMap<String, Object> result = new HashMap<>();
     HttpHeaders headers = new HttpHeaders();
 
-    communityService.createCommunity("기업",user, createCommunityRequest);
+    communityService.createCommunity("기업",userId, createCommunityRequest);
     result.put("data", "success");
     return new ResponseEntity<>(result, HttpStatus.CREATED);
 
@@ -210,18 +212,18 @@ public class CommunityController {
           notes = "현재 로그인한 유저 명의로 자유 게시글 작성"
   )
   @PostMapping("/free")
-  public ResponseEntity<?> createFreeCommunity(@RequestBody CreateCommunityRequest createCommunityRequest) throws Exception {
+  public ResponseEntity<?> createFreeCommunity(@RequestHeader("Authorization") String token , @RequestBody CreateCommunityRequest createCommunityRequest) throws Exception {
     /*
     jwt token을 통해 User 객체 가져오는 코드로 대체
     User user = token.getLoginedUser();
      */
-    User user = userRepository.findById(10L).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
+//    User user = userRepository.findById(10L).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    Long userId= jwtService.userPkByToken(token);
 
     HashMap<String, Object> result = new HashMap<>();
     HttpHeaders headers = new HttpHeaders();
 
-    communityService.createCommunity("자유", user, createCommunityRequest);
+    communityService.createCommunity("자유", userId, createCommunityRequest);
 
     result.put("data", "success");
     return new ResponseEntity<>(result, HttpStatus.CREATED);
