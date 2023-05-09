@@ -22,11 +22,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
-    // 임시 severtKey
     private String secretKey = "myprojectsecret";
 
+    // 임시 severtKey
+    
+    
     // 토큰 유효시간 30분
-    private long tokenValidTime = 30 * 60 * 1000L;
+    //    private long tokenValidTime = 30 * 60 * 1000L;
+    // 토큰 유효시간 1주일
+    private long tokenValidTime =  7* 24 * 60 * 60 * 1000L;
 
     private final UserDetailsService userDetailsService;
 
