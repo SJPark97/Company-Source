@@ -75,7 +75,7 @@ public class CommunityServiceImpl implements CommunityService {
               })
               .collect(Collectors.toList());
     } else if (type.equals("title")) {
-      Page<Community> communities= communityRepository.findAllByCommunityTypeAndContentContainingAndIsActiveTrue(communityType,content, pageable);
+      Page<Community> communities= communityRepository.findAllByCommunityTypeAndTitleContainingAndIsActiveTrue(communityType,content, pageable);
       return communities.stream()
               .map(community -> {
                 // 레디스에 저장된 해당 커뮤니티의 key값
