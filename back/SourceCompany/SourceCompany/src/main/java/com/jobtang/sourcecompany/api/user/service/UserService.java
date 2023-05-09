@@ -4,6 +4,7 @@ import com.jobtang.sourcecompany.api.user.dto.SignupRequestDto;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import org.springframework.validation.Errors;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public interface UserService {
@@ -13,5 +14,5 @@ public interface UserService {
 
     Map<String, String>  validateHandling(Errors errors);
 
-
+    Long userPkByRequest(HttpServletRequest request);
 }

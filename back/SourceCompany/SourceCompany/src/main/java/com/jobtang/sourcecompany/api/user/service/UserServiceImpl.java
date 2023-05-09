@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +25,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
 //    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     // UserDetailsService를 상속(implements)을 받기위해 override 필요한 메서드
     @Override
@@ -70,7 +72,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.existsByNickname(Nickname);
     }
 
-//    // 로그인. 일단은 username만
-//    public String loginUser(LoginRequestDto request) {
-//
+    // HttpServletRequest를 받고 거기서 토큰을 가져와서 userId값으로 반환
+    public Long userPkByRequest(HttpServletRequest request) {
+        String token = jwtTokenProvider.resolveToken(request);
+        return  Long.parseLong(jwtTokenProvider.getUserPk(token));
+    }
 }
