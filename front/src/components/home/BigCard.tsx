@@ -10,7 +10,7 @@ interface Iprops {
 export default function BigCard({ id, name, image }: Iprops) {
   return (
     <>
-      <Link href="/detail/[searchdetaipl]" as={`/detail/${id}`}>
+      <Link href="/detail/[searchdetail]" as={`/detail/${id}`}>
         <div
           className="flex flex-col w-[190px] h-[190px]
           shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] rounded-10

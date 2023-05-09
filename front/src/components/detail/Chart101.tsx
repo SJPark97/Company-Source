@@ -1,3 +1,86 @@
+// import React, { useEffect, useRef } from "react";
+// import Chart, { ChartConfiguration } from "chart.js/auto";
+
+// interface Iprops {
+//   chartData: any;
+// }
+
+// export default function Chart101({ chartData }: Iprops) {
+//   console.log(chartData.data.result[0])
+//   console.log(chartData)
+//   const canvasEl = useRef<any>(null);
+
+//   const colors = {
+//     purple: {
+//       default: "rgba(149, 76, 233, 1)",
+//       half: "rgba(149, 76, 233, 0.5)",
+//       quarter: "rgba(149, 76, 233, 0.25)",
+//       zero: "rgba(149, 76, 233, 0)"
+//     },
+//     indigo: {
+//       default: "rgba(80, 102, 120, 1)",
+//       quarter: "rgba(80, 102, 120, 0.25)"
+//     }
+//   };
+
+//   useEffect(() => {
+//     const ctx = canvasEl.current.getContext("2d");
+//     const gradient = ctx.createLinearGradient(0, 16, 0, 600);
+//     gradient.addColorStop(0, colors.purple.half);
+//     gradient.addColorStop(0.65, colors.purple.quarter);
+//     gradient.addColorStop(1, colors.purple.zero);
+
+//     const data = {
+//       labels: chartData.data.result.map((item: any) => {
+//         return item.name
+//       }),
+//       datasets: [{
+//         type: 'bar',
+//         label: 'Bar Dataset',
+//         data: chartData.data.result.map((item: any) => {
+//           return item[chartData.data.corp_name]
+//         }),
+//         borderColor: 'rgb(255, 99, 132)',
+//         backgroundColor: 'rgba(255, 99, 132, 0.2)'
+//       }, {
+//         type: 'line',
+//         label: 'Line Dataset',
+//         data: chartData.data.result.map((item: any) => {
+//           return item["산업평균"]
+//         }),
+//         fill: false,
+//         borderColor: 'rgb(54, 162, 235)'
+//       }]
+//     };
+//     const config = {
+//       type: 'scatter',
+//       data: data,
+//       options: {
+//         scales: {
+//           y: {
+//             beginAtZero: true
+//           }
+//         }
+//       }
+//     };
+//     const myLineChart = new Chart(ctx, config as ChartConfiguration);
+
+//     return function cleanup() {
+//       myLineChart.destroy();
+//     };
+//   });
+
+//   return (
+//     <>
+//       <div>
+//         <canvas ref={canvasEl} height="210" />
+//       </div>
+//     </>
+//   );
+// }
+
+
+
 import React, { useEffect, useState } from "react";
 import {
   BarChart,
