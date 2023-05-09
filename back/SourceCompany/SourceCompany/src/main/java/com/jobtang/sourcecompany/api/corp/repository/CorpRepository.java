@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface CorpRepository extends JpaRepository<Corp, String> {
     List<Corp> findByCorpNameContains(String value);
+    List<Corp> findByCorpNameStartingWith(String value);
     Corp findByCorpId(String corpId);
     @Query("SELECT corp.corpId FROM Corp corp")
     List<String> findAllCorpIds();
