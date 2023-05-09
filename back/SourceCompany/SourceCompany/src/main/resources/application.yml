@@ -44,3 +44,6 @@ spring:
     host: company-source.com
     port: 8379
     password: "B107"
+
+#jwt:
+#  secret: 'myprojectsecret'

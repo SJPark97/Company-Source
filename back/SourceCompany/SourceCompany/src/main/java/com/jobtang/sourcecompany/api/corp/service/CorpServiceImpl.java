@@ -52,6 +52,13 @@ public class CorpServiceImpl implements CorpService{
                 .collect(Collectors.toList());
     }
 
+//    public List<CorpSearchListDto> recommendCorp() {
+//        // 기업 코드를 랜덤 1개 뽑기
+//        List<String> indutyCodeList =
+//
+//        // 해당 기업코드를 가진것 랜덤 5개만 뽑기
+//    }
+
     public CorpInfoDto corpInfo(String corpId) {
         // jpa를 사용해서 해당 corpid로 조회
         HashMap<String,Object> result = new HashMap<>();
