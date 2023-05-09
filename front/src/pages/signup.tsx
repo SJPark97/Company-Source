@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { SERVER_URL } from "@/utils/url";
-import { idCheckAxios, nickNameCheckAxios } from "@/utils/user/api";
+import {
+  idCheckAxios,
+  nickNameCheckAxios,
+  signUpAxios,
+} from "@/utils/user/api";
 
 export default function SignUp() {
   const [id, setId] = useState<string>("");
@@ -14,6 +18,11 @@ export default function SignUp() {
   const [nickNameIsValid, setNickNameIsValid] = useState<boolean>(false);
   const [nickNameIsDuplicate, setNickNameIsDuplicate] = useState<boolean>(true);
   const [sex, setSex] = useState<string>("");
+  const [birthDate, setBirthDate] = useState<any>("");
+
+  // 생년월일 선택시 Maximum 을 오늘로 지정하기 위해 계산
+  const today = new Date();
+  const maxDate = today.toISOString().substring(0, 10);
 
   const idHandler = (e: any) => {
     setId(e.target.value);
@@ -65,9 +74,13 @@ export default function SignUp() {
     }
   };
 
-  const sexHandler = (e) => {
+  const sexHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setSex(e.target.value);
     console.log(e.target.value);
+  };
+
+  const birthDateHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setBirthDate(e.target.value);
   };
 
   // ID 유효성 검사
@@ -111,7 +124,7 @@ export default function SignUp() {
   }, [nickName]);
 
   // 회원가입 전 유효성 검사목록 확인
-  const signUpHandler = (e: any) => {
+  const signUpHandler = async (e: any) => {
     e.preventDefault();
     // id 유효성 통과 못하면 경고
     if (!idIsValid) {
@@ -139,13 +152,20 @@ export default function SignUp() {
       alert("성별 선택해주세요");
       return;
     }
+
+    await signUpAxios(birthDate, id, nickName, firstPassword, sex);
+    console.log(birthDate);
+    console.log(id);
+    console.log(nickName);
+    console.log(firstPassword);
+    console.log(sex);
   };
 
   return (
     <>
       <div className="flex flex-col items-center my-[10px]">
         <p className="text-40 text-brand font-bold mb-10">Sign Up</p>
-        <div className="flex flex-col border-gray-300 border-1 w-[550px] h-[650px] p-56">
+        <div className="flex flex-col border-gray-300 border-1 w-[550px] h-[820px] p-56">
           <form onSubmit={signUpHandler}>
             {/* 아이디 입력 */}
             <div className="mb-[50px] relative">
@@ -153,11 +173,8 @@ export default function SignUp() {
                 <label htmlFor="id" className="font-bold text-16">
                   아이디
                 </label>
-                {/* <div className="text-gray-400 text-10 ml-30">
-                  예시 : companysource@companysource.com
-                </div> */}
                 <button
-                  className="pl-5 pr-5 border-1 rounded-10 ml-30 mr-30"
+                  className="px-10 py-5 border-1 rounded-10 ml-30 mr-30 bg-brand text-white"
                   type="button"
                   onClick={idCheckHandler}
                 >
@@ -165,7 +182,7 @@ export default function SignUp() {
                 </button>
                 {!idIsDuplicate && id.length !== 0 ? (
                   <div className="text-10 text-brand">
-                    사용할 수 있는 닉네임 입니다.
+                    사용할 수 있는 ID 입니다.
                   </div>
                 ) : id !== null && id.length === 0 ? null : (
                   <div className="text-10 text-red-500">
@@ -238,7 +255,7 @@ export default function SignUp() {
                 </label>
 
                 <button
-                  className="pl-5 pr-5 border-1 rounded-10 ml-30 mr-30"
+                  className="px-10 py-5 border-1 rounded-10 ml-30 mr-30 bg-brand text-white"
                   type="button"
                   onClick={nickNameCheckHandler}
                 >
@@ -277,9 +294,9 @@ export default function SignUp() {
                   type="radio"
                   name="sex"
                   className="peer peer-male"
-                  value="m"
+                  value="남성남성"
                   onChange={sexHandler}
-                  checked={sex === "m"}
+                  checked={sex === "남성남성"}
                 />
                 <span className="peer-checked:text-sky-500">남성</span>
               </label>
@@ -290,13 +307,28 @@ export default function SignUp() {
                   type="radio"
                   name="sex"
                   className="peer peer-female"
-                  value="w"
+                  value="여성여성"
                   onChange={sexHandler}
-                  checked={sex === "w"}
+                  checked={sex === "여성여성"}
                 />
                 <span className="peer-checked:text-sky-500">여성</span>
               </label>
             </fieldset>
+
+            {/* 생년월일 선택 */}
+            <div className="mb-50">
+              <label htmlFor="birthDate" className="font-bold text-16">
+                생년월일
+              </label>
+              <br></br>
+              <input
+                id="birthDate"
+                type="date"
+                max={maxDate}
+                className="mt-10 border-2 rounded-10 p-10"
+                onChange={birthDateHandler}
+              />
+            </div>
 
             <button className="bg-brand w-[100%] h-50 font-bold text-white rounded-5">
               회원 가입

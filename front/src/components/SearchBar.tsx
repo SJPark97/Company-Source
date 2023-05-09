@@ -16,9 +16,7 @@ export interface Iprops {
 
 export default function SearchBar({ getData }: Iprops) {
   const router = useRouter();
-  // const [searchWord, setSearchWord] = useState<
-  //   string | string[] | undefined | null
-  // >("");
+
   const [searchWord, setSearchWord] = useState<string>("");
   const [isHaveInputValue, setIsHaveInputValue] = useState<boolean>(false);
   const [autoCompleteList, setAutoCompleteList] = useState<Array<autoComplete>>(
@@ -32,7 +30,6 @@ export default function SearchBar({ getData }: Iprops) {
     setSearchWord(e.target.value);
     if (e.target.value) {
       setIsHaveInputValue(true);
-      // console.log("트루로 변경함");
     }
   };
 
