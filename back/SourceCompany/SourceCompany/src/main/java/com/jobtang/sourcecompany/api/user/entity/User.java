@@ -99,7 +99,11 @@ public class User extends BaseEntity implements UserDetails  {
   }
   @Override
   public String getPassword() {
+<<<<<<< HEAD
     return password;
+=======
+    return null;
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
   }
 
   @Override

@@ -1,5 +1,6 @@
 package com.jobtang.sourcecompany.api.corp_detail.service;
 
+<<<<<<< HEAD
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp.repository.CorpRepository;
 import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisDocument;
@@ -22,20 +23,35 @@ import com.jobtang.sourcecompany.api.induty_detail.repository.IndutyDetailReposi
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+=======
+import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisDocument;
+import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisInfoDocument;
+import com.jobtang.sourcecompany.api.corp_detail.repository.AnalysisInfoRepository;
+import com.jobtang.sourcecompany.api.corp_detail.repository.AnalysisRepository;
+import com.jobtang.sourcecompany.api.corp_detail.util.AnalysisInfo;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+=======
+import java.util.HashMap;
+import java.util.List;
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class AnalysisServiceImpl implements AnalysisService{
 
+<<<<<<< HEAD
     private final CorpDetailRepository corpDetailRepository;
     private final CorpRepository corpRepository;
     private final IndutyDetailRepository indutyDetailRepository;
@@ -182,6 +198,24 @@ public class AnalysisServiceImpl implements AnalysisService{
         } catch (Exception e) {
             return false;
         }
+=======
+    private final AnalysisRepository analysisRepository;
+    private final AnalysisInfoRepository analysisInfoRepository;
+    private final MongoTemplate mongoTemplate;
+
+    @Override
+    public HashMap getCorpAnalysis(String analysisId, String corpId) {
+        AnalysisDocument analysisDocument = analysisRepository.findByCorpId(corpId);
+        AnalysisInfoDocument analysisInfoDocument = analysisInfoRepository.findByAnalysisId(analysisId);
+
+        HashMap<String, HashMap> data = analysisDocument.getData().get(corpId);
+
+        if (data == null) {log.warn("해당 회사 분석정보가 없습니다" + corpId);return null;}
+        String key = "result" + analysisId;
+        HashMap result = (HashMap) data.get("analysis").get(key);
+        result.put("analysisInfo", analysisInfoDocument.getData());
+        return result;
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
     }
 
     @Override
@@ -197,11 +231,17 @@ public class AnalysisServiceImpl implements AnalysisService{
             analysisInfoDocument.setAnalysisId(keyName);
             analysisInfoDocument.setData(data);
             mongoTemplate.save(analysisInfoDocument);
+<<<<<<< HEAD
+=======
+            log.info("분석법 저장완료" + analysisInfo);
+
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
         }
         log.info("모든 기업분석 저장완료!");
 
         return ;
     }
+<<<<<<< HEAD
 
     private String rate(String analysisId, AnalysisResultDto corpVariable, AnalysisResultDto indutyVariable) {
         switch (analysisId) {
@@ -253,4 +293,6 @@ public class AnalysisServiceImpl implements AnalysisService{
             }
         return "몰루?";
         }
+=======
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 }

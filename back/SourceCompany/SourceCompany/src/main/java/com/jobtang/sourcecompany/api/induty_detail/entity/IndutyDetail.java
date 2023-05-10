@@ -1,7 +1,10 @@
 package com.jobtang.sourcecompany.api.induty_detail.entity;
 
+<<<<<<< HEAD
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp_detail.util.variable.EntityVariable;
+=======
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 import com.jobtang.sourcecompany.util.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +18,11 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+<<<<<<< HEAD
 public class IndutyDetail extends BaseEntity implements EntityVariable {
+=======
+public class IndutyDetail extends BaseEntity {
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
     @Id
     private String indutyCode; // 산업코드
 
@@ -76,6 +83,7 @@ public class IndutyDetail extends BaseEntity implements EntityVariable {
     private Long closingPrcie; // 종가
 
     private Long interestExpense; // 이자비용
+<<<<<<< HEAD
 
     @Override
     public String getVariableId() {
@@ -216,4 +224,6 @@ public class IndutyDetail extends BaseEntity implements EntityVariable {
     public Long getInterestExpense() {
         return interestExpense;
     }
+=======
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 }

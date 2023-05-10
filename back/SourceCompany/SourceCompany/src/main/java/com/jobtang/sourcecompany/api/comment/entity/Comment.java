@@ -42,9 +42,12 @@ public class Comment extends BaseEntity {
   @JoinColumn(name = "community_id")
   private Community community;
 
+<<<<<<< HEAD
   public void updateCommentGroup(){
     this.commentGroup = this.id;
   }
+=======
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 
 
 }

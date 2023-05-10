@@ -27,7 +27,11 @@ public class SignupRequestDto {
 
     @ApiModelProperty(value = "이메일")
     @NotEmpty(message = "이메일은 필수 입력 값입니다.")
+<<<<<<< HEAD
     @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,30}$", message = "이메일 형식이 올바르지 않습니다.")
+=======
+    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,20}$", message = "이메일 형식이 올바르지 않습니다.")
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
     private String email;
 
     @ApiModelProperty(value = "비밀번호")
@@ -37,6 +41,10 @@ public class SignupRequestDto {
     private String password;
 
     @ApiModelProperty(value = "성별")
+<<<<<<< HEAD
+=======
+    @Length(min = 4, max = 16, message = "비밀번호는 4자 이상, 16자 이하로 입력해주세요.")
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
     private String sex;
 
     @ApiModelProperty(value = "생일")
