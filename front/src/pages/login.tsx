@@ -10,15 +10,15 @@ export default function Login() {
   const [password, setPassword] = useState<string>("");
   const [failMessage, setFailMessage] = useState<boolean>(false);
 
-  const idHandler = (e) => {
+  const idHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
   };
 
-  const passwordHandler = (e) => {
+  const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const loginHandler = async (e) => {
+  const loginHandler = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await loginAxios(id, password);
 
@@ -43,7 +43,7 @@ export default function Login() {
         <p className="text-40 text-brand font-bold mb-[5vh]">Log In</p>
         <div className="flex flex-col border-gray-300 border-1 w-[550px] h-[400px] p-56">
           <form onSubmit={loginHandler}>
-            <label htmlFor="id" className="text-16 font-bold">
+            <label htmlFor="id" className="font-bold text-16">
               아이디
             </label>
             <br></br>
@@ -56,7 +56,7 @@ export default function Login() {
             />
             <br></br>
             <div className="relative">
-              <label htmlFor="id" className="text-16 font-bold">
+              <label htmlFor="id" className="font-bold text-16">
                 비밀번호
               </label>
               <br></br>
@@ -67,7 +67,7 @@ export default function Login() {
                 onChange={passwordHandler}
               />
               {failMessage && (
-                <div className="absolute text-16 text-red-500 top-60">
+                <div className="absolute text-red-500 text-16 top-60">
                   CompanySource 계정 혹은 비밀번호가 일치하지 않습니다. 입력한
                   내용을 다시 확인해 주세요.
                 </div>
