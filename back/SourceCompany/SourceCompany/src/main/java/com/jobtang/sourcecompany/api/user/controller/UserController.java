@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import com.jobtang.sourcecompany.api.exception.CustomException;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -53,7 +51,10 @@ public class UserController {
                 throw new CustomException("User Not Active", ErrorCode.USER_NOT_ACTIVE);
             }
             if (request.getPassword().equals(currentUser.getPassword())) {
-                result.put("data", jwtTokenProvider.createToken(user.get(), user.get().getRole()));
+                Map<String,Object> data = new HashMap<>();
+                data.put("token",jwtTokenProvider.createToken(currentUser, currentUser.getRole()));
+                data.put("nickname",currentUser.getNickname());
+                result.put("data", data);
                 return new ResponseEntity<>(result, HttpStatus.OK);
             } else {
                 throw new CustomException("Not Current Password", ErrorCode.PASSWORD_NOT_CURRENT);
