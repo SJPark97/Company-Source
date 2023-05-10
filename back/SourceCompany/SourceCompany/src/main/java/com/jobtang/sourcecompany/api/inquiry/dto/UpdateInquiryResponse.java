@@ -1,12 +1,15 @@
 package com.jobtang.sourcecompany.api.inquiry.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
+@Builder
 @AllArgsConstructor
-public class CreateInquiryRequest {
+public class UpdateInquiryResponse {
+    private Long id;
+
     private String title;
 
     private String content;
