@@ -124,7 +124,7 @@ public class CommunityServiceImpl implements CommunityService {
 
 
     // 레디스의 조회수와 해당 게시판의 토탈 조회수를 더한 값을 조회수로 기록
-    viewcnt += community.getTotalView();
+    viewcnt += community.getTotalView()+community.getYesterdayView();
     // 해당 커뮤니티의 댓글들을 List<DTO> 로 바꾸는 부분
 
     // 마지막에 ReadCommunityResponse 로 바꾸는 부분
@@ -233,11 +233,16 @@ public class CommunityServiceImpl implements CommunityService {
       String key = "viewComm" + community.getId();
       ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
       if (valueOperations.get(key) == null) {
+
+        System.out.println("키가 없네요 , 넘어갈게요");
         community.updateViewCnt(0);
       } else {
+        System.out.println("키 있군요! , "+valueOperations.get(key)+" 만큼 변화시킬게요");
         community.updateViewCnt(valueOperations.get(key));
         integerRedisTemplate.delete(key);
       }
+      System.out.println(community.getYesterdayView());
+
       communityRepository.save(community);
     }
     log.info("커뮤니티 조회수 업데이트 완료!");

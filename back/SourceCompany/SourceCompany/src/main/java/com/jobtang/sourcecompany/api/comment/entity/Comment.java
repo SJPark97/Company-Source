@@ -43,5 +43,9 @@ public class Comment extends BaseEntity {
   private Community community;
 
 
+  public void updateCommentGroup(){
+    this.commentGroup = this.id;
+  }
+
 
 }
