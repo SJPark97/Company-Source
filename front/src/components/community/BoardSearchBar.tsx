@@ -17,7 +17,7 @@ export default function BoardSearchBar() {
       <div className="flex border-3 border-brand h-60 w-[600px]">
         <div className="relative inline-flex">
           <select
-            className="text-center appearance-none border-0 outline-none focus:ring-0 py-2 pr-40 w-[150px]"
+            className="text-center appearance-none border-0 outline-none focus:ring-0 py-2 w-[100px]"
             value={searchType}
             onChange={searchTypeHandler}
           >
@@ -25,7 +25,7 @@ export default function BoardSearchBar() {
             <option>작성자</option>
             <option>제목</option>
           </select>
-          <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none bg-brand">
+          <div className="inset-y-0 right-0 flex items-center pointer-events-none bg-brand">
             <svg
               className="w-40 h-40 fill-current text-white"
               viewBox="0 0 20 20"
