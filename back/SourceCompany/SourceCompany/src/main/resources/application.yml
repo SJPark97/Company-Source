@@ -53,6 +53,16 @@ spring:
     host: k8b107.p.ssafy.io
     port: 8379
     password: "B107"
+  mail:
+    # Google smtp server 사용
+    host: smtp.gmail.com
+    port: 587
+    username: kimjinho.dev@gmail.com #앱 비밀번호 발급받은 google 계정
+    password: lagwgwxeqhadwapd #발급받은 앱 비밀번호
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
 
-#jwt:
-#  secret: 'myprojectsecret'
