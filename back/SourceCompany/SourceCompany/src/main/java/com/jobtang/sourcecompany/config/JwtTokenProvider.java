@@ -1,12 +1,8 @@
 package com.jobtang.sourcecompany.config;
-<<<<<<< HEAD
 import com.jobtang.sourcecompany.api.exception.CustomException;
 import com.jobtang.sourcecompany.api.exception.ErrorCode;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import com.jobtang.sourcecompany.api.user.repository.UserRepository;
-=======
-import com.jobtang.sourcecompany.api.user.entity.User;
->>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -23,10 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
-<<<<<<< HEAD
 import java.util.Optional;
-=======
->>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 
 // 토큰을 생성하고 검증
 // 사전에 필터(JwtAuthenticationFilter)에서 사전 검증을 거침.
@@ -44,10 +37,7 @@ public class JwtTokenProvider {
     private long tokenValidTime =  7* 24 * 60 * 60 * 1000L;
 
     private final UserDetailsService userDetailsService;
-<<<<<<< HEAD
     private final UserRepository userRepository;
-=======
->>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 
     // 객체 초기화, secretKey를 Base64로 인코딩한다.
     @PostConstruct
@@ -75,7 +65,6 @@ public class JwtTokenProvider {
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
-<<<<<<< HEAD
         String username = this.getUsername(token);
         Long userPk = Long.valueOf(this.getUserPk(token));
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -88,11 +77,6 @@ public class JwtTokenProvider {
         } else {
             throw new CustomException("Not Found User", ErrorCode.USER_NOT_FOUND);
         }
-=======
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUsername(token));
-        // 비활성화 여부에 따른 에러핸들링
-
->>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }

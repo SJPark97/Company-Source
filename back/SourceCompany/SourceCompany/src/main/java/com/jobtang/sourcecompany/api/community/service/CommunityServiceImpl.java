@@ -124,11 +124,7 @@ public class CommunityServiceImpl implements CommunityService {
 
 
     // 레디스의 조회수와 해당 게시판의 토탈 조회수를 더한 값을 조회수로 기록
-<<<<<<< HEAD
     viewcnt += community.getTotalView()+community.getYesterdayView();
-=======
-    viewcnt += community.getTotalView();
->>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
     // 해당 커뮤니티의 댓글들을 List<DTO> 로 바꾸는 부분
 
     // 마지막에 ReadCommunityResponse 로 바꾸는 부분
@@ -231,17 +227,13 @@ public class CommunityServiceImpl implements CommunityService {
   }
 
   @Override
-<<<<<<< HEAD
-  @Transactional
-=======
->>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
   public void updateViewCommunity() {
     List<Community> communities = communityRepository.findAll();
     for (Community community : communities) {
       String key = "viewComm" + community.getId();
       ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
       if (valueOperations.get(key) == null) {
-<<<<<<< HEAD
+
         System.out.println("키가 없네요 , 넘어갈게요");
         community.updateViewCnt(0);
       } else {
@@ -250,23 +242,13 @@ public class CommunityServiceImpl implements CommunityService {
         integerRedisTemplate.delete(key);
       }
       System.out.println(community.getYesterdayView());
-=======
-        community.updateViewCnt(0);
-      } else {
-        community.updateViewCnt(valueOperations.get(key));
-        integerRedisTemplate.delete(key);
-      }
->>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
+
       communityRepository.save(community);
     }
     log.info("커뮤니티 조회수 업데이트 완료!");
   }
 
   @Scheduled(cron = "0 0 3 * * ?") // 새벽 3시마다 업데이트
-<<<<<<< HEAD
-  @Transactional
-=======
->>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
   public void schedule() {
     log.info("스케쥴링 : 커뮤니티 업데이트 시작!");
     updateViewCommunity();

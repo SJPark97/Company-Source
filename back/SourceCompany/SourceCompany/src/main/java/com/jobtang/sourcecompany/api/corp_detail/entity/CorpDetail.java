@@ -1,10 +1,7 @@
 package com.jobtang.sourcecompany.api.corp_detail.entity;
 
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
-<<<<<<< HEAD
 import com.jobtang.sourcecompany.api.corp_detail.util.variable.EntityVariable;
-=======
->>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 import com.jobtang.sourcecompany.util.BaseEntity;
 import lombok.*;
 import lombok.Getter;
@@ -19,11 +16,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-<<<<<<< HEAD
 public class CorpDetail extends BaseEntity implements EntityVariable {
-=======
-public class CorpDetail extends BaseEntity {
->>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
     @Id
     private String corpDetailId;
 
@@ -88,7 +81,6 @@ public class CorpDetail extends BaseEntity {
     @JoinColumn(name = "corp_id")
     private Corp corp;
 
-<<<<<<< HEAD
     @Override
     public String getVariableId() {
         return corp.getCorpId();
@@ -228,7 +220,5 @@ public class CorpDetail extends BaseEntity {
     public Long getInterestExpense() {
         return interestExpense;
     }
-=======
 
->>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 }

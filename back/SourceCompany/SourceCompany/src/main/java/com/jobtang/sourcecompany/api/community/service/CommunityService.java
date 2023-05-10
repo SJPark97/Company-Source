@@ -22,8 +22,5 @@ public interface CommunityService {
   ReadRandingCommunityResponse readRandingCommunity();
 
   void updateViewCommunity();
-<<<<<<< HEAD
   void schedule();
-=======
->>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 }
