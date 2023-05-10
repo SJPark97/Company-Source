@@ -52,4 +52,16 @@ public class RedisConfig {
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         return redisTemplate;
     }
+<<<<<<< HEAD
+
+//    @Bean
+//    public RedisTemplate<String, String> redisTemplateEmailCert() {
+//        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+//        redisTemplate.setConnectionFactory(redisConnectionFactory());
+//        redisTemplate.setKeySerializer(new StringRedisSerializer());
+//        redisTemplate.setValueSerializer(new StringRedisSerializer());
+//        return redisTemplate;
+//    }
+=======
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 }

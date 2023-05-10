@@ -24,7 +24,11 @@ public class ReadAllCommunityResponse {
             .communityId(community.getId())
             .title(community.getTitle())
             .userName(community.getUser().getNickname())
+<<<<<<< HEAD
+            .viewCount(viewCount+community.getTotalView()+community.getYesterdayView())
+=======
             .viewCount(viewCount+community.getTotalView())
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
             .createdDate(community.getCreatedDate())
             .commentCount(community.getComments().size())
             .build();

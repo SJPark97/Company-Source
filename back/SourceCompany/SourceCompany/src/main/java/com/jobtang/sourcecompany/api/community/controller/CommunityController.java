@@ -307,7 +307,11 @@ public class CommunityController {
           notes = "해당 게시글을 수정하는 메소드"
   )
   @PutMapping("/free")
+<<<<<<< HEAD
+  public ResponseEntity<?> updateFreeCommunity(@RequestHeader("Authorization") String token ,@RequestBody UpdateCommunityRequest updateCommunityRequest) {
+=======
   public ResponseEntity<?> updateFreeCommunity(@RequestBody UpdateCommunityRequest updateCommunityRequest) {
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
 
@@ -325,7 +329,11 @@ public class CommunityController {
           notes = "해당 게시글을 삭제하는 메소드"
   )
   @DeleteMapping("/free/{communityId}")
+<<<<<<< HEAD
+  public ResponseEntity<?> removeFreeCommunity(@RequestHeader("Authorization") String token ,@PathVariable Long communityId) {
+=======
   public ResponseEntity<?> removeFreeCommunity(@PathVariable Long communityId) {
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
 
@@ -338,4 +346,21 @@ public class CommunityController {
    *
    *  자유 게시판 메소드들 -----------------------------------------------------------------------------------------------
    */
+<<<<<<< HEAD
+
+
+  /**
+   * test
+   */
+//  @GetMapping("/test")
+//  public ResponseEntity<?> Testtest() {
+//    HttpHeaders headers = new HttpHeaders();
+//    HashMap<String, Object> result = new HashMap<>();
+//    communityService.schedule();
+//    result.put("data", "success");
+//    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+//
+//  }
+=======
+>>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 }
