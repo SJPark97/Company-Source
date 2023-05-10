@@ -47,7 +47,7 @@ public class CorpServiceImpl implements CorpService{
         // 5개만 추출
         return corpRepository.findByCorpNameStartingWith(inputValue).stream()
                 .sorted(Comparator.comparing(Corp::getTotalView).reversed())
-                .limit(5)
+                .limit(10)
                 .map(c -> mapper.map(c, CorpAutoSearchDto.class))
                 .collect(Collectors.toList());
     }
