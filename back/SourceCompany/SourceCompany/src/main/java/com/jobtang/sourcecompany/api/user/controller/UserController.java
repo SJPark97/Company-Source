@@ -45,7 +45,7 @@ public class UserController {
         Optional<User> user = userRepository.findByEmail(request.getEmail());
 //                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
         if (user.isPresent()) {
-            result.put("data", jwtTokenProvider.createToken(user.get().getUsername(), user.get().getRole()));
+            result.put("data", jwtTokenProvider.createToken(user.get(), user.get().getRole()));
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
         throw new CustomException("Not Sign Email", ErrorCode.USER_NOT_FOUND);
@@ -75,7 +75,7 @@ public class UserController {
             result.put("data", validatorResult);
             result.put("message", "회원 가입 유효성 에러");
             result.put("status", "400");
-            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
 
         User signUser = userService.signupUser(request);

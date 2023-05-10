@@ -6,18 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
 @NoArgsConstructor
 public class CreateCommunityRequest {
-  private String communityType;
 
   private String title;
 
   private String content;
 
-  private User user;
-
-  private int totalView;
-
-  private int yesterdayView;
 }

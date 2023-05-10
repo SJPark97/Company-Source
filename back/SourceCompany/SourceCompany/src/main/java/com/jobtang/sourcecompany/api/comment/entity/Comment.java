@@ -26,6 +26,15 @@ public class Comment extends BaseEntity {
   @Column(nullable = false)
   private String content;
 
+  @NotNull
+  @Column(nullable = false)
+  private Long parent;
+
+  @NotNull
+  @Column(nullable = false)
+  private Long commentGroup;
+
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private User user;
