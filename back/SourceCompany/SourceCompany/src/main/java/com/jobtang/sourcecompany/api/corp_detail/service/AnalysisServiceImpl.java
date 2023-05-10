@@ -14,6 +14,7 @@ import com.jobtang.sourcecompany.api.corp_detail.repository.AnalysisInfoReposito
 import com.jobtang.sourcecompany.api.corp_detail.repository.AnalysisRepository;
 import com.jobtang.sourcecompany.api.corp_detail.repository.CorpDetailRepository;
 import com.jobtang.sourcecompany.api.corp_detail.util.Analysis.DoAnalysis;
+import com.jobtang.sourcecompany.api.corp_detail.util.Analysis.analysis_etc.AnalysisGpt;
 import com.jobtang.sourcecompany.api.corp_detail.util.AnalysisInfo;
 import com.jobtang.sourcecompany.api.corp_detail.util.variable.AnalysisVariable;
 import com.jobtang.sourcecompany.api.exception.CustomException;
@@ -219,6 +220,13 @@ public class AnalysisServiceImpl implements AnalysisService{
         log.info("모든 기업분석 저장완료!");
 
         return ;
+    }
+
+    @Override
+    public void updateAnalysisGpt(String corpId) {
+        System.out.println("GPT 요청 들어옴");
+        AnalysisGpt analysisGpt = new AnalysisGpt();
+        analysisGpt.reqGpt(corpId);
     }
 
     private String rate(String analysisId, AnalysisResultDto corpVariable, AnalysisResultDto indutyVariable) {
