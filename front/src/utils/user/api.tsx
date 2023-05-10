@@ -18,7 +18,7 @@ export const nickNameCheckAxios = async (nickName: string) => {
     );
     return response.data;
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return null;
   }
 };
@@ -40,6 +40,19 @@ export const signUpAxios = async (
     });
     console.log(response);
     return response;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const loginAxios = async (id: string, password: string) => {
+  try {
+    const response = await axios.post(SERVER_URL + `/user/login`, {
+      email: id,
+      password,
+    });
+    return response.data.data;
   } catch (error) {
     console.error(error);
     return null;
