@@ -66,3 +66,5 @@ spring:
             enable: true
           auth: true
 
+drinks :
+  milkshake: "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"
