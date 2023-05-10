@@ -26,9 +26,9 @@ export default function Chart405({ chartData }: Iprops) {
 
         <div className="flex justify-center flex-nowrap text-12">
           {data
-            ? data.data.result.map((item: any) => {
+            ? data.data.result.map((item: any, index: number) => {
               return (
-                <>
+                <div key={index}>
                   <BarChart
                     width={140}
                     height={300}
@@ -53,7 +53,7 @@ export default function Chart405({ chartData }: Iprops) {
                     />
                     <Bar dataKey="산업평균" fill="#8884d8" />
                   </BarChart>
-                </>
+                </div>
               );
             })
             : "데이터가 없어요 ㅠㅠ"}

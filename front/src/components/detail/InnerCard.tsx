@@ -18,9 +18,9 @@ export default function InnerCard({ cardItemList, type }: Iprops) {
 
   return (
     <div className="flex flex-col p-10 mt-10 mb-40 border-gray-500 rounded-5 border-1 h-[350px]">
-      {cardItemList.map((item) => {
+      {cardItemList.map((item, index) => {
         return item.title !== "산업코드" && (
-          <div className="flex items-center justify-start h-full m-5">
+          <div key={index} className="flex items-center justify-start h-full m-5">
             {type === "evaluation" ?
               <>
                 <div className="min-w-[230px] text-16">{item.analysisName}</div>

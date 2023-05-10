@@ -72,8 +72,9 @@ export default function searchdetail({
                   <Image
                     src="/analysis.svg"
                     alt="analysis"
-                    width={30}
-                    height={30}
+                    width={392}
+                    height={392}
+                    className="w-30 h-30"
                   />
                   <span className="ml-12">재무분석</span>
                 </div>
@@ -85,6 +86,7 @@ export default function searchdetail({
             </>
           )}
         </div>
+        <div className="mb-100"></div>
 
       </div>
     </>
