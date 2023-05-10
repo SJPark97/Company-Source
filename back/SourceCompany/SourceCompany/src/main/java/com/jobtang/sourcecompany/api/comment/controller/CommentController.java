@@ -49,7 +49,6 @@ public class CommentController {
   public ResponseEntity<?> deleteCommentCommunity(@RequestBody UpdateCommunityRequest updateCommunityRequest) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-//
 //    result.put("data", communityService.updateCommunity(updateCommunityRequest));
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
@@ -63,7 +62,6 @@ public class CommentController {
   public ResponseEntity<?> updateComment(@RequestBody UpdateCommunityRequest updateCommunityRequest) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-//
 //    result.put("data", communityService.updateCommunity(updateCommunityRequest));
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
