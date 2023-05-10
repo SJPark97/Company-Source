@@ -1,6 +1,7 @@
 package com.jobtang.sourcecompany.api.comment.controller;
 
 import com.jobtang.sourcecompany.api.comment.dto.CreateCommentRequest;
+import com.jobtang.sourcecompany.api.comment.dto.UpdateCommentRequest;
 import com.jobtang.sourcecompany.api.comment.service.CommentService;
 import com.jobtang.sourcecompany.api.community.dto.CreateCommunityRequest;
 import com.jobtang.sourcecompany.api.community.dto.UpdateCommunityRequest;
@@ -54,7 +55,7 @@ public class CommentController {
   public ResponseEntity<?> deleteCommentCommunity(@PathVariable Long commentId) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-
+    commentService.deleteComment(commentId);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 
@@ -64,11 +65,10 @@ public class CommentController {
           notes = "댓글 내용을 수정하는 API"
   )
   @PutMapping
-  public ResponseEntity<?> updateComment(@RequestBody UpdateCommunityRequest updateCommunityRequest) {
+  public ResponseEntity<?> updateComment(@RequestBody UpdateCommentRequest updateCommentRequest) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-//
-//    result.put("data", communityService.updateCommunity(updateCommunityRequest));
+    //    result.put("data", communityService.updateCommunity(updateCommunityRequest));
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 
