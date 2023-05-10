@@ -1,10 +1,12 @@
 package com.jobtang.sourcecompany.api.user.controller;
 
 import com.jobtang.sourcecompany.api.exception.ErrorCode;
+import com.jobtang.sourcecompany.api.user.dto.EmailAndCode;
 import com.jobtang.sourcecompany.api.user.dto.LoginRequestDto;
 import com.jobtang.sourcecompany.api.user.dto.SignupRequestDto;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import com.jobtang.sourcecompany.api.user.repository.UserRepository;
+import com.jobtang.sourcecompany.api.user.service.EmailService;
 import com.jobtang.sourcecompany.api.user.service.UserService;
 import com.jobtang.sourcecompany.config.JwtTokenProvider;
 import io.swagger.annotations.Api;
@@ -31,6 +33,7 @@ public class UserController {
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
     // 로그인. 현재는 jwt 반환하는 형태
     @ApiOperation(
@@ -45,10 +48,19 @@ public class UserController {
         Optional<User> user = userRepository.findByEmail(request.getEmail());
 //                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
         if (user.isPresent()) {
-            result.put("data", jwtTokenProvider.createToken(user.get(), user.get().getRole()));
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            User currentUser = user.get();
+            if (!currentUser.isActive()) {
+                throw new CustomException("User Not Active", ErrorCode.USER_NOT_ACTIVE);
+            }
+            if (request.getPassword().equals(currentUser.getPassword())) {
+                result.put("data", jwtTokenProvider.createToken(user.get(), user.get().getRole()));
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                throw new CustomException("Not Current Password", ErrorCode.PASSWORD_NOT_CURRENT);
+            }
+        } else {
+            throw new CustomException("Not Sign Email", ErrorCode.USER_NOT_FOUND);
         }
-        throw new CustomException("Not Sign Email", ErrorCode.USER_NOT_FOUND);
 
 //        if (request.getPassword == user.get().getPassword()) {
 //
@@ -68,6 +80,15 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@RequestBody @Valid SignupRequestDto request, Errors errors) {
         HashMap<String,Object> result = new HashMap<>();
+
+
+        boolean isEmailDuplicate = userService.validateDuplicateEmail(request.getEmail());
+        if (isEmailDuplicate) {
+            errors.rejectValue("email","204","중복된 이메일입니다");
+        }
+        if (userService.validateDuplicateNickname(request.getNickname())) {
+            errors.rejectValue("nickname","204","중복된 이메일입니다");
+        }
 
         // 기본 유효성 검사
         if (errors.hasErrors()) {
@@ -132,6 +153,36 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(
+            value = "email 인증",
+            notes = "email 중복 확인 및 인증 코드 발송",
+            response = HashMap.class
+    )
+    @PostMapping("/sendemail")
+    public ResponseEntity<?> emailCert(@RequestBody String email) {
+        HashMap<String,Object> result = new HashMap<>();
+        boolean isEmailDuplicate = userService.validateDuplicateEmail(email);
+        if (isEmailDuplicate) {
+            throw new CustomException("Duplicated Email", ErrorCode.USER_EXISTS);
+        }
+        emailService.sendEmailCert(email);
 
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation(
+            value = "email 인증 코드 확인",
+            notes = "email 인증 코드 검증",
+            response = HashMap.class
+    )
+    @PostMapping("/checkemailcert")
+    public ResponseEntity<?> checkEmailCert(@RequestBody EmailAndCode emailAndCode ) {
+        boolean isCurrent = emailService.checkEmailCert(emailAndCode);
+        if (isCurrent) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            throw new CustomException("Not Current email code", ErrorCode.EMAIL_NOT_CURRENT);
+        }
+    }
 
 }
