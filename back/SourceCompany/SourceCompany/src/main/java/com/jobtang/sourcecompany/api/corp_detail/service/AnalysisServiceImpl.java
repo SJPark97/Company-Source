@@ -24,6 +24,7 @@ import com.jobtang.sourcecompany.api.induty_detail.repository.IndutyDetailReposi
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -201,6 +202,7 @@ public class AnalysisServiceImpl implements AnalysisService{
         } catch (Exception e) {
             return false;
         }
+
     }
 
     @Override
@@ -216,6 +218,7 @@ public class AnalysisServiceImpl implements AnalysisService{
             analysisInfoDocument.setAnalysisId(keyName);
             analysisInfoDocument.setData(data);
             mongoTemplate.save(analysisInfoDocument);
+
         }
         log.info("모든 기업분석 저장완료!");
 
@@ -279,4 +282,5 @@ public class AnalysisServiceImpl implements AnalysisService{
             }
         return "몰루?";
         }
+
 }
