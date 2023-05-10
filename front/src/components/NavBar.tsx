@@ -1,9 +1,27 @@
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { parseCookies, destroyCookie } from "nookies";
 
 export default function NavBar() {
   const router = useRouter();
+
+  // 로그인 여부 state
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+  const logOutHandler = () => {
+    destroyCookie(null, "accessToken");
+    router.reload();
+  };
+
+  useEffect(() => {
+    // NavBar가 렌더링 될때 로그인 여부를 감지해서 isLoggedIn 상태 변경
+    const cookies = parseCookies();
+    if (cookies.accessToken) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   return (
     <>
@@ -15,7 +33,6 @@ export default function NavBar() {
       >
         <div className="flex flex-row items-center">
           <Link href="/">
-            {/* <div className="relative w-[123px] h-[58px] mx-[3vw]"> */}
             <div>
               {router.pathname === "/" || router.pathname === "/home" ? (
                 <Image
@@ -41,12 +58,14 @@ export default function NavBar() {
             <div
               className={
                 "mx-[3vw] " +
-                `${router.pathname === "/"
-                  ? "text-white"
-                  : `${router.pathname === "/home"
-                    ? "text-white font-bold"
-                    : "text-gray-400"
-                  }`
+                `${
+                  router.pathname === "/"
+                    ? "text-white"
+                    : `${
+                        router.pathname === "/home"
+                          ? "text-white font-bold"
+                          : "text-gray-400"
+                      }`
                 }`
               }
             >
@@ -58,12 +77,14 @@ export default function NavBar() {
             <div
               className={
                 "mx-[3vw] " +
-                `${router.pathname === "/" || router.pathname === "/home"
-                  ? "text-white"
-                  : `${router.pathname === "/comparison"
-                    ? "text-black font-bold"
-                    : "text-gray-400"
-                  }`
+                `${
+                  router.pathname === "/" || router.pathname === "/home"
+                    ? "text-white"
+                    : `${
+                        router.pathname === "/comparison"
+                          ? "text-black font-bold"
+                          : "text-gray-400"
+                      }`
                 }`
               }
             >
@@ -75,12 +96,14 @@ export default function NavBar() {
             <div
               className={
                 "mx-[3vw] " +
-                `${router.pathname.slice(0, 10) === "/community" // community 하위 라우터들을 모두 처리
-                  ? "text-black font-bold"
-                  : `${router.pathname === "/" || router.pathname === "/home"
-                    ? "text-white"
-                    : "text-gray-400"
-                  }`
+                `${
+                  router.pathname.slice(0, 10) === "/community" // community 하위 라우터들을 모두 처리
+                    ? "text-black font-bold"
+                    : `${
+                        router.pathname === "/" || router.pathname === "/home"
+                          ? "text-white"
+                          : "text-gray-400"
+                      }`
                 }`
               }
             >
@@ -90,9 +113,10 @@ export default function NavBar() {
         </div>
 
         {/* User Icon */}
-        <div>
+        {/* <div className="flex items-center">
           {router.pathname === "/" || router.pathname === "/home" ? (
-            <Link href="/login">
+            // <Link href="/login">
+            <Link href={isLoggedIn ? "/mypage" : "/login"}>
               <Image
                 src="/white_user.png"
                 alt="white_user.png"
@@ -101,11 +125,24 @@ export default function NavBar() {
               />
             </Link>
           ) : (
-            <Link href="/login">
+            <Link href={isLoggedIn ? "/mypage" : "/login"}>
               <Image src="/user.png" alt="user.png" width={40} height={40} />
             </Link>
           )}
-        </div>
+          {isLoggedIn ? (
+            <div
+              className={
+                "ml-20 cursor-pointer " +
+                `${
+                  router.pathname !== "mypage" ? "text-white" : "text-gray-400"
+                }`
+              }
+              onClick={logOutHandler}
+            >
+              로그아웃
+            </div>
+          ) : null}
+        </div> */}
       </div>
     </>
   );
