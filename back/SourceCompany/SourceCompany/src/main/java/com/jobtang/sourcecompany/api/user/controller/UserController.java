@@ -48,10 +48,19 @@ public class UserController {
         Optional<User> user = userRepository.findByEmail(request.getEmail());
 //                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
         if (user.isPresent()) {
-            result.put("data", jwtTokenProvider.createToken(user.get(), user.get().getRole()));
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            User currentUser = user.get();
+            if (!currentUser.isActive()) {
+                throw new CustomException("User Not Active", ErrorCode.USER_NOT_ACTIVE);
+            }
+            if (request.getPassword().equals(currentUser.getPassword())) {
+                result.put("data", jwtTokenProvider.createToken(user.get(), user.get().getRole()));
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } else {
+                throw new CustomException("Not Current Password", ErrorCode.PASSWORD_NOT_CURRENT);
+            }
+        } else {
+            throw new CustomException("Not Sign Email", ErrorCode.USER_NOT_FOUND);
         }
-        throw new CustomException("Not Sign Email", ErrorCode.USER_NOT_FOUND);
 
 //        if (request.getPassword == user.get().getPassword()) {
 //
@@ -72,6 +81,13 @@ public class UserController {
     public ResponseEntity<?> signupUser(@RequestBody @Valid SignupRequestDto request, Errors errors) {
         HashMap<String,Object> result = new HashMap<>();
 
+        boolean isEmailDuplicate = userService.validateDuplicateEmail(request.getEmail());
+        if (isEmailDuplicate) {
+            errors.rejectValue("email","204","중복된 이메일입니다");
+        }
+        if (userService.validateDuplicateNickname(request.getNickname())) {
+            errors.rejectValue("nickname","204","중복된 이메일입니다");
+        }
         // 기본 유효성 검사
         if (errors.hasErrors()) {
             Map<String, String> validatorResult = userService.validateHandling(errors);
