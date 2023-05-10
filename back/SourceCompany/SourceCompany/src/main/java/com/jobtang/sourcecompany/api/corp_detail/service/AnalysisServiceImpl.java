@@ -103,38 +103,39 @@ public class AnalysisServiceImpl implements AnalysisService{
 
         if (corpDocument == null) {throw new CustomException(ErrorCode.CORP_NOT_FOUND);}
         else if (indutyDocument == null) {throw new CustomException(ErrorCode.INDUTY_NOT_FOUND);}
-        else if (analysisInfoDocument == null) {
-            System.out.println("?????");
-            throw new CustomException(ErrorCode.ANALYSIS_NOT_FOUND);}
+        else if (analysisInfoDocument == null) {throw new CustomException(ErrorCode.ANALYSIS_NOT_FOUND);}
 
         VariableDto corpVariableDto = mapper.map(corpDocument, VariableDto.class);
-        VariableDto indutyVariableDto = mapper.map(corpDocument, VariableDto.class);
+        VariableDto indutyVariableDto = mapper.map(indutyDocument, VariableDto.class);
 
         // 분석법 찾기
         AnalysisDto corpAnalysis = new AnalysisDto();
-        for (AnalysisDto analysisDto : corpVariableDto.getData()) {
-            if (analysisDto.getAnalysisId().equals(analysisId)) {
-                corpAnalysis = analysisDto;
+        for (AnalysisDto corpAnalysisDto : corpVariableDto.getData()) {
+            if (corpAnalysisDto.getAnalysisId().equals(analysisId)) {
+                corpAnalysis = corpAnalysisDto;
                 break;
             }
         }
         AnalysisDto indutyAnalysis = new AnalysisDto();
-        for (AnalysisDto analysisDto : indutyVariableDto.getData()) {
-            if (analysisDto.getAnalysisId().equals(analysisId)) {
-                indutyAnalysis = analysisDto;
+        for (AnalysisDto indutyAnalysisDto : indutyVariableDto.getData()) {
+            if (indutyAnalysisDto.getAnalysisId().equals(analysisId)) {
+                indutyAnalysis = indutyAnalysisDto;
                 break;
             }
         }
-
+        System.out.println(corpAnalysis);
+        System.out.println(indutyAnalysis);
         List<HashMap> analysisResult = new ArrayList<>();
         int goodCnt = 0;
         String checkRate = "";
         // 같은 것 끼리 묶기
         for (AnalysisResultDto corpResultDto : corpAnalysis.getAnalysisResult()) {
             for (AnalysisResultDto indutyResultDto : indutyAnalysis.getAnalysisResult()) {
-                System.out.println("ㅇㅁㅇ");
                 if (corpResultDto.getName().equals(indutyResultDto.getName())) {
-                    System.out.println("ㅇㅅㅇ");
+                    System.out.println("###########################");
+                    System.out.println(corpResultDto);
+                    System.out.println(indutyResultDto);
+                    System.out.println("###########################");
                     String rate = rate(analysisId, corpResultDto, indutyResultDto);
                     if (rate.equals("고평가")) {checkRate = "고평가";}
                     else if (rate.equals("저평가")) {checkRate = "저평가";}
