@@ -60,7 +60,20 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>컴퍼니소스 | 기업 분석</title>
+        <title>컴퍼니소스 기업검색</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content="컴퍼니소스 기업검색 페이지입니다."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://company-source.com/home" />
+        <meta property="og:title" content="Company Source" />
+        <meta property="og:image" content="/company_default.jpg" />
+        <meta
+          property="og:description"
+          content="기업분석이 어려우신가요? Company Source와 함께 해보세요."
+        />
       </Head>
       <div className="relative">
         <div className="z-50bg-cover bg-[url('/carousel3.jpg')] h-[400px] mb-[50px]">

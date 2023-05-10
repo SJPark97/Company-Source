@@ -18,11 +18,11 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>컴퍼니소스 | company source</title>
+        <title>컴퍼니소스</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta
           name="description"
-          content="재무제표를 이용한 기업분석을 제공하며 여러 기업들과 결과를 비교해볼 수 있습니다. 커뮤니티에서 기업에 대한 여러분의 의견을 다른 사람들과 공유해보세요."
+          content="컴퍼니소스에서는 재무제표를 이용한 기업분석을 제공하며 여러 기업들과 결과를 비교해볼 수 있습니다. 컴퍼니소스의 커뮤니티에서 기업에 대한 여러분의 의견을 다른 사람들과 공유해보세요."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://company-source.com/" />
@@ -93,7 +93,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex justify-around items-center h-screen bg-white bg-cover mx-100">
+        <div className="flex items-center justify-around h-screen bg-white bg-cover mx-100">
           <div className="flex flex-col justify-center">
             <LandingImageCard
               src="/chart-comparison.jpg"
