@@ -18,6 +18,9 @@ public enum ErrorCode implements EnumModel {
     SAVE_FAILED(400,"C006","Save Error"),
     WRONG_INPUT_DATA(400,"C007","Wrong Input Data"),
     USER_NOT_FOUND(204, "C007", "UserEmail Not Found"),
+    EMAIL_NOT_CURRENT(409,"C008","Email Cert Code Error"),
+    USER_NOT_ACTIVE(202,"C009","User Not active"),
+    PASSWORD_NOT_CURRENT(202,"C010","Password Not Current"),
 
     // AWS
     AWS_ERROR(400, "A001", "aws client error"),
