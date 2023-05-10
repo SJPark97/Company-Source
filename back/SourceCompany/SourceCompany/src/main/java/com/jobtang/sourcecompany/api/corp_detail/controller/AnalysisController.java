@@ -37,9 +37,15 @@ public class AnalysisController {
         return new ResponseEntity("완료",HttpStatus.OK);
     }
 
+    @GetMapping("/update/etc/gpt/{corpId}}")
+    public ResponseEntity updateAnalysisGpt(@PathVariable String corpId){
+        analysisService.updateAnalysisAllCorp();
+        return new ResponseEntity("완료",HttpStatus.OK);
+    }
+
     @GetMapping("/update/{corpId}")
     public ResponseEntity updateAnalysisCorp(@PathVariable String corpId){
-        analysisService.updateAnalysisCorp(corpId);
+        analysisService.updateAnalysisGpt(corpId);
         return new ResponseEntity("완료",HttpStatus.OK);
     }
 }
