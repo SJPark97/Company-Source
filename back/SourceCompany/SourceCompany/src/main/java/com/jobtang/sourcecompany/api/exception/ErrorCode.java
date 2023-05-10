@@ -17,6 +17,7 @@ public enum ErrorCode implements EnumModel {
     USER_EXISTS(409,"C005","Duplicated Data"),
     SAVE_FAILED(400,"C006","Save Error"),
     USER_NOT_FOUND(204, "C007", "UserEmail Not Found"),
+    EMAIL_NOT_CURRENT(409,"C008","Email Cert Code Error"),
 
     // AWS
     AWS_ERROR(400, "A001", "aws client error");
