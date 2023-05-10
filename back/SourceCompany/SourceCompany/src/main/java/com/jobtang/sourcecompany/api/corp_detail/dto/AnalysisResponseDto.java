@@ -17,7 +17,7 @@ public class AnalysisResponseDto {
     private String corp_id;
     private String analysis_name;
     private String analysis_method;
-    private boolean is_exist_all;
+    private boolean exist_all;
     private String rate;
     private List<HashMap> result;
     private HashMap analysisInfo;

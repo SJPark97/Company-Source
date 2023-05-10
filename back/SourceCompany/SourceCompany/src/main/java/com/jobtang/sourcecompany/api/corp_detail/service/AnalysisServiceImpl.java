@@ -162,7 +162,7 @@ public class AnalysisServiceImpl implements AnalysisService{
         } else {totalRate = "보통";}
 
         return new AnalysisResponseDto().builder()
-                .is_exist_all((corpAnalysis.getIsExistAll().equals(true) && indutyAnalysis.getIsExistAll().equals(true)) ? true : false)
+                .exist_all((corpAnalysis.getIsExistAll().equals(true) && indutyAnalysis.getIsExistAll().equals(true)) ? true : false)
                 .analysis_method(corpAnalysis.getAnalysisId())
                 .analysis_name(corpAnalysis.getAnalysisName())
                 .corp_id(corp.getCorpId())
