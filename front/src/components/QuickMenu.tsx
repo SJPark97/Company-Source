@@ -18,31 +18,28 @@ export default function QuickMenu() {
   useEffect(() => {
     if (quickMenuRef.current) {
       const quickMenuTop = quickMenuRef.current.getBoundingClientRect().top;
-      quickMenuRef.current.style.transform = `translateY(${
-        // scrollY - quickMenuTop
-        scrollY
-      }px)`;
+      quickMenuRef.current.style.transform = `translateY(${scrollY}px)`;
       quickMenuRef.current.style.transition = "transform 1s ease-out";
     }
   }, [scrollY]);
 
   return (
     <div
-      className="flex flex-col border-1 border-gray-200 rounded-10 absolute right-30 top-[300px]"
+      className="flex flex-col border-1 border-gray-200 rounded-10 absolute right-30 top-[300px] bg-white"
       ref={quickMenuRef}
     >
-      <Link href="/community/hotboard">
+      <Link href="/community/corpboard">
         <div
           className={
             "p-10 rounded-tl-10 rounded-tr-10 " +
             `${
-              router.pathname === "/community/hotboard"
+              router.pathname === "/community/corpboard"
                 ? "text-white bg-brand"
                 : "text-gray-400"
             }`
           }
         >
-          인기 게시판
+          기업 게시판
         </div>
       </Link>
       <hr></hr>
