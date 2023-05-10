@@ -33,7 +33,11 @@ public enum ErrorCode implements EnumModel {
     // 커뮤니티
     COMM_EXISTS(400 , "G001","community not exists"),
     COMM_DELETED(401, "G002","community is deleted"),
-    COMM_WRONG_TYPE(402, "G003", "worng community type");
+    COMM_WRONG_TYPE(402, "G003", "worng community type"),
+
+    // 문의게시판
+    INQ_EXISTS(400, "I001", "inquiry not exists"),
+    INQ_INVALID_USER(403, "I002", "invalid user");
 
     private int status;
     private String code;
