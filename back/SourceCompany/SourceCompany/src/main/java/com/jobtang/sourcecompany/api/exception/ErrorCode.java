@@ -18,17 +18,27 @@ public enum ErrorCode implements EnumModel {
     SAVE_FAILED(400,"C006","Save Error"),
     WRONG_INPUT_DATA(400,"C007","Wrong Input Data"),
     USER_NOT_FOUND(204, "C007", "UserEmail Not Found"),
+    EMAIL_NOT_CURRENT(409,"C008","Email Cert Code Error"),
+    USER_NOT_ACTIVE(202,"C009","User Not active"),
+    PASSWORD_NOT_CURRENT(202,"C010","Password Not Current"),
 
     // AWS
     AWS_ERROR(400, "A001", "aws client error"),
 
     // 분석
-
+    CORP_NOT_FOUND(400, "B001", "Corp not found"),
+    INDUTY_NOT_FOUND(400, "B002", "Induty not found"),
+    ANALYSIS_NOT_FOUND(400, "B003", "Analysis not found"),
 
     // 커뮤니티
     COMM_EXISTS(400 , "G001","community not exists"),
     COMM_DELETED(401, "G002","community is deleted"),
-    COMM_WRONG_TYPE(402, "G003", "worng community type");
+    COMM_WRONG_TYPE(402, "G003", "worng community type"),
+    COMM_COMMENT_EXISTS(403, "G004", "comment not exists"),
+
+    // 문의게시판
+    INQ_EXISTS(400, "I001", "inquiry not exists"),
+    INQ_INVALID_USER(403, "I002", "invalid user");
 
     private int status;
     private String code;
