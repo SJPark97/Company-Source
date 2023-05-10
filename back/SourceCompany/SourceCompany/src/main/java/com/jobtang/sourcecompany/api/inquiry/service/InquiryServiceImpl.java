@@ -3,6 +3,8 @@ package com.jobtang.sourcecompany.api.inquiry.service;
 import com.jobtang.sourcecompany.api.exception.CustomException;
 import com.jobtang.sourcecompany.api.exception.ErrorCode;
 import com.jobtang.sourcecompany.api.inquiry.dto.CreateInquiryRequest;
+import com.jobtang.sourcecompany.api.inquiry.dto.UpdateInquiryRequest;
+import com.jobtang.sourcecompany.api.inquiry.dto.UpdateInquiryResponse;
 import com.jobtang.sourcecompany.api.inquiry.entity.Inquiry;
 import com.jobtang.sourcecompany.api.inquiry.repository.InquiryRepository;
 import com.jobtang.sourcecompany.api.user.entity.User;
@@ -28,5 +30,23 @@ public class InquiryServiceImpl implements InquiryService {
                 .user(user)
                 .build();
         inquiryRepository.save(inquiry);
+    }
+
+    @Override
+    public UpdateInquiryResponse updateInquiry(Long userId, UpdateInquiryRequest updateInquiryRequest) {
+        Inquiry inquiry = inquiryRepository
+                .findById(updateInquiryRequest.getId())
+                .orElseThrow(() -> new CustomException(ErrorCode.INQ_EXISTS));
+        if (inquiry.getUser().getId() != userId) {
+            throw new CustomException(ErrorCode.INQ_INVALID_USER);
+        }
+        inquiry.setTitle(updateInquiryRequest.getTitle());
+        inquiry.setContent(updateInquiryRequest.getContent());
+        inquiry.setIsLock(updateInquiryRequest.isLock());
+        return UpdateInquiryResponse.builder()
+                .id(inquiry.getId())
+                .title(inquiry.getTitle())
+                .content(inquiry.getContent())
+                .build();
     }
 }
