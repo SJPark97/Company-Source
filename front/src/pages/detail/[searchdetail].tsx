@@ -7,7 +7,6 @@ import axios from "axios";
 import { SERVER_URL } from "@/utils/url";
 import analysisCodeList from "@/models/analysisCodeList";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import Head from "next/head";
 
 interface searchdetaiProps {
@@ -28,6 +27,19 @@ export default function searchdetail({
     <>
       <Head>
         <title>{`컴퍼니소스 | ${searchdetail ? companyOverviewInfo.corpName : "기업"}의 분석 결과`}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content={`컴퍼니소스에서 검색한 ${searchdetail ? companyOverviewInfo.corpName : "기업"}의 분석 결과입니다.}`}
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://company-source.com/detail/${searchdetail ? companyOverviewInfo.corpId : ""}`} />
+        <meta property="og:title" content="Company Source" />
+        <meta property="og:image" content="/company_default.jpg" />
+        <meta
+          property="og:description"
+          content="기업분석이 어려우신가요? Company Source와 함께 해보세요."
+        />
       </Head>
       <NavBar />
       <div className="flex flex-col bg-gray-100">
