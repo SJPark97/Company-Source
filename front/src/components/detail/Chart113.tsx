@@ -54,14 +54,14 @@ export default function Chart113({
                         item["평가"] === ("양호" || "정상") ? "#82ca9d" : (item["평가"] === ("불량" || "부실") ? "red" : (item["평가"] === ("보통" || "보류") ? "#efad45" : "#aaaaaa"))
                       }
                     />
-                    <Bar dataKey="동업종" fill="#8884d8" />
+                    <Bar dataKey="산업평균" fill="#8884d8" />
                   </BarChart>
                 </div>
               );
             })
             : "데이터가 없어요 ㅠㅠ"}
         </div>
-        <Legend compare="동업종" />
+        <Legend compare="산업평균" />
       </div>
     </>
   );

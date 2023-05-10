@@ -1,5 +1,5 @@
 import AnalysisTitle from "./AnalysisTitle";
-// import Chart101 from "./Chart101";
+import Chart101 from "./Chart101";
 import Chart103 from "./Chart103";
 import Chart104 from "./Chart104";
 import Chart109 from "./Chart109";
@@ -19,7 +19,7 @@ interface iChartCode {
   [key: string]: any
 }
 
-const Chart101 = dynamic(() => import('./Chart101'), { ssr: false })
+// const Chart101 = dynamic(() => import('./Chart101'), { ssr: false })
 
 const chartCode: iChartCode = {
   "101": Chart101,
@@ -33,6 +33,7 @@ const chartCode: iChartCode = {
 }
 
 export default function FinancialAnalysis({ analysisList }: Iprops) {
+
   return (
     <>
       <div className="flex flex-col">
@@ -41,7 +42,7 @@ export default function FinancialAnalysis({ analysisList }: Iprops) {
           {analysisList.map((analysisItem: any, index) => {
             const ChartComponent = chartCode[analysisItem.data.analysis_method]
             return (
-              analysisItem.data.is_exist_all ?
+              analysisItem.data.exist_all ?
                 <div key={index} className="flex flex-col mx-[1.5vw] mt-10 w-[45.7%]">
                   <AnalysisTitle name={analysisItem.data.analysis_name} rate={analysisItem.data.rate} description={analysisItem.data.analysisInfo.analysis_description} />
                   {/* 차트 부분 */}

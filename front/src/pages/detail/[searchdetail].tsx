@@ -125,7 +125,7 @@ export const getStaticProps = async ({ params }: any) => {
     );
 
     getAnalysisList.push(res.data);
-    if (res.data.data.is_exist_all) {
+    if (res.data.data.exist_all) {
       evaluaionSummary.push({
         analysisName: res.data.data.analysis_name,
         rate: res.data.data.rate,

@@ -111,6 +111,7 @@ interface Iprops {
 }
 
 export default function Chart101({ chartData }: Iprops) {
+
   const [data, setData] = useState<any>();
 
   useEffect(() => {

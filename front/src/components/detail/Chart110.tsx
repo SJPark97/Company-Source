@@ -56,14 +56,14 @@ export default function Chart110({
                         item["평가"] === "양호" ? "#82ca9d" : (item["평가"] === "불량" ? "red" : "#efad45")
                       }
                     />
-                    <Bar dataKey="동업종" fill="#8884d8" />
+                    <Bar dataKey="산업평균" fill="#8884d8" />
                   </BarChart>
                 </div>
               );
             })
             : "데이터가 없어요 ㅠㅠ"}
         </div>
-        <Legend compare="동업종" />
+        <Legend compare="산업평균" />
       </div>
     </>
   );
