@@ -1,5 +1,8 @@
 package com.jobtang.sourcecompany.config;
+import com.jobtang.sourcecompany.api.exception.CustomException;
+import com.jobtang.sourcecompany.api.exception.ErrorCode;
 import com.jobtang.sourcecompany.api.user.entity.User;
+import com.jobtang.sourcecompany.api.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -16,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 // 토큰을 생성하고 검증
 // 사전에 필터(JwtAuthenticationFilter)에서 사전 검증을 거침.
@@ -33,6 +37,7 @@ public class JwtTokenProvider {
     private long tokenValidTime =  7* 24 * 60 * 60 * 1000L;
 
     private final UserDetailsService userDetailsService;
+    private final UserRepository userRepository;
 
     // 객체 초기화, secretKey를 Base64로 인코딩한다.
     @PostConstruct
@@ -60,9 +65,18 @@ public class JwtTokenProvider {
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUsername(token));
+        String username = this.getUsername(token);
+        Long userPk = Long.valueOf(this.getUserPk(token));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        Optional<User> user = userRepository.findById(userPk);
         // 비활성화 여부에 따른 에러핸들링
-
+        if (user.isPresent()) {
+            if (!user.get().isActive()) {
+                throw new CustomException("User Not Active", ErrorCode.USER_NOT_ACTIVE);
+            }
+        } else {
+            throw new CustomException("Not Found User", ErrorCode.USER_NOT_FOUND);
+        }
 
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }

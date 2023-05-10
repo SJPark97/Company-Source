@@ -12,6 +12,8 @@ public interface UserService {
     boolean validateDuplicateEmail(String email);
     boolean validateDuplicateNickname(String Nickname);
 
+
+
     Map<String, String>  validateHandling(Errors errors);
 
 
