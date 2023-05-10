@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { Tooltip } from "@material-tailwind/react";
+import { useRouter } from "next/router";
 
 export default function Question() {
+  const router = useRouter();
+
   return (
     <Link
       target="_blank"
@@ -13,7 +16,14 @@ export default function Question() {
           mount: { scale: 1, y: 0 },
           unmount: { scale: 0, y: 25 },
         }}
-        className="p-[10px] bg-black"
+        className={
+          "p-[10px] rounded-10 " +
+          `${
+            router.pathname === "/" || router.pathname === "/home"
+              ? "bg-white text-black"
+              : "bg-black text-white"
+          }`
+        }
       >
         <div className="flex justify-center items-center fixed bottom-50 right-50 bg-brand w-[50px] h-[50px] text-white font-bold rounded-100">
           <div>?</div>

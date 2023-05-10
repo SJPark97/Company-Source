@@ -21,7 +21,7 @@ export default function BigCard({ id, name, image }: Iprops) {
             <div className="relative">
               <Image
                 src={image}
-                alt="naver.logo_small.ng"
+                alt="기업 로고 이미지"
                 // fill
                 width={164}
                 height={164}
@@ -33,7 +33,7 @@ export default function BigCard({ id, name, image }: Iprops) {
           ) : (
             <Image
               src="/company_default.jpg"
-              alt="default_image"
+              alt="default 이미지"
               width={164}
               height={164}
               className="mx-auto w-auto h-auto"

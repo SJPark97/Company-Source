@@ -10,15 +10,15 @@ export default function Login() {
   const [password, setPassword] = useState<string>("");
   const [failMessage, setFailMessage] = useState<boolean>(false);
 
-  const idHandler = (e) => {
+  const idHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
   };
 
-  const passwordHandler = (e) => {
+  const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const loginHandler = async (e) => {
+  const loginHandler = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await loginAxios(id, password);
 
@@ -26,6 +26,11 @@ export default function Login() {
     if (res.token) {
       const cookies = parseCookies();
       setCookie(null, "accessToken", res.token, {
+        maxAge: 60 * 60 * 24,
+        secure: true,
+        path: "/",
+      });
+      setCookie(null, "nickName", res.nickname, {
         maxAge: 60 * 60 * 24,
         secure: true,
         path: "/",
