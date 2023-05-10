@@ -28,7 +28,8 @@ public enum ErrorCode implements EnumModel {
     // 커뮤니티
     COMM_EXISTS(400 , "G001","community not exists"),
     COMM_DELETED(401, "G002","community is deleted"),
-    COMM_WRONG_TYPE(402, "G003", "worng community type");
+    COMM_WRONG_TYPE(402, "G003", "worng community type"),
+    COMM_COMMENT_EXISTS(403, "G004", "comment not exists");
 
     private int status;
     private String code;

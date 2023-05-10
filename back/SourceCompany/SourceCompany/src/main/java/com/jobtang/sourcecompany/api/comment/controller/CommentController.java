@@ -1,9 +1,11 @@
 package com.jobtang.sourcecompany.api.comment.controller;
 
+import com.jobtang.sourcecompany.api.comment.dto.CreateCommentRequest;
 import com.jobtang.sourcecompany.api.comment.service.CommentService;
 import com.jobtang.sourcecompany.api.community.dto.CreateCommunityRequest;
 import com.jobtang.sourcecompany.api.community.dto.UpdateCommunityRequest;
 import com.jobtang.sourcecompany.api.user.entity.User;
+import com.jobtang.sourcecompany.api.user.service.JwtService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,8 @@ import java.util.HashMap;
 public class CommentController {
 
   final private CommentService commentService;
+  final private JwtService jwtService;
+
   /**
    *
    */
@@ -31,11 +35,12 @@ public class CommentController {
           notes = "게시판에 댓글을 작성하는 API"
   )
   @PostMapping
-  public ResponseEntity<?> updateFreeCommunity(@RequestHeader("Authorization") String token , @RequestBody UpdateCommunityRequest updateCommunityRequest) {
+  public ResponseEntity<?> createComment(@RequestHeader("Authorization") String token , @RequestBody CreateCommentRequest createCommentRequest) {
     HttpHeaders headers = new HttpHeaders();
-
+    Long userId= jwtService.userPkByToken(token);
     HashMap<String, Object> result = new HashMap<>();
-
+    Long commentId = commentService.createComment(userId , createCommentRequest);
+    result.put("data", commentId);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 
@@ -45,12 +50,11 @@ public class CommentController {
           value = "댓글 삭제",
           notes = "댓글을 삭제하는 API"
   )
-  @DeleteMapping
-  public ResponseEntity<?> deleteCommentCommunity(@RequestBody UpdateCommunityRequest updateCommunityRequest) {
+  @DeleteMapping("/{commentId}")
+  public ResponseEntity<?> deleteCommentCommunity(@PathVariable Long commentId) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-//
-//    result.put("data", communityService.updateCommunity(updateCommunityRequest));
+
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 

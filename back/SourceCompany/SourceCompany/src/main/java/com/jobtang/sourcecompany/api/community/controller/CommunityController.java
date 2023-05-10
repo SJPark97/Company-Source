@@ -338,4 +338,18 @@ public class CommunityController {
    *
    *  자유 게시판 메소드들 -----------------------------------------------------------------------------------------------
    */
+
+
+  /**
+   * test
+   */
+  @GetMapping("/test")
+  public ResponseEntity<?> Testtest() {
+    HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result = new HashMap<>();
+    communityService.schedule();
+    result.put("data", "success");
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+
+  }
 }
