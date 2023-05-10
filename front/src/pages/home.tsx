@@ -62,10 +62,7 @@ export default function Home() {
       <Head>
         <title>컴퍼니소스 기업검색</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta
-          name="description"
-          content="컴퍼니소스 기업검색 페이지입니다."
-        />
+        <meta name="description" content="컴퍼니소스 기업검색 페이지입니다." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://company-source.com/home" />
         <meta property="og:title" content="Company Source" />
