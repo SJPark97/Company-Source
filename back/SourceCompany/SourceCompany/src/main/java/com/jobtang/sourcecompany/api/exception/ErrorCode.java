@@ -14,20 +14,22 @@ public enum ErrorCode implements EnumModel {
     RESOURCE_NOT_FOUND(204, "C002", "Resource not found"),
     EXPIRED_CODE(400, "C003", "Expired Code"),
     TEMPORARY_SERVER_ERROR(401,"C004","TEMPORARY_SERVER_ERROR"),
-    USER_EXISTS(409,"C005","Duplicated Data"),
+    USER_EXISTS(202,"C005","Duplicated Data"),
     SAVE_FAILED(400,"C006","Save Error"),
+    WRONG_INPUT_DATA(400,"C007","Wrong Input Data"),
     USER_NOT_FOUND(204, "C007", "UserEmail Not Found"),
     EMAIL_NOT_CURRENT(409,"C008","Email Cert Code Error"),
 
     // AWS
-    AWS_ERROR(400, "A001", "aws client error");
+    AWS_ERROR(400, "A001", "aws client error"),
 
     // 분석
 
 
     // 커뮤니티
-
-
+    COMM_EXISTS(400 , "G001","community not exists"),
+    COMM_DELETED(401, "G002","community is deleted"),
+    COMM_WRONG_TYPE(402, "G003", "worng community type");
 
     private int status;
     private String code;

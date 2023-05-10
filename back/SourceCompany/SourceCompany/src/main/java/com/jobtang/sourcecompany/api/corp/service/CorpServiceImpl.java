@@ -1,5 +1,6 @@
 package com.jobtang.sourcecompany.api.corp.service;
 
+import com.jobtang.sourcecompany.api.corp.dto.CorpAutoSearchDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpInfoDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
 import com.jobtang.sourcecompany.api.corp.dto.Info;
@@ -39,6 +40,24 @@ public class CorpServiceImpl implements CorpService{
                 .map(c -> mapper.map(c, CorpSearchListDto.class))
                 .collect(Collectors.toList());
     }
+
+    public List<CorpAutoSearchDto> autoSearchCorp(String inputValue) {
+        // value% 형식으로 LIKE 검색
+        // totalview 기준으로 역순(내림차순) 정렬
+        // 5개만 추출
+        return corpRepository.findByCorpNameStartingWith(inputValue).stream()
+                .sorted(Comparator.comparing(Corp::getTotalView).reversed())
+                .limit(5)
+                .map(c -> mapper.map(c, CorpAutoSearchDto.class))
+                .collect(Collectors.toList());
+    }
+
+//    public List<CorpSearchListDto> recommendCorp() {
+//        // 기업 코드를 랜덤 1개 뽑기
+//        List<String> indutyCodeList =
+//
+//        // 해당 기업코드를 가진것 랜덤 5개만 뽑기
+//    }
 
     public CorpInfoDto corpInfo(String corpId) {
         // jpa를 사용해서 해당 corpid로 조회
@@ -159,6 +178,7 @@ public class CorpServiceImpl implements CorpService{
         log.info("기업분석 조회수 업데이트 완료!");
     }
 
+
     @Scheduled(cron = "0 0 3 * * ?") // 새벽 3시마다 업데이트
     public void schedule() {
         log.info("스케쥴링 : 기업 조회 업데이트 시작!");
@@ -184,5 +204,9 @@ public class CorpServiceImpl implements CorpService{
 
         return result;
     }
+
+
+
+
 }
 

@@ -1,5 +1,6 @@
 package com.jobtang.sourcecompany.api.corp.controller;
 
+import com.jobtang.sourcecompany.api.corp.dto.CorpAutoSearchDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpInfoDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
@@ -34,35 +35,61 @@ public class CorpController {
             responseContainer = "List"
     )
     @GetMapping("/list/{inputValue}")
-//    public ResponseEntity<List<CorpSearchListDto>> searchCorp(@PathVariable String inputValue) {
-//        HashMap result = new HashMap();
-//        data =
-//        return new ResponseEntity<>(corpService.searchCorp(inputValue), HttpStatus.valueOf(200));
-//
-//        if (data == null) {
-//            result.put("status", "400");
-//            result.put("message", "잘못된 요청입니다");
-//            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
-//        }
-//
-//        result.put("data", data);
-//        result.put("message", "");
-//        result.put("status", 200);
-//        return new ResponseEntity(result, HttpStatus.OK);
-//    }
     public ResponseEntity<?> searchCorp(@PathVariable String inputValue) {
         HashMap<String,Object> result = new HashMap<>();
         List<CorpSearchListDto> data = corpService.searchCorp(inputValue);
         if (data.size() == 0) {
-            result.put("status", "400");
+            result.put("status", "204");
             result.put("message", "검색 결과가 없습니다");
-            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
         }
         result.put("data", data);
         result.put("message", "");
         result.put("status", "200");
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @ApiOperation(
+            value = "기업 검색 자동완성",
+            notes = "기업검색명을 LIKE처리로 5개만 반환",
+            response = CorpAutoSearchDto.class,
+            responseContainer = "List"
+    )
+    @GetMapping("/autosearch/{inputValue}")
+    public ResponseEntity<?> autoSearchCorp(@PathVariable String inputValue) {
+        HashMap<String,Object> result = new HashMap<>();
+        List<CorpAutoSearchDto> data = corpService.autoSearchCorp(inputValue);
+        if (data.size() == 0) {
+            result.put("status", "204");
+            result.put("message", "검색 결과가 없습니다");
+            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+        }
+        result.put("data", data);
+        result.put("message", "");
+        result.put("status", "200");
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+//    @ApiOperation(
+//            value = "기업 추천",
+//            notes = "랜덤 기업 코드를 가진 5개 랜덤 기업 보여주기",
+//            response = CorpSearchListDto.class,
+//            responseContainer = "List"
+//    )
+//    @GetMapping("/recommend")
+//    public ResponseEntity<?> recommendCorp() {
+//        HashMap<String,Object> result = new HashMap<>();
+//        List<CorpSearchListDto> data = corpService.recommendCorp();
+//        if (data.size() == 0) {
+//            result.put("status", "204");
+//            result.put("message", "검색 결과가 없습니다");
+//            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+//        }
+//        result.put("data", data);
+//        result.put("message", "");
+//        result.put("status", "200");
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
 
 
     // 기업 개요 조회
@@ -76,9 +103,9 @@ public class CorpController {
         HashMap<String,Object> result = new HashMap<>();
         CorpInfoDto corpInfoDto = corpService.corpInfo(corpId);
         if (corpInfoDto == null) {
-            result.put("status", "400");
-            result.put("message", "잘못된 요청입니다");
-            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+            result.put("status", "204");
+            result.put("message", "잘못된 기업입니다");
+            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
         }
         result.put("data", corpInfoDto);
         result.put("message", "");
@@ -110,11 +137,11 @@ public class CorpController {
         HashMap<String,Object> result = new HashMap<>();
         List<CorpSearchListDto> data = corpService.randCorp(page);
         if (data.size() == 0) {
-            result.put("status", "400");
+            result.put("status", "204");
             result.put("message", "잘못된 페이징입니다");
             result.put("pageNum", page);
             result.put("totalPageNum", "385");
-            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
         }
         result.put("data", data);
         result.put("message", "");
@@ -135,9 +162,9 @@ public class CorpController {
         List<CorpSearchListDto> data = corpService.getHotCorps(size, page);
         HashMap<String, Object> result = new HashMap<>();
         if (data == null) {
-            result.put("status", "400");
-            result.put("message", "잘못된 요청입니다");
-            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+            result.put("status", "204");
+            result.put("message", "페이징 내용이 없습니다");
+            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
         }
         result.put("data", data);
         result.put("message", "");
