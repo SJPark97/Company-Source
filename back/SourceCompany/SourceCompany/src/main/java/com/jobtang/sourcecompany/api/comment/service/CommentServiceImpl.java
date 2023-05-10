@@ -1,6 +1,8 @@
 package com.jobtang.sourcecompany.api.comment.service;
 
 import com.jobtang.sourcecompany.api.comment.dto.CreateCommentRequest;
+import com.jobtang.sourcecompany.api.comment.dto.UpdateCommentRequest;
+import com.jobtang.sourcecompany.api.comment.dto.UpdateCommentResponse;
 import com.jobtang.sourcecompany.api.comment.entity.Comment;
 import com.jobtang.sourcecompany.api.comment.repository.CommentRepository;
 import com.jobtang.sourcecompany.api.community.entity.Community;
@@ -65,6 +67,17 @@ public class CommentServiceImpl implements CommentService {
     else{
       comment.deleteEntity();
     }
+  }
+
+  @Override
+  @Transactional
+  public UpdateCommentResponse updateComment(UpdateCommentRequest updateCommentRequest) {
+    Comment comment = commentRepository.findById(updateCommentRequest.getCommentId()).orElseThrow(() -> new CustomException(ErrorCode.COMM_COMMENT_EXISTS));
+    comment.setContent(updateCommentRequest.getContent());
+    return UpdateCommentResponse.builder()
+            .commentId(comment.getId())
+            .content(comment.getContent())
+            .build();
   }
 
 

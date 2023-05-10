@@ -4,15 +4,13 @@ import com.jobtang.sourcecompany.api.community.entity.Community;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import com.jobtang.sourcecompany.util.BaseEntity;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
