@@ -19,10 +19,12 @@ public enum ErrorCode implements EnumModel {
     USER_NOT_FOUND(204, "C007", "UserEmail Not Found"),
 
     // AWS
-    AWS_ERROR(400, "A001", "aws client error");
+    AWS_ERROR(400, "A001", "aws client error"),
 
     // 분석
-
+    CORP_NOT_FOUND(400, "B001", "Corp not found"),
+    INDUTY_NOT_FOUND(400, "B002", "Induty not found"),
+    ANALYSIS_NOT_FOUND(400, "B003", "Analysis not found");
 
     // 커뮤니티
 

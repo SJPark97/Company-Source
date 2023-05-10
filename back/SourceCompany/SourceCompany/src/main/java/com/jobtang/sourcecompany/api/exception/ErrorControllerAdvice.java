@@ -11,13 +11,13 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class ErrorControllerAdvice {
 
-    @ExceptionHandler(value = Exception.class)
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    protected ResponseEntity<ErrorResponse> handleException(Exception e) {
-        ErrorResponse response = ErrorResponse.of(ErrorCode.TEMPORARY_SERVER_ERROR);
-        response.setDetail(e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
+//    @ExceptionHandler(value = Exception.class)
+//    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+//    protected ResponseEntity<ErrorResponse> handleException(Exception e) {
+//        ErrorResponse response = ErrorResponse.of(ErrorCode.TEMPORARY_SERVER_ERROR);
+//        response.setDetail(e.getMessage());
+//        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+//    }
 
     @ExceptionHandler(value = NoSuchElementException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
