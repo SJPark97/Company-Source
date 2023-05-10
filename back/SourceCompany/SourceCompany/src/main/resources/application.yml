@@ -39,7 +39,7 @@ spring:
       port: 9000
 
 #    mongodb: # 테스트
-#      host: company-source.com
+#      host: k8b107.p.ssafy.io
 #      authentication-database: admin
 #      username: comso
 #      password: B107
