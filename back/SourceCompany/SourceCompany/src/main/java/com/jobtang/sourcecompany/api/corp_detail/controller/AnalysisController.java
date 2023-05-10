@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-
 @Slf4j
 @RestController
 @RequestMapping("api/v1/analysis")
@@ -24,7 +22,7 @@ public class AnalysisController {
 
     @GetMapping("/{analysisId}/{corpId}")
     public ResponseEntity getAnalysis(@PathVariable String analysisId, @PathVariable String corpId) {
-        return responseHandler.response(analysisService.getCorpAnalysis(analysisId, corpId));
+        return responseHandler.response(analysisService.getCorpAnalysis(analysisId, corpId, 0));
     }
 
     @GetMapping("/update/analysisInfo")
