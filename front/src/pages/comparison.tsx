@@ -1,17 +1,18 @@
 import NavBar from "@/components/NavBar";
-import Image from "next/image";
 
 export default function Comparison() {
   return (
-    <div className="flex flex-col items-center">
-      {/* <NavBar /> */}
-      <Image
-        src="/service_waiting.jpg"
-        alt="서비스 준비 페이지"
-        width={700}
-        height={1}
-      />
-      <div className="text-40 font-bold">서비스 준비중입니다.</div>
+    <div className="flex flex-col bg-gray-100">
+      <NavBar />
+
+      <div className="flex flex-col bg-white border-gray-500 rounded-5 mt-100 mx-[13vw] border-1">
+        <div className="flex">
+          <input type="text" className="bg-blue-200 m-[10px] w-full" />
+          <input type="text" className="bg-blue-200 m-[10px] w-full" />
+        </div>
+      </div>
+      <div className="mb-100"></div>
+
     </div>
   );
 }
