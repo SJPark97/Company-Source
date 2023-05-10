@@ -27,7 +27,7 @@ public class SignupRequestDto {
 
     @ApiModelProperty(value = "이메일")
     @NotEmpty(message = "이메일은 필수 입력 값입니다.")
-    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,20}$", message = "이메일 형식이 올바르지 않습니다.")
+    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,30}$", message = "이메일 형식이 올바르지 않습니다.")
     private String email;
 
     @ApiModelProperty(value = "비밀번호")
