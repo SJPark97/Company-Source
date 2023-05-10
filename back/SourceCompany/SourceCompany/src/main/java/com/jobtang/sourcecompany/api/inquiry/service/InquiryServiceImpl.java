@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 @RequiredArgsConstructor
 public class InquiryServiceImpl implements InquiryService {
@@ -33,6 +35,7 @@ public class InquiryServiceImpl implements InquiryService {
     }
 
     @Override
+    @Transactional
     public UpdateInquiryResponse updateInquiry(Long userId, UpdateInquiryRequest updateInquiryRequest) {
         Inquiry inquiry = inquiryRepository
                 .findById(updateInquiryRequest.getId())
@@ -47,6 +50,7 @@ public class InquiryServiceImpl implements InquiryService {
                 .id(inquiry.getId())
                 .title(inquiry.getTitle())
                 .content(inquiry.getContent())
+                .isLock(inquiry.isLock())
                 .build();
     }
 }
