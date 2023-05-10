@@ -11,4 +11,5 @@ public interface AnalysisService {
     AnalysisResponseDto getCorpAnalysis(String analysisId, String corpId, int settingNum);
     Boolean deleteAnalysisAllCorp();
     void updateAnalysisInfo();
+    void updateAnalysisGpt(String corpId);
 }
