@@ -1,5 +1,6 @@
 package com.jobtang.sourcecompany.api.corp_detail.service;
 
+import com.jobtang.sourcecompany.api.analysis_result.service.AnalysisResultService;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp.repository.CorpRepository;
 import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisDocument;
@@ -45,6 +46,7 @@ public class AnalysisServiceImpl implements AnalysisService{
     private final AnalysisRepository analysisRepository;
     private final AnalysisInfoRepository analysisInfoRepository;
     private final ModelMapper mapper;
+    private final AnalysisResultService analysisResultService;
 
     private AnalysisVariable analysisVariable;
 
@@ -93,10 +95,20 @@ public class AnalysisServiceImpl implements AnalysisService{
             updateAnalysisCorp(indutycode);
         }
         log.info("모든 산업 분석 완료!");
+
+        // entity 저장
+        for (String corpId : corpIds) {
+            for (String analysisId : new ArrayList<>(List.of(
+                    "101", "103", "104", "109", "110", "111", "113"
+            ))) {
+                getCorpAnalysis(analysisId, corpId, 1);
+            }
+        }
+        log.info("모든 기업 분석 완료!");
     }
 
     @Override
-    public AnalysisResponseDto getCorpAnalysis(String analysisId, String corpId) {
+    public AnalysisResponseDto getCorpAnalysis(String analysisId, String corpId, int settingNum) {
         Corp corp = corpRepository.findByCorpId(corpId);
         AnalysisDocument corpDocument = analysisRepository.findByVariableId(corpId);
         AnalysisDocument indutyDocument = analysisRepository.findByVariableId(corp.getIndutyCode());
@@ -124,44 +136,50 @@ public class AnalysisServiceImpl implements AnalysisService{
                 break;
             }
         }
-        System.out.println(corpAnalysis);
-        System.out.println(indutyAnalysis);
         List<HashMap> analysisResult = new ArrayList<>();
         int goodCnt = 0;
         String checkRate = "";
         // 같은 것 끼리 묶기
-        for (AnalysisResultDto corpResultDto : corpAnalysis.getAnalysisResult()) {
-            for (AnalysisResultDto indutyResultDto : indutyAnalysis.getAnalysisResult()) {
-                if (corpResultDto.getName().equals(indutyResultDto.getName())) {
-                    System.out.println("###########################");
-                    System.out.println(corpResultDto);
-                    System.out.println(indutyResultDto);
-                    System.out.println("###########################");
-                    String rate = rate(analysisId, corpResultDto, indutyResultDto);
-                    if (rate.equals("고평가")) {checkRate = "고평가";}
-                    else if (rate.equals("저평가")) {checkRate = "저평가";}
-                    else if (rate.equals("양호")) {goodCnt += 1;}
-                    analysisResult.add(new HashMap(Map.of(
-                            corp.getCorpName(),corpResultDto.getValue(),
-                            "name", corpResultDto.getName(),
-                            "산업평균", indutyResultDto.getValue(),
-                            "평가", rate
-                    )));
+        try {
+            for (AnalysisResultDto corpResultDto : corpAnalysis.getAnalysisResult()) {
+                for (AnalysisResultDto indutyResultDto : indutyAnalysis.getAnalysisResult()) {
+                    if (corpResultDto.getName().equals(indutyResultDto.getName())) {
+                        String rate = rate(analysisId, corpResultDto, indutyResultDto);
+                        if (rate.equals("고평가")) {checkRate = "고평가";}
+                        else if (rate.equals("저평가")) {checkRate = "저평가";}
+                        else if (rate.equals("양호")) {goodCnt += 1;}
+                        analysisResult.add(new HashMap(Map.of(
+                                corp.getCorpName(),corpResultDto.getValue(),
+                                "name", corpResultDto.getName(),
+                                "산업평균", indutyResultDto.getValue(),
+                                "평가", rate
+                        )));
 
-                    break;
+                        break;
+                    }
                 }
             }
-        }
+        } catch (Exception e) {}
         // 종합 평가
         String totalRate = "";
-        if (checkRate.length() > 1) {
-            totalRate = checkRate;
-            // 60% 이상이 양호이면 양호, 30% 이하는 불량, 그 외는 불량
-        } else if (goodCnt >= corpAnalysis.getAnalysisResult().size() * 6 / 10) {
-            totalRate = "양호";
-        } else if (goodCnt < corpAnalysis.getAnalysisResult().size() * 3 / 10) {
-            totalRate = "불량";
-        } else {totalRate = "보통";}
+        try{
+            if (checkRate.length() > 1) {
+                totalRate = checkRate;
+                // 60% 이상이 양호이면 양호, 30% 이하는 불량, 그 외는 불량
+            } else if (goodCnt >= corpAnalysis.getAnalysisResult().size() * 6 / 10) {
+                totalRate = "양호";
+            } else if (goodCnt < corpAnalysis.getAnalysisResult().size() * 6 / 10 ||
+                    goodCnt >= corpAnalysis.getAnalysisResult().size() * 3 / 10) {
+                totalRate = "보통";
+            } else if (goodCnt < corpAnalysis.getAnalysisResult().size() * 3 / 10) {
+                totalRate = "불량";
+            } else {totalRate = "";}
+        } catch (Exception e) {}
+
+        if (settingNum == 1) {
+            analysisResultService.updateAnalysisResult(corp, corpAnalysis.getAnalysisId(), totalRate);
+            return null;
+        }
 
         return new AnalysisResponseDto().builder()
                 .exist_all((corpAnalysis.getIsExistAll().equals(true) && indutyAnalysis.getIsExistAll().equals(true)) ? true : false)
