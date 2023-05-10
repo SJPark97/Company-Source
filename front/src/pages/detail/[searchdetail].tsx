@@ -1,130 +1,152 @@
 import NavBar from "@/components/NavBar";
-import AnalysisTitle from "@/components/detail/AnalysisTitle";
-import Card from "@/components/detail/Card";
-import Chart from "@/components/detail/Chart";
-import OverviewContent from "@/components/detail/OverviewContent";
 import Title from "@/components/detail/Title";
-import Image from "next/image";
-import { useRouter } from "next/router"
-import { QueryClient, dehydrate } from "react-query";
+import { useRouter } from "next/router";
+import CompanyOverview from "@/components/detail/CompanyOverview";
+import FinancialAnalysis from "@/components/detail/FinancialAnalysis";
 import axios from "axios";
+import { SERVER_URL } from "@/utils/url";
+import analysisCodeList from "@/models/analysisCodeList";
+import Image from "next/image";
+import Head from "next/head";
 
-const API_URL = "http://192.168.31.142:8080/api/v1/analysis/101/234"
-export const getTempChart = async () => {
-	const { data } = await axios.get(API_URL);
-	return data;
+interface searchdetaiProps {
+  analysisList: [];
+  evaluaionSummary: [];
+  companyOverviewInfo: any;
 }
 
-export default function searchdetail() {
+export default function searchdetail({
+  analysisList,
+  companyOverviewInfo,
+  evaluaionSummary,
+}: searchdetaiProps) {
+  const router = useRouter();
+  const { searchdetail } = router.query;
 
-	const router = useRouter();
-	const { searchdetail } = router.query;
+  return (
+    <>
+      <Head>
+        <title>{`컴퍼니소스 | ${searchdetail ? companyOverviewInfo.corpName : "기업"}의 분석 결과`}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content={`컴퍼니소스에서 검색한 ${searchdetail ? companyOverviewInfo.corpName : "기업"}의 분석 결과입니다.}`}
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://company-source.com/detail/${searchdetail ? companyOverviewInfo.corpId : ""}`} />
+        <meta property="og:title" content="Company Source" />
+        <meta property="og:image" content="/company_default.jpg" />
+        <meta
+          property="og:description"
+          content="기업분석이 어려우신가요? Company Source와 함께 해보세요."
+        />
+      </Head>
+      <NavBar />
+      <div className="flex flex-col bg-gray-100">
+        {/* 기업 개요 부분 */}
+        <div className="bg-white border-gray-500 rounded-5 mt-100 mx-[13vw] border-1">
+          {searchdetail && (
+            <>
+              <div className="flex justify-between mx-[3vw] mt-20">
+                <Title
+                  companyLogo={companyOverviewInfo.corpImg}
+                  name={companyOverviewInfo.corpName}
+                />
+              </div>
+              <div className="flex">
+                <CompanyOverview
+                  companyOverviewInfo={companyOverviewInfo}
+                  evaluationSummary={evaluaionSummary}
+                />
+              </div>
+            </>
+          )}
+        </div>
 
-	return (
-		<>
-			<NavBar />
-			<div className="flex flex-col">
+        {/* 재무 분석 부분 */}
+        <div className="bg-white border-gray-500 rounded-5 mt-100 mx-[13vw] border-1">
+          {searchdetail && (
+            <>
+              <div className="ml-[3vw] mt-40 text-24 font-bold">
+                <div className="flex">
+                  <Image
+                    src="/analysis.svg"
+                    alt="analysis"
+                    width={392}
+                    height={392}
+                    className="w-30 h-30"
+                  />
+                  <span className="ml-12">재무분석</span>
+                </div>
+              </div>
+              <FinancialAnalysis
+                companyId={searchdetail as string}
+                analysisList={analysisList}
+              />
+            </>
+          )}
+        </div>
+        <div className="mb-100"></div>
 
-				{/* 기업 개요 부분 */}
-				<Title name="기업 개요" />
-				<div className="flex justify-between bg-blue-background h-auto mx-[11vw] rounded-10">
-					<div className="flex flex-col justify-center mx-[4vw]">
-						<Image src="/samsung-detail.png" alt="logo" width={364} height={129} />
-					</div>
-					<div className="flex flex-col justify-center w-[45vw] p-30">
-						<div className="h-auto bg-white rounded-10">
-							<div className="mx-[2vw] my-20 text-28">{searchdetail}</div>
-							<div className="flex flex-wrap justify-between m-20">
-								{/* API랑 연결하면 map으로 바꿔줄 부분 */}
-								<OverviewContent title="기업형태" content="대기업, 주식회사" />
-								<OverviewContent title="기업형태" content="대기업, 주식회사" />
-								<OverviewContent title="기업형태" content="대기업, 주식회사" />
-								<OverviewContent title="기업형태" content="대기업, 주식회사" />
-								<OverviewContent title="기업형태" content="대기업, 주식회사" />
-								<OverviewContent title="기업형태" content="대기업, 주식회사" />
-								<OverviewContent title="기업형태" content="대기업, 주식회사" />
-								<OverviewContent title="기업형태" content="대기업, 주식회사" />
-								<OverviewContent title="기업형태" content="대기업, 주식회사" />
-								<OverviewContent title="기업형태" content="대기업, 주식회사" />
-								<OverviewContent title="기업형태" content="대기업, 주식회사" />
-							</div>
-						</div>
-					</div>
-				</div>
-
-				{/* 재무 분석 부분 */}
-				<Title name="재무 분석" />
-				<div className="flex flex-col">
-
-					<div className="justify-between bg-blue-background h-auto mx-[11vw] rounded-10">
-						<div className="flex flex-col">
-							<AnalysisTitle />
-							<div>
-								<div className="flex">
-									<div className="p-20 bg-white m-30 rounded-10">
-										<Chart />
-									</div>
-									<div className="p-20 bg-white my-30 mr-30 rounded-10">
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div className="mt-20"></div>
-
-					<div className="justify-between bg-blue-background h-auto mx-[11vw] rounded-10">
-						<div className="flex flex-col">
-							<AnalysisTitle />
-							<div>
-								<div className="flex">
-									<div className="p-20 bg-white m-30 rounded-10">
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-										설명설명설명설명설명설명설명설명
-									</div>
-									<div className="p-20 bg-white my-30 mr-30 rounded-10">
-										<Chart />
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div className="mt-20"></div>
-
-				</div>
-			</div>
-
-		</>
-	)
+      </div>
+    </>
+  );
 }
 
-export const getServerSideProps = async () => {
-	const queryClient = new QueryClient();
-	await queryClient.prefetchQuery(['tempChart'], getTempChart);
-	return {
-		props: {
-			dehydratedProps: dehydrate(queryClient),
-		}
-	}
-}
+export const getStaticPaths = async () => {
+  // const res = await axios.get(
+  //   SERVER_URL + `/corp/all`
+  // );
+  // const data = res.data;
+
+  // return {
+  //   paths: data.map((corpId: string) => ({
+  //     params: {
+  //       searchdetail: corpId.toString()
+  //     }
+  //   })),
+  //   fallback: true,
+  // };
+  return {
+    paths: [],
+    fallback: true,
+  };
+};
+
+export const getStaticProps = async ({ params }: any) => {
+  // 회사의 id를 router의 params에서 받아와서 저장
+  const companyId = params?.searchdetail;
+  const getAnalysisList = [];
+  const evaluaionSummary = [];
+
+  for (const analysisCode of analysisCodeList) {
+    const res = await axios.get(
+      SERVER_URL + `/analysis/${analysisCode.id}/${companyId}`
+    );
+
+    getAnalysisList.push(res.data);
+    if (res.data.data.exist_all) {
+      evaluaionSummary.push({
+        analysisName: res.data.data.analysis_name,
+        rate: res.data.data.rate,
+      });
+    } else {
+      evaluaionSummary.push({
+        analysisName: res.data.data.analysis_name,
+        rate: "정보없음",
+      });
+    }
+  }
+
+  const { data: getCompanyOverviewInfo } = await axios.get(
+    SERVER_URL + `/corp/info/${companyId}`
+  );
+
+  return {
+    props: {
+      analysisList: getAnalysisList,
+      evaluaionSummary: evaluaionSummary,
+      companyOverviewInfo: getCompanyOverviewInfo.data,
+    },
+  };
+};
