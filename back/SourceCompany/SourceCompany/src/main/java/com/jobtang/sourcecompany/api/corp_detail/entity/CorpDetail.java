@@ -1,6 +1,7 @@
 package com.jobtang.sourcecompany.api.corp_detail.entity;
 
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
+import com.jobtang.sourcecompany.api.corp_detail.util.variable.EntityVariable;
 import com.jobtang.sourcecompany.util.BaseEntity;
 import lombok.*;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CorpDetail extends BaseEntity {
+public class CorpDetail extends BaseEntity implements EntityVariable {
     @Id
     private String corpDetailId;
 
@@ -80,5 +81,143 @@ public class CorpDetail extends BaseEntity {
     @JoinColumn(name = "corp_id")
     private Corp corp;
 
+    @Override
+    public String getVariableId() {
+        return corp.getCorpId();
+    }
 
+    @Override
+    public String getVariableName() {
+        return corp.getCorpName();
+    }
+
+    @Override
+    public Long getCurrentAsset() {
+        return currentAsset;
+    }
+
+    @Override
+    public Long getCurrentLiabilities() {
+        return currentLiabilities;
+    }
+
+    @Override
+    public Long getTotalAssets() {
+        return totalAssets;
+    }
+
+    @Override
+    public Long getRetainedEarnings() {
+        return retainedEarnings;
+    }
+
+    @Override
+    public Long getNetProfit() {
+        return netProfit;
+    }
+
+    @Override
+    public Long getCashAndCashEquivalents() {
+        return cashAndCashEquivalents;
+    }
+
+    @Override
+    public Long getEquityCapital() {
+        return equityCapital;
+    }
+
+    @Override
+    public Long getNonCurrentAssets() {
+        return nonCurrentAssets;
+    }
+
+    @Override
+    public Long getNonCurrentLiabilities() {
+        return nonCurrentLiabilities;
+    }
+
+    @Override
+    public Long getTangibleAssets() {
+        return tangibleAssets;
+    }
+
+    @Override
+    public Long getPreviousSales() {
+        return previousSales;
+    }
+
+    @Override
+    public Long getPreviousTotalAssets() {
+        return previousTotalAssets;
+    }
+
+    @Override
+    public Long getPreviousEquityCapital() {
+        return previousEquityCapital;
+    }
+
+    @Override
+    public Long getPreviousNetProfit() {
+        return previousNetProfit;
+    }
+
+    @Override
+    public Long getBeforePreviousNetProfit() {
+        return beforePreviousNetProfit;
+    }
+
+    @Override
+    public Long getSales() {
+        return sales;
+    }
+
+    @Override
+    public Long getTotalLiabilities() {
+        return totalLiabilities;
+    }
+
+    @Override
+    public Long getTax() {
+        return tax;
+    }
+
+    @Override
+    public Long getInventories() {
+        return inventories;
+    }
+
+    @Override
+    public Double getEarningPerShare() {
+        return earningPerShare;
+    }
+
+    @Override
+    public Double getPreviousEarningPerShare() {
+        return previousEarningPerShare;
+    }
+
+    @Override
+    public Double getCapitalSurplus() {
+        return capitalSurplus;
+    }
+
+    @Override
+    public Long getMarketCapitalization() {
+        return marketCapitalization;
+    }
+
+    @Override
+    public Long getNumberOfListedShares() {
+        return numberOfListedShares;
+    }
+
+    @Override
+    public Long getClosingPrcie() {
+        return closingPrcie;
+    }
+
+    @Override
+    public Long getInterestExpense() {
+        return interestExpense;
+    }
 }

@@ -23,7 +23,9 @@ public enum ErrorCode implements EnumModel {
     AWS_ERROR(400, "A001", "aws client error"),
 
     // 분석
-
+    CORP_NOT_FOUND(400, "B001", "Corp not found"),
+    INDUTY_NOT_FOUND(400, "B002", "Induty not found"),
+    ANALYSIS_NOT_FOUND(400, "B003", "Analysis not found"),
 
     // 커뮤니티
     COMM_EXISTS(400 , "G001","community not exists"),

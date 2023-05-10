@@ -6,6 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface AnalysisRepository extends MongoRepository<AnalysisDocument, String> {
-    AnalysisDocument findByCorpId(String corpId);
+    AnalysisDocument findByVariableId(String variableId);
     List<AnalysisDocument> findAll();
 }
