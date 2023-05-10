@@ -56,7 +56,7 @@ export default function Home() {
     getRandomCorpList(page);
   }, [page]);
 
-  const getData = async (keyWord: string | string[] | undefined) => { };
+  const getData = async (keyWord: string | string[] | undefined) => {};
   return (
     <>
       <Head>
@@ -76,7 +76,10 @@ export default function Home() {
         />
       </Head>
       <div className="relative">
-        <div className="z-50bg-cover bg-[url('/carousel3.jpg')] h-[400px] mb-[50px]">
+        <div
+          className="z-50 bg-cover bg-[url('/home_background.jpg')] h-[400px] mb-[50px] bg-no-repeat"
+          style={{ backgroundPosition: "center top -100px" }}
+        >
           <NavBar />
           <HomeQuickMenu />
           <div className="flex flex-col items-center mt-[50px]">
