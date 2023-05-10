@@ -46,6 +46,7 @@ export default function searchresult() {
                 id={corp.corpId}
                 name={corp.corpName}
                 image={corp.corpImg}
+                key={"search" + `${corp.corpName}`}
               />
             ))}
         </div>
