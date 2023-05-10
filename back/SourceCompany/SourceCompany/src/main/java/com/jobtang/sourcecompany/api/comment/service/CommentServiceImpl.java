@@ -10,7 +10,6 @@ import com.jobtang.sourcecompany.api.exception.ErrorCode;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import com.jobtang.sourcecompany.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,13 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
-=======
-import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
-public class CommentServiceImpl implements  CommentService {
->>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 
   private final CommentRepository commentRepository;
   private final CommunityRepository communityRepository;
@@ -35,23 +28,13 @@ public class CommentServiceImpl implements  CommentService {
 
 
   @Override
-<<<<<<< HEAD
   @Transactional
   public Long createComment(Long userId, CreateCommentRequest createCommentRequest) {
     // 유저 벨리드 체크
     User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.USER_EXISTS));
     // 커뮤니티 밸리드 체크
     Community community = communityRepository.findById(createCommentRequest.getCommunityId()).orElseThrow(() -> new CustomException(ErrorCode.COMM_EXISTS));
-=======
-  public Long createComment(Long userId, CreateCommentRequest createCommentRequest) {
 
-    // 유저 벨리드 체크
-    User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.USER_EXISTS));
-
-    // 커뮤니티 밸리드 체크
-    Community community = communityRepository.findById(createCommentRequest.getCommunityId()).orElseThrow(() -> new CustomException(ErrorCode.COMM_EXISTS));
-
->>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
     // 코멘트 생성
     Comment comment = Comment.builder()
             .parent(createCommentRequest.getParent())
@@ -61,7 +44,6 @@ public class CommentServiceImpl implements  CommentService {
             .community(community)
             .build();
 
-<<<<<<< HEAD
     Long commentId = 0L;
     commentId = commentRepository.save(comment).getId();
     // 만약 부모라면
@@ -88,15 +70,4 @@ public class CommentServiceImpl implements  CommentService {
   }
 
 
-=======
-    Long commentId =0L;
-    commentId = commentRepository.save(comment).getId();
-    // 만약 부모라면
-//    if(comment.){
-//
-//    }
-
-    return commentId;
-  }
->>>>>>> dcd36873a727d1402c37c4c0deafe32f26e4f324
 }
