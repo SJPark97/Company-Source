@@ -64,7 +64,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex justify-around bg-cover bg-gradient-to-b h-screen from-[#ffffff] to-[#F9FAFB] items-center mx-100">
+        <div className="flex justify-around bg-cover bg-gradient-to-b h-screen from-[#ffffff] to-[#F9FAFB] items-center px-100">
           <div>
             <LandingDiscription title={firstTitle} content={firstContent} />
           </div>
@@ -93,7 +93,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex items-center justify-around h-screen bg-white bg-cover mx-100">
+        <div className="flex items-center justify-around h-screen bg-white bg-cover px-100">
           <div className="flex flex-col justify-center">
             <LandingImageCard
               src="/chart-comparison.jpg"
@@ -108,12 +108,12 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex justify-around bg-cover bg-gradient-to-b from-[#F9FAFB] to-[#FFFFFF] h-screen items-center mx-100">
+        <div className="flex justify-around bg-cover bg-gradient-to-b from-[#F9FAFB] to-[#FFFFFF] h-screen items-center px-100">
           <div className="flex flex-col">
             <LandingDiscription title={thirdTitle} content={thirdContent} />
 
             <Link href="/home" className="self-center mt-30">
-              <div className="ml-[10vw] bg-brand drop-shadow-lg w-[250px] text-center text-white text-20 p-16 rounded-10 hover:bg-blue-800">
+              <div className="bg-brand drop-shadow-lg w-[250px] text-center text-white text-20 p-16 rounded-10 hover:bg-blue-800">
                 기업 분석 하러가기
               </div>
             </Link>
