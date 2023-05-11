@@ -5,6 +5,7 @@ import com.jobtang.sourcecompany.api.community.entity.Community;
 import com.jobtang.sourcecompany.api.faq.entity.Faq;
 import com.jobtang.sourcecompany.api.inquiry.entity.Inquiry;
 import com.jobtang.sourcecompany.api.inquiry_comment.entity.InquiryComment;
+import com.jobtang.sourcecompany.api.likes.entity.Likes;
 import com.jobtang.sourcecompany.api.scrap.entity.Scrap;
 import com.jobtang.sourcecompany.util.BaseEntity;
 import com.sun.istack.NotNull;
@@ -84,6 +85,11 @@ public class User extends BaseEntity implements UserDetails  {
   @JsonIgnore
   @OneToMany(mappedBy = "user" )
   private List<Faq> faqs = new ArrayList<>();
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "user" )
+  private List<Likes> likes = new ArrayList<>();
+
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
