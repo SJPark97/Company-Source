@@ -20,7 +20,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/like")
+@RequestMapping("/api/v1/likes")
 @RequiredArgsConstructor
 @Api("좋아요 API")
 public class LikesController {
@@ -33,8 +33,9 @@ public class LikesController {
           value = "게시글 좋아요",
           notes = "해당 게시글에 좋아요 등록"
   )
-  @PostMapping("/like/{community_id}")
-  public ResponseEntity<?> findAllFreeCommunity(@RequestHeader("Authorization") String token , @PathVariable Long communityId) {
+  @PostMapping("/{communityId}")
+  public ResponseEntity<?>  createLikes(@RequestHeader("Authorization") String token , @PathVariable Long communityId) {
+
     HttpHeaders headers = new HttpHeaders();
     Long userId = jwtService.userPkByToken(token);
     HashMap<String, Object> result = new HashMap<>();
@@ -42,5 +43,21 @@ public class LikesController {
     result.put("data", likesId);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
-  
+
+  @ApiOperation(
+          value = "게시글 좋아요 삭제",
+          notes = "게시글의 좋아요 삭제"
+  )
+  @DeleteMapping("/{community_id}")
+  public ResponseEntity<?> deleteLikes( @PathVariable Long likesId) {
+    HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result = new HashMap<>();
+    likesService.deleteLikes(likesId);
+    result.put("data", likesId);
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+  }
+
+
+
+
 }
