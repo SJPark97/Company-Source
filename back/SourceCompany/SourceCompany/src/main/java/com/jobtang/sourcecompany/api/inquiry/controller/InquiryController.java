@@ -45,7 +45,9 @@ public class InquiryController {
                                         @RequestHeader("Authorization") String authHeader) {
         HashMap<String, Object> result = new HashMap<>();
         Long userId = jwtService.userPkByToken(authHeader);
+        System.out.println(userId);
         GetInquiryResponse response = inquiryService.getInquiry(userId, inquiryId);
+        System.out.println(userId);
         result.put("data", response);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

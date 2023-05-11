@@ -50,7 +50,7 @@ public class InquiryServiceImpl implements InquiryService {
             }
         }
         User user = userRepository.findById(userId).get();
-        if (userId != inquiry.getUser().getId() && user.getRole() != "ROLE_ADMIN") {
+        if (userId != inquiry.getUser().getId() && !user.getRole().equals("ROLE_ADMIN")) {
             throw new CustomException(ErrorCode.INQ_INVALID_USER);
         }
         return GetInquiryResponse.EntityToDTO(inquiry, getInquiryCommentResponse);
