@@ -60,6 +60,7 @@ public class CommunityServiceImpl implements CommunityService {
             .title(createCommunityRequest.getTitle())
             .user(user)
             .yesterdayView(0)
+            .likesCnt(0)
             .totalView(0)
             .build();
     communityRepository.save(community);
@@ -155,19 +156,36 @@ public class CommunityServiceImpl implements CommunityService {
 
   @Override
   @Transactional
-  public void deleteCommunity(Long communityId) {
+  public void deleteCommunity(Long userId , Long communityId) {
     Community community = communityRepository.findById(communityId).orElseThrow(() -> new CustomException(ErrorCode.COMM_EXISTS));
     // 이미 삭제된 게시글이였던 경우
     if (community.isActive() == false) {
       throw new CustomException(ErrorCode.COMM_DELETED);
     }
+    // 만약 로그인한 유저와 삭제할 게시판의 작성자가 서로 다를 경우
+    if(community.getUser().getId() != userId){
+      throw new CustomException(ErrorCode.COMM_NOT_WRITER);
+    }
     community.deleteEntity();
   }
 
   @Override
-  public List<ReadAllCommunityResponse> readAllCommunity(Pageable pageable) {
+  public List<ReadAllCommunityResponse> readAllCommunity(String type ,String sort ,Pageable pageable) {
+    Page<Community> communities ;
+
     // 인자로 받은 Pageable 객체의 정보를 토대로 DB에서 Community값들 가져오기
-    Page<Community> communities = communityRepository.findAllByIsActiveAndCommunityType(true, "기업", pageable);
+    // 크리에이티드  시간 순으로 정렬
+    if(sort.equals("all")){
+      communities = communityRepository.findAllByIsActiveAndCommunityType(true, type, pageable);
+    }
+    // 조회수 기반으로 페이징
+    else if(sort.equals("view")){
+      communities = communityRepository.findAllByIsActiveAndCommunityType(true, type, pageable);
+    }
+    else{
+      communities = communityRepository.findAllByIsActiveAndCommunityType(true, type, pageable);
+    }
+
     // 받아온 정보에 redis의 조회수를 더하는 코드
     return communities.stream()
             .map(community -> {
@@ -186,9 +204,14 @@ public class CommunityServiceImpl implements CommunityService {
 
   @Override
   @Transactional
-  public UpdateCommunityResponse updateCommunity(UpdateCommunityRequest updateCommunityRequest) {
+  public UpdateCommunityResponse updateCommunity(Long userId ,UpdateCommunityRequest updateCommunityRequest) {
     Community community = communityRepository
             .findById(updateCommunityRequest.getId()).orElseThrow(() -> new CustomException(ErrorCode.COMM_EXISTS));
+    // 작성한 유저와 , 로그인한 유저가 다를 경우 에러 출력
+    if(community.getUser().getId() != userId){
+      throw new CustomException(ErrorCode.COMM_NOT_WRITER);
+    }
+
     community.setContent(updateCommunityRequest.getContent());
     community.setTitle(updateCommunityRequest.getTitle());
     return UpdateCommunityResponse.builder()

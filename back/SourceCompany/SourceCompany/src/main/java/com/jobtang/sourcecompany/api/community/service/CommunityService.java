@@ -13,11 +13,11 @@ public interface CommunityService {
   List<ReadAllCommunityResponse> searchCommunity(String communityType , String content , String  type , Pageable pageable );
 
   ReadCommunityDetailResponse readCommunityDetail(Long userId ,String communityType,Long communityId);
-  void deleteCommunity(Long communityId);
+  void deleteCommunity(Long userId , Long communityId);
 
-  List<ReadAllCommunityResponse> readAllCommunity(Pageable pageable);
+  List<ReadAllCommunityResponse> readAllCommunity(String type , String sort ,Pageable pageable);
 
-  UpdateCommunityResponse updateCommunity(UpdateCommunityRequest updateCommunityRequest);
+  UpdateCommunityResponse updateCommunity(Long userId ,UpdateCommunityRequest updateCommunityRequest);
 
   ReadRandingCommunityResponse readRandingCommunity();
 

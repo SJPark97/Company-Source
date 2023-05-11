@@ -42,6 +42,8 @@ public class LikesServiceImpl implements LikesService {
             .community(community)
             .build();
     likesRepository.save(likes);
+    // community 의 likeCount 를 올린다.
+    likes.getCommunity().addLikeCnt();
     return likes.getId();
   }
 
@@ -49,6 +51,8 @@ public class LikesServiceImpl implements LikesService {
   @Transactional
   public void deleteLikes(Long likesId) {
     Likes likes = likesRepository.findByIdAndIsActiveTrue(likesId).orElseThrow(() -> new CustomException(ErrorCode.LIKES_EXISTS));
+    // community 의 likeCount 를 줄인다.
+    likes.getCommunity().minusLikeCnt();
     likes.deleteEntity();
   }
 }
