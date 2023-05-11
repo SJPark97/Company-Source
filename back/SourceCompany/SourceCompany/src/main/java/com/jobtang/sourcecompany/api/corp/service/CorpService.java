@@ -4,6 +4,7 @@ import com.jobtang.sourcecompany.api.corp.dto.CorpAutoSearchDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpInfoDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
+import org.springframework.data.domain.Page;
 
 import java.util.HashMap;
 import java.util.List;

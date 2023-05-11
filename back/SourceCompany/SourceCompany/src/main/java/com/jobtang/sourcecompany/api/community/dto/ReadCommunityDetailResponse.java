@@ -38,7 +38,7 @@ public class ReadCommunityDetailResponse {
             .content(community.getContent())
             .isLiked(isLiked)
             .viewCount(viewCount)
-            .likesCount(community.getLikes().size())
+            .likesCount(community.getLikesCnt())
             .build();
     return readCommentResponse;
   }
