@@ -11,19 +11,18 @@ interface autoComplete {
 }
 
 export interface Iprops {
-  getData: (keyWord: string | string[] | undefined) => void;
+  getData: (keyWord: string | undefined) => void;
 }
 
 export default function SearchBar({ getData }: Iprops) {
   const router = useRouter();
-  const source = axios.CancelToken.source()
+  const source = axios.CancelToken.source();
 
   const [searchWord, setSearchWord] = useState<string>("");
   const [isHaveInputValue, setIsHaveInputValue] = useState<boolean>(false);
   const [autoCompleteList, setAutoCompleteList] = useState<Array<autoComplete>>(
     []
   );
-  const [reload, setReload] = useState<string | string[]>("")
 
   // 검색 키워드 onChange 함수
   const onChangeSearchWordHandler = (
@@ -33,7 +32,7 @@ export default function SearchBar({ getData }: Iprops) {
     if (e.target.value) {
       setIsHaveInputValue(true);
     } else if (!e.target.value) {
-      setIsHaveInputValue(false)
+      setIsHaveInputValue(false);
     }
   };
 
@@ -49,7 +48,7 @@ export default function SearchBar({ getData }: Iprops) {
     }
 
     getData(searchWord as string);
-    setAutoCompleteList([])
+    setAutoCompleteList([]);
     router.push({
       pathname: "/search/[searchresult]",
       query: { searchresult: searchWord },
@@ -60,15 +59,31 @@ export default function SearchBar({ getData }: Iprops) {
   const onBlurInputHandler = () => {
     // 비동기 때문에 키워드가 onchange 때문에 handler순서가 안맞음 그래서 settimeout으로 100지연시켜서 닫히게함
     setTimeout(() => {
-      setAutoCompleteList([])
-    }, 100)
-  }
+      setAutoCompleteList([]);
+    }, 100);
+  };
 
-  // 검색어 바뀔때마다 실행
+  // 자동완성 검색어 Highlight 해주는 함수
+  const highlightSearchWord = (text: string, searchWord: string) => {
+    if (!searchWord) return text;
+    const regex = new RegExp(`(${searchWord})`, "gi");
+    return text.split(regex).map((chunk, index) =>
+      regex.test(chunk) ? (
+        <span className="font-bold text-brand" key={index}>
+          {chunk}
+        </span>
+      ) : (
+        chunk
+      )
+    ) as React.ReactNode;
+  };
+
+  // 검색어 바뀔때마다 자동완성 리스트 갱신
   useEffect(() => {
     let canceled = false;
     if (searchWord) {
-      axios.get(SERVER_URL + `/corp/autosearch/${searchWord}`)
+      axios
+        .get(SERVER_URL + `/corp/autosearch/${searchWord}`)
         .then((res) => {
           if (!canceled) {
             if (res.status === 200) {
@@ -90,28 +105,10 @@ export default function SearchBar({ getData }: Iprops) {
 
   useEffect(() => {
     if (router.query.searchresult) {
-      setReload(router.query.searchresult)
+      setSearchWord(router.query.searchresult as string);
+      setIsHaveInputValue(false);
     }
-  }, [router])
-
-  useEffect(() => {
-    console.log(autoCompleteList)
-  }, [autoCompleteList])
-
-  // 자동완성 검색어 Highlight 해주는 함수
-  const highlightSearchWord = (text: string, searchWord: string) => {
-    if (!searchWord) return text;
-    const regex = new RegExp(`(${searchWord})`, "gi");
-    return text.split(regex).map((chunk, index) =>
-      regex.test(chunk) ? (
-        <span className="font-bold text-brand" key={index}>
-          {chunk}
-        </span>
-      ) : (
-        chunk
-      )
-    ) as React.ReactNode;
-  };
+  }, [router]);
 
   return (
     <>
@@ -131,18 +128,14 @@ export default function SearchBar({ getData }: Iprops) {
               <input
                 onBlur={onBlurInputHandler}
                 onChange={onChangeSearchWordHandler}
-                defaultValue={
-                  reload
-                  // searchWord === undefined
-                  //   ? router.query.searchresult?.toString()
-                  //   : searchWord?.toString()
-                }
+                defaultValue={searchWord}
                 placeholder="기업을 검색해 보세요."
                 className={
                   "border-brand w-[60vw] h-60 hover:shadow-whole shadow-brand focus:outline-none placeholder-gray-400 px-40 " +
-                  `${autoCompleteList.length
-                    ? "rounded-tr-30 rounded-tl-30 border-t-2 border-l-2 border-r-2"
-                    : "rounded-full border-brand border-2"
+                  `${
+                    autoCompleteList.length && isHaveInputValue
+                      ? "rounded-tr-30 rounded-tl-30 border-t-2 border-l-2 border-r-2"
+                      : "rounded-full border-brand border-2"
                   }`
                 }
               />
@@ -151,10 +144,11 @@ export default function SearchBar({ getData }: Iprops) {
           <div
             className={
               "bg-white z-50 border-brand " +
-              `${autoCompleteList.length ? "border-2" : ""}`
+              `${autoCompleteList.length && isHaveInputValue ? "border-2" : ""}`
             }
           >
             {autoCompleteList.length > 0 &&
+              isHaveInputValue &&
               autoCompleteList.map((item) => (
                 <Link
                   href="/detail/[searchdetail]"

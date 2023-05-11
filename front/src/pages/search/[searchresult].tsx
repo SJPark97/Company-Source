@@ -15,7 +15,7 @@ type bigCard = {
 
 export default function searchresult() {
   const [searchResult, setSearchResult] = useState<Array<bigCard>>([]);
-  const getData = async (keyWord: string | string[] | undefined) => {
+  const getData = async (keyWord: string | undefined) => {
     const { data } = await axios.get(SERVER_URL + `/corp/list/${keyWord}`);
     setSearchResult(data.data);
   };
@@ -23,7 +23,7 @@ export default function searchresult() {
   const router = useRouter();
   useEffect(() => {
     if (router !== undefined) {
-      getData(router.query.searchresult);
+      getData(router.query.searchresult as string);
     }
   }, [router]);
 
