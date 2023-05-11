@@ -1,6 +1,7 @@
 package com.jobtang.sourcecompany.api.corp_detail.service;
 
 import com.jobtang.sourcecompany.api.analysis_result.service.AnalysisResultService;
+import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp.repository.CorpRepository;
 import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisDocument;
@@ -24,6 +25,9 @@ import com.jobtang.sourcecompany.api.induty_detail.repository.IndutyDetailReposi
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -47,6 +51,7 @@ public class AnalysisServiceImpl implements AnalysisService{
     private final AnalysisInfoRepository analysisInfoRepository;
     private final ModelMapper mapper;
     private final AnalysisResultService analysisResultService;
+    private final AnalysisGpt analysisGpt;
 
     private AnalysisVariable analysisVariable;
 
@@ -225,9 +230,9 @@ public class AnalysisServiceImpl implements AnalysisService{
     @Override
     public void updateAnalysisGpt(String corpId) {
         System.out.println("GPT 요청 들어옴");
-        AnalysisGpt analysisGpt = new AnalysisGpt();
         analysisGpt.reqGpt(corpId);
     }
+
 
     private String rate(String analysisId, AnalysisResultDto corpVariable, AnalysisResultDto indutyVariable) {
         switch (analysisId) {

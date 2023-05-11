@@ -5,6 +5,7 @@ import com.jobtang.sourcecompany.api.corp.dto.CorpInfoDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp.service.CorpService;
+import com.jobtang.sourcecompany.util.ResponseHandler;
 import io.lettuce.core.dynamic.annotation.Param;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +27,7 @@ import java.util.List;
 @Api("기업 정보 API")
 public class CorpController {
     private final CorpService corpService;
+    private final ResponseHandler responseHandler;
 
     // 기업 이름 검색
     @ApiOperation(
@@ -157,18 +159,12 @@ public class CorpController {
         return new ResponseEntity<List<String>>(result, HttpStatus.OK);
     }
 
+    @ApiOperation(
+            value = "기업 개요",
+            notes = "기업 개요 반환",
+            response = CorpSearchListDto.class)
     @GetMapping("/hotcorp")
     public ResponseEntity<?> getHotCorp(int page, int size) {
-        List<CorpSearchListDto> data = corpService.getHotCorps(size, page);
-        HashMap<String, Object> result = new HashMap<>();
-        if (data == null) {
-            result.put("status", "204");
-            result.put("message", "페이징 내용이 없습니다");
-            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
-        }
-        result.put("data", data);
-        result.put("message", "");
-        result.put("status", 200);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return responseHandler.response(corpService.getHotCorps(size, page));
     }
 }
