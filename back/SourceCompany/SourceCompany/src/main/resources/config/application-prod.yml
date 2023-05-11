@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 운영서버
+    url: jdbc:mysql://company-source.com:8306/cs?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: comso
+    password: B107
+    hikari:
+      leak-detection-threshold: 2000
+  data:
+    mongodb:
+      # 운영서버
+      host: company-source.com
+      authentication-database: admin
+      username: comso
+      password: B107
+      database: company-source
+      port: 9000
+  redis:
+    # 운영서버
+    host: company-source.com
+    port: 8379
+    password: "B107"
+
