@@ -22,9 +22,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -170,24 +168,11 @@ public class CommunityServiceImpl implements CommunityService {
   }
 
   @Override
-  public List<ReadAllCommunityResponse> readAllCommunity(String type ,String sort ,Pageable pageable) {
-    Page<Community> communities ;
-
+  public PagingCommunityResponse readAllCommunity(String type , String sort , Pageable pageable) {
     // 인자로 받은 Pageable 객체의 정보를 토대로 DB에서 Community값들 가져오기
     // 크리에이티드  시간 순으로 정렬
-    if(sort.equals("all")){
-      communities = communityRepository.findAllByIsActiveAndCommunityType(true, type, pageable);
-    }
-    // 조회수 기반으로 페이징
-    else if(sort.equals("view")){
-      communities = communityRepository.findAllByIsActiveAndCommunityType(true, type, pageable);
-    }
-    else{
-      communities = communityRepository.findAllByIsActiveAndCommunityType(true, type, pageable);
-    }
-
-    // 받아온 정보에 redis의 조회수를 더하는 코드
-    return communities.stream()
+    Page<Community> communities = communityRepository.findAllByIsActiveAndCommunityType(true, type, pageable);
+    List<ReadAllCommunityResponse> readAllCommunityResponses = communities.stream()
             .map(community -> {
               // 레디스에 저장된 해당 커뮤니티의 key값
               String key = "viewComm" + community.getId();
@@ -199,6 +184,10 @@ public class CommunityServiceImpl implements CommunityService {
               return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
             })
             .collect(Collectors.toList());
+    int pageTotal = communities.getTotalPages();
+
+    // 받아온 정보에 redis의 조회수를 더하는 코드
+    return new PagingCommunityResponse(pageTotal , readAllCommunityResponses);
 
   }
 
@@ -276,6 +265,13 @@ public class CommunityServiceImpl implements CommunityService {
     log.info("스케쥴링 : 커뮤니티 업데이트 시작!");
     updateViewCommunity();
     log.info("스케쥴링 : 커뮤니티 업데이트 완료!");
+  }
+
+  @Override
+  public int getTotalPage() {
+    List<Community> communities = communityRepository.findAll();
+
+    return 0;
   }
 
 //  Long getCommunityTotalView(Community community) {

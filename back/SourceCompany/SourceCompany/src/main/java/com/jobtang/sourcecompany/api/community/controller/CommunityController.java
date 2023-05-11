@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -160,8 +161,9 @@ public class CommunityController {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
     System.out.println(pageable);
-    List<ReadAllCommunityResponse> response = communityService.readAllCommunity("기업",sort , pageable);
-    result.put("data", response);
+    PagingCommunityResponse response = communityService.readAllCommunity("기업",sort , pageable);
+    result.put("data", response.getReadAllCommunityResponses());
+    result.put("totalPage" , response.getPageTotal());
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 
@@ -309,7 +311,18 @@ public class CommunityController {
           @ApiParam(value = "페이지 번호", required = true, defaultValue = "0", example = "0")  @RequestParam(value = "page", required = true, defaultValue = "0") Integer page,
           @ApiParam(value = "페이지 크기", required = true, defaultValue = "5", example = "5")  @RequestParam(value = "size", required = true, defaultValue = "20") Integer size,
           @ApiParam(value = "정렬 방식", required = true, defaultValue = "all", example = "all , view , likes")  @RequestParam(value = "sort", required = true, defaultValue = "all") String sort) {
-    Pageable pageable = PageRequest.of(page, size);
+    Sort sorting;
+    if(sort.equals("all")){
+      sorting = Sort.by(Sort.Direction.DESC,"createdDate");
+    }
+    else if(sort.equals("view")){
+      sorting = Sort.by(Sort.Direction.DESC,"totalView");
+    } else if (sort.equals("likes")) {
+      sorting = Sort.by(Sort.Direction.DESC,"likesCnt");
+    } else{
+      throw  new CustomException(ErrorCode.WRONG_INPUT_DATA);
+    }
+    Pageable pageable = PageRequest.of(page, size,sorting);
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
     List<ReadAllCommunityResponse> response = communityService.readAllCommunity("자유" , sort, pageable);
