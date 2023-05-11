@@ -26,14 +26,13 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 public class AnalysisGpt {
-    private final CorpRepository corpRepository;
 
     @Value("${drinks.milkshake}")
     private String API_KEY;
     private static final String ENDPOINT = "https://api.openai.com/v1/chat/completions";
 
     public GptDataDto reqGpt(String corpName) {
-        String content = "기업 '" + corpName + "' 100자 내외로 설명해줘";
+        String content = "기업 '" + corpName + "' 300자 내외로 설명해줘";
         HashMap innerMap = new HashMap<>();
         innerMap.putAll(Map.of(
                 "role", "user",
@@ -44,7 +43,7 @@ public class AnalysisGpt {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.set("Authorization", "Bearer "+API_KEY);
+        httpHeaders.set("Authorization", "Bearer " + API_KEY);
 
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.putAll(Map.of(
@@ -59,7 +58,7 @@ public class AnalysisGpt {
             return new GptDataDto(response.getBody().getUsage().getTotalTokens(), response.getBody().getChoices().get(0).getMessage().getContent());
         } catch (Exception e) {
             log.warn("GPT 요청 실패");
-            throw new CustomException(ErrorCode.REQUEST_FAILURE);
+            return null;
         }
     }
 }

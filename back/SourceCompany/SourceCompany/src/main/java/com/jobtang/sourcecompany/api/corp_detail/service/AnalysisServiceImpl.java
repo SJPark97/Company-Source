@@ -1,10 +1,8 @@
 package com.jobtang.sourcecompany.api.corp_detail.service;
 
 import com.jobtang.sourcecompany.api.analysis_result.service.AnalysisResultService;
-import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp.repository.CorpRepository;
-import com.jobtang.sourcecompany.api.corp.service.CorpService;
 import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisDocument;
 import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisGptDocument;
 import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisInfoDocument;
@@ -253,12 +251,11 @@ public class AnalysisServiceImpl implements AnalysisService{
             analysisGptDocument.setContent(gptDataDto.getContent());
             mongoTemplate.save(analysisGptDocument);
             log.info("GPT 업데이트 완료 : "+corp.getCorpName());
+            return gptDataDto.getUsedTokenNum();
         } catch (Exception e) {
             log.info("GPT 업데이트 실패 : " + corp.getCorpName());
+            return 0;
         }
-
-        return gptDataDto.getUsedTokenNum();
-
     }
 
     @Override
