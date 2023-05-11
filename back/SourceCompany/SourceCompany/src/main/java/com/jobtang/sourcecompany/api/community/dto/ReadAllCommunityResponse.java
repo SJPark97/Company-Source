@@ -30,7 +30,7 @@ public class ReadAllCommunityResponse {
             .time(community.getCreatedDate().format(DateTimeFormatter.ofPattern("HH:mm")))
             .userName(community.getUser().getNickname())
             .viewCount(viewCount+community.getTotalView()+community.getYesterdayView())
-            .likesCount(community.getLikes().size())
+            .likesCount(community.getLikesCnt())
             .commentCount(community.getComments().size())
             .build();
   }

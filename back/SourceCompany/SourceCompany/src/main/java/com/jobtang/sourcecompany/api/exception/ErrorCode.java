@@ -36,6 +36,7 @@ public enum ErrorCode implements EnumModel {
     COMM_DELETED(401, "G002","community is deleted"),
     COMM_WRONG_TYPE(402, "G003", "worng community type"),
     COMM_COMMENT_EXISTS(403, "G004", "comment not exists"),
+    COMM_NOT_WRITER(404,"G005","logined user is not writer"),
 
     // 문의게시판
     INQ_EXISTS(400, "I001", "inquiry not exists"),
