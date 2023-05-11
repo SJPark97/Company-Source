@@ -35,6 +35,7 @@ public class LikesController {
   )
   @PostMapping("/like/{community_id}")
   public ResponseEntity<?>  createLikes(@RequestHeader("Authorization") String token , @PathVariable Long communityId) {
+
     HttpHeaders headers = new HttpHeaders();
     Long userId = jwtService.userPkByToken(token);
     HashMap<String, Object> result = new HashMap<>();
