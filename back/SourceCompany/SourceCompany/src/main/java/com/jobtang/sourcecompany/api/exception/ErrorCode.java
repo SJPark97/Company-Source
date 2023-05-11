@@ -39,8 +39,10 @@ public enum ErrorCode implements EnumModel {
 
     // 문의게시판
     INQ_EXISTS(400, "I001", "inquiry not exists"),
-    INQ_INVALID_USER(403, "I002", "invalid user");
+    INQ_INVALID_USER(403, "I002", "invalid user"),
 
+    // 좋아요
+    LIKES_EXISTS(400,"L001" ,"likes not exists");
     private int status;
     private String code;
     private String message;

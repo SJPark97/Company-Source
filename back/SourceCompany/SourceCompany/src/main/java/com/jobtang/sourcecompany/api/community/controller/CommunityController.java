@@ -93,11 +93,18 @@ public class CommunityController {
           notes = "해당 게시판의 detail한 정보와 달린 댓글들을 리턴해주고 , 조회수를 늘려주는 메소드"
   )
   @GetMapping("/corp/{communityId}")
-  public ResponseEntity<?> findCorpCommunityDetail(@PathVariable Long communityId) {
+  public ResponseEntity<?> findCorpCommunityDetail(@RequestHeader HttpHeaders header , @PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-
-    ReadCommunityDetailResponse response = communityService.readCommunityDetail("기업", communityId);
+    // HTTP 요청 헤더에서 'Auth' 항목이 있는지 확인
+    String token = header.getFirst("Authorization");
+    Long userId = 0L;
+    if (token != null && !token.isEmpty()) {
+      // 'Auth' 헤더가 존재하고 값이 비어있지 않은 경우
+      // TODO: 헤더 값을 이용한 작업 수행
+      userId = jwtService.userPkByToken(token);
+    }
+    ReadCommunityDetailResponse response = communityService.readCommunityDetail(userId, "기업", communityId);
 
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
@@ -218,6 +225,7 @@ public class CommunityController {
     User user = token.getLoginedUser();
      */
 //    User user = userRepository.findById(10L).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
     Long userId= jwtService.userPkByToken(token);
 
     HashMap<String, Object> result = new HashMap<>();
@@ -240,11 +248,18 @@ public class CommunityController {
           notes = "해당 게시판의 detail한 정보와 달린 댓글들을 리턴해주고 , 조회수를 늘려주는 메소드"
   )
   @GetMapping("/free/{communityId}")
-  public ResponseEntity<?> findFreeCommunityDetail(@PathVariable Long communityId) {
+  public ResponseEntity<?> findFreeCommunityDetail(@RequestHeader HttpHeaders header , @PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-
-    ReadCommunityDetailResponse response = communityService.readCommunityDetail("자유", communityId);
+    // HTTP 요청 헤더에서 'Auth' 항목이 있는지 확인
+    String token = header.getFirst("Authorization");
+    Long userId = 0L;
+    if (token != null && !token.isEmpty()) {
+      // 'Auth' 헤더가 존재하고 값이 비어있지 않은 경우
+      // TODO: 헤더 값을 이용한 작업 수행
+      userId = jwtService.userPkByToken(token);
+    }
+    ReadCommunityDetailResponse response = communityService.readCommunityDetail(userId ,"자유", communityId);
 
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
