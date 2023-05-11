@@ -5,6 +5,8 @@ import com.jobtang.sourcecompany.api.exception.ErrorCode;
 import com.jobtang.sourcecompany.api.inquiry.dto.*;
 import com.jobtang.sourcecompany.api.inquiry.entity.Inquiry;
 import com.jobtang.sourcecompany.api.inquiry.repository.InquiryRepository;
+import com.jobtang.sourcecompany.api.inquiry_comment.dto.GetInquiryCommentResponse;
+import com.jobtang.sourcecompany.api.inquiry_comment.entity.InquiryComment;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import com.jobtang.sourcecompany.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,11 +43,17 @@ public class InquiryServiceImpl implements InquiryService {
     public GetInquiryResponse getInquiry(Long userId, Long inquiryId) {
         Inquiry inquiry = inquiryRepository.findByIdAndIsActiveTrue(inquiryId)
                 .orElseThrow(() -> new CustomException(ErrorCode.INQ_EXISTS));
+        List<GetInquiryCommentResponse> getInquiryCommentResponse = new ArrayList<>();
+        for (InquiryComment inquiryComment : inquiry.getInquiryComments()){
+            if (inquiryComment.isActive()) {
+                 getInquiryCommentResponse.add(GetInquiryCommentResponse.EntityToDTO(inquiryComment));
+            }
+        }
         User user = userRepository.findById(userId).get();
         if (userId != inquiry.getUser().getId() && user.getRole() != "ROLE_ADMIN") {
             throw new CustomException(ErrorCode.INQ_INVALID_USER);
         }
-        return GetInquiryResponse.EntityToDTO(inquiry);
+        return GetInquiryResponse.EntityToDTO(inquiry, getInquiryCommentResponse);
     }
 
     @Override

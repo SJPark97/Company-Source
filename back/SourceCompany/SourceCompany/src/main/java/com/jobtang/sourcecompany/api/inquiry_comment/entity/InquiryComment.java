@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 public class InquiryComment extends BaseEntity {
   @Id
   @Column(name = "inquiry_comment_id")
