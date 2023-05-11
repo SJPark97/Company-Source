@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 개발서버
+    url: jdbc:mysql://k8b107.p.ssafy.io:8306/cs?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: comso
+    password: B107
+    hikari:
+      leak-detection-threshold: 2000
+  data:
+    mongodb:
+      # 개발서버
+      host : k8b107.p.ssafy.io
+      authentication-database: admin
+      username: comso
+      password: B107
+      database: company-source
+      port: 9000
+
+#    mongodb: # 테스트
+#      host: k8b107.p.ssafy.io
+#      authentication-database: admin
+#      username: comso
+#      password: B107
+#      database: cs-test
+#      port: 9000
+#        mongodb://comso:B107@company-source.com:9000/?authMechanism=DEFAULT
+  redis:
+    # 개발서버
+    host: k8b107.p.ssafy.io
+    port: 8379
+    password: "B107"
+

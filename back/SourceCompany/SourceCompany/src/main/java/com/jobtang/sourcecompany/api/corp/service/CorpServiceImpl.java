@@ -32,6 +32,14 @@ public class CorpServiceImpl implements CorpService{
     private final RedisTemplate<String, Integer> integerRedisTemplate;
 
     public List<CorpSearchListDto> searchCorp(String inputValue) {
+        // 검색값 유효성 검사
+        // 양쪽 공백제거, 특수문자(-공백) 제거
+        inputValue = inputValue.trim().replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9-&]","");
+
+        // 유효성 검사후 inputValue가 이제 없으면 검색 X
+        if (inputValue.equals("")) {
+            return new ArrayList<>();
+        }
         // %value% 형식으로 LIKE 검색
         // totalview 기준으로 역순(내림차순) 정렬
         // Dto 형식대로 매핑
@@ -42,12 +50,20 @@ public class CorpServiceImpl implements CorpService{
     }
 
     public List<CorpAutoSearchDto> autoSearchCorp(String inputValue) {
+        // 검색값 유효성 검사
+        // 양쪽 공백제거, 특수문자(-공백) 제거
+        inputValue = inputValue.trim().replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9-&]","");
+
+        // 유효성 검사후 inputValue가 이제 없으면 검색 X
+        if (inputValue.equals("")) {
+            return new ArrayList<>();
+        }
         // value% 형식으로 LIKE 검색
         // totalview 기준으로 역순(내림차순) 정렬
         // 5개만 추출
         return corpRepository.findByCorpNameStartingWith(inputValue).stream()
                 .sorted(Comparator.comparing(Corp::getTotalView).reversed())
-                .limit(10)
+                .limit(5)
                 .map(c -> mapper.map(c, CorpAutoSearchDto.class))
                 .collect(Collectors.toList());
     }
@@ -132,7 +148,7 @@ public class CorpServiceImpl implements CorpService{
 //        for (String key:keys) {
 //            corpSearchListDtoList.add(redisTemplate.opsForValue().get(key));
 //        }
-        for (int i = (page-1)*6; i < page * 6 ; i++) {
+        for (int i = (page-1)*10; i < page * 10 ; i++) {
             corpSearchListDtoList.add(redisTemplate.opsForValue().get("randcorp:"+i));
         }
 

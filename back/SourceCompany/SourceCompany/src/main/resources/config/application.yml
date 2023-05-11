@@ -1,0 +1,54 @@
+server:
+    port: 8080
+spring:
+  profiles:
+    default: local
+  jpa:
+    hibernate:
+#      ddl-auto: update
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  # swagger
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  # Google smtp server 사용
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: kimjinho.dev@gmail.com #앱 비밀번호 발급받은 google 계정
+    password: lagwgwxeqhadwapd #발급받은 앱 비밀번호
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+
+---
+
+spring:
+  profiles:
+    active: prod
+
+---
+
+spring:
+  profiles:
+    active: dev
+
+---
+
+spring:
+  profiles:
+    active: local
+
+---
+
+
