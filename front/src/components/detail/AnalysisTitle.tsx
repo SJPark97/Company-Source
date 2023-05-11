@@ -26,7 +26,7 @@ export default function AnalysisTitle({ name, rate, description }: Iprops) {
         <div className="flex py-4 px-7" >
           {name}
           <Tooltip content={formatDescription(description)} className="p-20 bg-blue-500 w-[400px] rounded-5" placement="bottom" >
-            <Image src="/info.svg" alt="info" width={30} height={30} className="w-20 h-20 ml-8" data-tooltip-id={`info-${name}`} />
+            <Image src="/info.svg" alt="info" width={30} height={30} className="self-center w-20 h-20 ml-8" data-tooltip-id={`info-${name}`} />
           </Tooltip>
         </div>
         <div className="py-4 px-7">

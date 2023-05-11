@@ -36,7 +36,7 @@ export default function BigCard({ id, name, image }: Iprops) {
               alt="default 이미지"
               width={164}
               height={164}
-              className="mx-auto w-auto h-auto"
+              className="w-auto h-auto mx-auto"
               placeholder="blur"
               blurDataURL="/company_default.jpg"
             />
