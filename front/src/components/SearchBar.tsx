@@ -83,7 +83,11 @@ export default function SearchBar({ getData }: Iprops) {
     let canceled = false;
     if (searchWord) {
       axios
-        .get(SERVER_URL + `/corp/autosearch/${searchWord}`)
+        .get(SERVER_URL + `/corp/autosearch/`, {
+          params: {
+            inputValue: searchWord,
+          },
+        })
         .then((res) => {
           if (!canceled) {
             if (res.status === 200) {

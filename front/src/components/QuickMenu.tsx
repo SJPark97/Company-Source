@@ -12,6 +12,8 @@ export default function QuickMenu() {
       setScrollY(window.scrollY);
     };
     window.addEventListener("scroll", handleScroll);
+
+    // 함수 종료시 이벤트 제거
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -33,7 +35,7 @@ export default function QuickMenu() {
           className={
             "p-10 rounded-tl-10 rounded-tr-10 " +
             `${
-              router.pathname === "/community/corpboard"
+              router.pathname && router.pathname.split("/")[2] === "corpboard"
                 ? "text-white bg-brand"
                 : "text-gray-400"
             }`
@@ -48,7 +50,7 @@ export default function QuickMenu() {
           className={
             "p-10 " +
             `${
-              router.pathname === "/community/freeboard"
+              router.pathname && router.pathname.split("/")[2] === "freeboard"
                 ? "text-white bg-brand"
                 : "text-gray-400"
             }`
