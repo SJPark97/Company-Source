@@ -22,9 +22,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,6 +58,7 @@ public class CommunityServiceImpl implements CommunityService {
             .title(createCommunityRequest.getTitle())
             .user(user)
             .yesterdayView(0)
+            .likesCnt(0)
             .totalView(0)
             .build();
     communityRepository.save(community);
@@ -155,21 +154,25 @@ public class CommunityServiceImpl implements CommunityService {
 
   @Override
   @Transactional
-  public void deleteCommunity(Long communityId) {
+  public void deleteCommunity(Long userId , Long communityId) {
     Community community = communityRepository.findById(communityId).orElseThrow(() -> new CustomException(ErrorCode.COMM_EXISTS));
     // 이미 삭제된 게시글이였던 경우
     if (community.isActive() == false) {
       throw new CustomException(ErrorCode.COMM_DELETED);
     }
+    // 만약 로그인한 유저와 삭제할 게시판의 작성자가 서로 다를 경우
+    if(community.getUser().getId() != userId){
+      throw new CustomException(ErrorCode.COMM_NOT_WRITER);
+    }
     community.deleteEntity();
   }
 
   @Override
-  public List<ReadAllCommunityResponse> readAllCommunity(Pageable pageable) {
+  public PagingCommunityResponse readAllCommunity(String type , String sort , Pageable pageable) {
     // 인자로 받은 Pageable 객체의 정보를 토대로 DB에서 Community값들 가져오기
-    Page<Community> communities = communityRepository.findAllByIsActiveAndCommunityType(true, "기업", pageable);
-    // 받아온 정보에 redis의 조회수를 더하는 코드
-    return communities.stream()
+    // 크리에이티드  시간 순으로 정렬
+    Page<Community> communities = communityRepository.findAllByIsActiveAndCommunityType(true, type, pageable);
+    List<ReadAllCommunityResponse> readAllCommunityResponses = communities.stream()
             .map(community -> {
               // 레디스에 저장된 해당 커뮤니티의 key값
               String key = "viewComm" + community.getId();
@@ -181,14 +184,23 @@ public class CommunityServiceImpl implements CommunityService {
               return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
             })
             .collect(Collectors.toList());
+    int pageTotal = communities.getTotalPages();
+
+    // 받아온 정보에 redis의 조회수를 더하는 코드
+    return new PagingCommunityResponse(pageTotal , readAllCommunityResponses);
 
   }
 
   @Override
   @Transactional
-  public UpdateCommunityResponse updateCommunity(UpdateCommunityRequest updateCommunityRequest) {
+  public UpdateCommunityResponse updateCommunity(Long userId ,UpdateCommunityRequest updateCommunityRequest) {
     Community community = communityRepository
             .findById(updateCommunityRequest.getId()).orElseThrow(() -> new CustomException(ErrorCode.COMM_EXISTS));
+    // 작성한 유저와 , 로그인한 유저가 다를 경우 에러 출력
+    if(community.getUser().getId() != userId){
+      throw new CustomException(ErrorCode.COMM_NOT_WRITER);
+    }
+
     community.setContent(updateCommunityRequest.getContent());
     community.setTitle(updateCommunityRequest.getTitle());
     return UpdateCommunityResponse.builder()
@@ -253,6 +265,13 @@ public class CommunityServiceImpl implements CommunityService {
     log.info("스케쥴링 : 커뮤니티 업데이트 시작!");
     updateViewCommunity();
     log.info("스케쥴링 : 커뮤니티 업데이트 완료!");
+  }
+
+  @Override
+  public int getTotalPage() {
+    List<Community> communities = communityRepository.findAll();
+
+    return 0;
   }
 
 //  Long getCommunityTotalView(Community community) {

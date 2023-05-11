@@ -33,6 +33,10 @@ public class LikesServiceImpl implements LikesService {
     // 이미 해당 라이크 있는지 체크
     Optional<Likes> likees = likesRepository.findByUserIdAndCommunityId(userId, communityId);
     if (likees.isPresent()) {
+      //  이미 해당라이크가 있고 , 유효하지않은 경우에는 다시 likecnt증가
+      if(likees.get().isActive()==false){
+        likees.get().getCommunity().addLikeCnt();
+      }
       likees.get().reCreateEntity();
       return likees.get().getId();
     }
@@ -42,6 +46,8 @@ public class LikesServiceImpl implements LikesService {
             .community(community)
             .build();
     likesRepository.save(likes);
+    // community 의 likeCount 를 올린다.
+    likes.getCommunity().addLikeCnt();
     return likes.getId();
   }
 
@@ -49,6 +55,8 @@ public class LikesServiceImpl implements LikesService {
   @Transactional
   public void deleteLikes(Long likesId) {
     Likes likes = likesRepository.findByIdAndIsActiveTrue(likesId).orElseThrow(() -> new CustomException(ErrorCode.LIKES_EXISTS));
+    // community 의 likeCount 를 줄인다.
+    likes.getCommunity().minusLikeCnt();
     likes.deleteEntity();
   }
 }

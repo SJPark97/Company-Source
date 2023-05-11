@@ -38,6 +38,10 @@ public class Community extends BaseEntity {
 
   @NotNull
   @Column(nullable = false)
+  private int likesCnt;
+
+  @NotNull
+  @Column(nullable = false)
   private int yesterdayView;
 
   @NotNull
@@ -61,4 +65,7 @@ public class Community extends BaseEntity {
     this.totalView += yesterdayView;
     this.yesterdayView = todayViewCnt;
   }
+
+  public void addLikeCnt(){this.likesCnt++;}
+  public void minusLikeCnt(){this.likesCnt--;}
 }
