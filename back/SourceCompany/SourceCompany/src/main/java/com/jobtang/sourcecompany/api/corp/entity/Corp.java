@@ -1,6 +1,7 @@
 package com.jobtang.sourcecompany.api.corp.entity;
 
 
+import com.jobtang.sourcecompany.api.analysis_result.entity.AnalysisResult;
 import com.jobtang.sourcecompany.api.corp_detail.entity.CorpDetail;
 import com.jobtang.sourcecompany.util.BaseEntity;
 import com.sun.istack.NotNull;
@@ -50,6 +51,10 @@ public class Corp  extends BaseEntity {
   @JsonIgnore
   @OneToOne(mappedBy = "corp", cascade = CascadeType.ALL, orphanRemoval = true)
   private CorpDetail corpDetail;
+
+  @JsonIgnore
+  @OneToOne(mappedBy = "corp", cascade = CascadeType.ALL, orphanRemoval = true)
+  private AnalysisResult analysisResult;
 
   public void updateViewCnt(Integer todayViewCnt) {
     this.totalView += yesterdayView;
