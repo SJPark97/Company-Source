@@ -218,6 +218,7 @@ public class CommunityController {
     User user = token.getLoginedUser();
      */
 //    User user = userRepository.findById(10L).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
     Long userId= jwtService.userPkByToken(token);
 
     HashMap<String, Object> result = new HashMap<>();
@@ -240,10 +241,20 @@ public class CommunityController {
           notes = "해당 게시판의 detail한 정보와 달린 댓글들을 리턴해주고 , 조회수를 늘려주는 메소드"
   )
   @GetMapping("/free/{communityId}")
-  public ResponseEntity<?> findFreeCommunityDetail(@PathVariable Long communityId) {
+  public ResponseEntity<?> findFreeCommunityDetail(@RequestHeader HttpHeaders header , @PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-
+    // HTTP 요청 헤더에서 'Auth' 항목이 있는지 확인
+    String token = header.getFirst("Authorization");
+    if (token != null && !token.isEmpty()) {
+      // 'Auth' 헤더가 존재하고 값이 비어있지 않은 경우
+      System.out.println("토큰있음");
+      // TODO: 헤더 값을 이용한 작업 수행
+    } else {
+      // 'Auth' 헤더가 존재하지 않거나 값이 비어있는 경우
+      System.out.println("토큰없음");
+      // TODO: 예외 처리 또는 기본 작업 수행
+    }
     ReadCommunityDetailResponse response = communityService.readCommunityDetail("자유", communityId);
 
     result.put("data", response);
