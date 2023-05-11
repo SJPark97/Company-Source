@@ -325,8 +325,9 @@ public class CommunityController {
     Pageable pageable = PageRequest.of(page, size,sorting);
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    List<ReadAllCommunityResponse> response = communityService.readAllCommunity("자유" , sort, pageable);
-    result.put("data", response);
+    PagingCommunityResponse response = communityService.readAllCommunity("자유",sort , pageable);
+    result.put("data", response.getReadAllCommunityResponses());
+    result.put("totalPage" , response.getPageTotal());
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 
