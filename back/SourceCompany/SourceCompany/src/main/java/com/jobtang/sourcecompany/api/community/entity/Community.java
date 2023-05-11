@@ -34,6 +34,8 @@ public class Community extends BaseEntity {
   @Column(nullable = false)
   private String content;
 
+
+
   @NotNull
   @Column(nullable = false)
   private int likesCnt;
