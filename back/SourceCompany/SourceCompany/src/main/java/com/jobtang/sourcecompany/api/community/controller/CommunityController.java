@@ -155,6 +155,7 @@ public class CommunityController {
           @ApiParam(value = "페이지 번호", required = true, defaultValue = "0", example = "0")  @RequestParam(value = "page", required = true, defaultValue = "0") Integer page,
           @ApiParam(value = "페이지 크기", required = true, defaultValue = "5", example = "5")  @RequestParam(value = "size", required = true, defaultValue = "20") Integer size,
           @ApiParam(value = "정렬 방식", required = true, defaultValue = "all", example = "all")  @RequestParam(value = "sort", required = true, defaultValue = "All") String sort
+
   ) {
     Pageable pageable = PageRequest.of(page, size);
 
