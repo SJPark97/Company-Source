@@ -12,7 +12,7 @@ public interface CommunityService {
 
   List<ReadAllCommunityResponse> searchCommunity(String communityType , String content , String  type , Pageable pageable );
 
-  ReadCommunityDetailResponse readCommunityDetail(String communityType,Long communityId);
+  ReadCommunityDetailResponse readCommunityDetail(Long userId ,String communityType,Long communityId);
   void deleteCommunity(Long communityId);
 
   List<ReadAllCommunityResponse> readAllCommunity(Pageable pageable);
