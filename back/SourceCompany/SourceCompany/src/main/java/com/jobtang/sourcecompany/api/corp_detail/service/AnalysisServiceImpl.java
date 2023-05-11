@@ -208,7 +208,6 @@ public class AnalysisServiceImpl implements AnalysisService{
         log.info("모든 기업 분석 완료!");
     }
 
-
     @Override
     public Boolean deleteAnalysisAllCorp() {
         try {
