@@ -5,6 +5,7 @@ import com.jobtang.sourcecompany.api.corp.dto.CorpInfoDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp.service.CorpService;
+import com.jobtang.sourcecompany.api.corp_detail.service.AnalysisService;
 import com.jobtang.sourcecompany.util.ResponseHandler;
 import io.lettuce.core.dynamic.annotation.Param;
 import io.swagger.annotations.Api;

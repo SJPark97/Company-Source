@@ -29,6 +29,18 @@ public class AnalysisController {
     public ResponseEntity getAnalysis(@PathVariable String analysisId, @PathVariable String corpId) {
         return responseHandler.response(analysisService.getCorpAnalysis(analysisId, corpId, 0));
     }
+
+    @ApiOperation(
+            value = "ChatGpt 분석 결과 조회",
+            notes = "ChatGpt 분석 결과 조회")
+    @GetMapping("/gpt/{corpId}")
+    public ResponseEntity getAnalysisGpt(@PathVariable String corpId) {
+        return responseHandler.response(analysisService.getGptAnalysis(corpId));
+    }
+
+    // 업데이트
+
+
     @ApiOperation(
             value = "분석법 정보 업데이트",
             notes = "MongoDB의 분석법 업데이트")
@@ -48,20 +60,12 @@ public class AnalysisController {
     }
 
     @ApiOperation(
-            value = "기업 분석 업데이트",
-            notes = "MongoDB의 기업 분석 업데이트 및 corpDetail의 기업 분석 결과 업데이트")
-    @GetMapping("/update/{corpId}")
-    public ResponseEntity updateAnalysisCorp(@PathVariable String corpId){
-        analysisService.updateAnalysisAllCorp();
+            value = "ChatGPT 분석 업데이트",
+            notes = "MongoDB의 ChatGPT 기업 분석 업데이트")
+    @GetMapping("/update/etc/gpt")
+    public ResponseEntity updateAnalysisGptAll(int size){
+        analysisService.updateAnalysisGptAll(size);
         return responseHandler.response("완료");
     }
 
-    @ApiOperation(
-            value = "ChatGPT 분석 업데이트",
-            notes = "MongoDB의 ChatGPT 기업 분석 업데이트")
-    @GetMapping("/update/etc/gpt/{corpId}")
-    public ResponseEntity updateAnalysisGpt(@PathVariable String corpId){
-        analysisService.updateAnalysisGpt(corpId);
-        return responseHandler.response("완료");
-    }
 }

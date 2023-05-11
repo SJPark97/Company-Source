@@ -32,12 +32,8 @@ public class AnalysisGpt {
     private String API_KEY;
     private static final String ENDPOINT = "https://api.openai.com/v1/chat/completions";
 
-    public GptDataDto reqGpt(String corpId) {
-        System.out.println(corpId);
-        Corp corp = corpRepository.findByCorpId(corpId);
-        if (corp == null) {throw new CustomException(ErrorCode.CORP_NOT_FOUND);}
-        // 내용 입력
-        String content = corp.getCorpName() + " 30자 내외로 설명해줘";
+    public GptDataDto reqGpt(String corpName) {
+        String content = "기업 '" + corpName + "' 100자 내외로 설명해줘";
         HashMap innerMap = new HashMap<>();
         innerMap.putAll(Map.of(
                 "role", "user",

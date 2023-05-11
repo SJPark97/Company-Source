@@ -30,7 +30,5 @@ public interface CorpService {
 
     List<String> getCorpAll();
 
-    List<String> getPagingCorpName(int size, int page);
-
     List<CorpSearchListDto> getHotCorps(int size, int page);
 }

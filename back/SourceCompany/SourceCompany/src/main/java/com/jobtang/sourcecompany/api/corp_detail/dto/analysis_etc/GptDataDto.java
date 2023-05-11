@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class GptDataDto {
     private int usedTokenNum;
+
     private String content;
 
     public GptDataDto(int usedTokenNum, String content) {

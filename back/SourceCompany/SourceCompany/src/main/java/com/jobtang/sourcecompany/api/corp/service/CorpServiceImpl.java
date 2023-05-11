@@ -210,18 +210,6 @@ public class CorpServiceImpl implements CorpService{
     }
 
     @Override
-    public List<String> getPagingCorpName(int size, int page) {
-        Pageable pageSetting = PageRequest.of(size, page);
-        Page<Corp> corps = corpRepository.findAllByOrderByCorpId(pageSetting);
-        if (corps == null){throw new CustomException(ErrorCode.CORP_NOT_FOUND);}
-        List<String> result = new ArrayList<>();
-        for (Corp corp : corps) {
-            result.add(corp.getCorpName());
-        }
-        return result;
-    }
-
-    @Override
     public List<CorpSearchListDto> getHotCorps(int page, int size) {
         Pageable pageSetting = PageRequest.of(size, page);
         Page<Corp> corps = corpRepository.findAllByOrderByYesterdayViewDesc(pageSetting);
