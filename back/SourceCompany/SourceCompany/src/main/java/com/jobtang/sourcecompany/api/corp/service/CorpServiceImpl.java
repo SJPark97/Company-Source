@@ -6,6 +6,8 @@ import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
 import com.jobtang.sourcecompany.api.corp.dto.Info;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp.repository.CorpRepository;
+import com.jobtang.sourcecompany.api.exception.CustomException;
+import com.jobtang.sourcecompany.api.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -211,7 +213,9 @@ public class CorpServiceImpl implements CorpService{
     public List<CorpSearchListDto> getHotCorps(int page, int size) {
         Pageable pageSetting = PageRequest.of(size, page);
         Page<Corp> corps = corpRepository.findAllByOrderByYesterdayViewDesc(pageSetting);
-
+        if (corps == null){
+            throw new CustomException(ErrorCode.CORP_NOT_FOUND);
+        }
         List<CorpSearchListDto> result = new ArrayList<>();
 
         for (Corp corp: corps) {
