@@ -36,14 +36,14 @@ public class CorpController {
             response = CorpSearchListDto.class,
             responseContainer = "List"
     )
-    @GetMapping("/list/{inputValue}")
-    public ResponseEntity<?> searchCorp(@PathVariable String inputValue) {
+    @GetMapping("/list/")
+    public ResponseEntity<?> searchCorp(@RequestParam String inputValue) {
         HashMap<String,Object> result = new HashMap<>();
         List<CorpSearchListDto> data = corpService.searchCorp(inputValue);
         if (data.size() == 0) {
             result.put("status", "204");
             result.put("message", "검색 결과가 없습니다");
-            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
         }
         result.put("data", data);
         result.put("message", "");
@@ -57,14 +57,14 @@ public class CorpController {
             response = CorpAutoSearchDto.class,
             responseContainer = "List"
     )
-    @GetMapping("/autosearch/{inputValue}")
-    public ResponseEntity<?> autoSearchCorp(@PathVariable String inputValue) {
+    @GetMapping("/autosearch/")
+    public ResponseEntity<?> autoSearchCorp(@RequestParam String inputValue) {
         HashMap<String,Object> result = new HashMap<>();
         List<CorpAutoSearchDto> data = corpService.autoSearchCorp(inputValue);
         if (data.size() == 0) {
             result.put("status", "204");
             result.put("message", "검색 결과가 없습니다");
-            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
         }
         result.put("data", data);
         result.put("message", "");
