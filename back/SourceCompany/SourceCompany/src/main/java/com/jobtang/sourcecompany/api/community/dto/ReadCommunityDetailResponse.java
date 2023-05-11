@@ -27,8 +27,8 @@ public class ReadCommunityDetailResponse {
 
   private int likesCount;
   private int viewCount;
-//  List<ReadCommentResponse> comments;
-  public static ReadCommunityDetailResponse EntityToDTO (Community community , int viewCount  , boolean isLiked) {
+  List<ReadCommentResponse> comments;
+  public static ReadCommunityDetailResponse EntityToDTO (Community community , int viewCount  , boolean isLiked ,List<ReadCommentResponse> comments) {
     ReadCommunityDetailResponse readCommentResponse = ReadCommunityDetailResponse.builder()
             .userName(community.getUser().getNickname())
             .date(community.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
@@ -37,10 +37,11 @@ public class ReadCommunityDetailResponse {
             .communityId(community.getId())
             .content(community.getContent())
             .isLiked(isLiked)
+            .comments()
             .viewCount(viewCount)
             .likesCount(community.getLikesCnt())
             .build();
     return readCommentResponse;
   }
-
+comments.stream.map(comment ->  ReadCommentResponse.Ent)
 }
