@@ -39,8 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic().disable()
                 .authorizeRequests()// 요청에 대한 사용권한 체크
     //                .antMatchers(HttpMethod.GET, "/**").permitAll() // <- 특정 메서드에서만 반응시키고싶으면 앞에 메서드적기
-                    .antMatchers("/test")
-                    .hasRole("MEMBER")
+//                    .antMatchers("/test")
+//                    .hasRole("MEMBER")
     //                .authenticated() // 인증된 유저만 허용
     //                .access("hasRole('MEMBER')") // hasRole은 1개만 되기 때문에, 복수 권한 허용은 access를 써서 표현식 사용
     //                .antMatchers("/admin/**").hasRole("ADMIN")
