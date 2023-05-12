@@ -6,11 +6,10 @@ import com.jobtang.sourcecompany.api.corp.repository.CorpRepository;
 import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisDocument;
 import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisGptDocument;
 import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisInfoDocument;
-import com.jobtang.sourcecompany.api.corp_detail.dto.AnalysisDto;
-import com.jobtang.sourcecompany.api.corp_detail.dto.AnalysisResponseDto;
-import com.jobtang.sourcecompany.api.corp_detail.dto.AnalysisResultDto;
-import com.jobtang.sourcecompany.api.corp_detail.dto.VariableDto;
+import com.jobtang.sourcecompany.api.corp_detail.dto.*;
 import com.jobtang.sourcecompany.api.corp_detail.dto.analysis_etc.GptDataDto;
+import com.jobtang.sourcecompany.api.corp_detail.dto.comparison.ComparisonResultDto;
+import com.jobtang.sourcecompany.api.corp_detail.dto.comparison.CorpForComparisonDto;
 import com.jobtang.sourcecompany.api.corp_detail.entity.CorpDetail;
 import com.jobtang.sourcecompany.api.corp_detail.repository.AnalysisGptRepository;
 import com.jobtang.sourcecompany.api.corp_detail.repository.AnalysisInfoRepository;
@@ -150,6 +149,82 @@ public class AnalysisServiceImpl implements AnalysisService{
         return analysisGptDocument.getContent();
     }
 
+    @Override
+    public HashMap getCorpComparison(String corpIdA, String corpIdB) {
+        Corp corpA = corpRepository.findByCorpId(corpIdA);
+        Corp corpB = corpRepository.findByCorpId(corpIdB);
+        if (corpA == null || corpB == null) {throw new CustomException(ErrorCode.CORP_NOT_FOUND);}
+
+        AnalysisDocument corpADocument = analysisRepository.findByVariableId(corpIdA);
+        AnalysisDocument corpBDocument = analysisRepository.findByVariableId(corpIdB);
+        if (corpADocument == null || corpBDocument == null) {throw new CustomException(ErrorCode.ANALYSIS_NOT_FOUND);}
+
+        VariableDto corpAVariableDto = mapper.map(corpADocument, VariableDto.class);
+        VariableDto corpBVariableDto = mapper.map(corpBDocument, VariableDto.class);
+
+        // 필요 변수 설정
+        List<String> analysisIds = new ArrayList<>(List.of(
+                "101", "103", "104", "109", "110", "111", "113", "405"
+        ));
+        HashMap result = new HashMap();
+
+        // 기업 기본 정보 입력
+        result.putAll(Map.of(
+                "corpA", mapper.map(corpA, CorpForComparisonDto.class),
+                "corpB", mapper.map(corpB, CorpForComparisonDto.class)
+                ));
+
+        // 기업 비교 정보 입력
+        for (String analysisId : analysisIds){
+            result.put("analysis" + analysisId, makeComparisonInfo(analysisId, corpAVariableDto, corpBVariableDto));}
+        return result;
+    }
+
+    private ComparisonResultDto makeComparisonInfo(String analysisId, VariableDto corpAVariableDto, VariableDto corpBVariableDto){
+        AnalysisInfoDocument analysisInfoDocument = analysisInfoRepository.findByAnalysisId(analysisId);
+
+        // 분석법 찾기
+        AnalysisDto corpAAnalysis = new AnalysisDto();
+        for (AnalysisDto corpAAnalysisDto : corpAVariableDto.getData()) {
+            if (corpAAnalysisDto.getAnalysisId().equals(analysisId)) {
+                corpAAnalysis = corpAAnalysisDto;
+                break;
+            }
+        }
+        AnalysisDto corpBAnalysis = new AnalysisDto();
+        for (AnalysisDto corpBAnalysisDto : corpBVariableDto.getData()) {
+            if (corpBAnalysisDto.getAnalysisId().equals(analysisId)) {
+                corpBAnalysis = corpBAnalysisDto;
+                break;
+            }
+        }
+        List<HashMap> analysisResult = new ArrayList<>();
+
+        // 같은 것 끼리 묶기
+        try {
+            for (AnalysisResultDto corpAResultDto : corpAAnalysis.getAnalysisResult()) {
+                for (AnalysisResultDto corpBResultDto : corpBAnalysis.getAnalysisResult()) {
+                    if (corpAResultDto.getName().equals(corpBResultDto.getName())) {
+                        analysisResult.add(new HashMap(Map.of(
+                                "name", corpAResultDto.getName(),
+                                corpAVariableDto.getVariableName(),corpAResultDto.getValue(),
+                                corpBVariableDto.getVariableName(),corpBResultDto.getValue()
+                        )));
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {}
+
+        return new ComparisonResultDto().builder()
+                .analysis_name(analysisInfoDocument.getData().get("analysis_name"))
+                .analysis_method(analysisInfoDocument.getData().get("analysis_id"))
+                .exist_all((corpAAnalysis.getIsExistAll().equals(true) && corpBAnalysis.getIsExistAll().equals(true)) ? true : false)
+                .result(analysisResult)
+                .analysisInfo(analysisInfoDocument.getData())
+                .build();
+    }
+
 
     @Override
     public void updateAnalysisCorp(String variableId) {
@@ -207,7 +282,6 @@ public class AnalysisServiceImpl implements AnalysisService{
         }
         log.info("모든 기업 분석 완료!");
     }
-
 
     @Override
     public Boolean deleteAnalysisAllCorp() {
