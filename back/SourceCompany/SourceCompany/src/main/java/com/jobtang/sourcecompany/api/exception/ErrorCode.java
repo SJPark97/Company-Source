@@ -21,6 +21,7 @@ public enum ErrorCode implements EnumModel {
     EMAIL_NOT_CURRENT(409,"C008","Email Cert Code Error"),
     USER_NOT_ACTIVE(202,"C009","User Not active"),
     PASSWORD_NOT_CURRENT(202,"C010","Password Not Current"),
+    TOKEN_EXPIRATION_FAIL(202,"C011","Token Expiration Error"),
 
     // AWS
     AWS_ERROR(400, "A001", "aws client error"),

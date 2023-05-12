@@ -140,14 +140,14 @@ public class CorpController {
             result.put("status", "204");
             result.put("message", "잘못된 페이징입니다");
             result.put("pageNum", page);
-            result.put("totalPageNum", "385");
+            result.put("totalPageNum", "230");
             return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
         }
         result.put("data", data);
         result.put("message", "");
         result.put("status", "200");
         result.put("pageNum", page);
-        result.put("totalPageNum", "385");
+        result.put("totalPageNum", "230");
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

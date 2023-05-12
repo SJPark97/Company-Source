@@ -11,6 +11,8 @@ import com.jobtang.sourcecompany.api.user.service.UserService;
 import com.jobtang.sourcecompany.config.JwtTokenProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -87,7 +89,7 @@ public class UserController {
             errors.rejectValue("email","204","중복된 이메일입니다");
         }
         if (userService.validateDuplicateNickname(request.getNickname())) {
-            errors.rejectValue("nickname","204","중복된 이메일입니다");
+            errors.rejectValue("nickname","204","중복된 닉네임입니다");
         }
         // 기본 유효성 검사
         if (errors.hasErrors()) {
@@ -182,6 +184,16 @@ public class UserController {
         } else {
             throw new CustomException("Not Current email code", ErrorCode.EMAIL_NOT_CURRENT);
         }
+    }
+
+    @ApiOperation(
+            value = "토큰 유효기간 만료 확인",
+            notes = "토큰 유효기간 만료 확인",
+            response = HashMap.class
+    )
+    @GetMapping("/tokenvaild")
+    public ResponseEntity<?> tokenVaild(@RequestHeader("Authorization") String authHeader) {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
