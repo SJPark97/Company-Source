@@ -23,17 +23,17 @@ public interface CommunityRepository  extends JpaRepository<Community , Long> {
 
   // randing 가져올때 사용
   // corpHot, freeHot 가져오는 메소드
-  @Query(nativeQuery = true ,value = "SELECT c.* \n" +
-          "FROM community c, (\n" +
-          "select community_id , count(*) as l_cnt\n" +
-          "from likes\n" +
-          "group by community_id\n" +
-          "order by l_cnt DESC\n" +
-          ") l\n" +
-          "where  community_type = :communityType " +
-          "and c.community_id = l.community_id\n" +
-          "order by l_cnt DESC\n" +
-          "limit 8" )
-  List<Community> findByCommunityTypeOrderByLikeCntTop8(@Param("communityType") String communityType);
+//  @Query(nativeQuery = true ,value = "SELECT c.* \n" +
+//          "FROM community c, (\n" +
+//          "select community_id , count(*) as l_cnt\n" +
+//          "from likes\n" +
+//          "group by community_id\n" +
+//          "order by l_cnt DESC\n" +
+//          ") l\n" +
+//          "where  community_type = :communityType " +
+//          "and c.community_id = l.community_id\n" +
+//          "order by l_cnt DESC\n" +
+//          "limit :n" )
+  List<Community> findByCommunityTypeAndLikesCntGreaterThanEqualOrderByCreatedDateDesc(String communityType ,int likesCnt ,Pageable pageable);
 
 }

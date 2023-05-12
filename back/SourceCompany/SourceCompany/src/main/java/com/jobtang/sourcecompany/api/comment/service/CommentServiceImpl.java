@@ -29,7 +29,7 @@ public class CommentServiceImpl implements CommentService {
 
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Long createComment(Long userId, CreateCommentRequest createCommentRequest) {
     // 유저 벨리드 체크
     User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.USER_EXISTS));
