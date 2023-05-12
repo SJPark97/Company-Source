@@ -8,20 +8,25 @@ import { SERVER_URL } from "@/utils/url";
 import analysisCodeList from "@/models/analysisCodeList";
 import Image from "next/image";
 import Head from "next/head";
+import formatDescription from "@/utils/formatDescription";
 
 interface searchdetaiProps {
   analysisList: [];
   evaluaionSummary: [];
   companyOverviewInfo: any;
+  gptAnalysis: string;
 }
 
 export default function searchdetail({
   analysisList,
   companyOverviewInfo,
   evaluaionSummary,
+  gptAnalysis,
 }: searchdetaiProps) {
   const router = useRouter();
   const { searchdetail } = router.query;
+
+  console.log(gptAnalysis)
 
   return (
     <>
@@ -86,8 +91,30 @@ export default function searchdetail({
             </>
           )}
         </div>
-        <div className="mb-100"></div>
 
+        {/* GPT 분석 */}
+        <div className="bg-white border-gray-500 rounded-5 mt-100 mx-[13vw] border-1">
+          {searchdetail && (
+            <>
+              <div className="ml-[3vw] mt-40 text-24 font-bold">
+                <div className="flex text-white">
+                  <Image
+                    src="/gpt.png"
+                    alt="gpt"
+                    width={1500}
+                    height={1500}
+                    className="w-30 h-30 self-center rounded-2"
+                  />
+                  <span className="ml-12 text-black">GPT의 기업설명</span>
+                </div>
+                <div className="text-18 my-40 mr-[3vw] font-normal">{formatDescription(gptAnalysis)}</div>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* 페이지 최하단 마진100 */}
+        <div className="mb-100"></div>
       </div>
     </>
   );
@@ -119,6 +146,7 @@ export const getStaticProps = async ({ params }: any) => {
   const getAnalysisList = [];
   const evaluaionSummary = [];
 
+  // 차트 데이터 받아오는 API
   for (const analysisCode of analysisCodeList) {
     const res = await axios.get(
       SERVER_URL + `/analysis/${analysisCode.id}/${companyId}`
@@ -138,15 +166,29 @@ export const getStaticProps = async ({ params }: any) => {
     }
   }
 
+  // 기업 개요 데이터 받아오는 API
   const { data: getCompanyOverviewInfo } = await axios.get(
     SERVER_URL + `/corp/info/${companyId}`
   );
+
+
+  // GPT 데이터 받아오는 API
+  const getGptAnalysis = await axios.get(
+    SERVER_URL + `/analysis/gpt/${companyId}`
+  );
+  let gptAnalysis = "";
+  if (getGptAnalysis.status === 200) {
+    gptAnalysis = getGptAnalysis.data.data
+  } else {
+    gptAnalysis = "데이터가 없어요ㅠㅠ"
+  }
 
   return {
     props: {
       analysisList: getAnalysisList,
       evaluaionSummary: evaluaionSummary,
       companyOverviewInfo: getCompanyOverviewInfo.data,
+      gptAnalysis: gptAnalysis,
     },
   };
 };

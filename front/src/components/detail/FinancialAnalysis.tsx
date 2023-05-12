@@ -57,10 +57,6 @@ export default function FinancialAnalysis({ analysisList }: Iprops) {
           }
           )}
         </div>
-
-
-        <div className="mt-20"></div>
-
       </div >
     </>
   )

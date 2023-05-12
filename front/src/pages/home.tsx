@@ -1,6 +1,4 @@
-import Banner from "@/components/home/Banner";
 import BigCard from "@/components/home/BigCard";
-import SmallCard from "@/components/home/SmallCard";
 import NavBar from "@/components/NavBar";
 import SearchBar from "@/components/SearchBar";
 import { useState, useEffect, useRef } from "react";
@@ -57,7 +55,7 @@ export default function Home() {
     getRandomCorpList(page);
   }, [page]);
 
-  const getData = async (keyWord: string | string[] | undefined) => {};
+  const getData = async (keyWord: string | string[] | undefined) => { };
   return (
     <>
       <Head>
