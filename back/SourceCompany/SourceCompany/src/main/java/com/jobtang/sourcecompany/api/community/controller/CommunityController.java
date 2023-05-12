@@ -54,10 +54,12 @@ public class CommunityController {
 
   )
   @GetMapping("/randing")
-  public ResponseEntity<?> readRandingCommunity() {
+  public ResponseEntity<?> readRandingCommunity(@ApiParam(value = "인기글 컷 추천수", required = true, defaultValue = "10", example = "10") @RequestParam(value = "standard", required = true, defaultValue = "10") Integer standard,
+                                                @ApiParam(value = "리턴할 게시글 수", required = true, defaultValue = "8", example = "8") @RequestParam(value = "pageCnt", required = true, defaultValue = "8") Integer pageCnt) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    ReadRandingCommunityResponse response = communityService.readRandingCommunity();
+    Pageable pageable = PageRequest.of( 0, pageCnt);
+    ReadRandingCommunityResponse response = communityService.readRandingCommunity(standard , pageable);
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }

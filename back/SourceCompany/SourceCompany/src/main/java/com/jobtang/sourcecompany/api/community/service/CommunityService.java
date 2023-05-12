@@ -20,7 +20,7 @@ public interface CommunityService {
 
   UpdateCommunityResponse updateCommunity(Long userId ,UpdateCommunityRequest updateCommunityRequest);
 
-  ReadRandingCommunityResponse readRandingCommunity();
+  ReadRandingCommunityResponse readRandingCommunity(int standard ,Pageable pageable);
 
   void updateViewCommunity();
   void schedule();
