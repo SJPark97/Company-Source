@@ -66,5 +66,15 @@ spring:
             enable: true
           auth: true
 
+cloud:
+  aws:
+    s3:
+      bucket: arn:aws:s3:::pjbooklet
+    stack.auto: false
+    region.static: ap-northeast-2
+    credentials:
+      accessKey: AKIA3HXUHACC2QTVP7F4
+      secretKey: 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
+
 drinks :
   milkshake: "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"
