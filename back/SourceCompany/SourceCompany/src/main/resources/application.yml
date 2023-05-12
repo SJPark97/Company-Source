@@ -16,10 +16,17 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 운영서버
 #    url: jdbc:mysql://company-source.com:8306/cs?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    # 운영서버 암호화
+#    url: ENC(HBcLen39htQodFrLCYEh3s8xNxEVs5VEwYepq2y7oIAn6hz1yQmU0eZ1NCtqa+8EDZdJlQHix6rDMNawDCDiuNEs/3bwLZTEP6kroFdFkOcAStPDoVcaw6hRT8srZqIUPf/SBzNK5Cg=)
     # 개발서버
-    url: jdbc:mysql://k8b107.p.ssafy.io:8306/cs?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: comso
-    password: B107
+#    url: jdbc:mysql://k8b107.p.ssafy.io:8306/cs?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    # 개발서버 url 암호화
+    url: ENC(gFAA7rKTjUQtYbBKiE5GQRP8fu6sGIIXrx7ZZS8Ec8eOAnDvwlWSgolXWBnGWcxA0u/4ALs0DVfkya2inQQWpYfN4sDzXjGf4F1XD2vhZC+WNqdOA72fROc/bwwg1Tf6nWXQ5qUU9n0=)
+#    username: comso
+#    password: B107
+    # 이름, 비밀번호 암호화
+    username: ENC(bu13MVyW9tqJMQ6WhoxMDA==)
+    password: ENC(wY1tCihwpyRiy3X1miTUnA==)
     hikari:
       leak-detection-threshold: 2000
   # swagger
@@ -31,12 +38,18 @@ spring:
       # 운영서버
 #      host: company-source.com
       # 개발서버
-      host : k8b107.p.ssafy.io
-      authentication-database: admin
-      username: comso
-      password: B107
-      database: company-source
+#      host : k8b107.p.ssafy.io
+#      authentication-database: admin
+#      username: comso
+#      password: B107
+#      database: company-source
       port: 9000
+      host : ENC(sRjA4p9Jt4qIuUMOdVVQqy7JCh223g/q/4rwRrPvszk=)
+      authentication-database: ENC(nhaDKWfag4QMbr8bFmCKqQ==)
+      username: ENC(714l5ORmsn5+K+2ZjgrecA==)
+      password: ENC(y7QgHOR0XwHMLkthu/eF2g==)
+      database: ENC(3KwqupVoDR/3A/pHs9GrC62wBeW0jeEF)
+
 
 #    mongodb: # 테스트
 #      host: k8b107.p.ssafy.io
@@ -52,13 +65,16 @@ spring:
     # 개발서버
     host: k8b107.p.ssafy.io
     port: 8379
-    password: "B107"
+#    password: "B107"
+    password: ENC(/2hm83z+LAYJOoeAMzJ1zw==)
   mail:
     # Google smtp server 사용
     host: smtp.gmail.com
     port: 587
-    username: kimjinho.dev@gmail.com #앱 비밀번호 발급받은 google 계정
-    password: lagwgwxeqhadwapd #발급받은 앱 비밀번호
+#    username: kimjinho.dev@gmail.com #앱 비밀번호 발급받은 google 계정
+    username: ENC(pCWyshM94ml4zP8V/ywqkuFrEKDjyqLaBcQJzQ2eaH8=)
+    # 발급받은 앱 비밀번호
+    password: ENC(C2uaXBwMAQl4bcDEmNF0h/CXXhJuXVaTUtpZojj/4ok=)
     properties:
       mail:
         smtp:
@@ -66,15 +82,28 @@ spring:
             enable: true
           auth: true
 
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+
+
+drinks :
+  milkshake: ENC(3eNhgI3qWrTihqdQVAxFcCyvxSlVhqJ8SP7gCoCdsh/Cuzo6g7aD2wi+CUsvSd9IpcQuL42rMyCXGZekpAWLpg==)
+
 cloud:
   aws:
     s3:
-      bucket: arn:aws:s3:::pjbooklet
+      bucket: pjbooklet
     stack.auto: false
     region.static: ap-northeast-2
     credentials:
       accessKey: AKIA3HXUHACC2QTVP7F4
       secretKey: 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
+#      accessKey: ENC(8ECgvcPIlkC43HrpeitikNBLo0d9zWAJjyTHqZYPqFs=)
+#      secretKey: ENC(ntyBVOqbtQkHHmFKRxdsvdU2iLUV++BaOkE+G2q50yAizWl5zslW3S0L/10xMo73wvExMl6kol0=)
 
-drinks :
-  milkshake: "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"
+jwt:
+  secretkey: ENC(i5CDcjY1mF90MCMwyoxHXEnvUmjNSVir)
+
+
