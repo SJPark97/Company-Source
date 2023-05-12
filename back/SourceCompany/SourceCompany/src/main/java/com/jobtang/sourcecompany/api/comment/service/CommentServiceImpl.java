@@ -61,11 +61,32 @@ public class CommentServiceImpl implements CommentService {
 
     //부모 댓글인 경우
     if(comment.getParent()==0){
-
+      // 자식이 있으면
+      if(commentRepository.findByCommentGroup(comment.getCommentGroup()).size()>1){
+        comment.setContent("삭제된 댓글 입니다.");
+      }
+      //자식이 없으면
+      else{
+        comment.deleteEntity();
+      }
     }
     //자식 댓글인 경운
     else{
-      comment.deleteEntity();
+      // 부모도 없고 , 혼자남은 자식이였다면
+      if(
+              // 현재 그룹의 부모가 삭제된 상태인지 확인
+              commentRepository.findByCommentGroupAndCommunityIdAndParentAndIsActiveFalse(comment.getCommentGroup(),comment.getCommunity().getId(), 1).isPresent() &&
+                      // 현재 그룹의 자식들 중 삭제된 값이 하나밖에 없는지 확인
+                      commentRepository.findByCommentGroupAndIsActiveTrueAndCommunityIdAndParent(comment.getCommentGroup(),comment.getCommunity().getId(), 0).size()==1&&
+                      // 그 자식이 현재 comment 인지 확인
+                      commentRepository.findByCommentGroupAndIsActiveTrueAndCommunityIdAndParent(comment.getCommentGroup(),comment.getCommunity().getId(),0).get(0).getId() == comment.getId()
+      ){
+
+      }
+      else{
+        comment.deleteEntity();
+
+      }
     }
   }
 

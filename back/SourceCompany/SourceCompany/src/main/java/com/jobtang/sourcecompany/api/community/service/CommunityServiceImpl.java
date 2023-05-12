@@ -1,5 +1,7 @@
 package com.jobtang.sourcecompany.api.community.service;
 
+import com.jobtang.sourcecompany.api.comment.dto.ReadCommentResponse;
+import com.jobtang.sourcecompany.api.comment.repository.CommentRepository;
 import com.jobtang.sourcecompany.api.community.dto.*;
 import com.jobtang.sourcecompany.api.community.entity.Community;
 import com.jobtang.sourcecompany.api.community.repository.CommunityRepository;
@@ -35,6 +37,7 @@ public class CommunityServiceImpl implements CommunityService {
   private final RedisTemplate<String, Integer> integerRedisTemplate;
   private final CommunityRepository communityRepository;
   private final LikesRepository likesRepository;
+  private final CommentRepository commentRepository;
   private final ModelMapper mapper;
 
   /**
@@ -129,7 +132,7 @@ public class CommunityServiceImpl implements CommunityService {
     // 레디스의 조회수와 해당 게시판의 토탈 조회수를 더한 값을 조회수로 기록
     viewcnt += community.getTotalView() + community.getYesterdayView();
     // 해당 커뮤니티의 댓글들을 List<DTO> 로 바꾸는 부분
-
+    List<ReadCommentResponse> readCommentResponses = commentRepository.findAllByCommunityIdAndIsActiveTrueOrderByCommentGroupAscCreatedDateAsc(communityId).stream().map(comment -> ReadCommentResponse.EntityDTO(comment) ).collect(Collectors.toList());
     // 마지막에 ReadCommunityResponse 로 바꾸는 부분
 
     // 현재 유저가 게스트인지 로그인된 유저인지에 따라 분기
@@ -138,16 +141,16 @@ public class CommunityServiceImpl implements CommunityService {
       Optional<Likes> likes=  likesRepository.findByUserIdAndCommunityId(userId ,communityId);
       // 있고 , 삭제된것도 아니라면
       if(likes.isPresent() && likes.get().isActive()==true){
-        return ReadCommunityDetailResponse.EntityToDTO(community, viewcnt,true);
+        return ReadCommunityDetailResponse.EntityToDTO(community, viewcnt,true,readCommentResponses);
       }
       else{
         // 로그인은 했지만 , 게시물에 좋아요는 안했다면
-        return ReadCommunityDetailResponse.EntityToDTO(community, viewcnt,false);
+        return ReadCommunityDetailResponse.EntityToDTO(community, viewcnt,false,readCommentResponses);
       }
     }
     else{
       // 로그인안한 유저라면
-      return ReadCommunityDetailResponse.EntityToDTO(community, viewcnt,false);
+      return ReadCommunityDetailResponse.EntityToDTO(community, viewcnt,false,readCommentResponses);
     }
   }
 
@@ -211,9 +214,10 @@ public class CommunityServiceImpl implements CommunityService {
   }
 
   @Override
-  public ReadRandingCommunityResponse readRandingCommunity() {
+  public ReadRandingCommunityResponse readRandingCommunity(int standard ,Pageable pageable) {
     // corpHot
-    List<ReadAllCommunityResponse> corpHot = communityRepository.findByCommunityTypeOrderByLikeCntTop8("기업")
+    List<ReadAllCommunityResponse> corpHot = communityRepository.findByCommunityTypeAndLikesCntGreaterThanEqualOrderByCreatedDateDesc("기업",standard ,pageable)
+//    List<ReadAllCommunityResponse> corpHot = communityRepository.findTopNByCommunityTypeAndLikesCntGreaterThanEqualOrderByCreatedDateDesc(pageCnt,"기업",standard);
             .stream().map(community -> {
               String key = "viewComm" + community.getId();
               int redisViewCnt = 0;
@@ -224,7 +228,8 @@ public class CommunityServiceImpl implements CommunityService {
               return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
             }).collect(Collectors.toList());
     // freeHot
-    List<ReadAllCommunityResponse> freeHot = communityRepository.findByCommunityTypeOrderByLikeCntTop8("자유")
+    List<ReadAllCommunityResponse> freeHot = communityRepository.findByCommunityTypeAndLikesCntGreaterThanEqualOrderByCreatedDateDesc("자유",standard ,pageable)
+//    List<ReadAllCommunityResponse> freeHot = communityRepository.findTopNByCommunityTypeAndLikesCntGreaterThanEqualOrderByCreatedDateDesc(pageCnt,"자유",standard)
             .stream().map(community -> {
               String key = "viewComm" + community.getId();
               int redisViewCnt = 0;
