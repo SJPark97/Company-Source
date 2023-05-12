@@ -4,14 +4,7 @@ import com.jobtang.sourcecompany.api.inquiry.entity.Inquiry;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import com.jobtang.sourcecompany.util.BaseEntity;
 import com.sun.istack.NotNull;
-<<<<<<< HEAD
 import lombok.*;
-=======
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
->>>>>>> b69bdff7d1174a7ae7ac1295c4aa4fd2eb802b4d
 import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
