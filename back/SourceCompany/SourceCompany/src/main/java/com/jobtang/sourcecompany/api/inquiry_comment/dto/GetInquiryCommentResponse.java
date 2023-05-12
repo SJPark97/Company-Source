@@ -11,11 +11,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public class GetInquiryCommentResponse {
     private String content;
-    private User user;
+    private String userNickname;
     public static GetInquiryCommentResponse EntityToDTO (InquiryComment inquiryComment) {
         return GetInquiryCommentResponse.builder()
                 .content(inquiryComment.getContent())
-                .user(inquiryComment.getUser())
+                .userNickname(inquiryComment.getUser().getNickname())
                 .build();
 
     }

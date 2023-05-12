@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class InquiryServiceImpl implements InquiryService {
                  getInquiryCommentResponse.add(GetInquiryCommentResponse.EntityToDTO(inquiryComment));
             }
         }
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.USER_EXISTS));
         if (userId != inquiry.getUser().getId() && !user.getRole().equals("ROLE_ADMIN")) {
             throw new CustomException(ErrorCode.INQ_INVALID_USER);
         }
@@ -62,7 +62,7 @@ public class InquiryServiceImpl implements InquiryService {
         return inquiries.stream()
                 .map(inquiry -> {
                     String tmp;
-                    User user = userRepository.findById(inquiry.getUser().getId()).get();
+                    User user = userRepository.findById(inquiry.getUser().getId()).orElseThrow(() -> new CustomException(ErrorCode.USER_EXISTS));
                     if (inquiry.isLock() == true) {
                         tmp = "비밀글입니다.";
                     }
@@ -86,7 +86,7 @@ public class InquiryServiceImpl implements InquiryService {
         return inquiries.stream()
                 .map(inquiry -> {
                     String tmp;
-                    User user = userRepository.findById(inquiry.getUser().getId()).get();
+                    User user = userRepository.findById(inquiry.getUser().getId()).orElseThrow(() -> new CustomException(ErrorCode.USER_EXISTS));
                     if (inquiry.isLock() == true && user.getId() != userId && user.getRole() != "ROLE_ADMIN") {
                         tmp = "비밀글입니다.";
                     }
@@ -106,7 +106,7 @@ public class InquiryServiceImpl implements InquiryService {
 
     @Override
     public void createInquiry(Long userId, CreateInquiryRequest createInquiryRequest) {
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.USER_EXISTS));
         Inquiry inquiry = Inquiry.builder()
                 .title(createInquiryRequest.getTitle())
                 .content(createInquiryRequest.getContent())
