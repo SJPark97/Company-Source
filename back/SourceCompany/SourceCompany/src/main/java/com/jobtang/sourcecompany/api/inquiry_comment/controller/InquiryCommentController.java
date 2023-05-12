@@ -1,6 +1,7 @@
 package com.jobtang.sourcecompany.api.inquiry_comment.controller;
 
 import com.jobtang.sourcecompany.api.inquiry_comment.dto.CreateInquiryCommentRequest;
+import com.jobtang.sourcecompany.api.inquiry_comment.dto.UpdateInquiryCommentRequest;
 import com.jobtang.sourcecompany.api.inquiry_comment.service.InquiryCommentService;
 import com.jobtang.sourcecompany.api.user.service.JwtService;
 import io.swagger.annotations.Api;
@@ -30,8 +31,28 @@ public class InquiryCommentController {
                                            @RequestHeader("Authorization") String authHeader) {
         HashMap<String, Object> result = new HashMap<>();
         Long userId = jwtService.userPkByToken(authHeader);
-        inquiryCommentService.createComment(userId, createInquiryCommentRequest);
+        inquiryCommentService.createInquiryComment(userId, createInquiryCommentRequest);
         result.put("data", "success");
         return new ResponseEntity<>(result, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{inquiryCommentId}")
+    @Transactional
+    public ResponseEntity< ? > deleteComment(@PathVariable Long inquiryCommentId,
+                                             @RequestHeader("Authorization") String authHeader) {
+        Long userId = jwtService.userPkByToken(authHeader);
+        inquiryCommentService.deleteInquiryComment(userId, inquiryCommentId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{inquiryCommentId}")
+    @Transactional
+    public ResponseEntity<? > updateComment(@PathVariable Long inquiryCommentId,
+                                            @RequestBody UpdateInquiryCommentRequest UpdateInquiryCommentRequest,
+                                            @RequestHeader("Authorization") String authHeader) {
+        Long userId = jwtService.userPkByToken(authHeader);
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("data", inquiryCommentService.updateInquiryComment(userId, inquiryCommentId, UpdateInquiryCommentRequest));
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
