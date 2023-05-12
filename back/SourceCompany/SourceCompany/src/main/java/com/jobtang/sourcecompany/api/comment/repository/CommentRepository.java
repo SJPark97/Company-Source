@@ -12,8 +12,10 @@ public interface CommentRepository extends JpaRepository<Comment , Long> {
 
   List<Comment> findByCommentGroup(Long commentGroup);
 
-  Optional<Comment>  findByCommentGroupAndParent1FalseAndIsActiveFalse (Long commentGroup);
+  // 해당 그룹의 부모가 삭제된 경우 조회
+  Optional<Comment>  findByCommentGroupAndCommunityIdAndParentAndIsActiveFalse (Long commentGroup,Long communityId,int parent);
 
   // 모든 자식 댓글들 구하는 메소드
-  List<Comment> findByCommentGroupAndIsActiveTrueAndParent0 (Long commentGroup);
+  List<Comment> findByCommentGroupAndIsActiveTrueAndCommunityIdAndParent (Long commentGroup,Long communityId, int parent);
+
 }

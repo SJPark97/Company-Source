@@ -29,7 +29,7 @@ public class CommentServiceImpl implements CommentService {
 
 
   @Override
-  @Transactional(readOnly = true)
+  @Transactional
   public Long createComment(Long userId, CreateCommentRequest createCommentRequest) {
     // 유저 벨리드 체크
     User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.USER_EXISTS));
@@ -75,12 +75,18 @@ public class CommentServiceImpl implements CommentService {
       // 부모도 없고 , 혼자남은 자식이였다면
       if(
               // 현재 그룹의 부모가 삭제된 상태인지 확인
-              commentRepository.findByCommentGroupAndParent1FalseAndIsActiveFalse(comment.getCommentGroup()).isPresent() &&
+              commentRepository.findByCommentGroupAndCommunityIdAndParentAndIsActiveFalse(comment.getCommentGroup(),comment.getCommunity().getId(), 1).isPresent() &&
                       // 현재 그룹의 자식들 중 삭제된 값이 하나밖에 없는지 확인
-                      commentRepository.findByCommentGroupAndIsActiveTrueAndParent0(comment.getCommentGroup()).size()==1){
+                      commentRepository.findByCommentGroupAndIsActiveTrueAndCommunityIdAndParent(comment.getCommentGroup(),comment.getCommunity().getId(), 0).size()==1&&
+                      // 그 자식이 현재 comment 인지 확인
+                      commentRepository.findByCommentGroupAndIsActiveTrueAndCommunityIdAndParent(comment.getCommentGroup(),comment.getCommunity().getId(),0).get(0).getId() == comment.getId()
+      ){
 
       }
-      comment.deleteEntity();
+      else{
+        comment.deleteEntity();
+
+      }
     }
   }
 
