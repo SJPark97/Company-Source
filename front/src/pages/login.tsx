@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { parseCookies, setCookie, destroyCookie } from "nookies";
 import { loginAxios } from "@/utils/user/api";
@@ -9,6 +9,7 @@ export default function Login() {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [failMessage, setFailMessage] = useState<boolean>(false);
+  const [isRedirect, setIsRedirect] = useState<string>("");
 
   const idHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
@@ -35,12 +36,22 @@ export default function Login() {
         secure: true,
         path: "/",
       });
-      router.push("/home");
-      // 로그인 실패시 FailMessage 상태 변경
+      if (isRedirect) {
+        router.push("/" + `${isRedirect}`);
+      } else {
+        router.push("/home");
+      }
     } else if (!res.data) {
+      // 로그인 실패시 FailMessage 상태 변경
       setFailMessage(true);
     }
   };
+
+  useEffect(() => {
+    if (router.query.redirect && typeof router.query.redirect === "string") {
+      setIsRedirect(router.query.redirect);
+    }
+  }, [router]);
 
   return (
     <>

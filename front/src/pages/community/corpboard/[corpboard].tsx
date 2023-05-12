@@ -7,12 +7,15 @@ import { SERVER_URL } from "@/utils/url";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import WriteButton from "@/components/community/WriteButton";
 
-export default function CorpBoardAll({ data }: { data: any }) {
+export default function CorpBoardRecommend({ data }: { data: any }) {
   const router = useRouter();
   const [page, setPage] = useState<Array<number>>([]);
   const [prevPage, setPrevPage] = useState<string>("");
   const [nextPage, setNextPage] = useState<string>("");
+
+  const writeButtonProps = router.pathname.split("/")[2];
 
   useEffect(() => {
     if (typeof router.query.corpboard === "string") {
@@ -71,7 +74,10 @@ export default function CorpBoardAll({ data }: { data: any }) {
         <div className="flex flex-col">
           {data.data &&
             data.data.map((post: any) => (
-              <div className="flex py-10">
+              <div
+                className="flex py-10"
+                key={"corpboardrecommend" + `${post.communityId}`}
+              >
                 <div className="text-center w-70">{post.communityId}</div>
                 <div className="w-[550px] line-clamp-1">
                   {`${post.title}` + "  "}
@@ -87,7 +93,7 @@ export default function CorpBoardAll({ data }: { data: any }) {
             ))}
         </div>
       </div>
-      <div className="flex justify-center items-center my-30">
+      <div className="relative flex justify-center items-center my-30">
         <Link href={"/community/corpboard/" + `${prevPage}`}>
           <Image
             src="/prev_page.png"
@@ -127,6 +133,9 @@ export default function CorpBoardAll({ data }: { data: any }) {
             className="w-26 h-32 mx-20"
           />
         </Link>
+        <div className="absolute text-center ml-[1130px]">
+          <WriteButton path={writeButtonProps} />
+        </div>
       </div>
     </>
   );

@@ -7,15 +7,15 @@ import { SERVER_URL } from "@/utils/url";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import WriteButton from "@/components/community/WriteButton";
 
 export default function CorpBoardAll({ data }: { data: any }) {
   const router = useRouter();
   const [page, setPage] = useState<Array<number>>([]);
 
+  const writeButtonProps = router.pathname.split("/")[2];
+
   useEffect(() => {
-    if (!router.query.corpboard) {
-      console.log("here");
-    }
     const tempArr = [];
     for (var i = 1; i < 10; i++) {
       if (i > data.totalPage) {
@@ -61,7 +61,7 @@ export default function CorpBoardAll({ data }: { data: any }) {
             ))}
         </div>
       </div>
-      <div className="flex justify-center items-center my-30">
+      <div className="relative flex justify-center items-center my-30">
         <Link href="/community/corpboard">
           <Image
             src="/prev_page.png"
@@ -94,6 +94,9 @@ export default function CorpBoardAll({ data }: { data: any }) {
             className="w-26 h-32 mx-20"
           />
         </Link>
+        <div className="absolute text-center ml-[1130px]">
+          <WriteButton path={writeButtonProps} />
+        </div>
       </div>
     </>
   );
@@ -104,6 +107,7 @@ export async function getServerSideProps(context: any) {
     params: {
       page: 0,
       size: 10,
+      sort: "all",
     },
   });
   return {

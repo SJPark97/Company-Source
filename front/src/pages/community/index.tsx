@@ -5,6 +5,7 @@ import CommunityFreePost from "@/components/community/CommunityFreePost";
 import CommunityCorpPost from "@/components/community/CommunityCorpPost";
 import Image from "next/image";
 import Link from "next/link";
+import { SERVER_URL } from "@/utils/url";
 
 export default function Community() {
   return (
@@ -95,3 +96,13 @@ export default function Community() {
     </div>
   );
 }
+
+// export async function getServerSideProps(context: any) {
+//   const { data } = await axios.get(SERVER_URL + '/community/corp', {
+//     params: {
+//       page: 0,
+//       size: 10,
+//       sort: "all",
+//     }
+//   })
+// }

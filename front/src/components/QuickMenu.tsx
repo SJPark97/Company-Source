@@ -27,7 +27,7 @@ export default function QuickMenu() {
 
   return (
     <div
-      className="flex flex-col border-1 border-gray-200 rounded-10 absolute right-30 top-[300px] bg-white"
+      className="flex flex-col border-1 border-gray-200 rounded-10 absolute right-30 top-[300px] bg-white z-50"
       ref={quickMenuRef}
     >
       <Link href="/community/corpboard">

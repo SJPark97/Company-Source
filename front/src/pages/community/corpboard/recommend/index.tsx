@@ -7,10 +7,13 @@ import { SERVER_URL } from "@/utils/url";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import WriteButton from "@/components/community/WriteButton";
 
-export default function CorpBoardAll({ data }: { data: any }) {
+export default function CorpBoardRecommend({ data }: { data: any }) {
   const router = useRouter();
   const [page, setPage] = useState<Array<number>>([]);
+
+  const writeButtonProps = router.pathname.split("/")[2];
 
   useEffect(() => {
     if (!router.query.corpboard) {
@@ -41,7 +44,7 @@ export default function CorpBoardAll({ data }: { data: any }) {
           <div className="text-center w-[180px]">작성일</div>
         </div>
       </div>
-      <div className="flex w-[1200px] mx-auto border-b-1 border-gray-300">
+      <div className="relative flex w-[1200px] mx-auto border-b-1 border-gray-300">
         <div className="flex flex-col">
           {data.data &&
             data.data.map((post: any) => (
@@ -61,7 +64,7 @@ export default function CorpBoardAll({ data }: { data: any }) {
             ))}
         </div>
       </div>
-      <div className="flex justify-center items-center my-30">
+      <div className="relative flex justify-center items-center my-30">
         <Link href="/community/corpboard/recommend">
           <Image
             src="/prev_page.png"
@@ -94,6 +97,9 @@ export default function CorpBoardAll({ data }: { data: any }) {
             className="w-26 h-32 mx-20"
           />
         </Link>
+        <div className="absolute text-center ml-[1130px]">
+          <WriteButton path={writeButtonProps} />
+        </div>
       </div>
     </>
   );

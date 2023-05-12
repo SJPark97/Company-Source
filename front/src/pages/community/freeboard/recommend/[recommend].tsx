@@ -12,25 +12,51 @@ import WriteButton from "@/components/community/WriteButton";
 export default function FreeBoardRecommend({ data }: { data: any }) {
   const router = useRouter();
   const [page, setPage] = useState<Array<number>>([]);
+  const [prevPage, setPrevPage] = useState<string>("");
+  const [nextPage, setNextPage] = useState<string>("");
 
   const writeButtonProps = router.pathname.split("/")[2];
 
   useEffect(() => {
-    if (!router.query.freeboard) {
-      console.log("here");
-    }
-    const tempArr = [];
-    for (var i = 1; i < 10; i++) {
-      if (i > data.totalPage) {
-        break;
+    if (typeof router.query.recommend === "string") {
+      const temp = parseInt(router.query.recommend);
+      if (temp === 1) {
+        setPrevPage((1).toString());
+      } else {
+        setPrevPage((temp - 1).toString());
       }
-      tempArr.push(i);
+
+      if (temp === data.totalPage) {
+        setNextPage(data.totalPage.toString());
+      } else {
+        setNextPage((temp + 1).toString());
+      }
+      if (temp <= 9) {
+        const tempArr = [];
+        for (var i = 1; i < 10; i++) {
+          if (i > data.totalPage) {
+            break;
+          }
+          tempArr.push(i);
+        }
+        setPage(tempArr);
+      } else {
+        const minPage = temp - (temp % 10);
+        const tempArr: any = [];
+        for (var i = minPage; i < minPage + 10; i++) {
+          if (i > data.totalPage) {
+            break;
+          }
+          tempArr.push(i);
+        }
+        console.log(tempArr);
+        setPage(tempArr);
+      }
     }
-    setPage(tempArr);
   }, [router]);
 
   return (
-    <>
+    <div className="relative">
       <NavBar />
       <QuickMenu />
       <BoardNavBar />
@@ -48,7 +74,7 @@ export default function FreeBoardRecommend({ data }: { data: any }) {
         <div className="flex flex-col">
           {data.data &&
             data.data.map((post: any) => (
-              <div className="flex py-10" key={"free" + `${post.communityId}`}>
+              <div className="flex py-10">
                 <div className="text-center w-70">{post.communityId}</div>
                 <div className="w-[550px] line-clamp-1">
                   {`${post.title}` + "  "}
@@ -65,7 +91,7 @@ export default function FreeBoardRecommend({ data }: { data: any }) {
         </div>
       </div>
       <div className="relative flex justify-center items-center my-30">
-        <Link href="/community/freeboard/recommend">
+        <Link href={"/community/freeboard/recommend/" + `${prevPage}`}>
           <Image
             src="/prev_page.png"
             alt="이전페이지"
@@ -74,21 +100,28 @@ export default function FreeBoardRecommend({ data }: { data: any }) {
             className="w-26 h-32 mx-20"
           />
         </Link>
-        {page.map((item) => (
+        {page.map((page) => (
           <Link
-            href={"/community/freeboard/recommend/" + `${item}`}
-            key={"firstFreeLikes" + `${item}`}
+            href={"/community/freeboard/recommend/" + `${page}`}
+            key={"freeRecommend" + `${page}`}
           >
             <div
               className={
-                "mx-20 " + `${item === 1 ? "font-bold text-24" : null}`
+                "mx-20 " +
+                `${
+                  router.query.recommend &&
+                  typeof router.query.recommend === "string" &&
+                  parseInt(router.query.recommend) === page
+                    ? "font-bold text-24"
+                    : null
+                }`
               }
             >
-              {item}
+              {page}
             </div>
           </Link>
         ))}
-        <Link href="/community/freeboard/recommend/2">
+        <Link href={"/community/freeboard/recommend/" + `${nextPage}`}>
           <Image
             src="/next_page.png"
             alt="이전페이지"
@@ -101,14 +134,14 @@ export default function FreeBoardRecommend({ data }: { data: any }) {
           <WriteButton path={writeButtonProps} />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
 export async function getServerSideProps(context: any) {
   const { data } = await axios.get(SERVER_URL + `/community/free`, {
     params: {
-      page: 0,
+      page: context.query.recommend - 1,
       size: 10,
       sort: "likes",
     },

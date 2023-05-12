@@ -7,17 +7,19 @@ import { SERVER_URL } from "@/utils/url";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import WriteButton from "@/components/community/WriteButton";
 
-export default function CorpBoardAll({ data }: { data: any }) {
+export default function CorpBoardRecommend({ data }: { data: any }) {
   const router = useRouter();
   const [page, setPage] = useState<Array<number>>([]);
   const [prevPage, setPrevPage] = useState<string>("");
   const [nextPage, setNextPage] = useState<string>("");
-  console.log(data.data);
+
+  const writeButtonProps = router.pathname.split("/")[2];
 
   useEffect(() => {
-    if (typeof router.query.corpboard === "string") {
-      const temp = parseInt(router.query.corpboard);
+    if (typeof router.query.recommend === "string") {
+      const temp = parseInt(router.query.recommend);
       if (temp === 1) {
         setPrevPage((1).toString());
       } else {
@@ -54,7 +56,7 @@ export default function CorpBoardAll({ data }: { data: any }) {
   }, [router]);
 
   return (
-    <>
+    <div className="relative">
       <NavBar />
       <QuickMenu />
       <BoardNavBar />
@@ -68,7 +70,7 @@ export default function CorpBoardAll({ data }: { data: any }) {
           <div className="text-center w-[180px]">작성일</div>
         </div>
       </div>
-      <div className="flex w-[1200px] mx-auto border-b-1 border-gray-300">
+      <div className="relative flex w-[1200px] mx-auto border-b-1 border-gray-300">
         <div className="flex flex-col">
           {data.data &&
             data.data.map((post: any) => (
@@ -88,7 +90,7 @@ export default function CorpBoardAll({ data }: { data: any }) {
             ))}
         </div>
       </div>
-      <div className="flex justify-center items-center my-30">
+      <div className="relative flex justify-center items-center my-30">
         <Link href={"/community/corpboard/recommend/" + `${prevPage}`}>
           <Image
             src="/prev_page.png"
@@ -107,9 +109,9 @@ export default function CorpBoardAll({ data }: { data: any }) {
               className={
                 "mx-20 " +
                 `${
-                  router.query.corpboard &&
-                  typeof router.query.corpboard === "string" &&
-                  parseInt(router.query.corpboard) === page
+                  router.query.recommend &&
+                  typeof router.query.recommend === "string" &&
+                  parseInt(router.query.recommend) === page
                     ? "font-bold text-24"
                     : null
                 }`
@@ -128,15 +130,18 @@ export default function CorpBoardAll({ data }: { data: any }) {
             className="w-26 h-32 mx-20"
           />
         </Link>
+        <div className="absolute text-center ml-[1130px]">
+          <WriteButton path={writeButtonProps} />
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 
 export async function getServerSideProps(context: any) {
   const { data } = await axios.get(SERVER_URL + `/community/corp`, {
     params: {
-      page: context.query.corpboard - 1,
+      page: context.query.recommend - 1,
       size: 10,
       sort: "likes",
     },
