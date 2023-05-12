@@ -1,7 +1,9 @@
 import NavBar from "@/components/NavBar";
+import CompanyComparisonCard from "@/components/comparison/CompanyComparisonCard";
 import ComparisonModal from "@/components/comparison/ComparisonModal";
 
 export default function Comparison() {
+
   return (
     <>
       <NavBar />
@@ -10,9 +12,11 @@ export default function Comparison() {
           <div className="flex flex-col bg-white border-gray-500 rounded-5 mt-100 mx-[13vw] border-1">
             <div className="flex justify-center">
               <div className="m-50">
+                <CompanyComparisonCard cardLocation="left" />
                 <ComparisonModal />
               </div>
               <div className="m-50">
+                <CompanyComparisonCard cardLocation="right" />
                 <ComparisonModal />
               </div>
             </div>
