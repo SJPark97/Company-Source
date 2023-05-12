@@ -12,6 +12,7 @@
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@material-tailwind/react": "^1.4.2",
+    "@tinymce/tinymce-react": "^4.3.0",
     "@mui/material": "^5.13.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/node": "18.15.11",
@@ -20,6 +21,7 @@
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "chart.js": "^4.3.0",
+    "ckeditor5-custom-build": "file:ckeditor5",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
     "framer-motion": "^10.12.4",
@@ -36,6 +38,7 @@
     "sharp": "^0.32.1",
     "swiper": "^9.2.3",
     "tailwindcss": "3.3.1",
+    "tinymce": "^6.4.2",
     "typescript": "5.0.4"
   },
   "devDependencies": {

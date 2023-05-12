@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { SERVER_URL } from "@/utils/url";
 import Head from "next/head";
+import Image from "next/image";
 import HomeQuickMenu from "@/components/home/HomeQuickMenu";
 
 interface bigCard {
@@ -71,29 +72,33 @@ export default function Home() {
         />
       </Head>
       <div className="relative">
-        <div
-          className="z-50 bg-cover bg-[url('/home_background.jpg')] h-[400px] mb-[50px] bg-no-repeat"
-          style={{ backgroundPosition: "center top -100px" }}
-        >
-          <NavBar />
-          <HomeQuickMenu />
-          <div className="flex flex-col items-center mt-[50px]">
-            <div
-              className="font-bold text-white lg:text-26 xl:text-29 2xl:text-32 text-shadow animate-fadeIn"
-              style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)" }}
-            >
-              코스피 상장 기업 정보를
+        <div className="relative h-[400px]">
+          <div className="absolute z-50">
+            <NavBar />
+            <div className="flex flex-col items-center mt-[50px]">
+              <div
+                className="font-bold text-white lg:text-26 xl:text-29 2xl:text-32 text-shadow animate-fadeIn"
+                style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)" }}
+              >
+                코스피 상장 기업 정보를
+              </div>
+              <div
+                className="font-bold text-white lg:text-26 xl:text-29 2xl:text-32 text-shadow animate-fadeIn"
+                style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)" }}
+              >
+                약 10개의 분석 방법으로 분석했습니다.
+              </div>
             </div>
-            <div
-              className="font-bold text-white lg:text-26 xl:text-29 2xl:text-32 text-shadow animate-fadeIn"
-              style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)" }}
-            >
-              약 10개의 분석 방법으로 분석했습니다.
-            </div>
+            <SearchBar getData={getData} />
           </div>
-          <SearchBar getData={getData} />
+          <Image
+            src="/home_background.jpg"
+            alt="홈 이미지"
+            fill
+            className="absolute"
+          />
         </div>
-        {/* <Banner /> */}
+        <HomeQuickMenu />
         <div className="mx-[10vw] flex">
           <div className="flex flex-wrap justify-around">
             {corpList &&
