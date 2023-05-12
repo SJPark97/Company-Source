@@ -21,6 +21,7 @@ import javax.persistence.*;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+
 public class InquiryCommentServiceImpl implements InquiryCommentService {
 
     private final InquiryRepository inquiryRepository;
