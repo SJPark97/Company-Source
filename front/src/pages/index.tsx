@@ -32,6 +32,7 @@ export default function Home() {
           property="og:description"
           content="기업분석이 어려우신가요? Company Source와 함께 해보세요."
         />
+        <meta name="google-site-verification" content="0FzOO996BLTIEWFgwlmmYv-F1WmHiM6SrbwEbK9-p3k" />
       </Head>
       <div className="flex flex-col justify-center w-full">
         <div className="z-50">

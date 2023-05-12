@@ -5,6 +5,8 @@ import * as gtag from "@/lib/gtag"
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Script from "next/script";
+import { Provider } from "react-redux";
+import store from "@/stores/store";
 
 export default function App({ Component, pageProps }: AppProps) {
 
@@ -40,7 +42,9 @@ export default function App({ Component, pageProps }: AppProps) {
             `
         }}
       />
-      <Component {...pageProps} />
+      <Provider store={store}>
+        <Component {...pageProps} />
+      </Provider>
       <Question />
     </>
   );
