@@ -21,6 +21,7 @@ public class CreateCommentRequest {
   private Long commentGroup;
 
   @ApiModelProperty(value = "댓글인 경우 0 , 대댓글인 경우 1", example = "0" , allowableValues = "0,1")
+
   // 부모는 1 자식은 0
   private Long parent;
 

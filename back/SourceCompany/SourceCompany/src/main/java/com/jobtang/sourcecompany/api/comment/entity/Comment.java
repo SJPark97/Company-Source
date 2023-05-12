@@ -5,6 +5,7 @@ import com.jobtang.sourcecompany.api.user.entity.User;
 import com.jobtang.sourcecompany.util.BaseEntity;
 import com.sun.istack.NotNull;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 
