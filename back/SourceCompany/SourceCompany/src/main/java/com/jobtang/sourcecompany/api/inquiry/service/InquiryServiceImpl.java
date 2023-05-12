@@ -87,7 +87,7 @@ public class InquiryServiceImpl implements InquiryService {
                 .map(inquiry -> {
                     String tmp;
                     User user = userRepository.findById(inquiry.getUser().getId()).orElseThrow(() -> new CustomException(ErrorCode.USER_EXISTS));
-                    if (inquiry.isLock() == true && user.getId() != userId && user.getRole() != "ROLE_ADMIN") {
+                    if (inquiry.isLock() == true && user.getId() != userId && !user.getRole().equals("ROLE_ADMIN")) {
                         tmp = "비밀글입니다.";
                     }
                     else {
