@@ -9,8 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "@material-tailwind/react": "^1.4.2",
     "@tinymce/tinymce-react": "^4.3.0",
+    "@mui/material": "^5.13.0",
+    "@reduxjs/toolkit": "^1.9.5",
     "@types/node": "18.15.11",
     "@types/react": "18.0.37",
     "@types/react-dom": "18.0.11",
@@ -28,6 +32,8 @@
     "react-dom": "18.2.0",
     "react-query": "^3.39.3",
     "recharts": "^2.5.0",
+    "redux": "^4.2.1",
+    "redux-persist": "^6.0.0",
     "sharp": "^0.32.1",
     "swiper": "^9.2.3",
     "tailwindcss": "3.3.1",

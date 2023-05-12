@@ -24,7 +24,9 @@ export default function InnerCard({ cardItemList, type }: Iprops) {
             {type === "evaluation" ?
               <>
                 <div className="min-w-[230px] text-16">{item.analysisName}</div>
-                <AnalysisResult rate={item.rate} />
+                <div className="min-w-[90px]">
+                  <AnalysisResult rate={item.rate} />
+                </div>
               </>
               :
               <>

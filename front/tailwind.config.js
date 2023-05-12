@@ -15,6 +15,7 @@ module.exports = {
         // "landing-first": "url('/landing-first.png')",
         "landing-first": "url('/vidoe1.mp4')",
         "analysis-title": "url('/analysis-title.png')",
+        "comparison": "url('/bg-comparison-2.jpg')",
       },
       borderWidth: px0_100,
       borderRadius: px0_100,
