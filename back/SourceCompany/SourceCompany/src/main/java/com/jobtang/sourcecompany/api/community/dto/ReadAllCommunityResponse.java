@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Builder
@@ -16,16 +17,20 @@ public class ReadAllCommunityResponse {
   private Long communityId;
   private String title;
   private String userName;
+  private String date ;
+  private String time ;
   private int viewCount;
-  private LocalDateTime createdDate;
+  private int likesCount;
   private int commentCount;
   public static ReadAllCommunityResponse EntityToDTO (Community community , int viewCount){
     return ReadAllCommunityResponse.builder()
             .communityId(community.getId())
             .title(community.getTitle())
+            .date(community.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+            .time(community.getCreatedDate().format(DateTimeFormatter.ofPattern("HH:mm")))
             .userName(community.getUser().getNickname())
             .viewCount(viewCount+community.getTotalView()+community.getYesterdayView())
-            .createdDate(community.getCreatedDate())
+            .likesCount(community.getLikesCnt())
             .commentCount(community.getComments().size())
             .build();
   }

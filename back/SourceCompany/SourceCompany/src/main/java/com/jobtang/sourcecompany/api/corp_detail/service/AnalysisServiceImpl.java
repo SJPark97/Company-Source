@@ -4,12 +4,14 @@ import com.jobtang.sourcecompany.api.analysis_result.service.AnalysisResultServi
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp.repository.CorpRepository;
 import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisDocument;
+import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisGptDocument;
 import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisInfoDocument;
-import com.jobtang.sourcecompany.api.corp_detail.dto.AnalysisDto;
-import com.jobtang.sourcecompany.api.corp_detail.dto.AnalysisResponseDto;
-import com.jobtang.sourcecompany.api.corp_detail.dto.AnalysisResultDto;
-import com.jobtang.sourcecompany.api.corp_detail.dto.VariableDto;
+import com.jobtang.sourcecompany.api.corp_detail.dto.*;
+import com.jobtang.sourcecompany.api.corp_detail.dto.analysis_etc.GptDataDto;
+import com.jobtang.sourcecompany.api.corp_detail.dto.comparison.ComparisonResultDto;
+import com.jobtang.sourcecompany.api.corp_detail.dto.comparison.CorpForComparisonDto;
 import com.jobtang.sourcecompany.api.corp_detail.entity.CorpDetail;
+import com.jobtang.sourcecompany.api.corp_detail.repository.AnalysisGptRepository;
 import com.jobtang.sourcecompany.api.corp_detail.repository.AnalysisInfoRepository;
 import com.jobtang.sourcecompany.api.corp_detail.repository.AnalysisRepository;
 import com.jobtang.sourcecompany.api.corp_detail.repository.CorpDetailRepository;
@@ -24,15 +26,14 @@ import com.jobtang.sourcecompany.api.induty_detail.repository.IndutyDetailReposi
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -42,71 +43,16 @@ public class AnalysisServiceImpl implements AnalysisService{
     private final CorpDetailRepository corpDetailRepository;
     private final CorpRepository corpRepository;
     private final IndutyDetailRepository indutyDetailRepository;
+    private final AnalysisGptRepository analysisGptRepository;
     private final MongoTemplate mongoTemplate;
     private final DoAnalysis doAnalysis;
     private final AnalysisRepository analysisRepository;
     private final AnalysisInfoRepository analysisInfoRepository;
     private final ModelMapper mapper;
     private final AnalysisResultService analysisResultService;
+    private final AnalysisGpt analysisGpt;
 
     private AnalysisVariable analysisVariable;
-
-    @Override
-    public void updateAnalysisCorp(String variableId) {
-        if (variableId.length() == 1) {
-            IndutyDetail indutyDetail = indutyDetailRepository.findByIndutyCode(variableId);
-            if (indutyDetail == null) {
-                throw new CustomException(ErrorCode.CORP_NOT_FOUND);
-            }
-            analysisVariable = new AnalysisVariable(indutyDetail);
-        }
-        else {
-            CorpDetail corpDetail = corpDetailRepository.findByCorpDetailId(variableId);
-            if (corpDetail == null) {
-                throw new CustomException(ErrorCode.CORP_NOT_FOUND);
-            }
-            analysisVariable = new AnalysisVariable(corpDetail);
-        }
-
-        VariableDto variableDto = doAnalysis.DoAnalysis(analysisVariable);
-
-        // MongoDB에 저장하기
-        try {
-            AnalysisDocument analysisDocument = mapper.map(variableDto, AnalysisDocument.class);
-            mongoTemplate.save(analysisDocument);
-            log.info("분석 저장완료 : " + analysisVariable.variableName);
-        } catch (Exception e) {
-            log.info("분석 저장실패 : " + analysisVariable.variableName);
-        }
-    }
-
-    @Override
-    public void updateAnalysisAllCorp() {
-        deleteAnalysisAllCorp();
-        log.info("기존 기업 분석 데이터 삭제 완료!");
-
-        List<String> corpIds = corpRepository.findAllCorpIds();
-        for (String corpId : corpIds) {
-            updateAnalysisCorp(corpId);
-        }
-        log.info("모든 기업 분석 완료!");
-
-        List<String> indutyCodes = indutyDetailRepository.findAllIndutyCodes();
-        for (String indutycode : indutyCodes) {
-            updateAnalysisCorp(indutycode);
-        }
-        log.info("모든 산업 분석 완료!");
-
-        // entity 저장
-        for (String corpId : corpIds) {
-            for (String analysisId : new ArrayList<>(List.of(
-                    "101", "103", "104", "109", "110", "111", "113"
-            ))) {
-                getCorpAnalysis(analysisId, corpId, 1);
-            }
-        }
-        log.info("모든 기업 분석 완료!");
-    }
 
     @Override
     public AnalysisResponseDto getCorpAnalysis(String analysisId, String corpId, int settingNum) {
@@ -195,6 +141,149 @@ public class AnalysisServiceImpl implements AnalysisService{
     }
 
     @Override
+    public String getGptAnalysis(String corpId) {
+        Corp corp = corpRepository.findByCorpId(corpId);
+        if (corp == null) {throw new CustomException(ErrorCode.CORP_NOT_FOUND);}
+
+        AnalysisGptDocument analysisGptDocument = analysisGptRepository.findByCorpId(corp.getCorpId()).orElseThrow(() -> new CustomException(ErrorCode.ANALYSIS_NOT_FOUND));
+        return analysisGptDocument.getContent();
+    }
+
+    @Override
+    public HashMap getCorpComparison(String corpIdA, String corpIdB) {
+        Corp corpA = corpRepository.findByCorpId(corpIdA);
+        Corp corpB = corpRepository.findByCorpId(corpIdB);
+        if (corpA == null || corpB == null) {throw new CustomException(ErrorCode.CORP_NOT_FOUND);}
+
+        AnalysisDocument corpADocument = analysisRepository.findByVariableId(corpIdA);
+        AnalysisDocument corpBDocument = analysisRepository.findByVariableId(corpIdB);
+        if (corpADocument == null || corpBDocument == null) {throw new CustomException(ErrorCode.ANALYSIS_NOT_FOUND);}
+
+        VariableDto corpAVariableDto = mapper.map(corpADocument, VariableDto.class);
+        VariableDto corpBVariableDto = mapper.map(corpBDocument, VariableDto.class);
+
+        // 필요 변수 설정
+        List<String> analysisIds = new ArrayList<>(List.of(
+                "101", "103", "104", "109", "110", "111", "113", "405"
+        ));
+        HashMap result = new HashMap();
+
+        // 기업 기본 정보 입력
+        result.putAll(Map.of(
+                "corpA", mapper.map(corpA, CorpForComparisonDto.class),
+                "corpB", mapper.map(corpB, CorpForComparisonDto.class)
+                ));
+
+        // 기업 비교 정보 입력
+        for (String analysisId : analysisIds){
+            result.put("analysis" + analysisId, makeComparisonInfo(analysisId, corpAVariableDto, corpBVariableDto));}
+        return result;
+    }
+
+    private ComparisonResultDto makeComparisonInfo(String analysisId, VariableDto corpAVariableDto, VariableDto corpBVariableDto){
+        AnalysisInfoDocument analysisInfoDocument = analysisInfoRepository.findByAnalysisId(analysisId);
+
+        // 분석법 찾기
+        AnalysisDto corpAAnalysis = new AnalysisDto();
+        for (AnalysisDto corpAAnalysisDto : corpAVariableDto.getData()) {
+            if (corpAAnalysisDto.getAnalysisId().equals(analysisId)) {
+                corpAAnalysis = corpAAnalysisDto;
+                break;
+            }
+        }
+        AnalysisDto corpBAnalysis = new AnalysisDto();
+        for (AnalysisDto corpBAnalysisDto : corpBVariableDto.getData()) {
+            if (corpBAnalysisDto.getAnalysisId().equals(analysisId)) {
+                corpBAnalysis = corpBAnalysisDto;
+                break;
+            }
+        }
+        List<HashMap> analysisResult = new ArrayList<>();
+
+        // 같은 것 끼리 묶기
+        try {
+            for (AnalysisResultDto corpAResultDto : corpAAnalysis.getAnalysisResult()) {
+                for (AnalysisResultDto corpBResultDto : corpBAnalysis.getAnalysisResult()) {
+                    if (corpAResultDto.getName().equals(corpBResultDto.getName())) {
+                        analysisResult.add(new HashMap(Map.of(
+                                "name", corpAResultDto.getName(),
+                                corpAVariableDto.getVariableName(),corpAResultDto.getValue(),
+                                corpBVariableDto.getVariableName(),corpBResultDto.getValue()
+                        )));
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {}
+
+        return new ComparisonResultDto().builder()
+                .analysis_name(analysisInfoDocument.getData().get("analysis_name"))
+                .analysis_method(analysisInfoDocument.getData().get("analysis_id"))
+                .exist_all((corpAAnalysis.getIsExistAll().equals(true) && corpBAnalysis.getIsExistAll().equals(true)) ? true : false)
+                .result(analysisResult)
+                .analysisInfo(analysisInfoDocument.getData())
+                .build();
+    }
+
+
+    @Override
+    public void updateAnalysisCorp(String variableId) {
+        if (variableId.length() == 1) {
+            IndutyDetail indutyDetail = indutyDetailRepository.findByIndutyCode(variableId);
+            if (indutyDetail == null) {
+                throw new CustomException(ErrorCode.CORP_NOT_FOUND);
+            }
+            analysisVariable = new AnalysisVariable(indutyDetail);
+        }
+        else {
+            CorpDetail corpDetail = corpDetailRepository.findByCorpDetailId(variableId);
+            if (corpDetail == null) {
+                throw new CustomException(ErrorCode.CORP_NOT_FOUND);
+            }
+            analysisVariable = new AnalysisVariable(corpDetail);
+        }
+
+        VariableDto variableDto = doAnalysis.DoAnalysis(analysisVariable);
+
+        // MongoDB에 저장하기
+        try {
+            AnalysisDocument analysisDocument = mapper.map(variableDto, AnalysisDocument.class);
+            mongoTemplate.save(analysisDocument);
+            log.info("분석 저장완료 : " + analysisVariable.variableName);
+        } catch (Exception e) {
+            log.info("분석 저장실패 : " + analysisVariable.variableName);
+        }
+    }
+
+    @Override
+    public void updateAnalysisAllCorp() {
+        deleteAnalysisAllCorp();
+        log.info("기존 기업 분석 데이터 삭제 완료!");
+
+        List<String> corpIds = corpRepository.findAllCorpIds();
+        for (String corpId : corpIds) {
+            updateAnalysisCorp(corpId);
+        }
+        log.info("모든 기업 분석 완료!");
+
+        List<String> indutyCodes = indutyDetailRepository.findAllIndutyCodes();
+        for (String indutycode : indutyCodes) {
+            updateAnalysisCorp(indutycode);
+        }
+        log.info("모든 산업 분석 완료!");
+
+        // entity 저장
+        for (String corpId : corpIds) {
+            for (String analysisId : new ArrayList<>(List.of(
+                    "101", "103", "104", "109", "110", "111", "113"
+            ))) {
+                getCorpAnalysis(analysisId, corpId, 1);
+            }
+        }
+        log.info("모든 기업 분석 완료!");
+    }
+
+    @Override
     public Boolean deleteAnalysisAllCorp() {
         try {
             mongoTemplate.remove(new Query(), AnalysisDocument.class);
@@ -221,16 +310,46 @@ public class AnalysisServiceImpl implements AnalysisService{
 
         }
         log.info("모든 기업분석 저장완료!");
+    }
 
-        return ;
+    private int updateAnalysisGpt(Corp corp) {
+        if (analysisGptRepository.findByCorpId(corp.getCorpId()).isPresent()) {log.info("이미 존재 하므로 넘깁니다. " +corp.getCorpName()); return 0;}
+
+        GptDataDto gptDataDto = analysisGpt.reqGpt(corp.getCorpName());
+
+        // MongoDB에 저장하기
+        try {
+            AnalysisGptDocument analysisGptDocument = new AnalysisGptDocument();
+            analysisGptDocument.setCorpId(corp.getCorpId());
+            analysisGptDocument.setCorpName(corp.getCorpName());
+            analysisGptDocument.setContent(gptDataDto.getContent());
+            mongoTemplate.save(analysisGptDocument);
+            log.info("GPT 업데이트 완료 : "+corp.getCorpName());
+            return gptDataDto.getUsedTokenNum();
+        } catch (Exception e) {
+            log.info("GPT 업데이트 실패 : " + corp.getCorpName());
+            return 0;
+        }
     }
 
     @Override
-    public void updateAnalysisGpt(String corpId) {
-        System.out.println("GPT 요청 들어옴");
-        AnalysisGpt analysisGpt = new AnalysisGpt();
-        analysisGpt.reqGpt(corpId);
+    public void updateAnalysisGptAll(int size) {
+
+        Pageable pageSetting = PageRequest.of(size, 100);
+        Page<Corp> corps = corpRepository.findAllByOrderByCorpId(pageSetting);
+        if (corps == null){throw new CustomException(ErrorCode.CORP_NOT_FOUND);}
+
+        int usage = 0;
+
+        for(Corp corp : corps){
+            System.out.println(corp.getCorpName());
+            int value = updateAnalysisGpt(corp);
+            usage += value;
+            log.info("현 사용량 : " + value + " / 누적사용량 : " + usage + " / 회사명 : " + corp.getCorpName());
+        }
+        log.info("총 사용량 : " + usage + " / 총 금액" + usage/1000 * 0.0002);
     }
+
 
     private String rate(String analysisId, AnalysisResultDto corpVariable, AnalysisResultDto indutyVariable) {
         switch (analysisId) {

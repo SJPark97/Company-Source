@@ -29,6 +29,7 @@ public class TestController {
     private final ModelMapper modelMapper;
     @Value("${jasypt.encryptor.password}")
     private String PASSWORD;
+
     @GetMapping("")
     public void test(HttpServletRequest request, HttpServletResponse response) {
         if (request.getCookies() != null) {

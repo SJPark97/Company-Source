@@ -6,21 +6,24 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface CommunityService {
   void createCommunity(String communityType, Long userId, CreateCommunityRequest createCommunityRequest) throws Exception;
 
   List<ReadAllCommunityResponse> searchCommunity(String communityType , String content , String  type , Pageable pageable );
 
-  ReadCommunityDetailResponse readCommunityDetail(String communityType,Long communityId);
-  void deleteCommunity(Long communityId);
+  ReadCommunityDetailResponse readCommunityDetail(Long userId ,String communityType,Long communityId);
+  void deleteCommunity(Long userId , Long communityId);
 
-  List<ReadAllCommunityResponse> readAllCommunity(Pageable pageable);
+  PagingCommunityResponse readAllCommunity(String type , String sort , Pageable pageable);
 
-  UpdateCommunityResponse updateCommunity(UpdateCommunityRequest updateCommunityRequest);
+  UpdateCommunityResponse updateCommunity(Long userId ,UpdateCommunityRequest updateCommunityRequest);
 
-  ReadRandingCommunityResponse readRandingCommunity();
+  ReadRandingCommunityResponse readRandingCommunity(int standard ,Pageable pageable);
 
   void updateViewCommunity();
   void schedule();
+  int getTotalPage();
+
 }

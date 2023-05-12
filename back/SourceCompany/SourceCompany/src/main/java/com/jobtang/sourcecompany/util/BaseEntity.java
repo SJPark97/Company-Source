@@ -34,4 +34,5 @@ public  class BaseEntity {
   public void deleteEntity(){
     this.isActive=false;
   }
+  public void reCreateEntity(){this.isActive=true;}
 }

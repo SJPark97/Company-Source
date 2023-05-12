@@ -14,7 +14,7 @@ public interface CorpRepository extends JpaRepository<Corp, String> {
     Corp findByCorpId(String corpId);
     @Query("SELECT corp.corpId FROM Corp corp")
     List<String> findAllCorpIds();
-
+    Page<Corp> findAllByOrderByCorpId(Pageable pageable);
     Page<Corp> findAllByOrderByYesterdayViewDesc(Pageable pageable);
 
 }

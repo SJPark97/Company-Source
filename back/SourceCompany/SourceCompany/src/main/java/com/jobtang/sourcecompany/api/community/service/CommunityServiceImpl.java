@@ -1,11 +1,15 @@
 package com.jobtang.sourcecompany.api.community.service;
 
+import com.jobtang.sourcecompany.api.comment.dto.ReadCommentResponse;
+import com.jobtang.sourcecompany.api.comment.repository.CommentRepository;
 import com.jobtang.sourcecompany.api.community.dto.*;
 import com.jobtang.sourcecompany.api.community.entity.Community;
 import com.jobtang.sourcecompany.api.community.repository.CommunityRepository;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.exception.CustomException;
 import com.jobtang.sourcecompany.api.exception.ErrorCode;
+import com.jobtang.sourcecompany.api.likes.entity.Likes;
+import com.jobtang.sourcecompany.api.likes.repository.LikesRepository;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import com.jobtang.sourcecompany.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +24,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,12 +36,13 @@ public class CommunityServiceImpl implements CommunityService {
 
   private final RedisTemplate<String, Integer> integerRedisTemplate;
   private final CommunityRepository communityRepository;
+  private final LikesRepository likesRepository;
+  private final CommentRepository commentRepository;
   private final ModelMapper mapper;
 
   /**
    * 커뮤니티를 생성하는 메소드
    *
-   * @param user
    * @param createCommunityRequest
    */
   @Override
@@ -57,6 +61,7 @@ public class CommunityServiceImpl implements CommunityService {
             .title(createCommunityRequest.getTitle())
             .user(user)
             .yesterdayView(0)
+            .likesCnt(0)
             .totalView(0)
             .build();
     communityRepository.save(community);
@@ -99,14 +104,13 @@ public class CommunityServiceImpl implements CommunityService {
 
 
   @Override
-  public ReadCommunityDetailResponse readCommunityDetail(String communityType, Long communityId) {
+  public ReadCommunityDetailResponse readCommunityDetail(Long userId, String communityType, Long communityId) {
 
     // 게시판이 있는 지 확인 없다면 에러 던지기 있다면 가져오고 ,
     Community community = communityRepository.findById(communityId).orElseThrow(() -> new CustomException(ErrorCode.COMM_EXISTS));
     if (community.isActive() == false) {
       throw new CustomException(ErrorCode.COMM_DELETED);
     }
-    System.out.println(community.getCommunityType());
     if (!community.getCommunityType().equals(communityType)) {
       throw new CustomException(ErrorCode.COMM_WRONG_TYPE);
     }
@@ -124,32 +128,54 @@ public class CommunityServiceImpl implements CommunityService {
     int viewcnt = integerRedisTemplate.opsForValue().get(key);
 
 
+    
     // 레디스의 조회수와 해당 게시판의 토탈 조회수를 더한 값을 조회수로 기록
     viewcnt += community.getTotalView() + community.getYesterdayView();
     // 해당 커뮤니티의 댓글들을 List<DTO> 로 바꾸는 부분
-
+    List<ReadCommentResponse> readCommentResponses = commentRepository.findAllByCommunityIdAndIsActiveTrueOrderByCommentGroupAscCreatedDateAsc(communityId).stream().map(comment -> ReadCommentResponse.EntityDTO(comment) ).collect(Collectors.toList());
     // 마지막에 ReadCommunityResponse 로 바꾸는 부분
-    return ReadCommunityDetailResponse.EntityToDTO(community, viewcnt);
+
+    // 현재 유저가 게스트인지 로그인된 유저인지에 따라 분기
+    if(userId !=0  )  {
+      //로그인 한 유저라면 현재 게시물에 좋아요한 기록이있는 지 찾아서
+      Optional<Likes> likes=  likesRepository.findByUserIdAndCommunityId(userId ,communityId);
+      // 있고 , 삭제된것도 아니라면
+      if(likes.isPresent() && likes.get().isActive()==true){
+        return ReadCommunityDetailResponse.EntityToDTO(community, viewcnt,true,readCommentResponses);
+      }
+      else{
+        // 로그인은 했지만 , 게시물에 좋아요는 안했다면
+        return ReadCommunityDetailResponse.EntityToDTO(community, viewcnt,false,readCommentResponses);
+      }
+    }
+    else{
+      // 로그인안한 유저라면
+      return ReadCommunityDetailResponse.EntityToDTO(community, viewcnt,false,readCommentResponses);
+    }
   }
 
 
   @Override
   @Transactional
-  public void deleteCommunity(Long communityId) {
+  public void deleteCommunity(Long userId , Long communityId) {
     Community community = communityRepository.findById(communityId).orElseThrow(() -> new CustomException(ErrorCode.COMM_EXISTS));
     // 이미 삭제된 게시글이였던 경우
     if (community.isActive() == false) {
       throw new CustomException(ErrorCode.COMM_DELETED);
     }
+    // 만약 로그인한 유저와 삭제할 게시판의 작성자가 서로 다를 경우
+    if(community.getUser().getId() != userId){
+      throw new CustomException(ErrorCode.COMM_NOT_WRITER);
+    }
     community.deleteEntity();
   }
 
   @Override
-  public List<ReadAllCommunityResponse> readAllCommunity(Pageable pageable) {
+  public PagingCommunityResponse readAllCommunity(String type , String sort , Pageable pageable) {
     // 인자로 받은 Pageable 객체의 정보를 토대로 DB에서 Community값들 가져오기
-    Page<Community> communities = communityRepository.findAllByIsActiveAndCommunityType(true, "기업", pageable);
-    // 받아온 정보에 redis의 조회수를 더하는 코드
-    return communities.stream()
+    // 크리에이티드  시간 순으로 정렬
+    Page<Community> communities = communityRepository.findAllByIsActiveAndCommunityType(true, type, pageable);
+    List<ReadAllCommunityResponse> readAllCommunityResponses = communities.stream()
             .map(community -> {
               // 레디스에 저장된 해당 커뮤니티의 key값
               String key = "viewComm" + community.getId();
@@ -161,14 +187,23 @@ public class CommunityServiceImpl implements CommunityService {
               return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
             })
             .collect(Collectors.toList());
+    int pageTotal = communities.getTotalPages();
+
+    // 받아온 정보에 redis의 조회수를 더하는 코드
+    return new PagingCommunityResponse(pageTotal , readAllCommunityResponses);
 
   }
 
   @Override
   @Transactional
-  public UpdateCommunityResponse updateCommunity(UpdateCommunityRequest updateCommunityRequest) {
+  public UpdateCommunityResponse updateCommunity(Long userId ,UpdateCommunityRequest updateCommunityRequest) {
     Community community = communityRepository
             .findById(updateCommunityRequest.getId()).orElseThrow(() -> new CustomException(ErrorCode.COMM_EXISTS));
+    // 작성한 유저와 , 로그인한 유저가 다를 경우 에러 출력
+    if(community.getUser().getId() != userId){
+      throw new CustomException(ErrorCode.COMM_NOT_WRITER);
+    }
+
     community.setContent(updateCommunityRequest.getContent());
     community.setTitle(updateCommunityRequest.getTitle());
     return UpdateCommunityResponse.builder()
@@ -179,9 +214,10 @@ public class CommunityServiceImpl implements CommunityService {
   }
 
   @Override
-  public ReadRandingCommunityResponse readRandingCommunity() {
+  public ReadRandingCommunityResponse readRandingCommunity(int standard ,Pageable pageable) {
     // corpHot
-    List<ReadAllCommunityResponse> corpHot = communityRepository.findTop5ByCommunityTypeAndIsActiveTrueOrderByYesterdayViewDesc("기업")
+    List<ReadAllCommunityResponse> corpHot = communityRepository.findByCommunityTypeAndLikesCntGreaterThanEqualOrderByCreatedDateDesc("기업",standard ,pageable)
+//    List<ReadAllCommunityResponse> corpHot = communityRepository.findTopNByCommunityTypeAndLikesCntGreaterThanEqualOrderByCreatedDateDesc(pageCnt,"기업",standard);
             .stream().map(community -> {
               String key = "viewComm" + community.getId();
               int redisViewCnt = 0;
@@ -192,7 +228,8 @@ public class CommunityServiceImpl implements CommunityService {
               return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
             }).collect(Collectors.toList());
     // freeHot
-    List<ReadAllCommunityResponse> freeHot = communityRepository.findTop5ByCommunityTypeAndIsActiveTrueOrderByYesterdayViewDesc("자유")
+    List<ReadAllCommunityResponse> freeHot = communityRepository.findByCommunityTypeAndLikesCntGreaterThanEqualOrderByCreatedDateDesc("자유",standard ,pageable)
+//    List<ReadAllCommunityResponse> freeHot = communityRepository.findTopNByCommunityTypeAndLikesCntGreaterThanEqualOrderByCreatedDateDesc(pageCnt,"자유",standard)
             .stream().map(community -> {
               String key = "viewComm" + community.getId();
               int redisViewCnt = 0;
@@ -202,29 +239,8 @@ public class CommunityServiceImpl implements CommunityService {
               }
               return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
             }).collect(Collectors.toList());
-    // corpRecent
-    List<ReadAllCommunityResponse> corpRecent = communityRepository.findTop5ByCommunityTypeAndIsActiveTrueOrderByCreatedDateDesc("기업")
-            .stream().map(community -> {
-              String key = "viewComm" + community.getId();
-              int redisViewCnt = 0;
-              ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
-              if (valueOperations.get(key) != null) {
-                redisViewCnt = valueOperations.get(key);
-              }
-              return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
-            }).collect(Collectors.toList());
-    // freeRecent
-    List<ReadAllCommunityResponse> freeRecent = communityRepository.findTop5ByCommunityTypeAndIsActiveTrueOrderByCreatedDateDesc("자유")
-            .stream().map(community -> {
-              String key = "viewComm" + community.getId();
-              int redisViewCnt = 0;
-              ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
-              if (valueOperations.get(key) != null) {
-                redisViewCnt = valueOperations.get(key);
-              }
-              return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
-            }).collect(Collectors.toList());
-    return new ReadRandingCommunityResponse(corpHot, freeHot, corpRecent, freeRecent);
+
+    return new ReadRandingCommunityResponse(corpHot, freeHot);
   }
 
   @Override
@@ -254,6 +270,13 @@ public class CommunityServiceImpl implements CommunityService {
     log.info("스케쥴링 : 커뮤니티 업데이트 시작!");
     updateViewCommunity();
     log.info("스케쥴링 : 커뮤니티 업데이트 완료!");
+  }
+
+  @Override
+  public int getTotalPage() {
+    List<Community> communities = communityRepository.findAll();
+
+    return 0;
   }
 
 //  Long getCommunityTotalView(Community community) {
