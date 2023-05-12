@@ -1,10 +1,11 @@
 import NavBar from "@/components/NavBar";
 import QuickMenu from "@/components/QuickMenu";
 import BoardSearchBar from "@/components/community/BoardSearchBar";
-import FreePost from "@/components/community/FreePost";
-import CorpPost from "@/components/community/CorpPost";
+import CommunityFreePost from "@/components/community/CommunityFreePost";
+import CommunityCorpPost from "@/components/community/CommunityCorpPost";
 import Image from "next/image";
 import Link from "next/link";
+import { SERVER_URL } from "@/utils/url";
 
 export default function Community() {
   return (
@@ -38,7 +39,7 @@ export default function Community() {
         <div className="flex flex-col w-[45%]">
           <div className="flex justify-between mb-10">
             <div className="font-bold">기업 게시판</div>
-            <Link href="/community/hotboard">
+            <Link href="/community/corpboard">
               <div className="flex items-center">
                 <div className="text-[#AAAAAA] mr-10">더보기</div>
                 <Image
@@ -52,14 +53,14 @@ export default function Community() {
             </Link>
           </div>
           <div className="border-t-3 border-b-3 border-black">
-            <CorpPost />
-            <CorpPost />
-            <CorpPost />
-            <CorpPost />
-            <CorpPost />
-            <CorpPost />
-            <CorpPost />
-            <CorpPost />
+            <CommunityCorpPost />
+            <CommunityCorpPost />
+            <CommunityCorpPost />
+            <CommunityCorpPost />
+            <CommunityCorpPost />
+            <CommunityCorpPost />
+            <CommunityCorpPost />
+            <CommunityCorpPost />
           </div>
         </div>
 
@@ -81,17 +82,27 @@ export default function Community() {
           </div>
 
           <div className="border-t-3 border-b-3 border-black">
-            <FreePost />
-            <FreePost />
-            <FreePost />
-            <FreePost />
-            <FreePost />
-            <FreePost />
-            <FreePost />
-            <FreePost />
+            <CommunityFreePost />
+            <CommunityFreePost />
+            <CommunityFreePost />
+            <CommunityFreePost />
+            <CommunityFreePost />
+            <CommunityFreePost />
+            <CommunityFreePost />
+            <CommunityFreePost />
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+// export async function getServerSideProps(context: any) {
+//   const { data } = await axios.get(SERVER_URL + '/community/corp', {
+//     params: {
+//       page: 0,
+//       size: 10,
+//       sort: "all",
+//     }
+//   })
+// }
