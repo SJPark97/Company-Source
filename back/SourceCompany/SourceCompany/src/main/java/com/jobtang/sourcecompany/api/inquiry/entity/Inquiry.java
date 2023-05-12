@@ -39,6 +39,7 @@ public class Inquiry extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
+  @JsonIgnore
   private User user;
 
   @JsonIgnore

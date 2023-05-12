@@ -5,6 +5,8 @@ import com.jobtang.sourcecompany.api.exception.ErrorCode;
 import com.jobtang.sourcecompany.api.inquiry.dto.*;
 import com.jobtang.sourcecompany.api.inquiry.entity.Inquiry;
 import com.jobtang.sourcecompany.api.inquiry.repository.InquiryRepository;
+import com.jobtang.sourcecompany.api.inquiry_comment.dto.GetInquiryCommentResponse;
+import com.jobtang.sourcecompany.api.inquiry_comment.entity.InquiryComment;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import com.jobtang.sourcecompany.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,11 +43,17 @@ public class InquiryServiceImpl implements InquiryService {
     public GetInquiryResponse getInquiry(Long userId, Long inquiryId) {
         Inquiry inquiry = inquiryRepository.findByIdAndIsActiveTrue(inquiryId)
                 .orElseThrow(() -> new CustomException(ErrorCode.INQ_EXISTS));
-        User user = userRepository.findById(userId).get();
-        if (userId != inquiry.getUser().getId() && user.getRole() != "ROLE_ADMIN") {
+        List<GetInquiryCommentResponse> getInquiryCommentResponse = new ArrayList<>();
+        for (InquiryComment inquiryComment : inquiry.getInquiryComments()){
+            if (inquiryComment.isActive()) {
+                 getInquiryCommentResponse.add(GetInquiryCommentResponse.EntityToDTO(inquiryComment));
+            }
+        }
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.USER_EXISTS));
+        if (userId != inquiry.getUser().getId() && !user.getRole().equals("ROLE_ADMIN")) {
             throw new CustomException(ErrorCode.INQ_INVALID_USER);
         }
-        return GetInquiryResponse.EntityToDTO(inquiry);
+        return GetInquiryResponse.EntityToDTO(inquiry, getInquiryCommentResponse);
     }
 
     @Override
@@ -53,7 +62,7 @@ public class InquiryServiceImpl implements InquiryService {
         return inquiries.stream()
                 .map(inquiry -> {
                     String tmp;
-                    User user = userRepository.findById(inquiry.getUser().getId()).get();
+                    User user = userRepository.findById(inquiry.getUser().getId()).orElseThrow(() -> new CustomException(ErrorCode.USER_EXISTS));
                     if (inquiry.isLock() == true) {
                         tmp = "비밀글입니다.";
                     }
@@ -77,7 +86,7 @@ public class InquiryServiceImpl implements InquiryService {
         return inquiries.stream()
                 .map(inquiry -> {
                     String tmp;
-                    User user = userRepository.findById(inquiry.getUser().getId()).get();
+                    User user = userRepository.findById(inquiry.getUser().getId()).orElseThrow(() -> new CustomException(ErrorCode.USER_EXISTS));
                     if (inquiry.isLock() == true && user.getId() != userId && user.getRole() != "ROLE_ADMIN") {
                         tmp = "비밀글입니다.";
                     }
@@ -97,7 +106,7 @@ public class InquiryServiceImpl implements InquiryService {
 
     @Override
     public void createInquiry(Long userId, CreateInquiryRequest createInquiryRequest) {
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.USER_EXISTS));
         Inquiry inquiry = Inquiry.builder()
                 .title(createInquiryRequest.getTitle())
                 .content(createInquiryRequest.getContent())
