@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 
 @Builder
+@Getter
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class GetAllInquiryResponse {

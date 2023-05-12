@@ -71,6 +71,7 @@ public class InquiryController {
     }
 
     @PostMapping("")
+    @Transactional
     public ResponseEntity<?> createInquiry(@RequestBody CreateInquiryRequest createInquiryRequest,
                                            @RequestHeader("Authorization") String authHeader) {
         HashMap<String, Object> result = new HashMap<>();
@@ -81,6 +82,7 @@ public class InquiryController {
     }
 
     @PutMapping("")
+    @Transactional
     public ResponseEntity<? >updateInquiry(@RequestBody UpdateInquiryRequest updateInquiryRequest,
                                            @RequestHeader("Authorization") String authHeader) {
         HashMap<String, Object> result = new HashMap<>();
@@ -90,6 +92,7 @@ public class InquiryController {
     }
 
     @DeleteMapping("/{inquiryId}")
+    @Transactional
     public ResponseEntity<? >deleteInquiry(@PathVariable Long inquiryId,
                                             @RequestHeader("Authorization") String authHeader) {
         Long userId = jwtService.userPkByToken(authHeader);
