@@ -31,6 +31,14 @@ public class AnalysisController {
     }
 
     @ApiOperation(
+            value = "기업 비교 결과 조회",
+            notes = "기업간 분석 결과 조회")
+    @GetMapping("/comparison/{corpIdA}/{corpIdB}")
+    public ResponseEntity getComparison(@PathVariable String corpIdA, @PathVariable String corpIdB) {
+        return responseHandler.response(analysisService.getCorpComparison(corpIdA, corpIdB));
+    }
+
+    @ApiOperation(
             value = "ChatGpt 분석 결과 조회",
             notes = "ChatGpt 분석 결과 조회")
     @GetMapping("/gpt/{corpId}")
