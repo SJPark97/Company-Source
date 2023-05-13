@@ -60,9 +60,9 @@ public class CommentServiceImpl implements CommentService {
     Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CustomException(ErrorCode.COMM_COMMENT_EXISTS));
 
     //부모 댓글인 경우
-    if(comment.getParent()==0){
+    if(comment.getParent()==1){
       // 자식이 있으면
-      if(commentRepository.findByCommentGroup(comment.getCommentGroup()).size()>1){
+      if(commentRepository.findByCommentGroupAndIsActiveTrue(comment.getCommentGroup()).size()>1){
         comment.setContent("삭제된 댓글 입니다.");
       }
       //자식이 없으면
@@ -75,13 +75,15 @@ public class CommentServiceImpl implements CommentService {
       // 부모도 없고 , 혼자남은 자식이였다면
       if(
               // 현재 그룹의 부모가 삭제된 상태인지 확인
-              commentRepository.findByCommentGroupAndCommunityIdAndParentAndIsActiveFalse(comment.getCommentGroup(),comment.getCommunity().getId(), 1).isPresent() &&
+              commentRepository.findByCommentGroupAndParentAndContentAndIsActiveTrue(comment.getCommentGroup(),1L, "삭제된 댓글 입니다.").isPresent() &&
                       // 현재 그룹의 자식들 중 삭제된 값이 하나밖에 없는지 확인
-                      commentRepository.findByCommentGroupAndIsActiveTrueAndCommunityIdAndParent(comment.getCommentGroup(),comment.getCommunity().getId(), 0).size()==1&&
+                      commentRepository.findByCommentGroupAndIsActiveTrueAndCommunityIdAndParent(comment.getCommentGroup(),comment.getCommunity().getId(), 0L).size()==1&&
                       // 그 자식이 현재 comment 인지 확인
-                      commentRepository.findByCommentGroupAndIsActiveTrueAndCommunityIdAndParent(comment.getCommentGroup(),comment.getCommunity().getId(),0).get(0).getId() == comment.getId()
+                      commentRepository.findByIdAndIsActiveTrue(comment.getId()).isPresent()
       ){
-
+        //모두 충족한다면 ,부모댓글과 자식댓글 모두 삭제
+        commentRepository.findById(comment.getCommentGroup()).get().deleteEntity();
+        comment.deleteEntity();
       }
       else{
         comment.deleteEntity();
