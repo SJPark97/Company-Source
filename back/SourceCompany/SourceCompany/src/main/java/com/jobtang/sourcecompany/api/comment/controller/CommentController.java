@@ -20,6 +20,8 @@ import java.util.HashMap;
 
 @Slf4j
 @RestController
+@CrossOrigin(originPatterns = "http://k8b107.p.ssafy.io")
+//@CrossOrigin(originPatterns = "http://comapny-source.com")
 @RequestMapping("/api/v1/comment")
 @RequiredArgsConstructor
 @Api("댓글 API")
