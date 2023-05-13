@@ -68,7 +68,7 @@ public class CommentController {
   public ResponseEntity<?> updateComment(@RequestBody UpdateCommentRequest updateCommentRequest) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    //    result.put("data", communityService.updateCommunity(updateCommunityRequest));
+        result.put("data", commentService.updateComment(updateCommentRequest));
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 
