@@ -53,8 +53,9 @@ public class LikesServiceImpl implements LikesService {
 
   @Override
   @Transactional
-  public void deleteLikes(Long likesId) {
-    Likes likes = likesRepository.findByIdAndIsActiveTrue(likesId).orElseThrow(() -> new CustomException(ErrorCode.LIKES_EXISTS));
+  public void deleteLikes(Long userId , Long communityId) {
+    // 로그인한 유저와  , 게시글 아이디로 좋아요를 찾는다.
+    Likes likes = likesRepository.findByUserIdAndCommunityIdAndIsActiveTrue(userId , communityId).orElseThrow(() -> new CustomException(ErrorCode.LIKES_EXISTS));
     // community 의 likeCount 를 줄인다.
     likes.getCommunity().minusLikeCnt();
     likes.deleteEntity();
