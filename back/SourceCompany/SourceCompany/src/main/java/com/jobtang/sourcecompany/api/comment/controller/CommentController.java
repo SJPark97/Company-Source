@@ -20,6 +20,8 @@ import java.util.HashMap;
 
 @Slf4j
 @RestController
+@CrossOrigin(originPatterns = "http://k8b107.p.ssafy.io")
+//@CrossOrigin(originPatterns = "http://comapny-source.com")
 @RequestMapping("/api/v1/comment")
 @RequiredArgsConstructor
 @Api("댓글 API")
@@ -68,7 +70,7 @@ public class CommentController {
   public ResponseEntity<?> updateComment(@RequestBody UpdateCommentRequest updateCommentRequest) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    //    result.put("data", communityService.updateCommunity(updateCommunityRequest));
+        result.put("data", commentService.updateComment(updateCommentRequest));
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 

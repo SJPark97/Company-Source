@@ -13,14 +13,15 @@ public class CreateCommentRequest {
   private String content;
 
   // 달린 communityId를 따라간다.
-  @ApiModelProperty(value = "댓글이 달릴 게시글의 아이디", example = "24",notes = "게시글의 CommunityId")
+  @ApiModelProperty(value = "댓글이 달릴 게시글의 아이디 (게시글의 CommunityId)", example = "24",notes = "")
   private Long communityId;
 
-  @ApiModelProperty(value="댓글의 그룹", example = "1",notes = "그룹은 댓글과 대댓글을 묶는 개념.\n 댓글의 경우 0 , 대댓글의 경우 댓글의 commentGroup 입력 ")
+  @ApiModelProperty(value="그룹은 댓글과 대댓글을 묶는 개념.\n 댓글의 경우 0 , 대댓글의 경우 댓글의 commentGroup 입력 ", example = "1")
   // commentId 값을 따라간다.
   private Long commentGroup;
 
-  @ApiModelProperty(value = "댓글, 대댓글 구분", example = "0" , notes = "댓글인 경우 0 , 대댓글인 경우 1")
+  @ApiModelProperty(value = "댓글인 경우 0 , 대댓글인 경우 1", example = "0" , allowableValues = "0,1")
+
   // 부모는 1 자식은 0
   private Long parent;
 
