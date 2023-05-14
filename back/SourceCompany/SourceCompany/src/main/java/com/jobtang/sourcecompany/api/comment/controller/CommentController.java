@@ -69,10 +69,11 @@ public class CommentController {
           notes = "댓글 내용을 수정하는 API"
   )
   @PutMapping
-  public ResponseEntity<?> updateComment(@RequestBody UpdateCommentRequest updateCommentRequest) {
+  public ResponseEntity<?> updateComment(@RequestHeader("Authorization") String token ,@RequestBody UpdateCommentRequest updateCommentRequest) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-        result.put("data", commentService.updateComment(updateCommentRequest));
+    Long userId= jwtService.userPkByToken(token);
+        result.put("data", commentService.updateComment(userId ,updateCommentRequest));
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 
