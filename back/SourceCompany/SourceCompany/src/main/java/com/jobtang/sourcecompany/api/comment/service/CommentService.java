@@ -10,6 +10,6 @@ public interface CommentService {
 
   void deleteComment(Long userId ,Long commentId);
 
-  UpdateCommentResponse updateComment(UpdateCommentRequest updateCommentRequest);
+  UpdateCommentResponse updateComment(Long userId ,UpdateCommentRequest updateCommentRequest);
 
 }
