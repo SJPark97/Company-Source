@@ -74,22 +74,26 @@ export default function CorpBoardRecommend({ data }: { data: any }) {
         <div className="flex flex-col">
           {data.data &&
             data.data.map((post: any) => (
-              <div
-                className="flex py-10"
-                key={"corpboardrecommend" + `${post.communityId}`}
-              >
-                <div className="text-center w-70">{post.communityId}</div>
-                <div className="w-[550px] line-clamp-1">
-                  {`${post.title}` + "  "}
-                  <span className="text-brand font-bold">
-                    [{post.commentCount}]
-                  </span>
+              <Link href={"/community/corpboard/detail/" + `${post.communityId}`}>
+                <div
+                  className="flex py-10"
+                  key={"corpboardrecommend" + `${post.communityId}`}
+                >
+                  <div className="text-center w-70">{post.communityId}</div>
+                  <div className="flex w-[550px]">
+                    <div className="line-clamp-1 mr-10">
+                      {`${post.title}` + "  "}
+                    </div>
+                    <div className="text-brand font-bold">
+                      [{post.commentCount}]
+                    </div>
+                  </div>
+                  <div className="text-center w-[200px]">{post.userName}</div>
+                  <div className="text-center w-100">{post.likesCount}</div>
+                  <div className="text-center w-100">{post.viewCount}</div>
+                  <div className="text-center w-[180px]">{post.date}</div>
                 </div>
-                <div className="text-center w-[200px]">{post.userName}</div>
-                <div className="text-center w-100">{post.likesCount}</div>
-                <div className="text-center w-100">{post.viewCount}</div>
-                <div className="text-center w-[180px]">{post.date}</div>
-              </div>
+              </Link>
             ))}
         </div>
       </div>
@@ -111,12 +115,11 @@ export default function CorpBoardRecommend({ data }: { data: any }) {
             <div
               className={
                 "mx-20 " +
-                `${
-                  router.query.corpboard &&
+                `${router.query.corpboard &&
                   typeof router.query.corpboard === "string" &&
                   parseInt(router.query.corpboard) === page
-                    ? "font-bold text-24"
-                    : null
+                  ? "font-bold text-24"
+                  : null
                 }`
               }
             >
