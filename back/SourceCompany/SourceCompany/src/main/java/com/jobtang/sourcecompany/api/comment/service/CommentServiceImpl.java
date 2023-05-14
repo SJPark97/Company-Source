@@ -97,8 +97,11 @@ public class CommentServiceImpl implements CommentService {
 
   @Override
   @Transactional
-  public UpdateCommentResponse updateComment(UpdateCommentRequest updateCommentRequest) {
+  public UpdateCommentResponse updateComment(Long userId ,UpdateCommentRequest updateCommentRequest) {
     Comment comment = commentRepository.findById(updateCommentRequest.getCommentId()).orElseThrow(() -> new CustomException(ErrorCode.COMM_COMMENT_EXISTS));
+    if(userId != comment.getUser().getId()){
+      throw new CustomException(ErrorCode.COMM_NOT_WRITER);
+    }
     comment.setContent(updateCommentRequest.getContent());
     return UpdateCommentResponse.builder()
             .commentId(comment.getId())
