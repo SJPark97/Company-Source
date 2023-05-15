@@ -17,4 +17,6 @@ public interface CorpRepository extends JpaRepository<Corp, String> {
     Page<Corp> findAllByOrderByCorpId(Pageable pageable);
     Page<Corp> findAllByOrderByYesterdayViewDesc(Pageable pageable);
 
+    // 산업별 정렬
+    Page<Corp> findAllByIndutyCode(Pageable pageable, String indutyCode);
 }
