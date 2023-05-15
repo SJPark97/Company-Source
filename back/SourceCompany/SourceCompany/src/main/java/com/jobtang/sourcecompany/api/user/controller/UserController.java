@@ -11,8 +11,6 @@ import com.jobtang.sourcecompany.api.user.service.UserService;
 import com.jobtang.sourcecompany.config.JwtTokenProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -46,7 +44,6 @@ public class UserController {
         HashMap<String,Object> result = new HashMap<>();
 
         Optional<User> user = userRepository.findByEmail(request.getEmail());
-//                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
         if (user.isPresent()) {
             User currentUser = user.get();
             if (!currentUser.isActive()) {
@@ -64,13 +61,6 @@ public class UserController {
         } else {
             throw new CustomException("Not Sign Email", ErrorCode.USER_NOT_FOUND);
         }
-
-//        if (request.getPassword == user.get().getPassword()) {
-//
-//        }
-//        result.put("message", "가입되지 않은 E-MAIL 입니다.");
-//        result.put("status", "400");
-//        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
 
 
@@ -84,6 +74,7 @@ public class UserController {
     public ResponseEntity<?> signupUser(@RequestBody @Valid SignupRequestDto request, Errors errors) {
         HashMap<String,Object> result = new HashMap<>();
 
+        // 회원 가입 중복 재검증
         boolean isEmailDuplicate = userService.validateDuplicateEmail(request.getEmail());
         if (isEmailDuplicate) {
             errors.rejectValue("email","204","중복된 이메일입니다");
@@ -103,9 +94,6 @@ public class UserController {
         User signUser = userService.signupUser(request);
         if (signUser == null) {
             throw new CustomException("signup failed", ErrorCode.SAVE_FAILED);
-//            result.put("status", "400");
-//            result.put("message", "회원가입 실패");
-//            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
         result.put("data", signUser);
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -119,17 +107,11 @@ public class UserController {
     )
     @GetMapping("/validusername/{email}")
     public ResponseEntity<?> validateDuplicateEmail(@PathVariable String email) {
-//        HashMap<String,Object> result = new HashMap<>();
+        HashMap<String,Object> result = new HashMap<>();
         boolean isEmailDuplicate = userService.validateDuplicateEmail(email);
         if (isEmailDuplicate) {
             throw new CustomException("Duplicated Email", ErrorCode.USER_EXISTS);
-//            result.put("status", "400");
-//            result.put("message", "email 중복");
-//            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-//        result.put("message", "");
-//        result.put("status", "200");
-//        return new ResponseEntity<>(result, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -144,13 +126,7 @@ public class UserController {
         boolean isNicknameDuplicate = userService.validateDuplicateNickname(nickname);
         if (isNicknameDuplicate) {
             throw new CustomException("Duplicated Nickname", ErrorCode.USER_EXISTS);
-//            result.put("status", "400");
-//            result.put("message", "nickname 중복");
-//            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-//        result.put("message", "");
-//        result.put("status", "200");
-//        return new ResponseEntity<>(result, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -73,13 +73,6 @@ public class CorpServiceImpl implements CorpService{
                 .collect(Collectors.toList());
     }
 
-//    public List<CorpSearchListDto> recommendCorp() {
-//        // 기업 코드를 랜덤 1개 뽑기
-//        List<String> indutyCodeList =
-//
-//        // 해당 기업코드를 가진것 랜덤 5개만 뽑기
-//    }
-
     public CorpInfoDto corpInfo(String corpId) {
         // jpa를 사용해서 해당 corpid로 조회
         HashMap<String,Object> result = new HashMap<>();
@@ -117,16 +110,9 @@ public class CorpServiceImpl implements CorpService{
 
         // 모든 기업 가져오기
         List<Corp> corps = corpRepository.findAll();
-//        List<Corp> corps = corpRepository.findByCorpNameContains("삼성");
         // 무작위로 셔플
         Collections.shuffle(corps);
         // 순회하면서 하나의 기업정보 객체를 CorpSearchListDto로 매핑해주고
-        // randcorp_corpId key 형태로 집어넣기
-//        for (Corp corp:corps) {
-//            ValueOperations<String, CorpSearchListDto> vop = redisTemplate.opsForValue();
-//            CorpSearchListDto randCorp = mapper.map(corp, CorpSearchListDto.class);
-//            vop.set("randcorp_"+corp.getCorpId(), randCorp);
-//        }
         // randcorp:1~N key 형태로 집어넣기
         int idx = 0;
         for (Corp corp:corps) {
@@ -141,32 +127,9 @@ public class CorpServiceImpl implements CorpService{
     @Transactional
     public List<CorpSearchListDto> randCorp(int page) {
         List<CorpSearchListDto> corpSearchListDtoList = new ArrayList<>();
-        // 모든 randCorp 기업은 randcorp_corpId 이므로 randcorp_* 형태로 모든 키 가져오기
-        // jpa에 비유하면 findAllRandcorp 같은상태
-//        Set<String> redisKeys = redisTemplate.keys("randcorp_*");
-//        // stream으로
-//        List<String> keys = redisKeys.stream()
-//                .skip((long) (page-1) *6)
-//                .limit(6)
-//                .collect(Collectors.toList());
-////                .map(key-> corpSearchListDtoList.add(redisTemplate.opsForValue().get(key)))
-//        for (String key:keys) {
-//            corpSearchListDtoList.add(redisTemplate.opsForValue().get(key));
-//        }
         for (int i = (page-1)*10; i < page * 10 ; i++) {
             corpSearchListDtoList.add(redisTemplate.opsForValue().get("randcorp:"+i));
         }
-
-
-        // 순회를 위해(hasNext) Iterator로 변경
-//        Iterator<String> it = redisKeys.iterator();
-        // 순회
-//        while (it.hasNext()) {
-//            String data = it.next();
-//            // DtoList에 redisTemplate 값을 가져와서 넣기.
-//            // 이미 redisTemplate에 value를 CorpSearchListDto로 지정
-//            corpSearchListDtoList.add(redisTemplate.opsForValue().get(data));
-//        }
         return corpSearchListDtoList;
     }
 
