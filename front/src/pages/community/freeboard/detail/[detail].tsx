@@ -8,7 +8,7 @@ import { parseCookies } from "nookies";
 import {
   cancelLikeDetailAxios,
   createComment,
-  getCorpBoardDetail,
+  getFreeBoardDetail,
   likeDetailAxios,
 } from "@/utils/commnuity/api";
 import CommentComponent from "@/components/community/CommentComponent";
@@ -24,7 +24,7 @@ interface comment {
   parent: number;
 }
 
-export default function corpBoardDetail({
+export default function freeBoardDetail({
   data,
   accessToken,
 }: {
@@ -36,7 +36,7 @@ export default function corpBoardDetail({
   const currentLocation = router.pathname.split("/")[2];
   const [isLiked, setIsLiked] = useState<boolean>(data.data.liked);
   const [commentList, setCommentList] = useState<Array<comment>>(
-    data.data.comments.filter((comment: comment) => comment.parent === 1)
+    data.data.comments
   );
   const cookies = parseCookies();
   // 나의 글인지 여부
@@ -91,7 +91,7 @@ export default function corpBoardDetail({
     }
     await createComment(accessToken, router.query.detail as string, content);
     setContent("");
-    const res = await getCorpBoardDetail(router.query.detail as string);
+    const res = await getFreeBoardDetail(router.query.detail as string);
     if (res) {
       setCommentList(res.data.data.comments);
     }
@@ -99,7 +99,7 @@ export default function corpBoardDetail({
 
   // 하위 댓글 컴포넌트에서 삭제 및 수정 로직 실행되면 리스트 업데이트 하기 위한 함수
   const reloadComment = async () => {
-    const res = await getCorpBoardDetail(router.query.detail as string);
+    const res = await getFreeBoardDetail(router.query.detail as string);
     if (res) {
       setCommentList(res.data.data.comments);
     }
@@ -116,7 +116,7 @@ export default function corpBoardDetail({
 
   // 나의 글인지 확인
   useEffect(() => {
-    if (cookies.nickName === data.data.userName) {
+    if ((cookies.nickName = data.data.userName)) {
       setIsYourPost(true);
     }
   }, []);
@@ -139,42 +139,15 @@ export default function corpBoardDetail({
           {/* 제목, 작성자, 작성시간 */}
           <div className="flex flex-col border-gray-400 border-b-2 py-15">
             <div className="text-20 font-bold mb-5">{data.data.title}</div>
-            <div className="flex justify-between">
-              <div className="flex">
-                <div>{data.data.userName} | </div>
-                <div className="ml-10">
-                  {data.data.date} {data.data.time}
-                </div>
-              </div>
-
-              <div className="flex">
-                <div className="flex items-center ml-50">
-                  <div className="w-20 h-auto">
-                    <Image
-                      src="/like_after.png"
-                      alt="추천"
-                      width={80}
-                      height={72}
-                    />
-                  </div>
-                  <div className="ml-5">{data.data.likesCount}</div>
-                </div>
-                <div className="flex items-center ml-50">
-                  <div className="w-25 h-auto pt-3">
-                    <Image
-                      src="/view.png"
-                      alt="조회수"
-                      width={88}
-                      height={60}
-                    />
-                  </div>
-                  <div className="ml-5">{data.data.viewCount}</div>
-                </div>
+            <div className="flex">
+              <div>{data.data.userName} | </div>
+              <div className="ml-10">
+                {data.data.date} {data.data.time}
               </div>
             </div>
           </div>
 
-          {/* 게시물 삭제 및 수정 버튼 */}
+          {/* 삭제 및 수정 버튼 */}
           {isYourPost ? (
             <div className="relative pt-20">
               <div className="absolute flex right-0 top-20">
@@ -222,10 +195,11 @@ export default function corpBoardDetail({
             {commentList
               .filter((comment) => comment.parent === 1)
               .map((comment: comment) => (
-                <div key={`${comment.commentId}` + "기업 댓글"}>
+                <div key={`${comment.commentId}` + "자유 댓글"}>
                   <CommentComponent
                     commentInformation={comment}
                     reloadComment={reloadComment}
+                    key={"자유게시판 댓글" + `${comment.commentId}`}
                   />
                 </div>
               ))}
@@ -236,7 +210,7 @@ export default function corpBoardDetail({
             <div className="p-20">댓글 쓰기</div>
             <form>
               <div className="flex px-20">
-                {/* 토큰 있을때와 없을때 폼 분기처리 */}
+                {/* 토큰 있으면 작성폼 */}
                 {accessToken ? (
                   <textarea
                     className="w-[1060px] border-2 border-gray-200 rounded-10 h-80 resize-none p-10 focus:outline-brand"
@@ -276,7 +250,7 @@ export async function getServerSideProps(context: any) {
   const cookies = parseCookies(context);
   const accessToken = cookies.accessToken ?? null;
 
-  const { data } = await axios.get(SERVER_URL + `/community/corp/${detailId}`, {
+  const { data } = await axios.get(SERVER_URL + `/community/free/${detailId}`, {
     headers: {
       Authorization: accessToken,
     },

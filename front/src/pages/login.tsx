@@ -21,10 +21,18 @@ export default function Login() {
 
   const loginHandler = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await loginAxios(id, password);
 
+    if (!id) {
+      setFailMessage(true)
+      return
+    }
+    if (!password) {
+      setFailMessage(true)
+    }
+    const res = await loginAxios(id, password);
+    console.log('here', res)
     // 로그인 성공해서 'data'키가 있으면 쿠키 저장
-    if (res.token) {
+    if (res) {
       const cookies = parseCookies();
       setCookie(null, "accessToken", res.token, {
         maxAge: 60 * 60 * 24,
@@ -36,12 +44,13 @@ export default function Login() {
         secure: true,
         path: "/",
       });
-      if (isRedirect) {
-        router.push("/" + `${isRedirect}`);
-      } else {
-        router.push("/home");
-      }
-    } else if (!res.data) {
+      router.back()
+      // if (isRedirect) {
+      //   router.push("/" + `${isRedirect}`);
+      // } else {
+      //   router.push("/home");
+      // }
+    } else if (!res) {
       // 로그인 실패시 FailMessage 상태 변경
       setFailMessage(true);
     }
