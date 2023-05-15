@@ -56,7 +56,7 @@ export default function SelectedCard({ cardLocation }: cardLocation) {
         </div>
       </div>
       <div className="flex justify-center mt-10 mx-20 mb-20">
-        <button className="bg-[#73D0F4] w-full text-white px-5 py-8 font-bold rounded-5 hover:bg-blue-600" onClick={() => handleOpenModal(cardLocation)}>다른 기업 선택하기</button>
+        <button className="bg-[#73D0F4] w-full text-white px-5 py-8 font-bold rounded-5 hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-300 hover:duration-500" onClick={() => handleOpenModal(cardLocation)}>다른 기업 선택하기</button>
       </div>
     </div>
   )

@@ -9,13 +9,14 @@ import { useEffect, useState } from "react";
 
 
 interface Iprops {
+  corpId: string,
   corpImg: string,
   corpName: string,
   corpSize: string,
   indutyName: string,
 }
 
-export default function ModalInnerCard({ corpImg, corpName, corpSize, indutyName }: Iprops) {
+export default function ModalInnerCard({ corpId, corpImg, corpName, corpSize, indutyName }: Iprops) {
 
   const dispatch = useDispatch();
 
@@ -26,7 +27,15 @@ export default function ModalInnerCard({ corpImg, corpName, corpSize, indutyName
     return state.controlModal.isRightOpen
   })
 
+  const leftCompanyName = useSelector((state: RootState) => {
+    return state.leftSelectedCompany.corpName
+  })
+  const rightCompanyName = useSelector((state: RootState) => {
+    return state.rightSelectedCompany.corpName
+  })
+
   const companyInfo = {
+    corpId: corpId,
     corpImg: corpImg,
     corpName: corpName,
     corpSize: corpSize,
@@ -56,7 +65,12 @@ export default function ModalInnerCard({ corpImg, corpName, corpSize, indutyName
       <button
         className="flex-none text-13 text-white bg-[#73D0F4] mr-10 self-center px-3 py-1 rounded-2"
         onClick={() => {
-          // 추가하기 버튼 onClick 이벤트 : 모달창을 닫으면서 기업을 store에 추가해야함
+          // 같은 기업 선택 시 예외처리
+          if (corpName === leftCompanyName || corpName === rightCompanyName) {
+            return alert("이미 선택된 기업입니다. 다른 기업을 선택해주세요.")
+          }
+
+          // 추가하기 : 모달창을 닫으면서 기업을 store에 추가해야함
           if (isLeftModalOpen) {
             dispatch(selectLeftCard());
             dispatch(setLeftCardCompany(companyInfo));
