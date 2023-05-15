@@ -1,32 +1,34 @@
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { closeModal } from "@/stores/comparison/controlModal";
+import { closeLeftModal, closeRightModal } from "@/stores/comparison/controlModal";
 import companyInfo from "@/models/companyInfo";
 import { RootState } from "@/stores/store";
-import { selectLeftCard } from "@/stores/comparison/leftSelectedCompany";
-import { selectRightCard } from "@/stores/comparison/rightSelectedCompany";
+import { selectLeftCard, setLeftCardCompany } from "@/stores/comparison/leftSelectedCompany";
+import { selectRightCard, setRightCardCompany } from "@/stores/comparison/rightSelectedCompany";
+import { useEffect, useState } from "react";
 
 
 interface Iprops {
   corpImg: string,
-  companyName: string,
+  corpName: string,
   corpSize: string,
   indutyName: string,
 }
 
-export default function ModalInnerCard({ corpImg, companyName, corpSize, indutyName }: Iprops) {
+export default function ModalInnerCard({ corpImg, corpName, corpSize, indutyName }: Iprops) {
 
   const dispatch = useDispatch();
-  const isLeftCardSelected = useSelector((state: RootState) => {
-    return state.leftSelectedCompany.isSelected
+
+  const isLeftModalOpen = useSelector((state: RootState) => {
+    return state.controlModal.isLeftOpen
   })
-  const isRightCardSelected = useSelector((state: RootState) => {
-    return state.rightSelectedCompany.isSelected
+  const isRightModalOpen = useSelector((state: RootState) => {
+    return state.controlModal.isRightOpen
   })
 
-  const payload: companyInfo = {
+  const companyInfo = {
     corpImg: corpImg,
-    corpName: companyName,
+    corpName: corpName,
     corpSize: corpSize,
     indutyName: indutyName
   }
@@ -50,23 +52,19 @@ export default function ModalInnerCard({ corpImg, companyName, corpSize, indutyN
           />
         )}
       </div>
-      <div className="grow mr-10 self-center">{companyName}</div>
+      <div className="grow mr-10 self-center">{corpName}</div>
       <button
         className="flex-none text-13 text-white bg-[#73D0F4] mr-10 self-center px-3 py-1 rounded-2"
         onClick={() => {
-          // 모달 닫으면서 선택된 기업을 카드에 넣어줘야함
-          dispatch(closeModal());
-          if (!(isLeftCardSelected && isRightCardSelected)) {
-            console.log("왼쪽, 오른쪽 다 선택 안됨")
-            dispatch(selectLeftCard())
-          } else if (isLeftCardSelected) {
-            console.log("왼쪽은 이미 선택되어있음")
-            dispatch(selectRightCard())
-          } else if (isRightCardSelected) {
-            console.log("오른쪽은 이미 선택되어있음")
-            dispatch(selectLeftCard)
-          } else {
-            console.log("둘 다 선택됨")
+          // 추가하기 버튼 onClick 이벤트 : 모달창을 닫으면서 기업을 store에 추가해야함
+          if (isLeftModalOpen) {
+            dispatch(selectLeftCard());
+            dispatch(setLeftCardCompany(companyInfo));
+            dispatch(closeLeftModal());
+          } else if (isRightModalOpen) {
+            dispatch(selectRightCard());
+            dispatch(setRightCardCompany(companyInfo));
+            dispatch(closeRightModal());
           }
         }}>추가하기</button>
     </div >
