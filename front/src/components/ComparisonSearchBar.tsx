@@ -11,13 +11,21 @@ export default function ComparisonSearchBar() {
   // const [autoCompleteList, setAutoCompleteList] = useState<Array<autoComplete>>
   const [companyList, setCompanyList] = useState<Array<companyInfo>>([]);
 
+
   const getCompanyInfo = async (inputValue: string) => {
+
     await axios.get(SERVER_URL + `/corp/list/`, {
-      params: { inputValue: inputValue }
-    }).then((response) => {
-      // console.log(response.data.data)
-      setCompanyList(response.data.data)
+      params: { inputValue: inputValue },
+      cancelToken: new axios.CancelToken(function executor(c) {
+        const cancel = c;
+      })
     })
+      .then((response) => {
+        setCompanyList(response.data.data)
+      })
+      .catch((e) => {
+        if (axios.isCancel(e)) return;
+      })
   }
 
   const onChangeSearchWordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,6 +78,7 @@ export default function ComparisonSearchBar() {
             return (
               <ModalInnerCard
                 key={index}
+                corpId={item.corpId}
                 corpImg={item.corpImg ? item.corpImg : "/company_default.jpg"}
                 corpName={item.corpName}
                 corpSize={item.corpSize ? item.corpSize : "정보 없음"}
