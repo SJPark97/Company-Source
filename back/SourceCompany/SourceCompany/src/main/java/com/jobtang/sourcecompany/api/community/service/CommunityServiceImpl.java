@@ -47,7 +47,7 @@ public class CommunityServiceImpl implements CommunityService {
    */
   @Override
   @Transactional
-  public void createCommunity(String communityType, Long userId, CreateCommunityRequest createCommunityRequest) throws Exception {
+  public Long createCommunity(String communityType, Long userId, CreateCommunityRequest createCommunityRequest) throws Exception {
     User user = userRepository.findById(userId).get();
     // user 확인을 위한 코드
     // user.isActive 값이 false 이거나 , null 인 경우
@@ -65,6 +65,7 @@ public class CommunityServiceImpl implements CommunityService {
             .totalView(0)
             .build();
     communityRepository.save(community);
+    return community.getId();
   }
 
   @Override
