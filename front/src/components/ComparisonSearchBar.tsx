@@ -8,30 +8,27 @@ import companyInfo from "@/models/companyInfo";
 export default function ComparisonSearchBar() {
 
   const [searchWord, setSearchWord] = useState<string>("");
-  const [isHaveInputValue, setIsHaveInputValue] = useState<boolean>(false);
   // const [autoCompleteList, setAutoCompleteList] = useState<Array<autoComplete>>
   const [companyList, setCompanyList] = useState<Array<companyInfo>>([]);
 
   const getCompanyInfo = async (inputValue: string) => {
-    const { data } = await axios.get(SERVER_URL + `/corp/list/`, {
+    await axios.get(SERVER_URL + `/corp/list/`, {
       params: { inputValue: inputValue }
+    }).then((response) => {
+      // console.log(response.data.data)
+      setCompanyList(response.data.data)
     })
-    setCompanyList(data.data)
   }
 
   const onChangeSearchWordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault()
     setSearchWord(e.target.value);
-    console.log(searchWord)
-    if (e.target.value) {
-      setIsHaveInputValue(true);
-    }
   };
 
   useEffect(() => {
     if (searchWord) {
+      console.log(searchWord)
       getCompanyInfo(searchWord)
-      console.log(companyList)
+      // console.log(companyList)
     } else {
       setCompanyList([])
     }
@@ -73,9 +70,9 @@ export default function ComparisonSearchBar() {
             return (
               <ModalInnerCard
                 key={index}
-                corpImg={item.corpImg}
-                companyName={item.corpName}
-                corpSize={item.corpSize}
+                corpImg={item.corpImg ? item.corpImg : "/company_default.jpg"}
+                corpName={item.corpName}
+                corpSize={item.corpSize ? item.corpSize : "정보 없음"}
                 indutyName={item.indutyName}
               />
             )
@@ -84,7 +81,6 @@ export default function ComparisonSearchBar() {
         : <span className="self-start ml-50 mt-10 text-[#AAAAAA]">검색 결과가 없습니다.</span>}
 
       <div className="m-20"></div>
-      {/* box shadow 요소 순서는 순서대로 좌우, 상하, 그림자의 흐려짐 정도 범위, 그림자의 크기 */}
     </>
   );
 }

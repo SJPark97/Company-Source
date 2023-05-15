@@ -1,29 +1,43 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface ImodalState {
-  isOpen: boolean,
+  isLeftOpen: boolean,
+  isRightOpen: boolean
 }
 
 const initialState: ImodalState = {
-  isOpen: false
+  isLeftOpen: false,
+  isRightOpen: false
 }
 
 const controlModalSlice = createSlice({
   name: "selectCompany",
   initialState,
   reducers: {
-    openModal(state: ImodalState) {
-      state.isOpen = true
+    openLeftModal(state: ImodalState) {
+      console.log("왼쪽 모달 열림")
+      state.isLeftOpen = true
     },
-    closeModal(state: ImodalState) {
-      state.isOpen = false
+    closeLeftModal(state: ImodalState) {
+      console.log("왼쪽 모달 닫힘")
+      state.isLeftOpen = false
+    },
+    openRightModal(state: ImodalState) {
+      console.log("오른쪽 모달 열림")
+      state.isRightOpen = true
+    },
+    closeRightModal(state: ImodalState) {
+      console.log("오른쪽 모달 닫힘")
+      state.isRightOpen = false
     },
   }
 })
 
 export const {
-  openModal,
-  closeModal
+  openLeftModal,
+  closeLeftModal,
+  openRightModal,
+  closeRightModal
 } = controlModalSlice.actions;
 
 export default controlModalSlice.reducer;

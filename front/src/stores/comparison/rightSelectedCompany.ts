@@ -1,6 +1,10 @@
 import companyInfo from "@/models/companyInfo";
 import { createSlice } from "@reduxjs/toolkit";
 
+interface CompanyInfoPayloadAction {
+  payload: companyInfo,
+}
+
 const initialState: companyInfo = {
   corpImg: "",
   corpName: "",
@@ -13,12 +17,15 @@ const rightSelectedCompanySlice = createSlice({
   name: "rightSelectedCompany",
   initialState,
   reducers: {
-    setRightCardCompany(state, action) {
-      if (state.isSelected) {
-        state = action.payload;
-      }
+    setRightCardCompany(state, action: CompanyInfoPayloadAction) {
+      console.log("오른쪽 카드 수정")
+      state.corpImg = action.payload.corpImg;
+      state.corpName = action.payload.corpName;
+      state.corpSize = action.payload.corpSize;
+      state.indutyName = action.payload.indutyName;
     },
     selectRightCard(state) {
+      console.log("오른쪽 카드 select")
       state.isSelected = true
     },
     unselectRightCard(state) {
