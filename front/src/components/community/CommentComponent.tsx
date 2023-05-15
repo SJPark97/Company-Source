@@ -35,11 +35,11 @@ export default function CommentComponent({
   const [replyInputValue, setReplyInputValue] = useState<string>("");
   const [replyList, setReplyList] = useState<Array<comment>>([]);
   const routerArr = router.pathname.split("/");
-  const getTemp = async () => {
+  const getCommentList = async () => {
     const temp = await axios
       .get(
         SERVER_URL +
-          `/community/${routerArr[2].slice(0, 4)}/${router.query.detail}`
+        `/community/${routerArr[2].slice(0, 4)}/${router.query.detail}`
       )
       .then((res) => {
         setReplyList(
@@ -52,7 +52,7 @@ export default function CommentComponent({
       });
   };
   useEffect(() => {
-    getTemp();
+    getCommentList()
   }, []);
 
   // 수정 버튼 누르면 실행되는 함수
@@ -125,7 +125,7 @@ export default function CommentComponent({
     console.log("here", res);
     setReplyInputValue("");
     setIsReply((prev) => !prev);
-    getTemp();
+    getCommentList();
   };
 
   useEffect(() => {
@@ -139,7 +139,7 @@ export default function CommentComponent({
         <div className="flex">
           {/* Comment Modify and Delete button */}
           {cookies.nickName &&
-          cookies.nickName === commentInformation.nickname ? (
+            cookies.nickName === commentInformation.nickname ? (
             <div className="flex">
               {/* Modify Button */}
               <div className="flex mr-20" onClick={modifyHandler}>
@@ -179,24 +179,24 @@ export default function CommentComponent({
       {/* 대댓글 List */}
       {replyList
         ? replyList.map((reply) => (
-            <div
-              className="flex items-center my-10"
-              key={"대댓글" + `${reply.commentId}`}
-            >
-              <div className="mr-10">
-                <Image
-                  src="/reply_arrow.png"
-                  alt="대댓글 화살표"
-                  width={15}
-                  height={17}
-                />
-              </div>
-              <div className="flex flex-col">
-                <div className="font-bold">{reply.nickname}</div>
-                <div>{reply.content}</div>
-              </div>
+          <div
+            className="flex items-center my-10"
+            key={"대댓글" + `${reply.commentId}`}
+          >
+            <div className="mr-10">
+              <Image
+                src="/reply_arrow.png"
+                alt="대댓글 화살표"
+                width={15}
+                height={17}
+              />
             </div>
-          ))
+            <div className="flex flex-col">
+              <div className="font-bold">{reply.nickname}</div>
+              <div>{reply.content}</div>
+            </div>
+          </div>
+        ))
         : null}
 
       {/* 댓글 수정 폼 */}
