@@ -1,25 +1,27 @@
 import Image from "next/image";
 
 interface corpPost {
-  commentCount: number,
-  communityId: number,
-  date: string,
-  likesCount: number
-  time: string,
-  title: string,
-  userName: string,
-  viewCount: number
+  commentCount: number;
+  communityId: number;
+  date: string;
+  likesCount: number;
+  time: string;
+  title: string;
+  userName: string;
+  viewCount: number;
 }
 
-export default function HotPost({ postInformation }: { postInformation: corpPost }) {
+export default function HotPost({
+  postInformation,
+}: {
+  postInformation: corpPost;
+}) {
   return (
     <div className="flex py-10 border-b-1">
       <div className="flex">
         <div className="w-100 text-center">{postInformation.communityId}</div>
         <div className="flex w-[400px]">
-          <div className="line-clamp-1">
-            {postInformation.title}
-          </div>
+          <div className="line-clamp-1 mr-10">{postInformation.title}</div>
           <div className="font-bold text-brand">
             [{postInformation.commentCount}]
           </div>

@@ -74,11 +74,13 @@ export default function FreeBoardAll({ data }: { data: any }) {
         <div className="flex flex-col">
           {data.data &&
             data.data.map((post: any) => (
-              <Link href={"/community/freeboard/detail/" + `${post.communityId}`}>
+              <Link
+                href={"/community/freeboard/detail/" + `${post.communityId}`}
+                key={"corpboardrecommend" + `${post.communityId}`}
+              >
                 <div
                   className="flex py-10
               "
-                  key={"corpboardrecommend" + `${post.communityId}`}
                 >
                   <div className="text-center w-70">{post.communityId}</div>
                   <div className="flex w-[550px]">
@@ -116,11 +118,12 @@ export default function FreeBoardAll({ data }: { data: any }) {
             <div
               className={
                 "mx-20 " +
-                `${router.query.freeboard &&
+                `${
+                  router.query.freeboard &&
                   typeof router.query.freeboard === "string" &&
                   parseInt(router.query.freeboard) === page
-                  ? "font-bold text-24"
-                  : null
+                    ? "font-bold text-24"
+                    : null
                 }`
               }
             >

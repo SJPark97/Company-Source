@@ -74,11 +74,11 @@ export default function CorpBoardRecommend({ data }: { data: any }) {
         <div className="flex flex-col">
           {data.data &&
             data.data.map((post: any) => (
-              <Link href={"/community/corpboard/detail/" + `${post.communityId}`}>
-                <div
-                  className="flex py-10"
-                  key={"corpboardrecommend" + `${post.communityId}`}
-                >
+              <Link
+                href={"/community/corpboard/detail/" + `${post.communityId}`}
+                key={"corpboardrecommend" + `${post.communityId}`}
+              >
+                <div className="flex py-10">
                   <div className="text-center w-70">{post.communityId}</div>
                   <div className="flex w-[550px]">
                     <div className="line-clamp-1 mr-10">
@@ -115,11 +115,12 @@ export default function CorpBoardRecommend({ data }: { data: any }) {
             <div
               className={
                 "mx-20 " +
-                `${router.query.corpboard &&
+                `${
+                  router.query.corpboard &&
                   typeof router.query.corpboard === "string" &&
                   parseInt(router.query.corpboard) === page
-                  ? "font-bold text-24"
-                  : null
+                    ? "font-bold text-24"
+                    : null
                 }`
               }
             >

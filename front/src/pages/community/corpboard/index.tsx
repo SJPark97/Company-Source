@@ -45,8 +45,11 @@ export default function CorpBoardAll({ data }: { data: any }) {
         <div className="flex flex-col">
           {data.data &&
             data.data.map((post: any) => (
-              <Link href={"/community/corpboard/detail/" + `${post.communityId}`}>
-                <div className="flex py-10" key={"corp" + `${post.communityId}`}>
+              <Link
+                href={"/community/corpboard/detail/" + `${post.communityId}`}
+                key={"corp" + `${post.communityId}`}
+              >
+                <div className="flex py-10">
                   <div className="text-center w-70">{post.communityId}</div>
                   <div className="flex w-[550px]">
                     <div className="line-clamp-1 mr-10">
