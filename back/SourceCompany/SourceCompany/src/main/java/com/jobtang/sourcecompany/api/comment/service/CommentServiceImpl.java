@@ -56,9 +56,12 @@ public class CommentServiceImpl implements CommentService {
 
   @Override
   @Transactional
-  public void deleteComment(Long commentId) {
+  public void deleteComment(Long userId ,Long commentId) {
     Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CustomException(ErrorCode.COMM_COMMENT_EXISTS));
-
+    // 작성자와 삭제하려는 사람이 같지않으면 에러
+    if(comment.getUser().getId() != userId){
+      throw  new CustomException(ErrorCode.COMM_NOT_WRITER);
+    }
     //부모 댓글인 경우
     if(comment.getParent()==1){
       // 자식이 있으면
@@ -94,8 +97,11 @@ public class CommentServiceImpl implements CommentService {
 
   @Override
   @Transactional
-  public UpdateCommentResponse updateComment(UpdateCommentRequest updateCommentRequest) {
+  public UpdateCommentResponse updateComment(Long userId ,UpdateCommentRequest updateCommentRequest) {
     Comment comment = commentRepository.findById(updateCommentRequest.getCommentId()).orElseThrow(() -> new CustomException(ErrorCode.COMM_COMMENT_EXISTS));
+    if(userId != comment.getUser().getId()){
+      throw new CustomException(ErrorCode.COMM_NOT_WRITER);
+    }
     comment.setContent(updateCommentRequest.getContent());
     return UpdateCommentResponse.builder()
             .commentId(comment.getId())
