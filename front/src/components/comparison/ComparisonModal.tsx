@@ -2,20 +2,27 @@ import Modal from '@mui/material/Modal';
 import ComparisonSearchBar from '../ComparisonSearchBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/stores/store';
-import { closeModal } from '@/stores/comparison/controlModal';
+import { closeLeftModal, closeRightModal } from '@/stores/comparison/controlModal';
 
-export default function ComparisonModal() {
+interface IProps {
+  modalLocation: "left" | "right"
+}
 
-  const modalState = useSelector((state: RootState) => {
-    return state.controlModal.isOpen;
+export default function ComparisonModal({ modalLocation }: IProps) {
+
+  const leftModalState = useSelector((state: RootState) => {
+    return state.controlModal.isLeftOpen;
+  })
+  const rightModalState = useSelector((state: RootState) => {
+    return state.controlModal.isRightOpen;
   })
   const dispatch = useDispatch();
 
   return (
     <div>
       <Modal
-        open={modalState}
-        onClose={() => { dispatch(closeModal()) }}
+        open={modalLocation === "left" ? leftModalState : rightModalState}
+        onClose={() => { modalLocation === "left" ? dispatch(closeLeftModal()) : dispatch(closeRightModal()) }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
