@@ -4,7 +4,6 @@ package com.jobtang.sourcecompany.api.corp.entity;
 import com.jobtang.sourcecompany.api.analysis_result.entity.AnalysisResult;
 import com.jobtang.sourcecompany.api.corp_detail.entity.CorpDetail;
 import com.jobtang.sourcecompany.util.BaseEntity;
-import com.sun.istack.NotNull;
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 

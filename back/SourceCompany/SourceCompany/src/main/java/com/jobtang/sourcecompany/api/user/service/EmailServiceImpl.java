@@ -9,11 +9,9 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.util.Random;
 
-import static org.springframework.security.core.context.SecurityContextHolder.setContext;
 
 @Service
 @RequiredArgsConstructor

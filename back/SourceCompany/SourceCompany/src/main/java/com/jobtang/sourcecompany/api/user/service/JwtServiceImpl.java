@@ -4,8 +4,6 @@ import com.jobtang.sourcecompany.config.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Service
 @RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
