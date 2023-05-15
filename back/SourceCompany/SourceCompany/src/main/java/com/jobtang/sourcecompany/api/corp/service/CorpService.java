@@ -3,10 +3,8 @@ package com.jobtang.sourcecompany.api.corp.service;
 import com.jobtang.sourcecompany.api.corp.dto.CorpAutoSearchDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpInfoDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
-import com.jobtang.sourcecompany.api.corp.entity.Corp;
-import org.springframework.data.domain.Page;
+import com.jobtang.sourcecompany.api.corp.dto.CorpListResponseDto;
 
-import java.util.HashMap;
 import java.util.List;
 
 public interface CorpService {
@@ -31,4 +29,10 @@ public interface CorpService {
     List<String> getCorpAll();
 
     List<CorpSearchListDto> getHotCorps(int size, int page);
+
+    CorpListResponseDto getIndutyCorps(int size, int page);
+
+    CorpListResponseDto getGoodResultCorps(int size, int page);
+
+    CorpListResponseDto getTopSalesCorps(int size, int page);
 }

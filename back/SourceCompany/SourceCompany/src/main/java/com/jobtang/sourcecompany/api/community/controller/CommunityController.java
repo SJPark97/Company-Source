@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
+@CrossOrigin(originPatterns = "http://k8b107.p.ssafy.io")
+//@CrossOrigin(originPatterns = "http://comapny-source.com")
 @RestController
 @RequestMapping("/api/v1/community")
 @RequiredArgsConstructor

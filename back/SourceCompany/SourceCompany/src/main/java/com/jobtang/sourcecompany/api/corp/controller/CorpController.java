@@ -1,23 +1,20 @@
 package com.jobtang.sourcecompany.api.corp.controller;
 
+import com.jobtang.sourcecompany.api.analysis_result.Dto.GoodCorpResponseDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpAutoSearchDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpInfoDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
-import com.jobtang.sourcecompany.api.corp.entity.Corp;
+import com.jobtang.sourcecompany.api.corp.dto.CorpListResponseDto;
 import com.jobtang.sourcecompany.api.corp.service.CorpService;
-import com.jobtang.sourcecompany.api.corp_detail.service.AnalysisService;
 import com.jobtang.sourcecompany.util.ResponseHandler;
-import io.lettuce.core.dynamic.annotation.Param;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -161,11 +158,38 @@ public class CorpController {
     }
 
     @ApiOperation(
-            value = "기업 개요",
-            notes = "기업 개요 반환",
+            value = "핫기업",
+            notes = "어제 조회수 높은 기업 반환",
             response = CorpSearchListDto.class)
     @GetMapping("/hotcorp")
     public ResponseEntity<?> getHotCorp(int page, int size) {
         return responseHandler.response(corpService.getHotCorps(size, page));
+    }
+
+    @ApiOperation(
+            value = "랜덤 산업 기업",
+            notes = "랜덤 산업 기업",
+            response = CorpListResponseDto.class)
+    @GetMapping("/induty")
+    public ResponseEntity<?> getIndutyCorp(int page, int size) {
+        return responseHandler.response(corpService.getIndutyCorps(size, page));
+    }
+
+    @ApiOperation(
+            value = "평가 양호 기업",
+            notes = "평가 양호 기업",
+            response = CorpListResponseDto.class)
+    @GetMapping("/goodresult")
+    public ResponseEntity<?> getGoodResultCorp(int page, int size) {
+        return responseHandler.response(corpService.getGoodResultCorps(size, page));
+    }
+
+    @ApiOperation(
+            value = "평가 양호 기업",
+            notes = "평가 양호 기업",
+            response = CorpListResponseDto.class)
+    @GetMapping("/sales")
+    public ResponseEntity<?> getTopSalesCorp(int page, int size) {
+        return responseHandler.response(corpService.getTopSalesCorps(size, page));
     }
 }
