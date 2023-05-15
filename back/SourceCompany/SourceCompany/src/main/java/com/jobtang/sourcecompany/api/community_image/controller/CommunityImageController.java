@@ -1,6 +1,5 @@
 package com.jobtang.sourcecompany.api.community_image.controller;
 
-import com.jobtang.sourcecompany.api.community.service.CommunityService;
 import com.jobtang.sourcecompany.api.community_image.service.CommunityImageService;
 import com.jobtang.sourcecompany.api.user.service.JwtService;
 import io.swagger.annotations.Api;
@@ -23,11 +22,16 @@ public class CommunityImageController {
     private final CommunityImageService communityImageService;
     private final JwtService jwtService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<?> createCommunityImage(@RequestParam("file") MultipartFile file,
                                                   @RequestHeader("Authorization") String authHeader) {
         Long userId = jwtService.userPkByToken(authHeader);
         HashMap<String, Object> result = communityImageService.createCommunityImage(file, userId);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping("/1")
+    public ResponseEntity<?> createCommunityImage(@RequestParam("file") MultipartFile file) {
+        return new ResponseEntity<>("hi", HttpStatus.OK);
     }
 }
