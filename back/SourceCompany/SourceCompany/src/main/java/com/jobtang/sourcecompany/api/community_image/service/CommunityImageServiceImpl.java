@@ -1,6 +1,7 @@
 package com.jobtang.sourcecompany.api.community_image.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.jobtang.sourcecompany.api.exception.CustomException;
 import com.jobtang.sourcecompany.api.exception.ErrorCode;
@@ -26,12 +27,14 @@ public class CommunityImageServiceImpl implements CommunityImageService {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         String fileName = now.format(formatter) + file.getOriginalFilename();
-        String fileUrl = "https://" + bucket + "/" +fileName;
-//        String userUrl = "https://pjbooklet.s3.ap-northeast-2.amazonaws.com/" + fileName;
+//        String fileUrl = "https://" + bucket + "/" +fileName;
+        String fileUrl = "https://pjbooklet.s3.ap-northeast-2.amazonaws.com/" + fileName;
         try {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(file.getSize());
+            metadata.setContentType(file.getContentType());
             amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+            amazonS3Client.setObjectAcl(bucket, fileName, CannedAccessControlList.PublicRead);
             result.put("data", fileUrl);
         } catch (IOException e) {
             // 에러 처리
