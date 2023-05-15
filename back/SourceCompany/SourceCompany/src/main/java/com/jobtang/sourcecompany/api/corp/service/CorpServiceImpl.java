@@ -1,10 +1,10 @@
 package com.jobtang.sourcecompany.api.corp.service;
 
-import com.jobtang.sourcecompany.api.analysis_result.Dto.GoodCorpResponseDto;
 import com.jobtang.sourcecompany.api.analysis_result.service.AnalysisResultService;
 import com.jobtang.sourcecompany.api.corp.dto.*;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp.repository.CorpRepository;
+import com.jobtang.sourcecompany.api.corp_detail.service.CorpDetailService;
 import com.jobtang.sourcecompany.api.exception.CustomException;
 import com.jobtang.sourcecompany.api.exception.ErrorCode;
 import com.jobtang.sourcecompany.api.induty_detail.repository.IndutyDetailRepository;
@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CorpServiceImpl implements CorpService{
     private final AnalysisResultService analysisResultService;
+    private final CorpDetailService corpDetailService;
     private final IndutyDetailRepository indutyDetailRepository;
     private final CorpRepository corpRepository;
     private final ModelMapper mapper = new ModelMapper();
@@ -228,7 +229,7 @@ public class CorpServiceImpl implements CorpService{
     }
 
     @Override
-    public IndutyCorpResponseDto getIndutyCorps(int size, int page) {
+    public CorpListResponseDto getIndutyCorps(int size, int page) {
         Pageable pageSetting = PageRequest.of(size, page);
         List indutycodes = new ArrayList(List.of("A","B","C","D","E","F","G","H","I","J","K","L","M","N","P","R","S"));
 
@@ -242,15 +243,20 @@ public class CorpServiceImpl implements CorpService{
         for (Corp corp: corps) {
             data.add(mapper.map(corp, CorpSearchListDto.class));
         }
-        return new IndutyCorpResponseDto().builder()
-                .IndutyName(indutyDetailRepository.findByIndutyCode(targetCode).getIndutyName())
+        return new CorpListResponseDto().builder()
+                .kind(indutyDetailRepository.findByIndutyCode(targetCode).getIndutyName())
                 .corps(data)
                 .build();
     }
 
     @Override
-    public GoodCorpResponseDto getGoodResultCorps(int size, int page) {
+    public CorpListResponseDto getGoodResultCorps(int size, int page) {
         return analysisResultService.GetGoodCorps(size, page);
+    }
+
+    @Override
+    public CorpListResponseDto getTopSalesCorps(int size, int page) {
+        return corpDetailService.getTopSalesCorps(size, page);
     }
 
 
