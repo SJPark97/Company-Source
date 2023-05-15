@@ -54,10 +54,6 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
 
     private Long totalLiabilities; // 총부채
 
-//    private Integer cashFlow; // 현금흐름
-
-//    private Integer OperatingFundExpenditure; // 영업자금지출
-
     private Long tax; // 세금
 
     private Long inventories; // 재고자산
@@ -67,7 +63,6 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
     private Long marketCapitalization; // 시가총액
 
     private Long numberOfListedShares; // 주식 수
-
 
     private Long closingPrcie; // 종가
 
@@ -88,6 +83,17 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
 
     private Long tradePayables; // 매입채무
 
+    private Long assetsUnderConstruction; // 건설중인 자산
+
+    private Long investmentAsset; // 투자자산
+
+    private Long cashFlowFromOperatingActivities; // 영업활동으로인한 현금흐름
+
+    private Long cashFlowFromInvestingActivities; // 투자활동으로인한 현금흐름
+
+    private Long cashFlowFromFinancingActivities; // 재무활동으로인한 현금흐름
+
+    private Long dividendPayment; // 배당금
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
