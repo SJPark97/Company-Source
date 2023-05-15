@@ -20,7 +20,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Entity
@@ -36,9 +35,6 @@ public class User extends BaseEntity implements UserDetails  {
 
   @NotNull
   @Column(nullable = false)
-//  @ElementCollection
-//  private List<Role> role;
-//  private List<String> role;
   private String role;
 
   @NotNull
@@ -98,9 +94,6 @@ public class User extends BaseEntity implements UserDetails  {
     for(String role : role.split(",")){
       authorities.add(new SimpleGrantedAuthority(role));
     }
-//    for(String r:role) {
-//      authorities.add(new SimpleGrantedAuthority(r));
-//    }
     return authorities;
   }
   @Override

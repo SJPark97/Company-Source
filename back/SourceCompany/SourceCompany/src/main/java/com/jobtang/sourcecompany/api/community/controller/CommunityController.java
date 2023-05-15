@@ -38,9 +38,49 @@ public class CommunityController {
   // 테스트 용 유저 가져오기
   private final JwtService jwtService;
 
-//todo: 수정 삭제 할때 , 작성자와 토큰이 같은 사람인지 체크하는 부분 추가
-  // todo : getAll 할때  sort 라는 인자값을 받는다 이때
-  //  sort = All  : 시간순
+  /**
+   *
+   * 마이페이지 조회
+   *
+   */
+
+  /**
+   * 전체 검색
+   *
+   */
+  /**
+   * /community/all/search?type={type}&content={content}&free_size={free_size}&free_page={free_page}&corp_size={corp_size}&corp_page={corp_page} GET
+   * 전체 게시판의 글들을 검색하는 메소드
+   * is_active ==0 인 것들은 거르는 것 필요
+   * type == (글쓴이, 내용 ,제목) 으로 거르기
+   */
+  @ApiOperation(
+          value = "전체 게시글 검색",
+          notes = "전체 게시글들을 검색, 기업과 자유게시판을 나눠서 리턴"
+
+  )
+  @GetMapping("/all/search")
+  public ResponseEntity<?> searchAllCommunity(@RequestParam String content, @RequestParam String type,
+                                               @ApiParam(value = "자유 사이즈", required = true, defaultValue = "5", example = "5") @RequestParam(value = "free_size", required = true, defaultValue = "20") Integer free_size,
+                                               @ApiParam(value = "자유 페이지", required = true, defaultValue = "0", example = "0") @RequestParam(value = "free_page", required = true, defaultValue = "0") Integer free_page,
+                                              @ApiParam(value = "기업 분석 사이즈", required = true, defaultValue = "5", example = "5") @RequestParam(value = "corp_size", required = true, defaultValue = "20") Integer corp_size
+          ,@ApiParam(value = "기업분석 페이지", required = true, defaultValue = "0", example = "0") @RequestParam(value = "corp_page", required = true, defaultValue = "0") Integer corp_page
+  ) {
+    Pageable free_pageable = PageRequest.of(free_page, free_size);
+    Pageable corp_pageable = PageRequest.of(corp_page, corp_size);
+
+    HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result = new HashMap<>();
+    PagingCommunityResponse corp_response = communityService.searchCommunity("기업", content, type, corp_pageable);
+    PagingCommunityResponse free_response = communityService.searchCommunity("자유", content, type, free_pageable);
+    ReadAllSearchResponse  response =ReadAllSearchResponse.builder()
+            .corp_search(corp_response)
+            .free_search(free_response)
+            .build();
+    result.put("data", response);
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+  }
+
   // view : 조회수순
   // likes : 좋아요 순
 
@@ -85,8 +125,8 @@ public class CommunityController {
 
     HashMap<String, Object> result = new HashMap<>();
     HttpHeaders headers = new HttpHeaders();
-    communityService.createCommunity("기업",userId, createCommunityRequest);
-    result.put("data", "success");
+    Long communityId =communityService.createCommunity("기업",userId, createCommunityRequest);
+    result.put("data", communityId);
     return new ResponseEntity<>(result, HttpStatus.CREATED);
 
   }
@@ -139,7 +179,7 @@ public class CommunityController {
 
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    List<ReadAllCommunityResponse> response = communityService.searchCommunity("기업", content, type, pageable);
+    PagingCommunityResponse response = communityService.searchCommunity("기업", content, type, pageable);
 
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
@@ -253,9 +293,9 @@ public class CommunityController {
     HashMap<String, Object> result = new HashMap<>();
     HttpHeaders headers = new HttpHeaders();
 
-    communityService.createCommunity("자유", userId, createCommunityRequest);
+    Long communityId = communityService.createCommunity("자유", userId, createCommunityRequest);
 
-    result.put("data", "success");
+    result.put("data", communityId);
     return new ResponseEntity<>(result, HttpStatus.CREATED);
 
   }
@@ -307,7 +347,7 @@ public class CommunityController {
     Pageable pageable = PageRequest.of(page, size);
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    List<ReadAllCommunityResponse> response = communityService.searchCommunity("자유", content, type, pageable);
+    PagingCommunityResponse response = communityService.searchCommunity("자유", content, type, pageable);
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }

@@ -47,7 +47,7 @@ public class CommunityServiceImpl implements CommunityService {
    */
   @Override
   @Transactional
-  public void createCommunity(String communityType, Long userId, CreateCommunityRequest createCommunityRequest) throws Exception {
+  public Long createCommunity(String communityType, Long userId, CreateCommunityRequest createCommunityRequest) throws Exception {
     User user = userRepository.findById(userId).get();
     // user 확인을 위한 코드
     // user.isActive 값이 false 이거나 , null 인 경우
@@ -65,13 +65,14 @@ public class CommunityServiceImpl implements CommunityService {
             .totalView(0)
             .build();
     communityRepository.save(community);
+    return community.getId();
   }
 
   @Override
-  public List<ReadAllCommunityResponse> searchCommunity(String communityType, String content, String type, Pageable pageable) {
+  public PagingCommunityResponse searchCommunity(String communityType, String content, String type, Pageable pageable) {
     if (type.equals("content")) {
       Page<Community> communities = communityRepository.findAllByCommunityTypeAndContentContainingAndIsActiveTrue(communityType, content, pageable);
-      return communities.stream()
+      List<ReadAllCommunityResponse> readAllCommunityResponses =communities.stream()
               .map(community -> {
                 // 레디스에 저장된 해당 커뮤니티의 key값
                 String key = "viewComm" + community.getId();
@@ -83,9 +84,10 @@ public class CommunityServiceImpl implements CommunityService {
                 return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
               })
               .collect(Collectors.toList());
+      return new PagingCommunityResponse(communities.getTotalPages() ,readAllCommunityResponses );
     } else if (type.equals("title")) {
       Page<Community> communities = communityRepository.findAllByCommunityTypeAndTitleContainingAndIsActiveTrue(communityType, content, pageable);
-      return communities.stream()
+      List<ReadAllCommunityResponse> readAllCommunityResponses = communities.stream()
               .map(community -> {
                 // 레디스에 저장된 해당 커뮤니티의 key값
                 String key = "viewComm" + community.getId();
@@ -97,6 +99,7 @@ public class CommunityServiceImpl implements CommunityService {
                 return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
               })
               .collect(Collectors.toList());
+      return new PagingCommunityResponse(communities.getTotalPages() ,  readAllCommunityResponses);
     } else {
       throw new CustomException(ErrorCode.WRONG_INPUT_DATA);
     }
