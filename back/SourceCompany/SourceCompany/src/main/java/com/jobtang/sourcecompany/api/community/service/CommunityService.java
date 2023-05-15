@@ -11,7 +11,7 @@ import java.util.Map;
 public interface CommunityService {
   Long createCommunity(String communityType, Long userId, CreateCommunityRequest createCommunityRequest) throws Exception;
 
-  List<ReadAllCommunityResponse> searchCommunity(String communityType , String content , String  type , Pageable pageable );
+  PagingCommunityResponse searchCommunity(String communityType , String content , String  type , Pageable pageable );
 
   ReadCommunityDetailResponse readCommunityDetail(Long userId ,String communityType,Long communityId);
   void deleteCommunity(Long userId , Long communityId);
