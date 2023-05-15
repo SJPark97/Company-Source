@@ -1,5 +1,6 @@
 package com.jobtang.sourcecompany.api.corp.controller;
 
+import com.jobtang.sourcecompany.api.analysis_result.Dto.GoodCorpResponseDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpAutoSearchDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpInfoDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
