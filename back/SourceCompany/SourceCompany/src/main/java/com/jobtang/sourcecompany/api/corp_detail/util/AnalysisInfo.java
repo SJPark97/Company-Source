@@ -17,7 +17,7 @@ public class AnalysisInfo {
 
         data101.put("analysis_id", "101");
         data101.put("analysis_name", "유동성분석");
-        data101.put("analysis_des cription",
+        data101.put("analysis_description",
                 "<유동성분석>\n" +
                 "  - 기업의 단기채무 지급능력을 측정하기 위한 비율\n" +
                 "  1) 유동비율 : 기업의 단기채무 지급능력을 측정하기 위한 비율\n" +

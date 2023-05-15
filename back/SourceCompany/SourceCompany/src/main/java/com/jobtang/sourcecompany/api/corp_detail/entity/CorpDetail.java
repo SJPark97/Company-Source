@@ -62,19 +62,32 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
 
     private Long inventories; // 재고자산
 
-    private Double earningPerShare; // 주당이익(보통주)
-
-    private Double previousEarningPerShare; // 전기주당이익(보통주)
-
     private Double capitalSurplus; // 자본잉여금
 
     private Long marketCapitalization; // 시가총액
 
     private Long numberOfListedShares; // 주식 수
 
+
     private Long closingPrcie; // 종가
-    
+
     private Long interestExpense; // 이자비용
+
+    // 버전2
+    private Long previousmarketCapitalization; // 전기 시가총액
+
+    private Long previousNumberOfListedShares; // 전기 주식 수
+
+    private Long bons;  // 사채
+
+    private Long shortermAndLongtermBorrowings; //장단기 차입금
+
+    private Long depreciation; //감가상각비
+
+    private Long tradeReceivables; // 매출채권
+
+    private Long tradePayables; // 매입채무
+
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
@@ -187,16 +200,6 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
     }
 
     @Override
-    public Double getEarningPerShare() {
-        return earningPerShare;
-    }
-
-    @Override
-    public Double getPreviousEarningPerShare() {
-        return previousEarningPerShare;
-    }
-
-    @Override
     public Double getCapitalSurplus() {
         return capitalSurplus;
     }
@@ -219,5 +222,10 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
     @Override
     public Long getInterestExpense() {
         return interestExpense;
+    }
+
+    @Override
+    public Long getPreviousNumberOfListedShares() {
+        return previousNumberOfListedShares;
     }
 }
