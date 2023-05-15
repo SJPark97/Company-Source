@@ -40,6 +40,8 @@ public class AnalysisVariable {
     public Double returnOnEquity; // ROE = ROI * (1 + 부채비율)
     public Double netProfitBeforeTax; // 세전순이익 = 순이익 + 세금
 //    public Double turnoverRatioOfTotalOperatingCapital; // 경영자본 = 총자산 - 투자자산 - 건설중인자산 = 경영자본회전율
+    public Double previousEarningPerShare; // 전기 주당순이익
+    public Double earningPerShare; // 주당순이익
 
     // 생성자
     public AnalysisVariable(EntityVariable entityVariable) {
@@ -70,7 +72,9 @@ public class AnalysisVariable {
         this.totalAssetGrowthRate = calculator.myRatioWithSubtraction(variable.getTotalAssets(), variable.getPreviousTotalAssets(), variable.getPreviousTotalAssets()); // 총자산증가율 = (당기말 총자산 - 전기말 총자산) / 전기말 총자산 * 100
         this.netWorthGrowthRate = calculator.myRatioWithSubtraction(variable.getEquityCapital(), variable.getPreviousEquityCapital(), variable.getPreviousEquityCapital()); // 자기자본증가율 = (당기말 자기자본-전기말 자기자본) / 전기말 자기자본 * 100
         this.netProfitGrowthRate = calculator.myRatioWithSubtraction(variable.getNetProfit(), variable.getPreviousNetProfit(), variable.getPreviousNetProfit()); // 순이익증가율 = (당기 순이익 - 전기 순이익) / 전기 순이익 * 100
-        this.earningsPerShareGrowthRate = calculator.myRatioWithSubtraction(variable.getPreviousEarningPerShare(), variable.getPreviousEarningPerShare(), variable.getPreviousEarningPerShare()); // 주당이익증가율 = (당기 주당이익 - 전기 주당이익) / 전기 주당이익 * 100
+        this.earningPerShare = calculator.myDivision(variable.getNetProfit(), variable.getNumberOfListedShares());
+        this.previousEarningPerShare = calculator.myDivision(variable.getPreviousNetProfit(), variable.getPreviousNumberOfListedShares());
+        this.earningsPerShareGrowthRate = calculator.myRatioWithSubtraction(earningPerShare, previousEarningPerShare, previousEarningPerShare); // 주당이익증가율 = (당기 주당이익 - 전기 주당이익) / 전기 주당이익 * 100
         this.returnOnInvestment = calculator.myDivision(variable.getNetProfit(), variable.getEquityCapital()); // 자기자본순이익률(ROI) = 순이익/매출액 * 매출액/총자산 = 순이익/총자본
         this.debtToEquityRatio = calculator.myDivision(variable.getTotalLiabilities(), variable.getEquityCapital()); // 부채비율 = 총부채/자기자본
         this.returnOnEquity = calculator.myMultiplyWithSum(returnOnInvestment, 1, debtToEquityRatio); // ROE = ROI * (1 + 부채비율)

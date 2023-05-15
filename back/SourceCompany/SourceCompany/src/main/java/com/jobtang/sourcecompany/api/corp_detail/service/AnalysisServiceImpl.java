@@ -173,10 +173,11 @@ public class AnalysisServiceImpl implements AnalysisService{
                 "corpA", mapper.map(corpA, CorpForComparisonDto.class),
                 "corpB", mapper.map(corpB, CorpForComparisonDto.class)
                 ));
-
+        List data = new ArrayList();
         // 기업 비교 정보 입력
         for (String analysisId : analysisIds){
-            result.put("analysis" + analysisId, makeComparisonInfo(analysisId, corpAVariableDto, corpBVariableDto));}
+            data.add(makeComparisonInfo(analysisId, corpAVariableDto, corpBVariableDto));}
+        result.put("analysis", data);
         return result;
     }
 
@@ -335,7 +336,7 @@ public class AnalysisServiceImpl implements AnalysisService{
     @Override
     public void updateAnalysisGptAll(int size) {
 
-        Pageable pageSetting = PageRequest.of(size, 100);
+        Pageable pageSetting = PageRequest.of(size, 3000);
         Page<Corp> corps = corpRepository.findAllByOrderByCorpId(pageSetting);
         if (corps == null){throw new CustomException(ErrorCode.CORP_NOT_FOUND);}
 
