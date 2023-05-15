@@ -20,9 +20,13 @@ interface comment {
 
 export default function CommentComponent({
   commentInformation,
+  // 아래 줄 테스트 추가
+  replyComments,
   reloadComment,
 }: {
   commentInformation: comment;
+  // 아래 줄 테스트 추가
+  replyComments: Array<comment>;
   reloadComment: Function;
 }) {
   const router = useRouter();
@@ -33,27 +37,15 @@ export default function CommentComponent({
     commentInformation.content
   );
   const [replyInputValue, setReplyInputValue] = useState<string>("");
-  const [replyList, setReplyList] = useState<Array<comment>>([]);
-  const routerArr = router.pathname.split("/");
-  const getCommentList = async () => {
-    const temp = await axios
-      .get(
-        SERVER_URL +
-        `/community/${routerArr[2].slice(0, 4)}/${router.query.detail}`
-      )
-      .then((res) => {
-        setReplyList(
-          res.data.data.comments.filter(
-            (reply: comment) =>
-              reply.parent === 0 &&
-              reply.commentGroup === commentInformation.commentGroup
-          )
-        );
-      });
-  };
+  // const [replyList, setReplyList] = useState<Array<comment>>([]);
+  // 아래 줄 추가
+  const [replyList, setReplyList] = useState<Array<comment>>([])
+  console.log(replyList)
+
   useEffect(() => {
-    getCommentList()
-  }, []);
+    setReplyList(replyComments)
+  }, [replyComments])
+
 
   // 수정 버튼 누르면 실행되는 함수
   const modifyHandler = () => {
@@ -122,10 +114,12 @@ export default function CommentComponent({
       replyInputValue,
       cookies.accessToken
     );
-    console.log("here", res);
     setReplyInputValue("");
     setIsReply((prev) => !prev);
-    getCommentList();
+    reloadComment()
+
+    // 아래 줄 테스트 할때 주석처리함
+    // getCommentList();
   };
 
   useEffect(() => {

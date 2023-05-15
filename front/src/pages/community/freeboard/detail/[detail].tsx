@@ -198,8 +198,8 @@ export default function freeBoardDetail({
                 <div key={`${comment.commentId}` + "자유 댓글"}>
                   <CommentComponent
                     commentInformation={comment}
+                    replyComments={commentList.filter((reply) => reply.parent === 0 && reply.commentGroup === comment.commentGroup)}
                     reloadComment={reloadComment}
-                    key={"자유게시판 댓글" + `${comment.commentId}`}
                   />
                 </div>
               ))}

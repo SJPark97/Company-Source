@@ -36,8 +36,12 @@ export default function corpBoardDetail({
   const currentLocation = router.pathname.split("/")[2];
   const [isLiked, setIsLiked] = useState<boolean>(data.data.liked);
   const [commentList, setCommentList] = useState<Array<comment>>(
-    data.data.comments.filter((comment: comment) => comment.parent === 1)
+    data.data.comments
   );
+
+  useEffect(() => {
+    console.log('commentList변경됨', commentList)
+  }, [commentList])
   const cookies = parseCookies();
   // 나의 글인지 여부
   const [isYourPost, setIsYourPost] = useState<boolean>(false);
@@ -101,6 +105,7 @@ export default function corpBoardDetail({
   const reloadComment = async () => {
     const res = await getCorpBoardDetail(router.query.detail as string);
     if (res) {
+      console.log(res.data.data.comments)
       setCommentList(res.data.data.comments);
     }
   };
@@ -225,6 +230,7 @@ export default function corpBoardDetail({
                 <div key={`${comment.commentId}` + "기업 댓글"}>
                   <CommentComponent
                     commentInformation={comment}
+                    replyComments={commentList.filter((reply) => reply.parent === 0 && reply.commentGroup === comment.commentGroup)}
                     reloadComment={reloadComment}
                   />
                 </div>
