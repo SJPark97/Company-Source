@@ -47,9 +47,6 @@ public interface EntityVariable {
 
     Long getInventories(); // 재고자산
 
-    Double getEarningPerShare(); // 주당이익(보통주)
-
-    Double getPreviousEarningPerShare(); // 전기주당이익(보통주)
 
     Double getCapitalSurplus(); // 자본잉여금
 
@@ -60,4 +57,8 @@ public interface EntityVariable {
     Long getClosingPrcie(); // 종가
 
     Long getInterestExpense(); // 이자비용
+
+    // 버전2
+    Long getPreviousNumberOfListedShares(); // 전기 주식 수
+
 }
