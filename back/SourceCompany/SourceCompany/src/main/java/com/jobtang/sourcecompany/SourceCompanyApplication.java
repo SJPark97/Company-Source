@@ -15,6 +15,10 @@ import java.util.TimeZone;
 @SpringBootApplication
 public class SourceCompanyApplication {
 
+    static {
+        System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
+    }
+
     @PostConstruct
     void started() {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
