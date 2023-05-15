@@ -1,6 +1,5 @@
 package com.jobtang.sourcecompany.api.induty_detail.entity;
 
-import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp_detail.util.variable.EntityVariable;
 import com.jobtang.sourcecompany.util.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -55,24 +54,15 @@ public class IndutyDetail extends BaseEntity implements EntityVariable {
 
     private Long totalLiabilities; // 총부채
 
-//    private Integer cashFlow; // 현금흐름
-
-//    private Integer OperatingFundExpenditure; // 영업자금지출
-
     private Long tax; // 세금
 
     private Long inventories; // 재고자산
-
-//    private Double earningPerShare; // 주당이익(보통주)
-//
-//    private Double previousEarningPerShare; // 전기주당이익(보통주)
 
     private Double capitalSurplus; // 자본잉여금
 
     private Long marketCapitalization; // 시가총액
 
     private Long numberOfListedShares; // 주식 수
-
 
     private Long closingPrcie; // 종가
 
@@ -92,6 +82,18 @@ public class IndutyDetail extends BaseEntity implements EntityVariable {
     private Long tradeReceivables; // 매출채권
 
     private Long tradePayables; // 매입채무
+
+    private Long assetsUnderConstruction; // 건설중인자산
+
+    private Long investmentAsset; // 투자자산
+
+    private Long cashFlowFromOperatingActivities; // 영업활동으로인한 현금흐름
+
+    private Long cashFlowFromInvestingActivities; // 투자활동으로인한 현금흐름
+
+    private Long cashFlowFromFinancingActivities; // 재무활동으로인한 현금흐름
+
+    private Long dividendPayment; // 배당금
 
     @Override
     public String getVariableId() {
