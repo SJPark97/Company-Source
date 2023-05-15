@@ -6,19 +6,14 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
 @ApiModel(value = "회원 가입 정보", description = "아이디, 닉네임, 비밀번호, 이메일, 성별, 생일")
-//@Schema(description = "게시물 리스트 응답DTO")
-// 회원가입시 받는 정보들
 public class SignupRequestDto {
 
     @ApiModelProperty(value = "닉네임")

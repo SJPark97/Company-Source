@@ -55,6 +55,4 @@ public class MyPageController {
         return responseHandler.response(userCommunityList);
     }
 
-    // 유저 정보 수정
-
 }
