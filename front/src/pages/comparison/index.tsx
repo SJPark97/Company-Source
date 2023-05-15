@@ -2,18 +2,25 @@ import NavBar from "@/components/NavBar";
 import CompanyComparisonCard from "@/components/comparison/CompanyComparisonCard";
 import ComparisonModal from "@/components/comparison/ComparisonModal";
 import { RootState } from "@/stores/store";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-export default function Comparison() {
+export default function comparison() {
 
-  const [isReadyToCompare, setIsReadyToCompare] = useState<boolean>(false);
-
+  const router = useRouter();
   const isLeftCardSelected = useSelector((state: RootState) => {
     return state.leftSelectedCompany.isSelected
   })
   const isRightCardSelected = useSelector((state: RootState) => {
     return state.rightSelectedCompany.isSelected
+  })
+
+  const leftCompanyId = useSelector((state: RootState) => {
+    return state.leftSelectedCompany.corpId
+  })
+  const rightCompanyId = useSelector((state: RootState) => {
+    return state.rightSelectedCompany.corpId
   })
 
   const handleOnclick = () => {
@@ -24,7 +31,7 @@ export default function Comparison() {
     } else if (!isRightCardSelected) {
       alert("오른쪽 기업도 선택해주세요!")
     } else {
-      setIsReadyToCompare(true);
+      router.push(`/comparison/${leftCompanyId}/${rightCompanyId}`)
     }
   }
 
@@ -33,6 +40,8 @@ export default function Comparison() {
       <NavBar />
       <div className="flex flex-col bg-no-repeat bg-cover bg-comparison h-[400px]">
         <div className="bg-gradient-to-b from-[rgba(255,255,255,0)] to-[rgba(255,255,255,1)] h-[400px]">
+
+          {/* 기업 비교 선택창 부분 */}
           <div className="flex flex-col bg-white border-gray-500 rounded-5 mt-100 mx-[13vw] border-1">
             <div className="flex justify-between min-h-[300px]">
               <div className="mx-70 my-50 w-full">
@@ -49,6 +58,7 @@ export default function Comparison() {
             </div>
           </div>
           <div className="mb-100"></div>
+
         </div>
       </div>
     </>

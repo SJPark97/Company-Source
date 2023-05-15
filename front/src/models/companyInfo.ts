@@ -1,4 +1,5 @@
 interface companyInfo {
+  corpId: string,
   corpImg: string,
   corpName: string,
   corpSize: string,
