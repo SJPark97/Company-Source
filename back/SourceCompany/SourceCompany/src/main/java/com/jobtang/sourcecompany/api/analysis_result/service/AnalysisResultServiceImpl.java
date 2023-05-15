@@ -1,12 +1,11 @@
 package com.jobtang.sourcecompany.api.analysis_result.service;
 
-import com.jobtang.sourcecompany.api.analysis_result.Dto.GoodCorpResponseDto;
 import com.jobtang.sourcecompany.api.analysis_result.entity.AnalysisResult;
 import com.jobtang.sourcecompany.api.analysis_result.repository.AnalysisResultRepository;
+import com.jobtang.sourcecompany.api.corp.dto.CorpListResponseDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp.repository.CorpRepository;
-import com.jobtang.sourcecompany.api.corp_detail.document.AnalysisInfoDocument;
 import com.jobtang.sourcecompany.api.corp_detail.repository.AnalysisInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -43,7 +41,7 @@ public class AnalysisResultServiceImpl implements AnalysisResultService{
     }
 
     @Override
-    public GoodCorpResponseDto GetGoodCorps(int size, int page) {
+    public CorpListResponseDto GetGoodCorps(int size, int page) {
         Pageable pageSetting = PageRequest.of(size, page);
         List analysisIds = new ArrayList(List.of("101", "103", "104", "109", "113", "405"));
 
@@ -63,8 +61,8 @@ public class AnalysisResultServiceImpl implements AnalysisResultService{
         for (AnalysisResult analysisResult : analysisResults) {
             data.add(mapper.map(analysisResult.getCorp(), CorpSearchListDto.class));
         }
-        return new GoodCorpResponseDto().builder()
-                .analysisName(analysisInfoRepository.findByAnalysisId(targetAnalysisId).getData().get("analysis_name"))
+        return new CorpListResponseDto().builder()
+                .kind(analysisInfoRepository.findByAnalysisId(targetAnalysisId).getData().get("analysis_name"))
                 .corps(data)
                 .build();
     }

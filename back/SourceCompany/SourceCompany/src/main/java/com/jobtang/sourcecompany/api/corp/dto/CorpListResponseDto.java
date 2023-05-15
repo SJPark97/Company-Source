@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class IndutyCorpResponseDto {
-    private String IndutyName;
+public class CorpListResponseDto {
+    private String kind;
     private List<CorpSearchListDto> corps;
 }

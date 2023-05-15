@@ -1,10 +1,9 @@
 package com.jobtang.sourcecompany.api.corp.service;
 
-import com.jobtang.sourcecompany.api.analysis_result.Dto.GoodCorpResponseDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpAutoSearchDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpInfoDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
-import com.jobtang.sourcecompany.api.corp.dto.IndutyCorpResponseDto;
+import com.jobtang.sourcecompany.api.corp.dto.CorpListResponseDto;
 
 import java.util.List;
 
@@ -31,7 +30,9 @@ public interface CorpService {
 
     List<CorpSearchListDto> getHotCorps(int size, int page);
 
-    IndutyCorpResponseDto getIndutyCorps(int size, int page);
+    CorpListResponseDto getIndutyCorps(int size, int page);
 
-    GoodCorpResponseDto getGoodResultCorps(int size, int page);
+    CorpListResponseDto getGoodResultCorps(int size, int page);
+
+    CorpListResponseDto getTopSalesCorps(int size, int page);
 }
