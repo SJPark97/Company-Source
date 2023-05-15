@@ -69,10 +69,10 @@ public class CommunityServiceImpl implements CommunityService {
   }
 
   @Override
-  public List<ReadAllCommunityResponse> searchCommunity(String communityType, String content, String type, Pageable pageable) {
+  public PagingCommunityResponse searchCommunity(String communityType, String content, String type, Pageable pageable) {
     if (type.equals("content")) {
       Page<Community> communities = communityRepository.findAllByCommunityTypeAndContentContainingAndIsActiveTrue(communityType, content, pageable);
-      return communities.stream()
+      List<ReadAllCommunityResponse> readAllCommunityResponses =communities.stream()
               .map(community -> {
                 // 레디스에 저장된 해당 커뮤니티의 key값
                 String key = "viewComm" + community.getId();
@@ -84,9 +84,10 @@ public class CommunityServiceImpl implements CommunityService {
                 return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
               })
               .collect(Collectors.toList());
+      return new PagingCommunityResponse(communities.getTotalPages() ,readAllCommunityResponses );
     } else if (type.equals("title")) {
       Page<Community> communities = communityRepository.findAllByCommunityTypeAndTitleContainingAndIsActiveTrue(communityType, content, pageable);
-      return communities.stream()
+      List<ReadAllCommunityResponse> readAllCommunityResponses = communities.stream()
               .map(community -> {
                 // 레디스에 저장된 해당 커뮤니티의 key값
                 String key = "viewComm" + community.getId();
@@ -98,6 +99,7 @@ public class CommunityServiceImpl implements CommunityService {
                 return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
               })
               .collect(Collectors.toList());
+      return new PagingCommunityResponse(communities.getTotalPages() ,  readAllCommunityResponses);
     } else {
       throw new CustomException(ErrorCode.WRONG_INPUT_DATA);
     }
