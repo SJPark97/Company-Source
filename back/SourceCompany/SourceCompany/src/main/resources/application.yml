@@ -3,8 +3,8 @@ server:
 spring:
   jpa:
     hibernate:
-#      ddl-auto: update
-      ddl-auto: none
+      ddl-auto: update
+#      ddl-auto: none
     properties:
       hibernate:
         format_sql: true
@@ -82,9 +82,11 @@ spring:
             enable: true
           auth: true
 
+
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
+
 
 drinks :
   milkshake: ENC(3eNhgI3qWrTihqdQVAxFcCyvxSlVhqJ8SP7gCoCdsh/Cuzo6g7aD2wi+CUsvSd9IpcQuL42rMyCXGZekpAWLpg==)
@@ -96,6 +98,8 @@ cloud:
     stack.auto: false
     region.static: ap-northeast-2
     credentials:
+#      accessKey: AKIA3HXUHACC2QTVP7F4
+#      secretKey: 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
       accessKey: ENC(8ECgvcPIlkC43HrpeitikNBLo0d9zWAJjyTHqZYPqFs=)
       secretKey: ENC(ntyBVOqbtQkHHmFKRxdsvdU2iLUV++BaOkE+G2q50yAizWl5zslW3S0L/10xMo73wvExMl6kol0=)
 
