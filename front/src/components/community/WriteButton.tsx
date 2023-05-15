@@ -11,7 +11,10 @@ export default function ({ path }: { path: string }) {
 
   const handleWriteButtonClick = () => {
     if (accessToken) {
-      router.push("/boardwrite");
+      router.push(
+        { pathname: "/boardwrite", query: { type: "write", board: boardName } },
+        "/boardwrite"
+      );
     } else {
       router.push({ pathname: "/login", query: { redirect: "/boardwrite" } });
     }

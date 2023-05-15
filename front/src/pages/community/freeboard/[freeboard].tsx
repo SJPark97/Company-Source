@@ -74,23 +74,29 @@ export default function FreeBoardAll({ data }: { data: any }) {
         <div className="flex flex-col">
           {data.data &&
             data.data.map((post: any) => (
-              <div
-                className="flex py-10
-              "
+              <Link
+                href={"/community/freeboard/detail/" + `${post.communityId}`}
                 key={"corpboardrecommend" + `${post.communityId}`}
               >
-                <div className="text-center w-70">{post.communityId}</div>
-                <div className="w-[550px] line-clamp-1">
-                  {`${post.title}` + "  "}
-                  <span className="text-brand font-bold">
-                    [{post.commentCount}]
-                  </span>
+                <div
+                  className="flex py-10
+              "
+                >
+                  <div className="text-center w-70">{post.communityId}</div>
+                  <div className="flex w-[550px]">
+                    <div className="line-clamp-1 mr-10">
+                      {`${post.title}` + "  "}
+                    </div>
+                    <div className="text-brand font-bold">
+                      [{post.commentCount}]
+                    </div>
+                  </div>
+                  <div className="text-center w-[200px]">{post.userName}</div>
+                  <div className="text-center w-100">{post.likesCount}</div>
+                  <div className="text-center w-100">{post.viewCount}</div>
+                  <div className="text-center w-[180px]">{post.date}</div>
                 </div>
-                <div className="text-center w-[200px]">{post.userName}</div>
-                <div className="text-center w-100">{post.likesCount}</div>
-                <div className="text-center w-100">{post.viewCount}</div>
-                <div className="text-center w-[180px]">{post.date}</div>
-              </div>
+              </Link>
             ))}
         </div>
       </div>
