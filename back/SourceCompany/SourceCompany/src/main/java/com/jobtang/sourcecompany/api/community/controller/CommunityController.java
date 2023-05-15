@@ -38,9 +38,12 @@ public class CommunityController {
   // 테스트 용 유저 가져오기
   private final JwtService jwtService;
 
-//todo: 수정 삭제 할때 , 작성자와 토큰이 같은 사람인지 체크하는 부분 추가
-  // todo : getAll 할때  sort 라는 인자값을 받는다 이때
-  //  sort = All  : 시간순
+  /**
+   *
+   * 마이페이지 조회
+   *
+   */
+
   // view : 조회수순
   // likes : 좋아요 순
 
@@ -85,8 +88,8 @@ public class CommunityController {
 
     HashMap<String, Object> result = new HashMap<>();
     HttpHeaders headers = new HttpHeaders();
-    communityService.createCommunity("기업",userId, createCommunityRequest);
-    result.put("data", "success");
+    Long communityId =communityService.createCommunity("기업",userId, createCommunityRequest);
+    result.put("data", communityId);
     return new ResponseEntity<>(result, HttpStatus.CREATED);
 
   }
@@ -253,9 +256,9 @@ public class CommunityController {
     HashMap<String, Object> result = new HashMap<>();
     HttpHeaders headers = new HttpHeaders();
 
-    communityService.createCommunity("자유", userId, createCommunityRequest);
+    Long communityId = communityService.createCommunity("자유", userId, createCommunityRequest);
 
-    result.put("data", "success");
+    result.put("data", communityId);
     return new ResponseEntity<>(result, HttpStatus.CREATED);
 
   }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface CommunityService {
-  void createCommunity(String communityType, Long userId, CreateCommunityRequest createCommunityRequest) throws Exception;
+  Long createCommunity(String communityType, Long userId, CreateCommunityRequest createCommunityRequest) throws Exception;
 
   List<ReadAllCommunityResponse> searchCommunity(String communityType , String content , String  type , Pageable pageable );
 
