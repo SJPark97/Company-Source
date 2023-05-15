@@ -13,13 +13,10 @@ public interface CorpService {
 
     List<CorpAutoSearchDto> autoSearchCorp(String inputValue);
 
-//    List<CorpSearchListDto> recommendCorp();
 
     CorpInfoDto corpInfo(String corpId);
 
     void makeRandCorp();
-
-//    HashMap<String, Object> randCorp();
 
     List<CorpSearchListDto> randCorp(int page);
 
