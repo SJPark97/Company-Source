@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface LikesRepository extends JpaRepository<Likes, Long> {
   Optional<Likes> findByUserIdAndCommunityId (Long userId , Long communityId);
-  Optional<Likes> findByIdAndIsActiveTrue(Long likesId);
+  Optional<Likes> findByUserIdAndCommunityIdAndIsActiveTrue(Long userId ,Long communityId);
 }

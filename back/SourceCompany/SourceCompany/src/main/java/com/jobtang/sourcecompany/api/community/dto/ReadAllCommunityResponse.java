@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.stream.Collectors;
 
 @Getter
 @Builder
@@ -31,7 +32,7 @@ public class ReadAllCommunityResponse {
             .userName(community.getUser().getNickname())
             .viewCount(viewCount+community.getTotalView()+community.getYesterdayView())
             .likesCount(community.getLikesCnt())
-            .commentCount(community.getComments().size())
+            .commentCount(community.getComments().stream().filter(comment -> !comment.getContent().equals("삭제된 댓글 입니다.") && comment.isActive()==true).collect(Collectors.toList()).size())
             .build();
   }
 

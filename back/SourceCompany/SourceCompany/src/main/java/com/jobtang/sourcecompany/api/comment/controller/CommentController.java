@@ -20,6 +20,8 @@ import java.util.HashMap;
 
 @Slf4j
 @RestController
+@CrossOrigin(originPatterns = "http://k8b107.p.ssafy.io")
+//@CrossOrigin(originPatterns = "http://comapny-source.com")
 @RequestMapping("/api/v1/comment")
 @RequiredArgsConstructor
 @Api("댓글 API")
@@ -28,6 +30,7 @@ public class CommentController {
   final private CommentService commentService;
   final private JwtService jwtService;
 
+  // todo : 댓글 삭제할때도 토큰받아서 작성자와 맞는지 체크하는 로직 추가
   /**
    *
    */
@@ -52,10 +55,11 @@ public class CommentController {
           notes = "댓글을 삭제하는 API"
   )
   @DeleteMapping("/{commentId}")
-  public ResponseEntity<?> deleteCommentCommunity(@PathVariable Long commentId) {
+  public ResponseEntity<?> deleteCommentCommunity(@RequestHeader("Authorization") String token , @PathVariable Long commentId) {
     HttpHeaders headers = new HttpHeaders();
+    Long userId= jwtService.userPkByToken(token);
     HashMap<String, Object> result = new HashMap<>();
-    commentService.deleteComment(commentId);
+    commentService.deleteComment(userId ,commentId);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 
@@ -65,10 +69,11 @@ public class CommentController {
           notes = "댓글 내용을 수정하는 API"
   )
   @PutMapping
-  public ResponseEntity<?> updateComment(@RequestBody UpdateCommentRequest updateCommentRequest) {
+  public ResponseEntity<?> updateComment(@RequestHeader("Authorization") String token ,@RequestBody UpdateCommentRequest updateCommentRequest) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    //    result.put("data", communityService.updateCommunity(updateCommunityRequest));
+    Long userId= jwtService.userPkByToken(token);
+        result.put("data", commentService.updateComment(userId ,updateCommentRequest));
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 

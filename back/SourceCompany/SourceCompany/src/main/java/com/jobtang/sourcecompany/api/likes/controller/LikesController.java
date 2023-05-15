@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
+@CrossOrigin(originPatterns = "http://k8b107.p.ssafy.io")
+//@CrossOrigin(originPatterns = "http://comapny-source.com")
 @RestController
 @RequestMapping("/api/v1/likes")
 @RequiredArgsConstructor
@@ -48,12 +50,13 @@ public class LikesController {
           value = "게시글 좋아요 삭제",
           notes = "게시글의 좋아요 삭제"
   )
-  @DeleteMapping("/{community_id}")
-  public ResponseEntity<?> deleteLikes( @PathVariable Long likesId) {
+  @DeleteMapping("/{communityId}")
+  public ResponseEntity<?> deleteLikes( @RequestHeader("Authorization") String token ,@PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    likesService.deleteLikes(likesId);
-    result.put("data", likesId);
+    Long userId = jwtService.userPkByToken(token);
+    likesService.deleteLikes(userId, communityId);
+    result.put("data", communityId);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 
