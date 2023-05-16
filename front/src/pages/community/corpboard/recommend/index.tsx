@@ -17,7 +17,6 @@ export default function CorpBoardRecommend({ data }: { data: any }) {
 
   useEffect(() => {
     if (!router.query.corpboard) {
-      console.log("here");
     }
     const tempArr = [];
     for (var i = 1; i < 10; i++) {

@@ -49,7 +49,6 @@ export default function FreeBoardAll({ data }: { data: any }) {
           }
           tempArr.push(i);
         }
-        console.log(tempArr);
         setPage(tempArr);
       }
     }

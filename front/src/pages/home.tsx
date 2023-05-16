@@ -7,6 +7,9 @@ import { SERVER_URL } from "@/utils/url";
 import Head from "next/head";
 import Image from "next/image";
 import HomeQuickMenu from "@/components/home/HomeQuickMenu";
+import FirstSubject from "@/components/home/GoodCorpList";
+import { get } from "http";
+import GoodCorpList from "@/components/home/GoodCorpList";
 
 interface bigCard {
   corpId: string;
@@ -14,8 +17,18 @@ interface bigCard {
   corpImg: string;
 }
 
+interface corpInformation {
+  corpId: string;
+  corpName: string;
+  corpImg: string;
+  indutyName: string;
+  corpSize: string;
+}
+
 export default function Home() {
   const [corpList, setCorpList] = useState<Array<bigCard>>([]);
+  const [goodCorpSubject, setGoodCorpSubject] = useState<string>("");
+  const [goodCorpList, setGoodCorpList] = useState<Array<corpInformation>>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const loaderRef = useRef(null);
@@ -26,6 +39,17 @@ export default function Home() {
       setCorpList([...corpList, ...res.data.data]);
     });
     setLoading(false);
+  };
+
+  const getGoodCorpList = async () => {
+    const res = await axios.get(SERVER_URL + "/corp/goodresult", {
+      params: {
+        page: 1,
+        size: 5,
+      },
+    });
+    setGoodCorpSubject(res.data.data.kind);
+    setGoodCorpList(res.data.data.corps);
   };
 
   useEffect(() => {
@@ -55,7 +79,11 @@ export default function Home() {
     getRandomCorpList(page);
   }, [page]);
 
-  const getData = async (keyWord: string | string[] | undefined) => { };
+  useEffect(() => {
+    getGoodCorpList();
+  }, []);
+
+  const getData = async (keyWord: string | string[] | undefined) => {};
   return (
     <>
       <Head>
@@ -99,7 +127,16 @@ export default function Home() {
           />
         </div>
         <HomeQuickMenu />
-        <div className="mx-[10vw] flex">
+
+        {/* 추천 div */}
+        <div className="flex flex-col w-[full] h-[430px] bg-analysisBg">
+          {/* 평가별 좋은 기업 추천 */}
+          <div>
+            <GoodCorpList subject={goodCorpSubject} corpList={goodCorpList} />
+          </div>
+        </div>
+
+        <div className="mx-auto flex max-w-[1300px]">
           <div className="flex flex-wrap justify-around">
             {corpList &&
               corpList.map((corp) => (

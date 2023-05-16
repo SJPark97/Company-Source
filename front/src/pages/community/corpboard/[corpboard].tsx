@@ -49,7 +49,6 @@ export default function CorpBoardRecommend({ data }: { data: any }) {
           }
           tempArr.push(i);
         }
-        console.log(tempArr);
         setPage(tempArr);
       }
     }

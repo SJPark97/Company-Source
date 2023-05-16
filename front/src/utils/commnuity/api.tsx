@@ -35,7 +35,6 @@ export const createCorpAxios = async (
     );
     return response;
   } catch (error) {
-    console.log(error);
     return null;
   }
 };
@@ -46,7 +45,6 @@ export const createFreeAxios = async (
   myCookie: string
 ) => {
   try {
-    console.log(myCookie);
     const response = await axios.post(
       SERVER_URL + "/community/free",
       {
@@ -61,7 +59,6 @@ export const createFreeAxios = async (
     );
     return response;
   } catch (error) {
-    console.log(error);
     return null;
   }
 };

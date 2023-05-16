@@ -44,7 +44,6 @@ export default function BoardNavBar() {
               추천순
             </div>
           </Link>
-          <div className={"mx-30 text-white"}>조회수순</div>
         </div>
       </div>
     </div>
