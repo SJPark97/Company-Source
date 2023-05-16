@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import Script from "next/script";
 import { Provider } from "react-redux";
 import store from "@/stores/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
 
 export default function App({ Component, pageProps }: AppProps) {
 
@@ -43,7 +45,9 @@ export default function App({ Component, pageProps }: AppProps) {
         }}
       />
       <Provider store={store}>
-        <Component {...pageProps} />
+        <PersistGate persistor={persistStore(store)}>
+          <Component {...pageProps} />
+        </PersistGate>
       </Provider>
       <Question />
     </>
