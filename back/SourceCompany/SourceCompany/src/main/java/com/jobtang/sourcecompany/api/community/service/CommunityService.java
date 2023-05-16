@@ -26,4 +26,7 @@ public interface CommunityService {
   void schedule();
   int getTotalPage();
 
+  // 커뮤니티의 조회수만을 늘려주는 메소드
+  int addViewCommunity(Long communityId);
+
 }
