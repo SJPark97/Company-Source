@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface CommunityRepository  extends JpaRepository<Community , Long> {
 
   // 삭제 되지 않은 값들만 검색
-
+  Optional<Community> findByIdAndIsActiveTrue(Long communityId);
   //삭제 되지 않은 값들만 검색
   Page<Community> findAllByIsActiveAndCommunityType (boolean isActive , String communityType , Pageable pageable);
 
