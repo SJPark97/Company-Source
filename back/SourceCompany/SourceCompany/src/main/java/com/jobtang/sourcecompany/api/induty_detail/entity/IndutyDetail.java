@@ -222,10 +222,43 @@ public class IndutyDetail extends BaseEntity implements EntityVariable {
         return interestExpense;
     }
 
-    // 버전2
+    // 버전 2
+    @Override
+    public Long getPreviousNumberOfListedShares() { return previousNumberOfListedShares; }
 
     @Override
-    public Long getPreviousNumberOfListedShares() {
-        return previousNumberOfListedShares;
-    }
+    public Long getPreviousmarketCapitalization() { return previousmarketCapitalization; } // 전기 시가총액
+
+    @Override
+    public Long getBons() { return bons; };  // 사채
+
+    @Override
+    public Long getShortermAndLongtermBorrowings() { return shortermAndLongtermBorrowings; } //장단기 차입금
+
+    @Override
+    public Long getDepreciation() { return depreciation; } //감가상각비
+
+    @Override
+    public Long getTradeReceivables() { return tradeReceivables; } // 매출채권
+
+    @Override
+    public Long getTradePayables() { return tradePayables; } // 매입채무
+
+    @Override
+    public Long getAssetsUnderConstruction() { return assetsUnderConstruction; } // 건설중인 자산
+
+    @Override
+    public Long getInvestmentAsset() { return investmentAsset; } // 투자자산
+
+    @Override
+    public Long getCashFlowFromOperatingActivities() { return cashFlowFromOperatingActivities; } // 영업활동으로인한 현금흐름
+
+    @Override
+    public Long getCashFlowFromInvestingActivities() { return cashFlowFromInvestingActivities; } // 투자활동으로인한 현금흐름
+
+    @Override
+    public Long getCashFlowFromFinancingActivities() { return cashFlowFromFinancingActivities; } // 재무활동으로인한 현금흐름
+
+    @Override
+    public Long getDividendPayment() { return dividendPayment; } // 배당금
 }

@@ -74,8 +74,7 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
 
     private Long bons;  // 사채
 
-    @Column(precision = 30, scale = 0)
-    private BigInteger shortermAndLongtermBorrowings; //장단기 차입금
+    private Long shortermAndLongtermBorrowings; //장단기 차입금
 
     private Long depreciation; //감가상각비
 
@@ -85,16 +84,13 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
 
     private Long assetsUnderConstruction; // 건설중인 자산
 
-    @Column(precision = 30, scale = 0)
-    private BigInteger investmentAsset; // 투자자산
+    private Long investmentAsset; // 투자자산
 
     private Long cashFlowFromOperatingActivities; // 영업활동으로인한 현금흐름
 
-    @Column(precision = 30, scale = 0)
-    private BigInteger cashFlowFromInvestingActivities; // 투자활동으로인한 현금흐름
+    private Long cashFlowFromInvestingActivities; // 투자활동으로인한 현금흐름
 
-    @Column(precision = 30, scale = 0)
-    private BigInteger cashFlowFromFinancingActivities; // 재무활동으로인한 현금흐름
+    private Long cashFlowFromFinancingActivities; // 재무활동으로인한 현금흐름
 
     private Long dividendPayment; // 배당금
 
@@ -228,8 +224,43 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
         return interestExpense;
     }
 
+    // 버전 2
     @Override
-    public Long getPreviousNumberOfListedShares() {
-        return previousNumberOfListedShares;
-    }
+    public Long getPreviousNumberOfListedShares() { return previousNumberOfListedShares; }
+
+    @Override
+    public Long getPreviousmarketCapitalization() { return previousmarketCapitalization; } // 전기 시가총액
+
+    @Override
+    public Long getBons() { return bons; };  // 사채
+
+    @Override
+    public Long getShortermAndLongtermBorrowings() { return shortermAndLongtermBorrowings; } //장단기 차입금
+
+    @Override
+    public Long getDepreciation() { return depreciation; } //감가상각비
+
+    @Override
+    public Long getTradeReceivables() { return tradeReceivables; } // 매출채권
+
+    @Override
+    public Long getTradePayables() { return tradePayables; } // 매입채무
+
+    @Override
+    public Long getAssetsUnderConstruction() { return assetsUnderConstruction; } // 건설중인 자산
+
+    @Override
+    public Long getInvestmentAsset() { return investmentAsset; } // 투자자산
+
+    @Override
+    public Long getCashFlowFromOperatingActivities() { return cashFlowFromOperatingActivities; } // 영업활동으로인한 현금흐름
+
+    @Override
+    public Long getCashFlowFromInvestingActivities() { return cashFlowFromInvestingActivities; } // 투자활동으로인한 현금흐름
+
+    @Override
+    public Long getCashFlowFromFinancingActivities() { return cashFlowFromFinancingActivities; } // 재무활동으로인한 현금흐름
+
+    @Override
+    public Long getDividendPayment() { return dividendPayment; } // 배당금
 }

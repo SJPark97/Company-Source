@@ -39,10 +39,6 @@ public interface EntityVariable {
 
     Long getTotalLiabilities(); // 총부채
 
-//    private Integer cashFlow; // 현금흐름
-
-//    private Integer OperatingFundExpenditure; // 영업자금지출
-
     Long getTax(); // 세금
 
     Long getInventories(); // 재고자산
@@ -57,5 +53,29 @@ public interface EntityVariable {
 
     // 버전2
     Long getPreviousNumberOfListedShares(); // 전기 주식 수
+
+    Long getPreviousmarketCapitalization(); // 전기 시가총액
+
+    Long getBons();  // 사채
+
+    Long getShortermAndLongtermBorrowings(); //장단기 차입금
+
+    Long getDepreciation(); //감가상각비
+
+    Long getTradeReceivables(); // 매출채권
+
+    Long getTradePayables(); // 매입채무
+
+    Long getAssetsUnderConstruction(); // 건설중인 자산
+
+    Long getInvestmentAsset(); // 투자자산
+
+    Long getCashFlowFromOperatingActivities(); // 영업활동으로인한 현금흐름
+
+    Long getCashFlowFromInvestingActivities(); // 투자활동으로인한 현금흐름
+
+    Long getCashFlowFromFinancingActivities(); // 재무활동으로인한 현금흐름
+
+    Long getDividendPayment(); // 배당금
 
 }
