@@ -19,19 +19,19 @@ interface Iprops {
 
 export default function ComparisonChart({ corpAName, corpBName, chartData }: Iprops) {
 
-  const [data, setData] = useState<any>();
+  // const [data, setData] = useState<any>();
 
-  useEffect(() => {
-    setData(chartData);
-  }, []);
+  // useEffect(() => {
+  //   setData(chartData);
+  // }, []);
 
   return (
     <>
       <div>
 
         <div className="flex justify-center flex-nowrap text-12">
-          {data
-            ? data.map((item: any, index: number) => {
+          {chartData
+            ? chartData.map((item: any, index: number) => {
               return (
                 <div key={index}>
                   <BarChart
