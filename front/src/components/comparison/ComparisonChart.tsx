@@ -51,13 +51,13 @@ export default function ComparisonChart({ corpAName, corpBName, chartData }: Ipr
                     <Tooltip wrapperStyle={{ zIndex: "50" }} />
                     {/* <Legend /> */}
                     <ReferenceLine y={0} stroke="#000" />
-                    <Bar dataKey={corpAName} fill="#82ca9d" />
-                    <Bar dataKey={corpBName} fill="#8884d8" />
+                    <Bar dataKey={corpAName} fill="#82ca9d" width={10} />
+                    <Bar dataKey={corpBName} fill="#8884d8" width={10} />
                   </BarChart>
                 </div>
               );
             })
-            : "데이터가 없어요 ㅠㅠ"}
+            : ""}
         </div>
         <ComparisonLegend corpAName={corpAName} corpBName={corpBName} />
       </div>
