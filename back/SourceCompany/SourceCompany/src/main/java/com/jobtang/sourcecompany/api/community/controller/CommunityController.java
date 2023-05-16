@@ -45,6 +45,25 @@ public class CommunityController {
    */
 
   /**
+   *  조회수 추가하는 api
+   */
+  @ApiOperation(
+          value = "게시글 조회수 올리기",
+          notes = "조회수만 올리기 , 올라간 조회수   리턴"
+
+  )
+  @PostMapping("/add/view/{communityId}")
+  public ResponseEntity<?> addViewCommunity( @PathVariable Long communityId) {
+
+    HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result = new HashMap<>();
+    int response = communityService.addViewCommunity(communityId);
+    result.put("data", response);
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+  }
+
+
+  /**
    * 전체 검색
    *
    */
