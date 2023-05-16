@@ -7,9 +7,9 @@ import { SERVER_URL } from "@/utils/url";
 import Head from "next/head";
 import Image from "next/image";
 import HomeQuickMenu from "@/components/home/HomeQuickMenu";
-import FirstSubject from "@/components/home/GoodCorpList";
-import { get } from "http";
 import GoodCorpList from "@/components/home/GoodCorpList";
+import { CSSTransition } from 'react-transition-group'
+// import { clearInterval } from "timers";
 
 interface bigCard {
   corpId: string;
@@ -29,9 +29,20 @@ export default function Home() {
   const [corpList, setCorpList] = useState<Array<bigCard>>([]);
   const [goodCorpSubject, setGoodCorpSubject] = useState<string>("");
   const [goodCorpList, setGoodCorpList] = useState<Array<corpInformation>>([]);
+  const [indutyCorpSubject, setIndutyCorpSubject] = useState<string>("")
+  const [indutyCorpList, setIndutyCorpList] = useState<Array<corpInformation>>([]);
+  const [topSalesCorpSubject, setTopSalesCorpSubject] = useState<string>("")
+  const [topSalesCorpList, setTopSalesCorpList] = useState<Array<corpInformation>>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const loaderRef = useRef(null);
+
+  const [activeBlockIndex, setActiveBlockIndex] = useState(0)
+  const blocks = [
+    { subject: goodCorpSubject, corpList: goodCorpList },
+    { subject: indutyCorpSubject, corpList: indutyCorpList },
+    { subject: topSalesCorpSubject, corpList: topSalesCorpList },
+  ];
 
   const getRandomCorpList = async (page: number) => {
     setLoading(true);
@@ -41,16 +52,41 @@ export default function Home() {
     setLoading(false);
   };
 
+  // 평가 지표 좋은 기업 리스트 불러오는 함수
   const getGoodCorpList = async () => {
     const res = await axios.get(SERVER_URL + "/corp/goodresult", {
       params: {
-        page: 1,
+        page: Math.floor(Math.random() * (10 - 0 + 1)) + 0,
         size: 5,
       },
     });
     setGoodCorpSubject(res.data.data.kind);
     setGoodCorpList(res.data.data.corps);
   };
+
+  // 산업별 기업 리스트 불러오는 함수
+  const getIndutyCorpList = async () => {
+    const res = await axios.get(SERVER_URL + "/corp/induty", {
+      params: {
+        page: Math.floor(Math.random() * (10 - 0 + 1)) + 0,
+        size: 5,
+      }
+    })
+    setIndutyCorpSubject(res.data.data.kind)
+    setIndutyCorpList(res.data.data.corps)
+  }
+
+  // 매출순 기업 리스트 불러오는 함수
+  const getTopSalesCorpList = async () => {
+    const res = await axios.get(SERVER_URL + "/corp/sales", {
+      params: {
+        page: Math.floor(Math.random() * (10 - 0 + 1)) + 0,
+        size: 5,
+      }
+    })
+    setTopSalesCorpSubject(res.data.data.kind)
+    setTopSalesCorpList(res.data.data.corps)
+  }
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -81,9 +117,22 @@ export default function Home() {
 
   useEffect(() => {
     getGoodCorpList();
+    getIndutyCorpList();
+    getTopSalesCorpList();
   }, []);
 
-  const getData = async (keyWord: string | string[] | undefined) => {};
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveBlockIndex((prevIndex) => (prevIndex + 1) % 3)
+    }, 10000)
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [])
+
+  const getData = async (keyWord: string | string[] | undefined) => { };
   return (
     <>
       <Head>
@@ -128,11 +177,38 @@ export default function Home() {
         </div>
         <HomeQuickMenu />
 
-        {/* 추천 div */}
+        {/* 평가별 추천 기업
         <div className="flex flex-col w-[full] h-[430px] bg-analysisBg">
-          {/* 평가별 좋은 기업 추천 */}
-          <div>
-            <GoodCorpList subject={goodCorpSubject} corpList={goodCorpList} />
+          <GoodCorpList subject={goodCorpSubject} corpList={goodCorpList} />
+        </div>
+
+        랜덤 산업 기업
+        <div className="flex flex-col w-[full] h-[430px] bg-analysisBg">
+          <GoodCorpList subject={indutyCorpSubject} corpList={indutyCorpList} />
+        </div>
+
+        TOP 매출 기업
+        <div className="flex flex-col w-[full] h-[430px] bg-analysisBg">
+          <GoodCorpList subject={topSalesCorpSubject} corpList={topSalesCorpList} />
+        </div> */}
+
+        <div>
+          <div className="flex flex-col w-full h-430px bg-analysisBg">
+            {blocks.map((block, index) => (
+              <CSSTransition
+                key={"추천" + `${index}`}
+                in={index === activeBlockIndex}
+                timeout={{ enter: 500, exit: 0, appear: true ? 0 : 500 }}
+                // className="animate-fadeIn"
+                mountOnEnter
+                unmountOnExit
+              >
+                <div className={"relative h-full ease-in-out" + `${index !== activeBlockIndex ? " hidden" : ""}`}>
+                  {block.corpList.length === 5 ? (<GoodCorpList subject={block.subject} corpList={block.corpList} />) : null}
+                  {/* <GoodCorpList subject={block.subject} corpList={block.corpList} /> */}
+                </div>
+              </CSSTransition>
+            ))}
           </div>
         </div>
 
