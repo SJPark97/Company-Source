@@ -103,7 +103,7 @@ export default function searchdetail({
                     alt="gpt"
                     width={1500}
                     height={1500}
-                    className="w-30 h-30 self-center rounded-2"
+                    className="self-center w-30 h-30 rounded-2"
                   />
                   <span className="ml-12 text-black">GPT의 기업설명</span>
                 </div>
@@ -121,6 +121,7 @@ export default function searchdetail({
 }
 
 export const getStaticPaths = async () => {
+  // // 빌드 시에 html 페이지를 모두 렌더링하는 코드
   // const res = await axios.get(
   //   SERVER_URL + `/corp/all`
   // );
@@ -134,6 +135,8 @@ export const getStaticPaths = async () => {
   //   })),
   //   fallback: true,
   // };
+
+  // 페이지 최초 방문 시 html을 렌더링해주는 방법
   return {
     paths: [],
     fallback: true,
