@@ -56,7 +56,6 @@ public class AnalysisVariable {
     public Double equityTurnover; // 자기자본회전율 = 매출액/자기자본(평잔)
     public Double nonCurrentAssetTurnover; // 비유동자산회전율 = 매출액/비유동자산(평잔)
     public Double receivablesTurnover; // 매출채권회전율 = 매출액/매출채권(평잔)
-<<<<<<< HEAD
     public Double payablesTurnover; // 매입채무회전율 = 매출액/매입채무(평잔)
     public Double earningsAfterTaxToSalesRatio; // 매출액순이익율 = 당기순이익/매출액 * 100
     public Double returnOnAssets; // 총자산순이익율 = 순이익/총자산 * 100
@@ -68,12 +67,6 @@ public class AnalysisVariable {
     public Double cashFlowInterestCoverageRatio;// 현금흐름이자보상비율 = (영업활동으로 인한 현금흐름 + 이자비용) / 이자비용 * 100
     public Double cashFlow; // 현금흐름 = 영업활동으로 인한 현금흐름 + 재무활동으로 인한 현금흐름 + 투자활동으로 인한 현금흐름
     public Double turnoverRatioOfTotalOperatingCapital; // 경영자본 = 총자산 - 투자자산 - 건설중인자산 = 경영자본회전율
-=======
-    public Double payablesTurnover;// 매입채무회전율 = 매출액/매입채무(평잔)
-
-//    public Double turnoverRatioOfTotalOperatingCapital; // 경영자본 = 총자산 - 투자자산 - 건설중인자산 = 경영자본회전율
->>>>>>> 341feab264a75646a439e7abf22ade5be446e6fc
-
 
     // 생성자
     public AnalysisVariable(EntityVariable entityVariable) {

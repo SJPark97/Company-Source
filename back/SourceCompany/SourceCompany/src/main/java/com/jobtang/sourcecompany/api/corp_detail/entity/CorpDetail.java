@@ -74,8 +74,7 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
 
     private Long bons;  // 사채
 
-    @Column(precision = 30, scale = 0)
-    private BigInteger shortermAndLongtermBorrowings; //장단기 차입금
+    private Long shortermAndLongtermBorrowings; //장단기 차입금
 
     private Long depreciation; //감가상각비
 
@@ -85,16 +84,13 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
 
     private Long assetsUnderConstruction; // 건설중인 자산
 
-    @Column(precision = 30, scale = 0)
-    private BigInteger investmentAsset; // 투자자산
+    private Long investmentAsset; // 투자자산
 
     private Long cashFlowFromOperatingActivities; // 영업활동으로인한 현금흐름
 
-    @Column(precision = 30, scale = 0)
-    private BigInteger cashFlowFromInvestingActivities; // 투자활동으로인한 현금흐름
+    private Long cashFlowFromInvestingActivities; // 투자활동으로인한 현금흐름
 
-    @Column(precision = 30, scale = 0)
-    private BigInteger cashFlowFromFinancingActivities; // 재무활동으로인한 현금흐름
+    private Long cashFlowFromFinancingActivities; // 재무활동으로인한 현금흐름
 
     private Long dividendPayment; // 배당금
 
