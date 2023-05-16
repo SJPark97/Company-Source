@@ -39,9 +39,27 @@ public class AnalysisVariable {
     public Double debtToEquityRatio; // 부채비율 = 총부채/자기자본
     public Double returnOnEquity; // ROE = ROI * (1 + 부채비율)
     public Double netProfitBeforeTax; // 세전순이익 = 순이익 + 세금
-//    public Double turnoverRatioOfTotalOperatingCapital; // 경영자본 = 총자산 - 투자자산 - 건설중인자산 = 경영자본회전율
     public Double previousEarningPerShare; // 전기 주당순이익
     public Double earningPerShare; // 주당순이익
+
+
+    // 버전2
+    public Double netWorthToTotalAsset;  // 자기자본비율 = 자기자본/총자본 * 100
+    public Double dependenceOnDebt;  // 차입금의존도 = (장단기 차입금 + 사채)/총자본 * 100
+    public Double averageInterestRateOnBorrowings;  // 차입금평균이자율 = 이자비용/(장단기차입금+사채)의 평잔 * 100
+    public Double timesInterestEarned; // 이자보상비율 = 영업이익/이자비용 > (영업이익/총자본)/(이자비용/차입금) = 총자본영업이익률/차입금평균이자율
+    public Double ebitaInterestExpense; // EBITDA/이자비용비율 = EBITDA/이자비용 = (세전순이익 + 이자비용 + 감가상각비 및 무형자산상각비) / 이자비용
+    public Double inventoryTurnover; // 재고자산회전율 = 매출액/재고자산(평잔)
+    public Double totalAssetTurnover; // 총자산회전율 = 매출액/총자산(평잔)
+    public Double operatingProfitToSalesRatio; // 매출액영업이익률 = 영업이익/매출액 * 100
+    public Double totalAssetsOperatwingProfiRate; // 총자산영업이익률(ROA) = 총자산/영업이익
+    public Double equityTurnover; // 자기자본회전율 = 매출액/자기자본(평잔)
+    public Double nonCurrentAssetTurnover; // 비유동자산회전율 = 매출액/비유동자산(평잔)
+    public Double receivablesTurnover; // 매출채권회전율 = 매출액/매출채권(평잔)
+    public Double payablesTurnover;// 매입채무회전율 = 매출액/매입채무(평잔)
+
+//    public Double turnoverRatioOfTotalOperatingCapital; // 경영자본 = 총자산 - 투자자산 - 건설중인자산 = 경영자본회전율
+
 
     // 생성자
     public AnalysisVariable(EntityVariable entityVariable) {
