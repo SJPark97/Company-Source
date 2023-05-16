@@ -36,8 +36,9 @@ export default function corpBoardDetail({
   const currentLocation = router.pathname.split("/")[2];
   const [isLiked, setIsLiked] = useState<boolean>(data.data.liked);
   const [commentList, setCommentList] = useState<Array<comment>>(
-    data.data.comments.filter((comment: comment) => comment.parent === 1)
+    data.data.comments
   );
+  const [likesCount, setLikesCount] = useState(data.data.likesCount);
   const cookies = parseCookies();
   // 나의 글인지 여부
   const [isYourPost, setIsYourPost] = useState<boolean>(false);
@@ -51,23 +52,24 @@ export default function corpBoardDetail({
       if (!isLiked) {
         await likeDetailAxios(accessToken, router.query.detail as string);
         setIsLiked(true);
+        // 좋아요 갱신 위해 페이지 데이터 요청
+        const res = await axios.get(
+          SERVER_URL + `/community/corp/${router.query.detail}`
+        );
+        setLikesCount(res.data.data.likesCount);
       } else {
         await cancelLikeDetailAxios(accessToken, router.query.detail as string);
         setIsLiked(false);
+        // 좋아요 갱신 위해 페이지 데이터 요청
+        const res = await axios.get(
+          SERVER_URL + `/community/corp/${router.query.detail}`
+        );
+        setLikesCount(res.data.data.likesCount);
       }
     } else {
       if (confirm("로그인 하시겠습니까?")) {
         router.push("/login");
       }
-    }
-
-    // 좋아요 안 되어있으면
-    if (!isLiked) {
-      await likeDetailAxios(accessToken, router.query.detail as string);
-      setIsLiked(true);
-    } else {
-      await cancelLikeDetailAxios(accessToken, router.query.detail as string);
-      setIsLiked(false);
     }
   };
 
@@ -116,6 +118,9 @@ export default function corpBoardDetail({
 
   // 나의 글인지 확인
   useEffect(() => {
+    // 조회수 올리기
+    axios.post(SERVER_URL + `/community/add/view/` + `${router.query.detail}`);
+
     if (cookies.nickName === data.data.userName) {
       setIsYourPost(true);
     }
@@ -147,6 +152,7 @@ export default function corpBoardDetail({
                 </div>
               </div>
 
+              {/* 게시물 좋아요수 */}
               <div className="flex">
                 <div className="flex items-center ml-50">
                   <div className="w-20 h-auto">
@@ -157,8 +163,9 @@ export default function corpBoardDetail({
                       height={72}
                     />
                   </div>
-                  <div className="ml-5">{data.data.likesCount}</div>
+                  <div className="ml-5">{likesCount}</div>
                 </div>
+                {/* 게시물 조회수 */}
                 <div className="flex items-center ml-50">
                   <div className="w-25 h-auto pt-3">
                     <Image
@@ -225,6 +232,11 @@ export default function corpBoardDetail({
                 <div key={`${comment.commentId}` + "기업 댓글"}>
                   <CommentComponent
                     commentInformation={comment}
+                    replyComments={commentList.filter(
+                      (reply) =>
+                        reply.parent === 0 &&
+                        reply.commentGroup === comment.commentGroup
+                    )}
                     reloadComment={reloadComment}
                   />
                 </div>

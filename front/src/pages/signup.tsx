@@ -9,8 +9,7 @@ import {
 import { useRouter } from "next/router";
 
 export default function SignUp() {
-
-  const router = useRouter()
+  const router = useRouter();
 
   const [id, setId] = useState<string>("");
   const [idIsValid, setIdIsValid] = useState<boolean>(false);
@@ -51,7 +50,6 @@ export default function SignUp() {
     // 아이디가 유효하면 back에 Id 중복체크 요청
     if (idIsValid) {
       const res = await idCheckAxios(id);
-      console.log(res);
       if (res.code === "C005") {
         alert("중복된 ID 입니다.");
         setIdIsDuplicate(true);
@@ -80,7 +78,6 @@ export default function SignUp() {
 
   const sexHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setSex(e.target.value);
-    console.log(e.target.value);
   };
 
   const birthDateHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -137,8 +134,8 @@ export default function SignUp() {
     }
 
     if (idIsDuplicate) {
-      alert('ID중복 체크를 해주세요.')
-      return
+      alert("ID중복 체크를 해주세요.");
+      return;
     }
 
     // password 유효성 통과 못하면 경고
@@ -163,13 +160,13 @@ export default function SignUp() {
     }
 
     if (!birthDate) {
-      alert('생년월일을 선택해주세요')
-      return
+      alert("생년월일을 선택해주세요");
+      return;
     }
 
     const res = await signUpAxios(birthDate, id, nickName, firstPassword, sex);
     if (res && res.status === 200) {
-      router.push('/')
+      router.push("/");
     }
   };
 

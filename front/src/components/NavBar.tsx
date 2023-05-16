@@ -17,9 +17,9 @@ export default function NavBar() {
   const logOutHandler = () => {
     destroyCookie(null, "accessToken", { path: "/" });
     destroyCookie(null, "nickName", { path: "/" });
-    setIsLoggedIn(false)
-    setNickName("")
-    router.reload()
+    setIsLoggedIn(false);
+    setNickName("");
+    router.reload();
   };
 
   useEffect(() => {
@@ -68,12 +68,14 @@ export default function NavBar() {
             <div
               className={
                 "mx-[3vw] " +
-                `${router.pathname === "/"
-                  ? "text-white"
-                  : `${router.pathname === "/home"
-                    ? "text-white font-bold"
-                    : "text-gray-400"
-                  }`
+                `${
+                  router.pathname === "/"
+                    ? "text-white"
+                    : `${
+                        router.pathname === "/home"
+                          ? "text-white font-bold"
+                          : "text-gray-400"
+                      }`
                 }`
               }
             >
@@ -85,12 +87,14 @@ export default function NavBar() {
             <div
               className={
                 "mx-[3vw] " +
-                `${router.pathname === "/" || router.pathname === "/home"
-                  ? "text-white"
-                  : `${router.pathname === "/comparison"
+                `${
+                  router.pathname.slice(0, 11) === "/comparison"
                     ? "text-black font-bold"
-                    : "text-gray-400"
-                  }`
+                    : `${
+                        router.pathname === "/" || router.pathname === "/home"
+                          ? "text-white"
+                          : "text-gray-400"
+                      }`
                 }`
               }
             >
@@ -102,12 +106,14 @@ export default function NavBar() {
             <div
               className={
                 "mx-[3vw] " +
-                `${router.pathname.slice(0, 10) === "/community" // community 하위 라우터들을 모두 처리
-                  ? "text-black font-bold"
-                  : `${router.pathname === "/" || router.pathname === "/home"
-                    ? "text-white"
-                    : "text-gray-400"
-                  }`
+                `${
+                  router.pathname.slice(0, 10) === "/community" // community 하위 라우터들을 모두 처리
+                    ? "text-black font-bold"
+                    : `${
+                        router.pathname === "/" || router.pathname === "/home"
+                          ? "text-white"
+                          : "text-gray-400"
+                      }`
                 }`
               }
             >
@@ -154,9 +160,10 @@ export default function NavBar() {
             <div
               className={
                 "ml-20 cursor-pointer " +
-                `${router.pathname !== "/" && router.pathname !== "/home"
-                  ? "text-gray-400"
-                  : "text-white"
+                `${
+                  router.pathname !== "/" && router.pathname !== "/home"
+                    ? "text-gray-400"
+                    : "text-white"
                 }`
               }
               onClick={logOutHandler}

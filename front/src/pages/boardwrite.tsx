@@ -24,7 +24,6 @@ export default function BoardWrite() {
   };
 
   const contentHandler = (content: string) => {
-    console.log("내용");
     setContent(content);
   };
 
@@ -44,7 +43,6 @@ export default function BoardWrite() {
         title,
         cookies.accessToken
       );
-      console.log(res?.data.data);
       const communityId = parseInt(res?.data.data);
       if (res && res.status === 201) {
         router.replace(
@@ -91,7 +89,6 @@ export default function BoardWrite() {
         router.query.title as string,
         cookies.accesstoken
       );
-      console.log(res);
       router.replace(
         `/community/freeboard/detail/${router.query.communityId}`,
         `/community/freeboard/detail/${router.query.communityId}`,

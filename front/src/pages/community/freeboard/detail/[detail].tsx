@@ -38,6 +38,7 @@ export default function freeBoardDetail({
   const [commentList, setCommentList] = useState<Array<comment>>(
     data.data.comments
   );
+  const [likesCount, setLikesCount] = useState(data.data.likesCount);
   const cookies = parseCookies();
   // 나의 글인지 여부
   const [isYourPost, setIsYourPost] = useState<boolean>(false);
@@ -51,23 +52,24 @@ export default function freeBoardDetail({
       if (!isLiked) {
         await likeDetailAxios(accessToken, router.query.detail as string);
         setIsLiked(true);
+        // 좋아요 갱신 위해 페이지 데이터 요청
+        const res = await axios.get(
+          SERVER_URL + `/community/free/${router.query.detail}`
+        );
+        setLikesCount(res.data.data.likesCount);
       } else {
         await cancelLikeDetailAxios(accessToken, router.query.detail as string);
         setIsLiked(false);
+        // 좋아요 갱신 위해 페이지 데이터 요청
+        const res = await axios.get(
+          SERVER_URL + `/community/free/${router.query.detail}`
+        );
+        setLikesCount(res.data.data.likesCount);
       }
     } else {
       if (confirm("로그인 하시겠습니까?")) {
         router.push("/login");
       }
-    }
-
-    // 좋아요 안 되어있으면
-    if (!isLiked) {
-      await likeDetailAxios(accessToken, router.query.detail as string);
-      setIsLiked(true);
-    } else {
-      await cancelLikeDetailAxios(accessToken, router.query.detail as string);
-      setIsLiked(false);
     }
   };
 
@@ -114,8 +116,11 @@ export default function freeBoardDetail({
     }
   }, [router]);
 
-  // 나의 글인지 확인
   useEffect(() => {
+    // 조회수 올리기
+    axios.post(SERVER_URL + `/community/add/view/` + `${router.query.detail}`);
+
+    // 나의 글인지 확인
     if ((cookies.nickName = data.data.userName)) {
       setIsYourPost(true);
     }
@@ -139,15 +144,42 @@ export default function freeBoardDetail({
           {/* 제목, 작성자, 작성시간 */}
           <div className="flex flex-col border-gray-400 border-b-2 py-15">
             <div className="text-20 font-bold mb-5">{data.data.title}</div>
-            <div className="flex">
-              <div>{data.data.userName} | </div>
-              <div className="ml-10">
-                {data.data.date} {data.data.time}
+            <div className="flex justify-between">
+              <div className="flex">
+                <div>{data.data.userName} | </div>
+                <div className="ml-10">
+                  {data.data.date} {data.data.time}
+                </div>
+              </div>
+
+              <div className="flex">
+                <div className="flex items-center ml-50">
+                  <div className="w-20 h-auto">
+                    <Image
+                      src="/like_after.png"
+                      alt="추천"
+                      width={80}
+                      height={72}
+                    />
+                  </div>
+                  <div className="ml-5">{likesCount}</div>
+                </div>
+                <div className="flex items-center ml-50">
+                  <div className="w-25 h-auto pt-3">
+                    <Image
+                      src="/view.png"
+                      alt="조회수"
+                      width={88}
+                      height={60}
+                    />
+                  </div>
+                  <div className="ml-5">{data.data.viewCount}</div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* 삭제 및 수정 버튼 */}
+          {/* 게시물 삭제 및 수정 버튼 */}
           {isYourPost ? (
             <div className="relative pt-20">
               <div className="absolute flex right-0 top-20">
@@ -198,8 +230,12 @@ export default function freeBoardDetail({
                 <div key={`${comment.commentId}` + "자유 댓글"}>
                   <CommentComponent
                     commentInformation={comment}
+                    replyComments={commentList.filter(
+                      (reply) =>
+                        reply.parent === 0 &&
+                        reply.commentGroup === comment.commentGroup
+                    )}
                     reloadComment={reloadComment}
-                    key={"자유게시판 댓글" + `${comment.commentId}`}
                   />
                 </div>
               ))}

@@ -48,7 +48,7 @@ export default function QuickMenu() {
       <Link href="/community/freeboard">
         <div
           className={
-            "p-10 " +
+            "p-10 rounded-bl-10 rounded-br-10 " +
             `${
               router.pathname && router.pathname.split("/")[2] === "freeboard"
                 ? "text-white bg-brand"
@@ -59,8 +59,6 @@ export default function QuickMenu() {
           자유 게시판
         </div>
       </Link>
-      <hr></hr>
-      <div className="p-10  text-gray-400">미정 게시판</div>
     </div>
   );
 }

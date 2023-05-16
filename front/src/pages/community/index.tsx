@@ -19,7 +19,6 @@ interface post {
 }
 
 export default function Community({ data }: { data: any }) {
-  console.log(data.data)
   return (
     // 준비중 페이지
     // <div className="flex flex-col items-center">

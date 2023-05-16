@@ -23,14 +23,13 @@ export default function Login() {
     e.preventDefault();
 
     if (!id) {
-      setFailMessage(true)
-      return
+      setFailMessage(true);
+      return;
     }
     if (!password) {
-      setFailMessage(true)
+      setFailMessage(true);
     }
     const res = await loginAxios(id, password);
-    console.log('here', res)
     // 로그인 성공해서 'data'키가 있으면 쿠키 저장
     if (res) {
       const cookies = parseCookies();
@@ -44,7 +43,7 @@ export default function Login() {
         secure: true,
         path: "/",
       });
-      router.back()
+      router.back();
       // if (isRedirect) {
       //   router.push("/" + `${isRedirect}`);
       // } else {
