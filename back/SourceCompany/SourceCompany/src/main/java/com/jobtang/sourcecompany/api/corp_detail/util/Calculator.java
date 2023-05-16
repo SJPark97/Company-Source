@@ -43,6 +43,14 @@ public class Calculator {
         return a - b;
     }
 
+    // a - b - c (null값 허용)
+    public Double mySubtractionForNull(Long a, Long b, Long c) {
+        Double x = Double.valueOf(a.longValue());
+        Double y = Double.valueOf(b.longValue());
+        Double z = Double.valueOf(c.longValue());
+        return x - y - z;
+    }
+
     // a/(b+c)
     public Double myRatioWithSum(Number a, Number b, Number c) {
         if (a == null || b == null || c == null) {return null;}
