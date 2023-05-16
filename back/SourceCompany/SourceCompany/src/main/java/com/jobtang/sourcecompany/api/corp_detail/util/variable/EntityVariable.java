@@ -47,9 +47,6 @@ public interface EntityVariable {
 
     Long getInventories(); // 재고자산
 
-
-    Double getCapitalSurplus(); // 자본잉여금
-
     Long getMarketCapitalization(); // 시가총액
 
     Long getNumberOfListedShares(); // 주식 수

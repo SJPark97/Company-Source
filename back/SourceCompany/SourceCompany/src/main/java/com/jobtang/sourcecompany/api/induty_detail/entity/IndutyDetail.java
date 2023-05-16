@@ -58,8 +58,6 @@ public class IndutyDetail extends BaseEntity implements EntityVariable {
 
     private Long inventories; // 재고자산
 
-    private Double capitalSurplus; // 자본잉여금
-
     private Long marketCapitalization; // 시가총액
 
     private Long numberOfListedShares; // 주식 수
@@ -75,6 +73,7 @@ public class IndutyDetail extends BaseEntity implements EntityVariable {
 
     private Long bons;  // 사채
 
+    @Column(precision = 30, scale = 0)
     private Long shortermAndLongtermBorrowings; //장단기 차입금
 
     private Long depreciation; //감가상각비
@@ -85,12 +84,15 @@ public class IndutyDetail extends BaseEntity implements EntityVariable {
 
     private Long assetsUnderConstruction; // 건설중인자산
 
+    @Column(precision = 30, scale = 0)
     private Long investmentAsset; // 투자자산
 
     private Long cashFlowFromOperatingActivities; // 영업활동으로인한 현금흐름
 
+    @Column(precision = 30, scale = 0)
     private Long cashFlowFromInvestingActivities; // 투자활동으로인한 현금흐름
 
+    @Column(precision = 30, scale = 0)
     private Long cashFlowFromFinancingActivities; // 재무활동으로인한 현금흐름
 
     private Long dividendPayment; // 배당금
@@ -198,11 +200,6 @@ public class IndutyDetail extends BaseEntity implements EntityVariable {
     @Override
     public Long getInventories() {
         return inventories;
-    }
-
-    @Override
-    public Double getCapitalSurplus() {
-        return capitalSurplus;
     }
 
     @Override
