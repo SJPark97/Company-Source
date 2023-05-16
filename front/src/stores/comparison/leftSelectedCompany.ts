@@ -5,10 +5,6 @@ interface CompanyInfoPayloadAction {
   payload: companyInfo,
 }
 
-interface openCardPayloadAction {
-  payload: boolean
-}
-
 const initialState: companyInfo = {
   corpId: "",
   corpImg: "",

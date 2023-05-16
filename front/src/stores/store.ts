@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import storage from "./storage";
 import controlModalSlice from "./comparison/controlModal";
 import leftSelectedCompanySlice from "./comparison/leftSelectedCompany";
 import rightSelectedCompanySlice from "./comparison/rightSelectedCompany";
-import navbarSlice from "./navbar";
+
 const reducers = combineReducers({
   controlModal: controlModalSlice,
   leftSelectedCompany: leftSelectedCompanySlice,

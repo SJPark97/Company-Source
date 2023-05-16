@@ -33,7 +33,7 @@ export default function Chart103({
               return (
                 <div key={index}>
                   <BarChart
-                    width={140}
+                    width={150}
                     height={300}
                     data={[item]}
                     margin={{
