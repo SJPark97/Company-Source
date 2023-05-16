@@ -28,6 +28,15 @@ public class Calculator {
         return x + y;
     }
 
+    // a + b
+    public Double myPlus(Number a, Number b, Number c) {
+        if (a == null || b == null || c == null) {return null;}
+        Double x = Double.valueOf(a.longValue());
+        Double y = Double.valueOf(b.longValue());
+        Double z = Double.valueOf(c.longValue());
+        return x + y + z;
+    }
+
     // a - b
     public Long mySubtraction(Long a, Long b) {;
         if (a == null || b == null) {return null;}
