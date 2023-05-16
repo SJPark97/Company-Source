@@ -26,19 +26,26 @@ export default function searchdetail({
   const router = useRouter();
   const { searchdetail } = router.query;
 
-  console.log(gptAnalysis)
-
   return (
     <>
       <Head>
-        <title>{`컴퍼니소스 | ${searchdetail ? companyOverviewInfo.corpName : "기업"}의 분석 결과`}</title>
+        <title>{`컴퍼니소스 | ${
+          searchdetail ? companyOverviewInfo.corpName : "기업"
+        }의 분석 결과`}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta
           name="description"
-          content={`컴퍼니소스에서 검색한 ${searchdetail ? companyOverviewInfo.corpName : "기업"}의 분석 결과입니다.}`}
+          content={`컴퍼니소스에서 검색한 ${
+            searchdetail ? companyOverviewInfo.corpName : "기업"
+          }의 분석 결과입니다.}`}
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={`https://company-source.com/detail/${searchdetail ? companyOverviewInfo.corpId : ""}`} />
+        <meta
+          property="og:url"
+          content={`https://company-source.com/detail/${
+            searchdetail ? companyOverviewInfo.corpId : ""
+          }`}
+        />
         <meta property="og:title" content="Company Source" />
         <meta property="og:image" content="/company_default.jpg" />
         <meta
@@ -107,7 +114,9 @@ export default function searchdetail({
                   />
                   <span className="ml-12 text-black">GPT의 기업설명</span>
                 </div>
-                <div className="text-18 my-40 mr-[3vw] font-normal">{formatDescription(gptAnalysis)}</div>
+                <div className="text-18 my-40 mr-[3vw] font-normal">
+                  {formatDescription(gptAnalysis)}
+                </div>
               </div>
             </>
           )}
@@ -171,16 +180,15 @@ export const getStaticProps = async ({ params }: any) => {
     SERVER_URL + `/corp/info/${companyId}`
   );
 
-
   // GPT 데이터 받아오는 API
   const getGptAnalysis = await axios.get(
     SERVER_URL + `/analysis/gpt/${companyId}`
   );
   let gptAnalysis = "";
   if (getGptAnalysis.status === 200) {
-    gptAnalysis = getGptAnalysis.data.data
+    gptAnalysis = getGptAnalysis.data.data;
   } else {
-    gptAnalysis = "데이터가 없어요ㅠㅠ"
+    gptAnalysis = "데이터가 없어요ㅠㅠ";
   }
 
   return {

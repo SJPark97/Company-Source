@@ -49,7 +49,6 @@ export default function CorpBoardRecommend({ data }: { data: any }) {
           }
           tempArr.push(i);
         }
-        console.log(tempArr);
         setPage(tempArr);
       }
     }
@@ -74,7 +73,9 @@ export default function CorpBoardRecommend({ data }: { data: any }) {
         <div className="flex flex-col">
           {data.data &&
             data.data.map((post: any) => (
-              <Link href={"/community/corpboard/detail/" + `${post.communityId}`}>
+              <Link
+                href={"/community/corpboard/detail/" + `${post.communityId}`}
+              >
                 <div className="flex py-10">
                   <div className="text-center w-70">{post.communityId}</div>
                   <div className="flex w-[550px]">
@@ -112,11 +113,12 @@ export default function CorpBoardRecommend({ data }: { data: any }) {
             <div
               className={
                 "mx-20 " +
-                `${router.query.recommend &&
+                `${
+                  router.query.recommend &&
                   typeof router.query.recommend === "string" &&
                   parseInt(router.query.recommend) === page
-                  ? "font-bold text-24"
-                  : null
+                    ? "font-bold text-24"
+                    : null
                 }`
               }
             >

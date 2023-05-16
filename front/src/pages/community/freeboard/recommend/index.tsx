@@ -17,7 +17,6 @@ export default function FreeBoardRecommend({ data }: { data: any }) {
 
   useEffect(() => {
     if (!router.query.freeboard) {
-      console.log("here");
     }
     const tempArr = [];
     for (var i = 1; i < 10; i++) {
@@ -48,11 +47,15 @@ export default function FreeBoardRecommend({ data }: { data: any }) {
         <div className="flex flex-col">
           {data.data &&
             data.data.map((post: any) => (
-              <Link href={"/community/freeboard/detail/" + `${post.communityId}`}>
-                <div className="flex py-10" key={"free" + `${post.communityId}`}>
+              <Link
+                href={"/community/freeboard/detail/" + `${post.communityId}`}
+              >
+                <div
+                  className="flex py-10"
+                  key={"free" + `${post.communityId}`}
+                >
                   <div className="text-center w-70">{post.communityId}</div>
                   <div className="flex w-[550px]">
-
                     <div className="line-clamp-1 mr-10">
                       {`${post.title}` + "  "}
                     </div>

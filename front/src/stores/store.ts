@@ -1,15 +1,16 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit"
-import { persistReducer } from "redux-persist"
-import storage from "redux-persist/lib/storage"
-import controlModalSlice from "./comparison/controlModal"
-import leftSelectedCompanySlice from "./comparison/leftSelectedCompany"
-import rightSelectedCompanySlice from "./comparison/rightSelectedCompany"
-
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import controlModalSlice from "./comparison/controlModal";
+import leftSelectedCompanySlice from "./comparison/leftSelectedCompany";
+import rightSelectedCompanySlice from "./comparison/rightSelectedCompany";
+import navbarSlice from "./navbar";
 const reducers = combineReducers({
   controlModal: controlModalSlice,
   leftSelectedCompany: leftSelectedCompanySlice,
   rightSelectedCompany: rightSelectedCompanySlice,
-})
+  navbar: navbarSlice,
+});
 
 const persistConfig = {
   key: "root",
@@ -20,8 +21,9 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
-})
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }),
+});
 
 export type RootState = ReturnType<typeof store.getState>;
 export default store;

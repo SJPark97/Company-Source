@@ -13,7 +13,7 @@ export default function corpB({ data }: corpAcorpBProps) {
   const router = useRouter();
   const { corpA: corpAId, corpB: corpBId } = router.query;
 
-  console.log(data)
+  console.log(data);
   return (
     <>
       <NavBar />
@@ -29,38 +29,43 @@ export default function corpB({ data }: corpAcorpBProps) {
                 height={392}
                 className="w-30 h-30"
               />
-              <span className="ml-12">"{data.data.corpA.corpName}"기업과 "{data.data.corpB.corpName}"기업의 비교 결과</span>
+              <span className="ml-12">
+                "{data.data.corpA.corpName}"기업과 "{data.data.corpB.corpName}
+                "기업의 비교 결과
+              </span>
             </div>
 
             <div className="flex flex-col">
-
               {data.data.analysis.map((item: any) => {
                 return (
                   <>
-                    <ComparisonChart corpAName={data.data.corpA.corpName} corpBName={data.data.corpB.corpName} analysisMethod={item.analysisInfo.analysis_id} chartData={item.result} />
+                    <ComparisonChart
+                      corpAName={data.data.corpA.corpName}
+                      corpBName={data.data.corpB.corpName}
+                      analysisMethod={item.analysisInfo.analysis_id}
+                      chartData={item.result}
+                    />
                   </>
-                )
+                );
               })}
               {/* <ComparisonChart corpAName={data.data.corpA.corpName} corpBName={data.data.corpB.corpName} chartData={data.data.analysis101.result} /> */}
-
-            </div >
-
+            </div>
           </div>
-        </div >
+        </div>
       </div>
-
     </>
-  )
+  );
 }
 
 export const getServerSideProps = async ({ params }: any) => {
   const { corpA: corpAId, corpB: corpBId } = params;
-  const { data } = await axios.get(SERVER_URL + `/analysis/comparison/${corpAId}/${corpBId}`)
+  const { data } = await axios.get(
+    SERVER_URL + `/analysis/comparison/${corpAId}/${corpBId}`
+  );
 
   return {
     props: {
-      data: data
-    }
-  }
-
-}
+      data: data,
+    },
+  };
+};
