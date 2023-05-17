@@ -70,7 +70,13 @@ public class CommunityServiceImpl implements CommunityService {
   @Override
   public PagingCommunityResponse searchCommunity(String communityType, String content, String type, Pageable pageable) {
     if (type.equals("content")) {
-      Page<Community> communities = communityRepository.findAllByCommunityTypeAndContentContainingAndIsActiveTrue(communityType, content, pageable);
+      Page<Community> communities ;
+      if(communityType.equals("all")){
+        communities = communityRepository.findAllByContentContainingAndIsActiveTrue(content, pageable);
+      }
+      else{
+        communities = communityRepository.findAllByCommunityTypeAndContentContainingAndIsActiveTrue(communityType, content, pageable);
+      }
       List<ReadAllCommunityResponse> readAllCommunityResponses =communities.stream()
               .map(community -> {
                 // 레디스에 저장된 해당 커뮤니티의 key값
@@ -85,7 +91,14 @@ public class CommunityServiceImpl implements CommunityService {
               .collect(Collectors.toList());
       return new PagingCommunityResponse(communities.getTotalPages() ,readAllCommunityResponses );
     } else if (type.equals("title")) {
-      Page<Community> communities = communityRepository.findAllByCommunityTypeAndTitleContainingAndIsActiveTrue(communityType, content, pageable);
+      Page<Community> communities ;
+      if(communityType.equals("all")){
+        communities = communityRepository.findAllByTitleContainingAndIsActiveTrue(content, pageable);
+      }
+      else{
+        communities =  communityRepository.findAllByCommunityTypeAndTitleContainingAndIsActiveTrue(communityType, content, pageable);
+      }
+
       List<ReadAllCommunityResponse> readAllCommunityResponses = communities.stream()
               .map(community -> {
                 // 레디스에 저장된 해당 커뮤니티의 key값
