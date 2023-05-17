@@ -1,4 +1,4 @@
-package com.jobtang.sourcecompany.api.exception;
+package com.jobtang.sourcecompany.api.exception.customerror;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
