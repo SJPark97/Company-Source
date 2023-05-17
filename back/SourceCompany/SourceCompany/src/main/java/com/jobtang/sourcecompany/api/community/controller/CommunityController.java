@@ -80,22 +80,15 @@ public class CommunityController {
   )
   @GetMapping("/all/search")
   public ResponseEntity<?> searchAllCommunity(@RequestParam String content, @RequestParam String type,
-                                               @ApiParam(value = "자유 사이즈", required = true, defaultValue = "5", example = "5") @RequestParam(value = "free_size", required = true, defaultValue = "20") Integer free_size,
-                                               @ApiParam(value = "자유 페이지", required = true, defaultValue = "0", example = "0") @RequestParam(value = "free_page", required = true, defaultValue = "0") Integer free_page,
-                                              @ApiParam(value = "기업 분석 사이즈", required = true, defaultValue = "5", example = "5") @RequestParam(value = "corp_size", required = true, defaultValue = "20") Integer corp_size
-          ,@ApiParam(value = "기업분석 페이지", required = true, defaultValue = "0", example = "0") @RequestParam(value = "corp_page", required = true, defaultValue = "0") Integer corp_page
+                                               @ApiParam(value = "사이즈", required = true, defaultValue = "5", example = "5") @RequestParam(value = "size", required = true, defaultValue = "20") Integer size,
+                                               @ApiParam(value = "페이지", required = true, defaultValue = "0", example = "0") @RequestParam(value = "page", required = true, defaultValue = "0") Integer page
   ) {
-    Pageable free_pageable = PageRequest.of(free_page, free_size);
-    Pageable corp_pageable = PageRequest.of(corp_page, corp_size);
+    Pageable free_pageable = PageRequest.of(page, size);
 
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    PagingCommunityResponse corp_response = communityService.searchCommunity("기업", content, type, corp_pageable);
-    PagingCommunityResponse free_response = communityService.searchCommunity("자유", content, type, free_pageable);
-    ReadAllSearchResponse  response =ReadAllSearchResponse.builder()
-            .corp_search(corp_response)
-            .free_search(free_response)
-            .build();
+    PagingCommunityResponse response = communityService.searchCommunity("all", content, type, free_pageable);
+
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
