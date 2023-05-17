@@ -45,11 +45,10 @@ public class AnalysisResultServiceImpl implements AnalysisResultService{
     @Override
     public CorpListResponseDto GetGoodCorps(int size, int page) {
         Pageable pageSetting = PageRequest.of(size, page);
-        List analysisIds = basicSetting.getAnalysisIds();
+        List analysisIds = basicSetting.getAnalysisIdsForListing();
 
         Random random = new Random();
         String targetAnalysisId = String.valueOf(analysisIds.get(random.nextInt(analysisIds.size())));
-
         Page<AnalysisResult> analysisResults = null;
         switch (targetAnalysisId) {
             case "101" : analysisResults = analysisResultRepository.findALlByResult101(pageSetting, "양호"); break;
