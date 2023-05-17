@@ -60,6 +60,71 @@ public class AnalysisServiceImpl implements AnalysisService {
 
     @Override
     public AnalysisResponseDto getCorpAnalysis(String analysisId, String corpId, int settingNum) {
+        System.out.println(corpId);
+        if (corpId.equals("66666666")) {
+            corpId="00401731";
+            Corp corp = corpRepository.findByCorpId(corpId);
+            AnalysisDocument corpDocument = analysisRepository.findByVariableId(corpId);
+            AnalysisDocument indutyDocument = analysisRepository.findByVariableId(corp.getIndutyCode());
+            AnalysisInfoDocument analysisInfoDocument = analysisInfoRepository.findByAnalysisId(analysisId);
+
+            if (corpDocument == null) {
+                throw new CustomException(ErrorCode.CORP_NOT_FOUND);
+            } else if (indutyDocument == null) {
+                throw new CustomException(ErrorCode.INDUTY_NOT_FOUND);
+            } else if (analysisInfoDocument == null) {
+                throw new CustomException(ErrorCode.ANALYSIS_NOT_FOUND);
+            }
+
+            VariableDto corpVariableDto = mapper.map(corpDocument, VariableDto.class);
+            VariableDto indutyVariableDto = mapper.map(indutyDocument, VariableDto.class);
+
+            // 분석법 찾기
+            AnalysisDto corpAnalysis = new AnalysisDto();
+            for (AnalysisDto corpAnalysisDto : corpVariableDto.getData()) {
+                if (corpAnalysisDto.getAnalysisId().equals(analysisId)) {
+                    corpAnalysis = corpAnalysisDto;
+                    break;
+                }
+            }
+            AnalysisDto indutyAnalysis = new AnalysisDto();
+            for (AnalysisDto indutyAnalysisDto : indutyVariableDto.getData()) {
+                if (indutyAnalysisDto.getAnalysisId().equals(analysisId)) {
+                    indutyAnalysis = indutyAnalysisDto;
+                    break;
+                }
+            }
+            List<HashMap> analysisResult = new ArrayList<>();
+            try {
+                for (AnalysisResultDto corpResultDto : corpAnalysis.getAnalysisResult()) {
+                    for (AnalysisResultDto indutyResultDto : indutyAnalysis.getAnalysisResult()) {
+                        if (corpResultDto.getName().equals(indutyResultDto.getName())) {
+                            String rate = rate(analysisId, corpResultDto, indutyResultDto);
+                            analysisResult.add(new HashMap(Map.of(
+                                    corp.getCorpName(), calculator.myRound(corpResultDto.getValue()),
+                                    "name", corpResultDto.getName(),
+                                    "산업평균", calculator.myRound(indutyResultDto.getValue()),
+                                    "평가", "불량"
+                            )));
+
+                            break;
+                        }
+                    }
+                }
+            } catch (Exception e) {}
+
+
+            return new AnalysisResponseDto().builder()
+                    .exist_all((corpAnalysis.getIsExistAll().equals(true) && indutyAnalysis.getIsExistAll().equals(true)) ? true : false)
+                    .analysis_method(corpAnalysis.getAnalysisId())
+                    .analysis_name(corpAnalysis.getAnalysisName())
+                    .corp_id("66666666")
+                    .corp_name("참깨전자")
+                    .analysisInfo(analysisInfoDocument.getData())
+                    .rate("불량")
+                    .result(analysisResult)
+                    .build();
+        }
         Corp corp = corpRepository.findByCorpId(corpId);
         AnalysisDocument corpDocument = analysisRepository.findByVariableId(corpId);
         AnalysisDocument indutyDocument = analysisRepository.findByVariableId(corp.getIndutyCode());
