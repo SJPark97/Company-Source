@@ -27,7 +27,8 @@ public interface CorpService {
 
     List<CorpSearchListDto> getHotCorps(int size, int page);
 
-    CorpListResponseDto getIndutyCorps(int size, int page);
+//    CorpListResponseDto getIndutyCorps(int size, int page);
+    CorpListResponseDto getIndutyCorps();
 
     CorpListResponseDto getGoodResultCorps(int size, int page);
 

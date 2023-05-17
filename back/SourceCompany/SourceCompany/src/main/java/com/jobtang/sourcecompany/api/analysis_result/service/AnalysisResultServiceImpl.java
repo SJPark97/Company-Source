@@ -7,6 +7,7 @@ import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp.repository.CorpRepository;
 import com.jobtang.sourcecompany.api.corp_detail.repository.AnalysisInfoRepository;
+import com.jobtang.sourcecompany.api.corp_detail.util.BasicSetting;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -28,6 +29,7 @@ public class AnalysisResultServiceImpl implements AnalysisResultService{
     private final AnalysisResultRepository analysisResultRepository;
     private final CorpRepository corpRepository;
     private final ModelMapper mapper;
+    private final BasicSetting basicSetting;
 
     @Override
     public void updateAnalysisResult(Corp corp, String analysisId, String rate) {
@@ -43,11 +45,10 @@ public class AnalysisResultServiceImpl implements AnalysisResultService{
     @Override
     public CorpListResponseDto GetGoodCorps(int size, int page) {
         Pageable pageSetting = PageRequest.of(size, page);
-        List analysisIds = new ArrayList(List.of("101", "103", "104", "109", "113", "405"));
+        List analysisIds = basicSetting.getAnalysisIdsForListing();
 
         Random random = new Random();
         String targetAnalysisId = String.valueOf(analysisIds.get(random.nextInt(analysisIds.size())));
-
         Page<AnalysisResult> analysisResults = null;
         switch (targetAnalysisId) {
             case "101" : analysisResults = analysisResultRepository.findALlByResult101(pageSetting, "양호"); break;
@@ -56,6 +57,15 @@ public class AnalysisResultServiceImpl implements AnalysisResultService{
             case "109" : analysisResults = analysisResultRepository.findALlByResult109(pageSetting, "양호"); break;
             case "113" : analysisResults = analysisResultRepository.findALlByResult113(pageSetting, "양호"); break;
             case "405" : analysisResults = analysisResultRepository.findALlByResult405(pageSetting, "양호"); break;
+
+            case "102" : analysisResults = analysisResultRepository.findALlByResult102(pageSetting, "양호"); break;
+            case "105" : analysisResults = analysisResultRepository.findALlByResult105(pageSetting, "양호"); break;
+            case "106" : analysisResults = analysisResultRepository.findALlByResult106(pageSetting, "양호"); break;
+            case "108" : analysisResults = analysisResultRepository.findALlByResult108(pageSetting, "양호"); break;
+            case "114" : analysisResults = analysisResultRepository.findALlByResult114(pageSetting, "양호"); break;
+            case "303" : analysisResults = analysisResultRepository.findALlByResult303(pageSetting, "양호"); break;
+            case "304" : analysisResults = analysisResultRepository.findALlByResult304(pageSetting, "양호"); break;
+            case "408" : analysisResults = analysisResultRepository.findALlByResult408(pageSetting, "양호"); break;
         }
         List<CorpSearchListDto> data = new ArrayList<>();
         for (AnalysisResult analysisResult : analysisResults) {
