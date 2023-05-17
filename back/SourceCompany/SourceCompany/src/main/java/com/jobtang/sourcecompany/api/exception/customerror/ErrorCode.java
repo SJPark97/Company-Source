@@ -1,4 +1,4 @@
-package com.jobtang.sourcecompany.api.exception;
+package com.jobtang.sourcecompany.api.exception.customerror;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

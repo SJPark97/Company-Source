@@ -2,8 +2,8 @@ package com.jobtang.sourcecompany.api.likes.service;
 
 import com.jobtang.sourcecompany.api.community.entity.Community;
 import com.jobtang.sourcecompany.api.community.repository.CommunityRepository;
-import com.jobtang.sourcecompany.api.exception.CustomException;
-import com.jobtang.sourcecompany.api.exception.ErrorCode;
+import com.jobtang.sourcecompany.api.exception.customerror.CustomException;
+import com.jobtang.sourcecompany.api.exception.customerror.ErrorCode;
 import com.jobtang.sourcecompany.api.likes.entity.Likes;
 import com.jobtang.sourcecompany.api.likes.repository.LikesRepository;
 import com.jobtang.sourcecompany.api.user.entity.User;
