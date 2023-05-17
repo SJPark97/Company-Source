@@ -100,6 +100,7 @@ public class CorpServiceImpl implements CorpService{
         }
     }
 
+    @Scheduled(cron = "0 0 0/3 * * ?") // 3시간마다 업데이트. 0,3,6,9,12,15,18,21시
     public void makeRandCorp() {
         // 랜덤 corp 만든거 전부 삭제
 //        Set<String> keysSet = redisTemplate.keys("randcorp_*");
