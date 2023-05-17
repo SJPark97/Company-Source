@@ -2,6 +2,7 @@ import Modal from '@mui/material/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/stores/store';
 import { closeInfoModal } from '@/stores/info/controlInfoDetail';
+import { Backdrop } from '@mui/material';
 
 export default function InfoModal() {
 
@@ -13,7 +14,15 @@ export default function InfoModal() {
   return (
     <div>
       <Modal
-        style={{ backgroundColor: 'transparent' }}
+        slots={{ backdrop: Backdrop }}
+        slotProps={{
+          backdrop: {
+            sx: {
+              //Your style here....
+              backgroundColor: 'rgba(0, 0, 0, 0.1)',
+            },
+          }
+        }}
         open={infoModalState}
         onClose={() => dispatch(closeInfoModal())}
       // aria-labelledby="info-modal-modal-title"
