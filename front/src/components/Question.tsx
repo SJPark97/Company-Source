@@ -20,7 +20,7 @@ export default function Question() {
           "p-[10px] rounded-10 " +
           `${
             router.pathname === "/" || router.pathname === "/home"
-              ? "bg-white text-black"
+              ? "bg-black text-white"
               : "bg-black text-white"
           }`
         }
