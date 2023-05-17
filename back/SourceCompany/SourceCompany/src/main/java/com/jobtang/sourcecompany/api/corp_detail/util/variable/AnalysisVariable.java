@@ -116,22 +116,22 @@ public class AnalysisVariable {
         this.timesInterestEarned = calculator.myDivision(variable.getNetProfit(), variable.getInterestExpense()); // 이자보상비율 = 영업이익/이자비용 > (영업이익/총자본)/(이자비용/차입금) = 총자본영업이익률/차입금평균이자율
         this.ebitaInterestExpense = calculator.myDivision(calculator.myPlus(netProfitBeforeTax, variable.getInterestExpense(), variable.getDepreciation()),variable.getInterestExpense()); // EBITDA/이자비용비율 = EBITDA/이자비용 = (세전순이익 + 이자비용 + 감가상각비 및 무형자산상각비) / 이자비용
         this.inventoryTurnover = calculator.myDivision(variable.getSales(), variable.getInventories()); // 재고자산회전율 = 매출액/재고자산(평잔)
-//        this.totalAssetTurnover = calculator; // 총자산회전율 = 매출액/총자산(평잔)
-//        this.operatingProfitToSalesRatio = calculator; // 매출액영업이익률 = 영업이익/매출액 * 100
-//        this.totalAssetsOperatwingProfiRate = calculator; // 총자산영업이익률(ROA) = 총자산/영업이익
-//        this.equityTurnover = calculator; // 자기자본회전율 = 매출액/자기자본(평잔)
-//        this.nonCurrentAssetTurnover = calculator; // 비유동자산회전율 = 매출액/비유동자산(평잔)
-//        this.receivablesTurnover = calculator; // 매출채권회전율 = 매출액/매출채권(평잔)
-//        this.payablesTurnover = calculator; // 매입채무회전율 = 매출액/매입채무(평잔)
-//        this.earningsAfterTaxToSalesRatio = calculator; // 매출액순이익율 = 당기순이익/매출액 * 100
-//        this.returnOnAssets = calculator; // 총자산순이익율 = 순이익/총자산 * 100
-//        this.cashFlowPerShare = calculator; // 주당현금흐름 = 주주현금흐름 / 발행주식수 = (당기순이익 + 현금의 유출이 없는 비용 - 현금의 유입이 없는 수익)
-//        this.priceCashFlowRatio = calculator;// 주가현금흐름비율 = 주가/주당현금흐름
-//        this.dividendSolvencyMultiple = calculator;// 배당지급능력배수 = 영업활동으로 인한 현금흐름 / 배당금
-//        this.cashFlowToDebtRatio = calculator;// 현금흐름 대 차입금 비율 = 영업활동으로 인한 현금흐름 / 차입금(평잔) * 100
-//        this.cashFlowToTotalDebtRatio = calculator;// 현금흐름 대 총부채 비율 = 영업활동으로 인한 현금흐름 / 총부채(평잔) * 100
-//        this.cashFlowInterestCoverageRatio = calculator;// 현금흐름이자보상비율 = (영업활동으로 인한 현금흐름 + 이자비용) / 이자비용 * 100
-//        this.cashFlow = calculator; // 현금흐름 = 영업활동으로 인한 현금흐름 + 재무활동으로 인한 현금흐름 + 투자활동으로 인한 현금흐름
-//        this.turnoverRatioOfTotalOperatingCapital = calculator; // 경영자본 = 총자산 - 투자자산 - 건설중인자산 = 경영자본회전율
+        this.totalAssetTurnover = calculator.myDivision(variable.getSales(),variable.getTotalAssets()); // 총자산회전율 = 매출액/총자산(평잔)
+        this.operatingProfitToSalesRatio = calculator.myRatio(variable.getNetProfit(), variable.getSales()); // 매출액영업이익률 = 영업이익/매출액 * 100
+        this.totalAssetsOperatwingProfiRate = calculator.myDivision(variable.getTotalAssets(),variable.getNetProfit()); // 총자산영업이익률(ROA) = 총자산/영업이익
+        this.equityTurnover = calculator.myDivision(variable.getSales(), variable.getEquityCapital()); // 자기자본회전율 = 매출액/자기자본(평잔)
+        this.nonCurrentAssetTurnover = calculator.myDivision(variable.getSales(), variable.getNonCurrentAssets()); // 비유동자산회전율 = 매출액/비유동자산(평잔)
+        this.receivablesTurnover = calculator.myDivision(variable.getSales(), variable.getTradeReceivables()); // 매출채권회전율 = 매출액/매출채권(평잔)
+        this.payablesTurnover = calculator.myDivision(variable.getSales(),variable.getTradePayables()); // 매입채무회전율 = 매출액/매입채무(평잔)
+        this.earningsAfterTaxToSalesRatio = calculator.myRatio(variable.getNetProfit(), variable.getSales()); // 매출액순이익율 = 당기순이익/매출액 * 100
+        this.returnOnAssets = calculator.myRatio(variable.getNetProfit(), variable.getTotalAssets()); // 총자산순이익율 = 순이익/총자산 * 100
+        this.cashFlowPerShare = calculator.myDivision(variable.getNetProfit(), variable.getNumberOfListedShares()); // 주당현금흐름 = 주주현금흐름 / 발행주식수 = (당기순이익 + 현금의 유출이 없는 비용 - 현금의 유입이 없는 수익) = 순이익 / 주식수
+        this.priceCashFlowRatio = calculator.myDivision(variable.getClosingPrcie(),cashFlowPerShare);// 주가현금흐름비율 = 주가/주당현금흐름
+        this.dividendSolvencyMultiple = calculator.myDivision(variable.getCashFlowFromOperatingActivities(), variable.getDividendPayment());// 배당지급능력배수 = 영업활동으로 인한 현금흐름 / 배당금
+        this.cashFlowToDebtRatio = calculator.myRatio(variable.getCashFlowFromOperatingActivities(), variable.getShortermAndLongtermBorrowings());// 현금흐름 대 차입금 비율 = 영업활동으로 인한 현금흐름 / 차입금(평잔) * 100
+        this.cashFlowToTotalDebtRatio = calculator.myRatio(variable.getCashFlowFromOperatingActivities(), variable.getTotalLiabilities());// 현금흐름 대 총부채 비율 = 영업활동으로 인한 현금흐름 / 총부채(평잔) * 100
+        this.cashFlowInterestCoverageRatio = calculator.myRatio(calculator.myPlus(variable.getCashFlowFromOperatingActivities(), variable.getInterestExpense()), variable.getInterestExpense());// 현금흐름이자보상비율 = (영업활동으로 인한 현금흐름 + 이자비용) / 이자비용 * 100
+        this.cashFlow = calculator.myPlus(variable.getCashFlowFromOperatingActivities(), variable.getCashFlowFromInvestingActivities(), variable.getCashFlowFromFinancingActivities()); // 현금흐름 = 영업활동으로 인한 현금흐름 + 재무활동으로 인한 현금흐름 + 투자활동으로 인한 현금흐름
+        this.turnoverRatioOfTotalOperatingCapital = calculator.mySubtractionForNull(variable.getTotalAssets(), variable.getInvestmentAsset(), variable.getAssetsUnderConstruction()); // 경영자본 = 총자산 - 투자자산 - 건설중인자산 = 경영자본회전율
     }
 }
