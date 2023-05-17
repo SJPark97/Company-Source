@@ -1,6 +1,6 @@
 package com.jobtang.sourcecompany.api.user.controller;
 
-import com.jobtang.sourcecompany.api.exception.ErrorCode;
+import com.jobtang.sourcecompany.api.exception.customerror.ErrorCode;
 import com.jobtang.sourcecompany.api.user.dto.EmailAndCode;
 import com.jobtang.sourcecompany.api.user.dto.LoginRequestDto;
 import com.jobtang.sourcecompany.api.user.dto.SignupRequestDto;
@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import com.jobtang.sourcecompany.api.exception.CustomException;
+import com.jobtang.sourcecompany.api.exception.customerror.CustomException;
 
 import javax.validation.Valid;
 import java.util.*;

@@ -1,7 +1,7 @@
 package com.jobtang.sourcecompany.api.inquiry.service;
 
-import com.jobtang.sourcecompany.api.exception.CustomException;
-import com.jobtang.sourcecompany.api.exception.ErrorCode;
+import com.jobtang.sourcecompany.api.exception.customerror.CustomException;
+import com.jobtang.sourcecompany.api.exception.customerror.ErrorCode;
 import com.jobtang.sourcecompany.api.inquiry.dto.*;
 import com.jobtang.sourcecompany.api.inquiry.entity.Inquiry;
 import com.jobtang.sourcecompany.api.inquiry.repository.InquiryRepository;
@@ -10,16 +10,13 @@ import com.jobtang.sourcecompany.api.inquiry_comment.entity.InquiryComment;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import com.jobtang.sourcecompany.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

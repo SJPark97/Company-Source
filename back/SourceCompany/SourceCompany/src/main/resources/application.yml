@@ -79,4 +79,10 @@ cloud:
 jwt:
   secretkey: ENC(i5CDcjY1mF90MCMwyoxHXEnvUmjNSVir)
 
+notification:
+  mattermost:
+    enabled: true # mmSender를 사용할 지 여부, false면 알림이 오지 않는다
+    webhook-url: ENC(ZK7M7+GPb/PQBswhz/YfyBEwp1B2akA5m7F4OfJw6WB3k26bxRajelLUZWg4r6neCKfsBNs8QPk6bidMMmYVZ1irVeoqM4KP)
+    pretext: error message # attachments의 상단에 나오게 되는 일반 텍스트 문자
+
 
