@@ -33,7 +33,7 @@ public class ReadAllCommunityResponse {
             .userName(community.getUser().getNickname())
             .viewCount(viewCount+community.getTotalView()+community.getYesterdayView())
             .likesCount(community.getLikesCnt())
-            .communityType(community.getCommunityType())
+            .communityType(  (community.getCommunityType()).equals("자유") ?"freeboard" :"corpboard" )
             .commentCount(community.getComments().stream().filter(comment -> !comment.getContent().equals("삭제된 댓글 입니다.") && comment.isActive()==true).collect(Collectors.toList()).size())
             .build();
   }
