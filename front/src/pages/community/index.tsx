@@ -38,9 +38,9 @@ export default function Community({ data }: { data: any }) {
       <QuickMenu />
 
       <div className="flex flex-col items-center">
-        {/* <div className="my-50">
+        <div className="mt-50">
           <BoardSearchBar />
-        </div> */}
+        </div>
         <div className="mt-50">
           <Image src="/advertisement.png" alt="광고" width={1200} height={0} />
         </div>

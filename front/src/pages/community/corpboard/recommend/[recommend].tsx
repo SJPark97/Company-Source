@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import WriteButton from "@/components/community/WriteButton";
+import BoardSearchBar from "@/components/community/BoardSearchBar";
 
 export default function CorpBoardRecommend({ data }: { data: any }) {
   const router = useRouter();
@@ -58,6 +59,11 @@ export default function CorpBoardRecommend({ data }: { data: any }) {
     <div className="relative">
       <NavBar />
       <QuickMenu />
+      <div className="relaitve flex justify-center">
+        <div className="absolute top-100">
+          <BoardSearchBar />
+        </div>
+      </div>
       <BoardNavBar />
       <div className="flex flex-col whitespace-nowrap w-[1200px] mx-auto">
         <div className="flex font-bold py-10 border-b-1 border-gray-300">

@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import WriteButton from "@/components/community/WriteButton";
+import BoardSearchBar from "@/components/community/BoardSearchBar";
 
 export default function CorpBoardAll({ data }: { data: any }) {
   const router = useRouter();
@@ -30,6 +31,11 @@ export default function CorpBoardAll({ data }: { data: any }) {
     <>
       <NavBar />
       <QuickMenu />
+      <div className="relaitve flex justify-center">
+        <div className="absolute top-100">
+          <BoardSearchBar />
+        </div>
+      </div>
       <BoardNavBar />
       <div className="flex flex-col whitespace-nowrap w-[1200px] mx-auto">
         <div className="flex font-bold py-10 border-b-1 border-gray-300">
@@ -52,9 +58,7 @@ export default function CorpBoardAll({ data }: { data: any }) {
                 <div className="flex py-10">
                   <div className="text-center w-70">{post.communityId}</div>
                   <div className="flex w-[550px]">
-                    <div className="line-clamp-1 mr-10">
-                      {`${post.title}` + "  "}
-                    </div>
+                    <div className="line-clamp-1 mr-10">{post.title}</div>
                     <div className="text-brand font-bold">
                       [{post.commentCount}]
                     </div>
