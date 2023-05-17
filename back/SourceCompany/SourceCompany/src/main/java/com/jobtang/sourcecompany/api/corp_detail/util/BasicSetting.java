@@ -24,7 +24,6 @@ public class BasicSetting {
                 ,"108"
                 ,"114"
                 ,"303"
-                ,"304"
                 ,"408"
         ));
     }
@@ -47,7 +46,6 @@ public class BasicSetting {
 //                ,"108"
                 ,"114"
 //                ,"303"
-//                ,"304"
                 ,"408"
         ));
     }
