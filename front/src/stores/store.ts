@@ -9,6 +9,7 @@ const reducers = combineReducers({
   controlModal: controlModalSlice,
   leftSelectedCompany: leftSelectedCompanySlice,
   rightSelectedCompany: rightSelectedCompanySlice,
+  //   navbar: navbarSlice,
 });
 
 const persistConfig = {
