@@ -193,15 +193,18 @@ public class CorpServiceImpl implements CorpService{
     }
 
     @Override
-    public CorpListResponseDto getIndutyCorps(int size, int page) {
-        Pageable pageSetting = PageRequest.of(size, page);
-        List indutycodes = new ArrayList(List.of("A","B","C","D","E","F","G","H","I","J","K","L","M","N","P","R","S"));
+    public CorpListResponseDto getIndutyCorps() {
+//        Pageable pageSetting = PageRequest.of(size, page);
+//        List indutycodes = new ArrayList(List.of("A","B","C","D","E","F","G","H","I","J","K","L","M","N","P","R","S"));
+        List indutycodes = new ArrayList(List.of("A","C","D","E","F","G","H","I","J","K","L","M","N","P","R"));
 
         Random random = new Random();
         String targetCode = String.valueOf(indutycodes.get(random.nextInt(indutycodes.size())));
 
-        Page<Corp> corps = corpRepository.findAllByIndutyCode(pageSetting, targetCode);
+//        Page<Corp> corps = corpRepository.findAllByIndutyCode(pageSetting, targetCode);
+        List<Corp> corps = corpRepository.findAllByIndutyCode(targetCode);
         if (corps == null){throw new CustomException(ErrorCode.CORP_NOT_FOUND);}
+
 
         List<CorpSearchListDto> data = new ArrayList<>();
         for (Corp corp: corps) {

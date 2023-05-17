@@ -149,8 +149,9 @@ public class CorpController {
             notes = "랜덤 산업 기업",
             response = CorpListResponseDto.class)
     @GetMapping("/induty")
-    public ResponseEntity<?> getIndutyCorp(int page, int size) {
-        return responseHandler.response(corpService.getIndutyCorps(page, size));
+    public ResponseEntity<?> getIndutyCorp() {
+//        return responseHandler.response(corpService.getIndutyCorps(page, size));
+        return responseHandler.response(corpService.getIndutyCorps());
     }
 
     @ApiOperation(
