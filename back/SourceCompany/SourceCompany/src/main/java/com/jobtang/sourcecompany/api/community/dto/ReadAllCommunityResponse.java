@@ -23,6 +23,7 @@ public class ReadAllCommunityResponse {
   private int viewCount;
   private int likesCount;
   private int commentCount;
+  private String communityType;
   public static ReadAllCommunityResponse EntityToDTO (Community community , int viewCount){
     return ReadAllCommunityResponse.builder()
             .communityId(community.getId())
@@ -32,6 +33,7 @@ public class ReadAllCommunityResponse {
             .userName(community.getUser().getNickname())
             .viewCount(viewCount+community.getTotalView()+community.getYesterdayView())
             .likesCount(community.getLikesCnt())
+            .communityType(community.getCommunityType())
             .commentCount(community.getComments().stream().filter(comment -> !comment.getContent().equals("삭제된 댓글 입니다.") && comment.isActive()==true).collect(Collectors.toList()).size())
             .build();
   }
