@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import LandingDiscription from "@/components/landing/LandingDescription";
 import LandingImageCard from "@/components/landing/LandingImageCard";
 import NavBar from "@/components/NavBar";
@@ -5,6 +6,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import ToScrollTopButton from "@/components/landing/ToScrollTopButton";
 
 export default function Home() {
   const firstTitle = "다양한 분석 기법을\n 차트로 한눈에 볼 수 있어요.";
@@ -15,6 +17,11 @@ export default function Home() {
   const secondContent = "두 기업의 지표를 동시에 비교할 수 있어요.";
   const thirdTitle = "기업분석.\n 당신의 생각은 어떠신가요?";
   const thirdContent = "커뮤니티에서 여러사람들과\n 의견을 공유해보세요.";
+
+  const targetComponent = useRef<HTMLDivElement>(null);
+  const scrollToComponent = () => {
+    targetComponent.current?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <>
       <Head>
@@ -32,7 +39,10 @@ export default function Home() {
           property="og:description"
           content="기업분석이 어려우신가요? Company Source와 함께 해보세요."
         />
-        <meta name="google-site-verification" content="0FzOO996BLTIEWFgwlmmYv-F1WmHiM6SrbwEbK9-p3k" />
+        <meta
+          name="google-site-verification"
+          content="0FzOO996BLTIEWFgwlmmYv-F1WmHiM6SrbwEbK9-p3k"
+        />
       </Head>
       <div className="flex flex-col justify-center w-full">
         <div className="z-50">
@@ -54,7 +64,10 @@ export default function Home() {
           >
             기업 분석이 어려우신가요? <br></br> Company Source와 함께 해보세요.
           </div>
-          <div className="absolute top-[75%] left-1/2 animate-bounce">
+          <div
+            className="absolute top-[75%] left-1/2 animate-bounce cursor-pointer"
+            onClick={scrollToComponent}
+          >
             <Image
               src="./arrow-down.svg"
               alt="arrow-down"
@@ -65,7 +78,10 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex justify-around bg-cover bg-gradient-to-b h-screen from-[#ffffff] to-[#F9FAFB] items-center px-100">
+        <div
+          className="flex justify-around bg-cover bg-gradient-to-b h-screen from-[#ffffff] to-[#F9FAFB] items-center px-100"
+          ref={targetComponent}
+        >
           <div>
             <LandingDiscription title={firstTitle} content={firstContent} />
           </div>
@@ -126,6 +142,9 @@ export default function Home() {
             height={400}
             direction="toLeft"
           />
+        </div>
+        <div className="relative">
+          <ToScrollTopButton />
         </div>
       </div>
     </>

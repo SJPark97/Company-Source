@@ -13,7 +13,7 @@ export default function NavBar() {
 
   // 닉네임 state
   const [nickName, setNickName] = useState<string>("");
-
+  const cookies = parseCookies();
   const logOutHandler = () => {
     destroyCookie(null, "accessToken", { path: "/" });
     destroyCookie(null, "nickName", { path: "/" });
@@ -131,7 +131,10 @@ export default function NavBar() {
                 mount: { scale: 1, y: 0 },
                 unmount: { scale: 0, y: -30 },
               }}
-              className="p-[10px] bg-white text-black rounded-10"
+              className={
+                "p-[10px] bg-white text-black rounded-10" +
+                `${cookies.nickName ? "" : " hidden"}`
+              }
             >
               <Link href={isLoggedIn ? "/mypage" : "/login"}>
                 <Image
@@ -149,7 +152,9 @@ export default function NavBar() {
                 mount: { scale: 1, y: 0 },
                 unmount: { scale: 0, y: -30 },
               }}
-              className="p-[10px] rounded-10"
+              className={
+                "p-[10px] rounded-10" + `${cookies.nickName ? "" : " hidden"}`
+              }
             >
               <Link href={isLoggedIn ? "/mypage" : "/login"}>
                 <Image src="/user.png" alt="user.png" width={40} height={40} />

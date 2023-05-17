@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface corpInformation {
   corpId: string;
@@ -15,7 +15,7 @@ export default function RecommendCard({ corp }: { corp: corpInformation }) {
   return (
     <div
       className={
-        "relative w-[170px] h-[280px] bg-gray-100 border-1 border-gray-200 rounded-10 transition duration-500 ease-in-out transform-gpu hover:scale-110 hover:shadow-md overflow-hidden"
+        "relative w-[170px] h-[280px] bg-white border-3 border-brand rounded-10 transition duration-300 ease-in-out transform-gpu hover:scale-110 hover:shadow-md overflow-hidden"
       }
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -60,14 +60,12 @@ export default function RecommendCard({ corp }: { corp: corpInformation }) {
         </div>
       </div>
       <div
-        className={`bg-opacity-80 w-full h-full top-0 left-0 absolute ${
-          hovered ? "visible" : "invisible"
-        }`}
+        className={`bg-opacity-80 w-full h-full top-0 left-0 absolute ${hovered ? "visible" : "invisible"
+          }`}
       >
         <span
-          className={`absolute w-[20%] h-[200%] -top-[120px] -left-[200px] bg-white bg-opacity-60 blur-sm transform rotate-45 transition-all duration-500 ${
-            hovered ? "translate-x-[2000%]" : ""
-          }`}
+          className={`absolute w-[20%] h-[200%] -top-[120px] -left-[200px] bg-white bg-opacity-60 blur-sm transform rotate-45 transition-all duration-1000 ${hovered ? "translate-x-[2000%]" : ""
+            }`}
         ></span>
       </div>
     </div>
