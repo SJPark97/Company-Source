@@ -8,7 +8,7 @@ import Head from "next/head";
 import Image from "next/image";
 import HomeQuickMenu from "@/components/home/HomeQuickMenu";
 import GoodCorpList from "@/components/home/GoodCorpList";
-import { CSSTransition } from 'react-transition-group'
+import { CSSTransition } from "react-transition-group";
 // import { clearInterval } from "timers";
 
 interface bigCard {
@@ -29,15 +29,19 @@ export default function Home() {
   const [corpList, setCorpList] = useState<Array<bigCard>>([]);
   const [goodCorpSubject, setGoodCorpSubject] = useState<string>("");
   const [goodCorpList, setGoodCorpList] = useState<Array<corpInformation>>([]);
-  const [indutyCorpSubject, setIndutyCorpSubject] = useState<string>("")
-  const [indutyCorpList, setIndutyCorpList] = useState<Array<corpInformation>>([]);
-  const [topSalesCorpSubject, setTopSalesCorpSubject] = useState<string>("")
-  const [topSalesCorpList, setTopSalesCorpList] = useState<Array<corpInformation>>([]);
+  const [indutyCorpSubject, setIndutyCorpSubject] = useState<string>("");
+  const [indutyCorpList, setIndutyCorpList] = useState<Array<corpInformation>>(
+    []
+  );
+  const [topSalesCorpSubject, setTopSalesCorpSubject] = useState<string>("");
+  const [topSalesCorpList, setTopSalesCorpList] = useState<
+    Array<corpInformation>
+  >([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const loaderRef = useRef(null);
 
-  const [activeBlockIndex, setActiveBlockIndex] = useState(0)
+  const [activeBlockIndex, setActiveBlockIndex] = useState(0);
   const blocks = [
     { subject: goodCorpSubject, corpList: goodCorpList },
     { subject: indutyCorpSubject, corpList: indutyCorpList },
@@ -56,25 +60,25 @@ export default function Home() {
   const getGoodCorpList = async () => {
     const res = await axios.get(SERVER_URL + "/corp/goodresult", {
       params: {
-        page: Math.floor(Math.random() * (10 - 0 + 1)) + 0,
+        // page: Math.floor(Math.random() * (10 - 0 + 1)) + 0,
+        page: 0,
         size: 5,
       },
     });
+    console.log(res.data.data.kind);
+    console.log(res.data.data.corps);
     setGoodCorpSubject(res.data.data.kind);
     setGoodCorpList(res.data.data.corps);
   };
 
   // 산업별 기업 리스트 불러오는 함수
   const getIndutyCorpList = async () => {
-    const res = await axios.get(SERVER_URL + "/corp/induty", {
-      params: {
-        page: Math.floor(Math.random() * (10 - 0 + 1)) + 0,
-        size: 5,
-      }
-    })
-    setIndutyCorpSubject(res.data.data.kind)
-    setIndutyCorpList(res.data.data.corps)
-  }
+    const res = await axios.get(SERVER_URL + "/corp/induty");
+    console.log(res.data.data.kind);
+    console.log(res.data.data.corps);
+    setIndutyCorpSubject(res.data.data.kind);
+    setIndutyCorpList(res.data.data.corps);
+  };
 
   // 매출순 기업 리스트 불러오는 함수
   const getTopSalesCorpList = async () => {
@@ -82,11 +86,13 @@ export default function Home() {
       params: {
         page: Math.floor(Math.random() * (10 - 0 + 1)) + 0,
         size: 5,
-      }
-    })
-    setTopSalesCorpSubject(res.data.data.kind)
-    setTopSalesCorpList(res.data.data.corps)
-  }
+      },
+    });
+    console.log(res.data.data.kind);
+    console.log(res.data.data.corps);
+    setTopSalesCorpSubject(res.data.data.kind);
+    setTopSalesCorpList(res.data.data.corps);
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -121,18 +127,17 @@ export default function Home() {
     getTopSalesCorpList();
   }, []);
 
-
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveBlockIndex((prevIndex) => (prevIndex + 1) % 3)
-    }, 10000)
+      setActiveBlockIndex((prevIndex) => (prevIndex + 1) % 3);
+    }, 10000);
 
     return () => {
       clearInterval(timer);
     };
-  }, [])
+  }, []);
 
-  const getData = async (keyWord: string | string[] | undefined) => { };
+  const getData = async (keyWord: string | string[] | undefined) => {};
   return (
     <>
       <Head>
@@ -176,22 +181,6 @@ export default function Home() {
           />
         </div>
         <HomeQuickMenu />
-
-        {/* 평가별 추천 기업
-        <div className="flex flex-col w-[full] h-[430px] bg-analysisBg">
-          <GoodCorpList subject={goodCorpSubject} corpList={goodCorpList} />
-        </div>
-
-        랜덤 산업 기업
-        <div className="flex flex-col w-[full] h-[430px] bg-analysisBg">
-          <GoodCorpList subject={indutyCorpSubject} corpList={indutyCorpList} />
-        </div>
-
-        TOP 매출 기업
-        <div className="flex flex-col w-[full] h-[430px] bg-analysisBg">
-          <GoodCorpList subject={topSalesCorpSubject} corpList={topSalesCorpList} />
-        </div> */}
-
         <div>
           <div className="flex flex-col w-full h-430px bg-analysisBg">
             {blocks.map((block, index) => (
@@ -203,9 +192,18 @@ export default function Home() {
                 mountOnEnter
                 unmountOnExit
               >
-                <div className={"relative h-full ease-in-out" + `${index !== activeBlockIndex ? " hidden" : ""}`}>
-                  {block.corpList.length === 5 ? (<GoodCorpList subject={block.subject} corpList={block.corpList} />) : null}
-                  {/* <GoodCorpList subject={block.subject} corpList={block.corpList} /> */}
+                <div
+                  className={
+                    "relative h-full ease-in-out" +
+                    `${index !== activeBlockIndex ? " hidden" : ""}`
+                  }
+                >
+                  {block.corpList.length === 5 ? (
+                    <GoodCorpList
+                      subject={block.subject}
+                      corpList={block.corpList}
+                    />
+                  ) : null}
                 </div>
               </CSSTransition>
             ))}
