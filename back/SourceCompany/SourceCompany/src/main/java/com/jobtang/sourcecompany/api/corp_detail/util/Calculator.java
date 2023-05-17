@@ -43,6 +43,15 @@ public class Calculator {
         return a - b;
     }
 
+    // a - b - c (null값 허용) 비허용;
+    public Double mySubtractionForNull(Long a, Long b, Long c) {
+        if (a == null || b == null || c == null) {return null;}
+        Double x = (a != null) ? Double.valueOf(a.longValue()) : 0;
+        Double y = (b != null) ? Double.valueOf(b.longValue()) : 0;
+        Double z = (c != null) ? Double.valueOf(c.longValue()) : 0;
+        return x - y - z;
+    }
+
     // a/(b+c)
     public Double myRatioWithSum(Number a, Number b, Number c) {
         if (a == null || b == null || c == null) {return null;}
@@ -86,5 +95,9 @@ public class Calculator {
         Double z = Double.valueOf(c.longValue());
         Double w = Double.valueOf(d.longValue());
         return (x - y) / z * w;
+    }
+
+    public Double myRound(Double value) {
+        return Math.round(value * 100.0) / 100.0;
     }
 }

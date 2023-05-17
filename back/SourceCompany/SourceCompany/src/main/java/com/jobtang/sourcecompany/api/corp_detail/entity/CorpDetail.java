@@ -100,9 +100,7 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
     private Corp corp;
 
     @Override
-    public String getVariableId() {
-        return corp.getCorpId();
-    }
+    public String getVariableId() { return corp.getCorpId(); }
 
     @Override
     public String getVariableName() {
@@ -120,9 +118,7 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
     }
 
     @Override
-    public Long getTotalAssets() {
-        return totalAssets;
-    }
+    public Long getTotalAssets() { return totalAssets; }
 
     @Override
     public Long getRetainedEarnings() {
@@ -140,9 +136,7 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
     }
 
     @Override
-    public Long getEquityCapital() {
-        return equityCapital;
-    }
+    public Long getEquityCapital() { return equityCapital; }
 
     @Override
     public Long getNonCurrentAssets() {
