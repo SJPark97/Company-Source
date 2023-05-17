@@ -31,7 +31,7 @@ export default function BoardSearchBar() {
             value={searchType}
             onChange={searchTypeHandler}
           >
-            <option>제목+내용</option>
+            <option value>제목+내용</option>
             <option>작성자</option>
             <option>제목</option>
           </select>
