@@ -44,6 +44,62 @@ public class CommunityController {
    *
    */
 
+  /**
+   *  조회수 추가하는 api
+   */
+  @ApiOperation(
+          value = "게시글 조회수 올리기",
+          notes = "조회수만 올리기 , 올라간 조회수   리턴"
+
+  )
+  @PostMapping("/add/view/{communityId}")
+  public ResponseEntity<?> addViewCommunity( @PathVariable Long communityId) {
+
+    HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result = new HashMap<>();
+    int response = communityService.addViewCommunity(communityId);
+    result.put("data", response);
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+  }
+
+
+  /**
+   * 전체 검색
+   *
+   */
+  /**
+   * /community/all/search?type={type}&content={content}&free_size={free_size}&free_page={free_page}&corp_size={corp_size}&corp_page={corp_page} GET
+   * 전체 게시판의 글들을 검색하는 메소드
+   * is_active ==0 인 것들은 거르는 것 필요
+   * type == (글쓴이, 내용 ,제목) 으로 거르기
+   */
+  @ApiOperation(
+          value = "전체 게시글 검색",
+          notes = "전체 게시글들을 검색, 기업과 자유게시판을 나눠서 리턴"
+
+  )
+  @GetMapping("/all/search")
+  public ResponseEntity<?> searchAllCommunity(@RequestParam String content, @RequestParam String type,
+                                               @ApiParam(value = "자유 사이즈", required = true, defaultValue = "5", example = "5") @RequestParam(value = "free_size", required = true, defaultValue = "20") Integer free_size,
+                                               @ApiParam(value = "자유 페이지", required = true, defaultValue = "0", example = "0") @RequestParam(value = "free_page", required = true, defaultValue = "0") Integer free_page,
+                                              @ApiParam(value = "기업 분석 사이즈", required = true, defaultValue = "5", example = "5") @RequestParam(value = "corp_size", required = true, defaultValue = "20") Integer corp_size
+          ,@ApiParam(value = "기업분석 페이지", required = true, defaultValue = "0", example = "0") @RequestParam(value = "corp_page", required = true, defaultValue = "0") Integer corp_page
+  ) {
+    Pageable free_pageable = PageRequest.of(free_page, free_size);
+    Pageable corp_pageable = PageRequest.of(corp_page, corp_size);
+
+    HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result = new HashMap<>();
+    PagingCommunityResponse corp_response = communityService.searchCommunity("기업", content, type, corp_pageable);
+    PagingCommunityResponse free_response = communityService.searchCommunity("자유", content, type, free_pageable);
+    ReadAllSearchResponse  response =ReadAllSearchResponse.builder()
+            .corp_search(corp_response)
+            .free_search(free_response)
+            .build();
+    result.put("data", response);
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+  }
+
   // view : 조회수순
   // likes : 좋아요 순
 
@@ -142,7 +198,7 @@ public class CommunityController {
 
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    List<ReadAllCommunityResponse> response = communityService.searchCommunity("기업", content, type, pageable);
+    PagingCommunityResponse response = communityService.searchCommunity("기업", content, type, pageable);
 
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
@@ -310,7 +366,7 @@ public class CommunityController {
     Pageable pageable = PageRequest.of(page, size);
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    List<ReadAllCommunityResponse> response = communityService.searchCommunity("자유", content, type, pageable);
+    PagingCommunityResponse response = communityService.searchCommunity("자유", content, type, pageable);
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }

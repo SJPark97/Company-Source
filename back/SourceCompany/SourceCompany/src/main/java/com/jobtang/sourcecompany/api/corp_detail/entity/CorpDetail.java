@@ -9,6 +9,7 @@ import lombok.Setter;
 import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 
 @Entity
 @Getter
@@ -54,27 +55,44 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
 
     private Long totalLiabilities; // 총부채
 
-//    private Integer cashFlow; // 현금흐름
-
-//    private Integer OperatingFundExpenditure; // 영업자금지출
-
     private Long tax; // 세금
 
     private Long inventories; // 재고자산
-
-    private Double earningPerShare; // 주당이익(보통주)
-
-    private Double previousEarningPerShare; // 전기주당이익(보통주)
-
-    private Double capitalSurplus; // 자본잉여금
 
     private Long marketCapitalization; // 시가총액
 
     private Long numberOfListedShares; // 주식 수
 
     private Long closingPrcie; // 종가
-    
+
     private Long interestExpense; // 이자비용
+
+    // 버전2
+    private Long previousmarketCapitalization; // 전기 시가총액
+
+    private Long previousNumberOfListedShares; // 전기 주식 수
+
+    private Long bons;  // 사채
+
+    private Long shortermAndLongtermBorrowings; //장단기 차입금
+
+    private Long depreciation; //감가상각비
+
+    private Long tradeReceivables; // 매출채권
+
+    private Long tradePayables; // 매입채무
+
+    private Long assetsUnderConstruction; // 건설중인 자산
+
+    private Long investmentAsset; // 투자자산
+
+    private Long cashFlowFromOperatingActivities; // 영업활동으로인한 현금흐름
+
+    private Long cashFlowFromInvestingActivities; // 투자활동으로인한 현금흐름
+
+    private Long cashFlowFromFinancingActivities; // 재무활동으로인한 현금흐름
+
+    private Long dividendPayment; // 배당금
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
@@ -187,21 +205,6 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
     }
 
     @Override
-    public Double getEarningPerShare() {
-        return earningPerShare;
-    }
-
-    @Override
-    public Double getPreviousEarningPerShare() {
-        return previousEarningPerShare;
-    }
-
-    @Override
-    public Double getCapitalSurplus() {
-        return capitalSurplus;
-    }
-
-    @Override
     public Long getMarketCapitalization() {
         return marketCapitalization;
     }
@@ -220,4 +223,44 @@ public class CorpDetail extends BaseEntity implements EntityVariable {
     public Long getInterestExpense() {
         return interestExpense;
     }
+
+    // 버전 2
+    @Override
+    public Long getPreviousNumberOfListedShares() { return previousNumberOfListedShares; }
+
+    @Override
+    public Long getPreviousmarketCapitalization() { return previousmarketCapitalization; } // 전기 시가총액
+
+    @Override
+    public Long getBons() { return bons; };  // 사채
+
+    @Override
+    public Long getShortermAndLongtermBorrowings() { return shortermAndLongtermBorrowings; } //장단기 차입금
+
+    @Override
+    public Long getDepreciation() { return depreciation; } //감가상각비
+
+    @Override
+    public Long getTradeReceivables() { return tradeReceivables; } // 매출채권
+
+    @Override
+    public Long getTradePayables() { return tradePayables; } // 매입채무
+
+    @Override
+    public Long getAssetsUnderConstruction() { return assetsUnderConstruction; } // 건설중인 자산
+
+    @Override
+    public Long getInvestmentAsset() { return investmentAsset; } // 투자자산
+
+    @Override
+    public Long getCashFlowFromOperatingActivities() { return cashFlowFromOperatingActivities; } // 영업활동으로인한 현금흐름
+
+    @Override
+    public Long getCashFlowFromInvestingActivities() { return cashFlowFromInvestingActivities; } // 투자활동으로인한 현금흐름
+
+    @Override
+    public Long getCashFlowFromFinancingActivities() { return cashFlowFromFinancingActivities; } // 재무활동으로인한 현금흐름
+
+    @Override
+    public Long getDividendPayment() { return dividendPayment; } // 배당금
 }

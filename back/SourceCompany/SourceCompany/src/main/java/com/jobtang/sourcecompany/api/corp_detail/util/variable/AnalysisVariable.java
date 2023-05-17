@@ -39,7 +39,34 @@ public class AnalysisVariable {
     public Double debtToEquityRatio; // 부채비율 = 총부채/자기자본
     public Double returnOnEquity; // ROE = ROI * (1 + 부채비율)
     public Double netProfitBeforeTax; // 세전순이익 = 순이익 + 세금
-//    public Double turnoverRatioOfTotalOperatingCapital; // 경영자본 = 총자산 - 투자자산 - 건설중인자산 = 경영자본회전율
+    public Double previousEarningPerShare; // 전기 주당순이익
+    public Double earningPerShare; // 주당순이익
+
+
+    // 버전2
+    public Double netWorthToTotalAsset;  // 자기자본비율 = 자기자본/총자본 * 100
+    public Double dependenceOnDebt;  // 차입금의존도 = (장단기 차입금 + 사채)/총자본 * 100
+    public Double averageInterestRateOnBorrowings;  // 차입금평균이자율 = 이자비용/(장단기차입금+사채)의 평잔 * 100
+    public Double timesInterestEarned; // 이자보상비율 = 영업이익/이자비용 > (영업이익/총자본)/(이자비용/차입금) = 총자본영업이익률/차입금평균이자율
+    public Double ebitaInterestExpense; // EBITDA/이자비용비율 = EBITDA/이자비용 = (세전순이익 + 이자비용 + 감가상각비 및 무형자산상각비) / 이자비용
+    public Double inventoryTurnover; // 재고자산회전율 = 매출액/재고자산(평잔)
+    public Double totalAssetTurnover; // 총자산회전율 = 매출액/총자산(평잔)
+    public Double operatingProfitToSalesRatio; // 매출액영업이익률 = 영업이익/매출액 * 100
+    public Double totalAssetsOperatwingProfiRate; // 총자산영업이익률(ROA) = 총자산/영업이익
+    public Double equityTurnover; // 자기자본회전율 = 매출액/자기자본(평잔)
+    public Double nonCurrentAssetTurnover; // 비유동자산회전율 = 매출액/비유동자산(평잔)
+    public Double receivablesTurnover; // 매출채권회전율 = 매출액/매출채권(평잔)
+    public Double payablesTurnover; // 매입채무회전율 = 매출액/매입채무(평잔)
+    public Double earningsAfterTaxToSalesRatio; // 매출액순이익율 = 당기순이익/매출액 * 100
+    public Double returnOnAssets; // 총자산순이익율 = 순이익/총자산 * 100
+    public Double cashFlowPerShare; // 주당현금흐름 = 주주현금흐름 / 발행주식수 = (당기순이익 + 현금의 유출이 없는 비용 - 현금의 유입이 없는 수익)
+    public Double priceCashFlowRatio;// 주가현금흐름비율 = 주가/주당현금흐름
+    public Double dividendSolvencyMultiple;// 배당지급능력배수 = 영업활동으로 인한 현금흐름 / 배당금
+    public Double cashFlowToDebtRatio;// 현금흐름 대 차입금 비율 = 영업활동으로 인한 현금흐름 / 차입금(평잔) * 100
+    public Double cashFlowToTotalDebtRatio;// 현금흐름 대 총부채 비율 = 영업활동으로 인한 현금흐름 / 총부채(평잔) * 100
+    public Double cashFlowInterestCoverageRatio;// 현금흐름이자보상비율 = (영업활동으로 인한 현금흐름 + 이자비용) / 이자비용 * 100
+    public Double cashFlow; // 현금흐름 = 영업활동으로 인한 현금흐름 + 재무활동으로 인한 현금흐름 + 투자활동으로 인한 현금흐름
+    public Double turnoverRatioOfTotalOperatingCapital; // 경영자본 = 총자산 - 투자자산 - 건설중인자산 = 경영자본회전율
 
     // 생성자
     public AnalysisVariable(EntityVariable entityVariable) {
@@ -70,7 +97,9 @@ public class AnalysisVariable {
         this.totalAssetGrowthRate = calculator.myRatioWithSubtraction(variable.getTotalAssets(), variable.getPreviousTotalAssets(), variable.getPreviousTotalAssets()); // 총자산증가율 = (당기말 총자산 - 전기말 총자산) / 전기말 총자산 * 100
         this.netWorthGrowthRate = calculator.myRatioWithSubtraction(variable.getEquityCapital(), variable.getPreviousEquityCapital(), variable.getPreviousEquityCapital()); // 자기자본증가율 = (당기말 자기자본-전기말 자기자본) / 전기말 자기자본 * 100
         this.netProfitGrowthRate = calculator.myRatioWithSubtraction(variable.getNetProfit(), variable.getPreviousNetProfit(), variable.getPreviousNetProfit()); // 순이익증가율 = (당기 순이익 - 전기 순이익) / 전기 순이익 * 100
-        this.earningsPerShareGrowthRate = calculator.myRatioWithSubtraction(variable.getPreviousEarningPerShare(), variable.getPreviousEarningPerShare(), variable.getPreviousEarningPerShare()); // 주당이익증가율 = (당기 주당이익 - 전기 주당이익) / 전기 주당이익 * 100
+        this.earningPerShare = calculator.myDivision(variable.getNetProfit(), variable.getNumberOfListedShares());
+        this.previousEarningPerShare = calculator.myDivision(variable.getPreviousNetProfit(), variable.getPreviousNumberOfListedShares());
+        this.earningsPerShareGrowthRate = calculator.myRatioWithSubtraction(earningPerShare, previousEarningPerShare, previousEarningPerShare); // 주당이익증가율 = (당기 주당이익 - 전기 주당이익) / 전기 주당이익 * 100
         this.returnOnInvestment = calculator.myDivision(variable.getNetProfit(), variable.getEquityCapital()); // 자기자본순이익률(ROI) = 순이익/매출액 * 매출액/총자산 = 순이익/총자본
         this.debtToEquityRatio = calculator.myDivision(variable.getTotalLiabilities(), variable.getEquityCapital()); // 부채비율 = 총부채/자기자본
         this.returnOnEquity = calculator.myMultiplyWithSum(returnOnInvestment, 1, debtToEquityRatio); // ROE = ROI * (1 + 부채비율)
@@ -80,6 +109,29 @@ public class AnalysisVariable {
         this.priceEarningRatio = calculator.myDivision(variable.getMarketCapitalization(), variable.getNetProfit()); // PER = 시가총액/순이익
         this.priceBookValueRatio = calculator.myDivision(variable.getMarketCapitalization(), variable.getEquityCapital()); // PBR = 시가총액/자기자본
         this.priceSalesRatio = calculator.myDivision(variable.getMarketCapitalization(), variable.getSales()); // PSR = 시가총액/매출액
-//        this.turnoverRatioOfTotalOperatingCapital = c.getTotalAssets(); // 경영자본 = 총자산 - 투자자산 - 건설중인자산 = 경영자본회전율
+
+        this.netWorthToTotalAsset = calculator.myRatio(variable.getEquityCapital(), variable.getTotalAssets());  // 자기자본비율 = 자기자본/총자본 * 100
+        this.dependenceOnDebt = calculator.myRatio(calculator.myPlus(variable.getShortermAndLongtermBorrowings(), variable.getBons()) , variable.getTotalAssets());  // 차입금의존도 = (장단기 차입금 + 사채)/총자본 * 100
+        this.averageInterestRateOnBorrowings = calculator.myRatioWithSum(variable.getInterestExpense(), variable.getShortermAndLongtermBorrowings(), variable.getBons());  // 차입금평균이자율 = 이자비용/(장단기차입금+사채)의 평잔 * 100
+        this.timesInterestEarned = calculator.myDivision(variable.getNetProfit(), variable.getInterestExpense()); // 이자보상비율 = 영업이익/이자비용 > (영업이익/총자본)/(이자비용/차입금) = 총자본영업이익률/차입금평균이자율
+        this.ebitaInterestExpense = calculator.myDivision(calculator.myPlus(netProfitBeforeTax, variable.getInterestExpense(), variable.getDepreciation()),variable.getInterestExpense()); // EBITDA/이자비용비율 = EBITDA/이자비용 = (세전순이익 + 이자비용 + 감가상각비 및 무형자산상각비) / 이자비용
+        this.inventoryTurnover = calculator.myDivision(variable.getSales(), variable.getInventories()); // 재고자산회전율 = 매출액/재고자산(평잔)
+//        this.totalAssetTurnover = calculator; // 총자산회전율 = 매출액/총자산(평잔)
+//        this.operatingProfitToSalesRatio = calculator; // 매출액영업이익률 = 영업이익/매출액 * 100
+//        this.totalAssetsOperatwingProfiRate = calculator; // 총자산영업이익률(ROA) = 총자산/영업이익
+//        this.equityTurnover = calculator; // 자기자본회전율 = 매출액/자기자본(평잔)
+//        this.nonCurrentAssetTurnover = calculator; // 비유동자산회전율 = 매출액/비유동자산(평잔)
+//        this.receivablesTurnover = calculator; // 매출채권회전율 = 매출액/매출채권(평잔)
+//        this.payablesTurnover = calculator; // 매입채무회전율 = 매출액/매입채무(평잔)
+//        this.earningsAfterTaxToSalesRatio = calculator; // 매출액순이익율 = 당기순이익/매출액 * 100
+//        this.returnOnAssets = calculator; // 총자산순이익율 = 순이익/총자산 * 100
+//        this.cashFlowPerShare = calculator; // 주당현금흐름 = 주주현금흐름 / 발행주식수 = (당기순이익 + 현금의 유출이 없는 비용 - 현금의 유입이 없는 수익)
+//        this.priceCashFlowRatio = calculator;// 주가현금흐름비율 = 주가/주당현금흐름
+//        this.dividendSolvencyMultiple = calculator;// 배당지급능력배수 = 영업활동으로 인한 현금흐름 / 배당금
+//        this.cashFlowToDebtRatio = calculator;// 현금흐름 대 차입금 비율 = 영업활동으로 인한 현금흐름 / 차입금(평잔) * 100
+//        this.cashFlowToTotalDebtRatio = calculator;// 현금흐름 대 총부채 비율 = 영업활동으로 인한 현금흐름 / 총부채(평잔) * 100
+//        this.cashFlowInterestCoverageRatio = calculator;// 현금흐름이자보상비율 = (영업활동으로 인한 현금흐름 + 이자비용) / 이자비용 * 100
+//        this.cashFlow = calculator; // 현금흐름 = 영업활동으로 인한 현금흐름 + 재무활동으로 인한 현금흐름 + 투자활동으로 인한 현금흐름
+//        this.turnoverRatioOfTotalOperatingCapital = calculator; // 경영자본 = 총자산 - 투자자산 - 건설중인자산 = 경영자본회전율
     }
 }

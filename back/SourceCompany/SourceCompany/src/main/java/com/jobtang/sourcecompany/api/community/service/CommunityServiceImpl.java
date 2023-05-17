@@ -68,11 +68,12 @@ public class CommunityServiceImpl implements CommunityService {
     return community.getId();
   }
 
+
   @Override
-  public List<ReadAllCommunityResponse> searchCommunity(String communityType, String content, String type, Pageable pageable) {
+  public PagingCommunityResponse searchCommunity(String communityType, String content, String type, Pageable pageable) {
     if (type.equals("content")) {
       Page<Community> communities = communityRepository.findAllByCommunityTypeAndContentContainingAndIsActiveTrue(communityType, content, pageable);
-      return communities.stream()
+      List<ReadAllCommunityResponse> readAllCommunityResponses =communities.stream()
               .map(community -> {
                 // 레디스에 저장된 해당 커뮤니티의 key값
                 String key = "viewComm" + community.getId();
@@ -84,9 +85,10 @@ public class CommunityServiceImpl implements CommunityService {
                 return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
               })
               .collect(Collectors.toList());
+      return new PagingCommunityResponse(communities.getTotalPages() ,readAllCommunityResponses );
     } else if (type.equals("title")) {
       Page<Community> communities = communityRepository.findAllByCommunityTypeAndTitleContainingAndIsActiveTrue(communityType, content, pageable);
-      return communities.stream()
+      List<ReadAllCommunityResponse> readAllCommunityResponses = communities.stream()
               .map(community -> {
                 // 레디스에 저장된 해당 커뮤니티의 key값
                 String key = "viewComm" + community.getId();
@@ -98,6 +100,7 @@ public class CommunityServiceImpl implements CommunityService {
                 return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
               })
               .collect(Collectors.toList());
+      return new PagingCommunityResponse(communities.getTotalPages() ,  readAllCommunityResponses);
     } else {
       throw new CustomException(ErrorCode.WRONG_INPUT_DATA);
     }
@@ -119,14 +122,12 @@ public class CommunityServiceImpl implements CommunityService {
     // 레디스에 조회수 기록해두고
     String key = "viewComm" + community.getId();
     ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
-    if (valueOperations.get(key) == null) {
-      valueOperations.set(key, 1);
-    } else {
-      Integer viewCnt = valueOperations.get(key);
-      valueOperations.set(key, viewCnt + 1);
-    }
+    int viewcnt = 0;
 //    레디스에서 key로 밸류 가져오는 코드
-    int viewcnt = integerRedisTemplate.opsForValue().get(key);
+    if (valueOperations.get(key) == null) {
+    } else {
+      viewcnt = integerRedisTemplate.opsForValue().get(key);
+    }
 
 
     
@@ -278,6 +279,21 @@ public class CommunityServiceImpl implements CommunityService {
     List<Community> communities = communityRepository.findAll();
 
     return 0;
+  }
+
+  @Override
+  public int addViewCommunity(Long communityId) {
+    Community community =communityRepository.findByIdAndIsActiveTrue(communityId).orElseThrow(() -> new CustomException(ErrorCode.COMM_EXISTS));
+    String key = "viewComm" + community.getId();
+    ValueOperations<String, Integer> valueOperations = integerRedisTemplate.opsForValue();
+    if (valueOperations.get(key) == null) {
+      valueOperations.set(key, 1);
+    } else {
+      Integer viewCnt = valueOperations.get(key);
+      valueOperations.set(key, viewCnt + 1);
+    }
+    int viewCnt = integerRedisTemplate.opsForValue().get(key);
+    return viewCnt;
   }
 
 //  Long getCommunityTotalView(Community community) {

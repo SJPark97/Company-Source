@@ -11,7 +11,7 @@ import java.util.Map;
 public interface CommunityService {
   Long createCommunity(String communityType, Long userId, CreateCommunityRequest createCommunityRequest) throws Exception;
 
-  List<ReadAllCommunityResponse> searchCommunity(String communityType , String content , String  type , Pageable pageable );
+  PagingCommunityResponse searchCommunity(String communityType , String content , String  type , Pageable pageable );
 
   ReadCommunityDetailResponse readCommunityDetail(Long userId ,String communityType,Long communityId);
   void deleteCommunity(Long userId , Long communityId);
@@ -25,5 +25,8 @@ public interface CommunityService {
   void updateViewCommunity();
   void schedule();
   int getTotalPage();
+
+  // 커뮤니티의 조회수만을 늘려주는 메소드
+  int addViewCommunity(Long communityId);
 
 }

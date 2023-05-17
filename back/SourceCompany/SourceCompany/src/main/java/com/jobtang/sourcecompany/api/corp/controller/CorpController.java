@@ -150,7 +150,7 @@ public class CorpController {
             response = CorpListResponseDto.class)
     @GetMapping("/induty")
     public ResponseEntity<?> getIndutyCorp(int page, int size) {
-        return responseHandler.response(corpService.getIndutyCorps(size, page));
+        return responseHandler.response(corpService.getIndutyCorps(page, size));
     }
 
     @ApiOperation(
@@ -159,15 +159,15 @@ public class CorpController {
             response = CorpListResponseDto.class)
     @GetMapping("/goodresult")
     public ResponseEntity<?> getGoodResultCorp(int page, int size) {
-        return responseHandler.response(corpService.getGoodResultCorps(size, page));
+        return responseHandler.response(corpService.getGoodResultCorps(page, size));
     }
 
     @ApiOperation(
-            value = "평가 양호 기업",
+            value = "매출 상위 기업",
             notes = "평가 양호 기업",
             response = CorpListResponseDto.class)
     @GetMapping("/sales")
     public ResponseEntity<?> getTopSalesCorp(int page, int size) {
-        return responseHandler.response(corpService.getTopSalesCorps(size, page));
+        return responseHandler.response(corpService.getTopSalesCorps(page, size));
     }
 }
