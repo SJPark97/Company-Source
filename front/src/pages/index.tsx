@@ -109,7 +109,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex justify-around bg-cover bg-gradient-to-b from-[#F9FAFB] to-[#FFFFFF] h-screen items-center px-100">
+        <div className="flex justify-around bg-cover bg-gradient-to-b from-[#ffffff] to-[#F3F9FF] h-screen items-center px-100">
           <div className="flex flex-col">
             <LandingDiscription title={thirdTitle} content={thirdContent} />
 
