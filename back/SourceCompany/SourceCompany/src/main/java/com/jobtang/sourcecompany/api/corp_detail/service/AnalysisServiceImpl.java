@@ -60,7 +60,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 
     @Override
     public AnalysisResponseDto getCorpAnalysis(String analysisId, String corpId, int settingNum) {
-        System.out.println(corpId);
         if (corpId.equals("66666666")) {
             corpId="00401731";
             Corp corp = corpRepository.findByCorpId(corpId);
@@ -162,7 +161,7 @@ public class AnalysisServiceImpl implements AnalysisService {
         if (analysisId=="114") {
             try {
                 for (AnalysisResultDto corpResultDto : corpAnalysis.getAnalysisResult()) {
-                    String rate = rate(analysisId, corpResultDto, corpResultDto);
+                    String rate = rating(analysisId, corpResultDto, corpResultDto);
                     if (rate.equals("고평가")) {
                         checkRate = "고평가";
                     } else if (rate.equals("저평가")) {
@@ -181,9 +180,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 
         try {
             for (AnalysisResultDto corpResultDto : corpAnalysis.getAnalysisResult()) {
+                System.out.println(corpResultDto.toString());
                 for (AnalysisResultDto indutyResultDto : indutyAnalysis.getAnalysisResult()) {
+                    System.out.println(indutyResultDto.toString());
                     if (corpResultDto.getName().equals(indutyResultDto.getName())) {
-                        String rate = rate(analysisId, corpResultDto, indutyResultDto);
+                        String rate = rating(analysisId, corpResultDto, indutyResultDto);
                         if (rate.equals("고평가")) {
                             checkRate = "고평가";
                         } else if (rate.equals("저평가")) {
@@ -197,12 +198,13 @@ public class AnalysisServiceImpl implements AnalysisService {
                                 "산업평균", calculator.myRound(indutyResultDto.getValue()),
                                 "평가", rate
                         )));
-
                         break;
                     }
                 }
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            System.out.println("ㅇㅅㅇ????");
+        }
         }
         // 종합 평가
         String totalRate = "";
@@ -458,7 +460,7 @@ public class AnalysisServiceImpl implements AnalysisService {
         log.info("총 사용량 : " + usage + " / 총 금액" + usage / 1000 * 0.0002);
     }
 
-    private String rate(String analysisId, AnalysisResultDto corpVariable, AnalysisResultDto indutyVariable) {
+    private String rating(String analysisId, AnalysisResultDto corpVariable, AnalysisResultDto indutyVariable) {
         switch (analysisId) {
             case "101":
                 switch (corpVariable.getName()) {
@@ -550,12 +552,12 @@ public class AnalysisServiceImpl implements AnalysisService {
                 }
             case "108":
                 switch (corpVariable.getName()) {
-                    case "총자산회전율":
-                    case "자기자본회전율":
-                    case "비유동자산회전율":
-                    case "재고자산회전율":
-                    case "매출채권회전율":
-                    case "매입채무회전율":
+                    case "매출액증가율":
+                    case "총자산증가율":
+                    case "자기자본증가율":
+                    case "순이익증가율":
+                    case "주당이익증가율":
+                    case "지속가능성장률":
                         return (corpVariable.getValue() >= indutyVariable.getValue()) ? (corpVariable.getValue() >= indutyVariable.getValue() * 0.8) ? "양호" : "보통" : "불량";
                 }
             case "114":
@@ -569,7 +571,7 @@ public class AnalysisServiceImpl implements AnalysisService {
             case "408":
                 return (corpVariable.getValue() >= 0.0380) ? "양호" : "불량";
                 }
-
+                log.warn("평가 못 찾앗음!!");
                 return "몰루?";
         }
 
