@@ -3,10 +3,11 @@ import { useState } from "react";
 
 export default function BoardSearchBar() {
   const router = useRouter();
-  const [searchType, setSearchType] = useState<string>("제목+내용");
+  const [searchType, setSearchType] = useState<string>("title");
   const [searchWord, setSearchWord] = useState<string | undefined | null>("");
 
   const searchTypeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(e.target.value);
     setSearchType(e.target.value);
   };
 
@@ -18,7 +19,7 @@ export default function BoardSearchBar() {
     e.preventDefault();
     router.push({
       pathname: `/community/searchresult`,
-      query: { searchType, searchWord },
+      query: { searchType, searchWord, page: 1 },
     });
   };
 
@@ -31,9 +32,8 @@ export default function BoardSearchBar() {
             value={searchType}
             onChange={searchTypeHandler}
           >
-            <option>제목+내용</option>
-            <option>작성자</option>
-            <option>제목</option>
+            <option value="title">제목</option>
+            <option value="content">내용</option>
           </select>
           <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none bg-brand">
             <svg
