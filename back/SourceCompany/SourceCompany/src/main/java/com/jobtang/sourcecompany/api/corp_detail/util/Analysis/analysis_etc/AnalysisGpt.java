@@ -1,11 +1,7 @@
 package com.jobtang.sourcecompany.api.corp_detail.util.Analysis.analysis_etc;
 
-import com.jobtang.sourcecompany.api.corp.entity.Corp;
-import com.jobtang.sourcecompany.api.corp.repository.CorpRepository;
 import com.jobtang.sourcecompany.api.corp_detail.dto.analysis_etc.GptDataDto;
 import com.jobtang.sourcecompany.api.corp_detail.dto.analysis_etc.GptJsonResponseDto;
-import com.jobtang.sourcecompany.api.exception.CustomException;
-import com.jobtang.sourcecompany.api.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,6 +1,6 @@
 package com.jobtang.sourcecompany.config;
-import com.jobtang.sourcecompany.api.exception.CustomException;
-import com.jobtang.sourcecompany.api.exception.ErrorCode;
+import com.jobtang.sourcecompany.api.exception.customerror.CustomException;
+import com.jobtang.sourcecompany.api.exception.customerror.ErrorCode;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import com.jobtang.sourcecompany.api.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
@@ -19,7 +19,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 // 토큰을 생성하고 검증
