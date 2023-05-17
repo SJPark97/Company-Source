@@ -15,19 +15,15 @@ const controlModalSlice = createSlice({
   initialState,
   reducers: {
     openLeftModal(state: ImodalState) {
-      console.log("왼쪽 모달 열림")
       state.isLeftOpen = true
     },
     closeLeftModal(state: ImodalState) {
-      console.log("왼쪽 모달 닫힘")
       state.isLeftOpen = false
     },
     openRightModal(state: ImodalState) {
-      console.log("오른쪽 모달 열림")
       state.isRightOpen = true
     },
     closeRightModal(state: ImodalState) {
-      console.log("오른쪽 모달 닫힘")
       state.isRightOpen = false
     },
   }
