@@ -24,6 +24,5 @@ public interface AnalysisResultRepository extends JpaRepository<AnalysisResult, 
     Page<AnalysisResult> findALlByResult108(Pageable pageable, String result);
     Page<AnalysisResult> findALlByResult114(Pageable pageable, String result);
     Page<AnalysisResult> findALlByResult303(Pageable pageable, String result);
-    Page<AnalysisResult> findALlByResult304(Pageable pageable, String result);
     Page<AnalysisResult> findALlByResult408(Pageable pageable, String result);
 }

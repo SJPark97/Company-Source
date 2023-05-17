@@ -37,7 +37,6 @@ public class AnalysisResult extends BaseEntity {
     private String result108;
     private String result114;
     private String result303;
-    private String result304;
     private String result408;
 
     public void updateResult(String analysisId, String rate){
@@ -57,7 +56,6 @@ public class AnalysisResult extends BaseEntity {
             case "108": this.result108 = rate; break;
             case "114": this.result114 = rate; break;
             case "303": this.result303 = rate; break;
-            case "304": this.result304 = rate; break;
             case "408": this.result408 = rate; break;
         }
     }
