@@ -85,6 +85,15 @@ export default function CommentComponent({
 
   // 대댓글 버튼 누르면 실행되는 함수
   const replyHandler = () => {
+    // 토큰 없으면
+    if (!cookies.accessToken) {
+      if (confirm("대댓글을 등록하기 위해서는 로그인이 필요합니다. \n로그인 하시겠습니까?")) {
+        router.push("/login")
+        return
+      }
+      return
+    }
+    console.log('2222')
     setIsReply((prev) => !prev);
     setIsModify(false);
   };
@@ -129,7 +138,7 @@ export default function CommentComponent({
         <div className="flex">
           {/* Comment Modify and Delete button */}
           {cookies.nickName &&
-          cookies.nickName === commentInformation.nickname ? (
+            cookies.nickName === commentInformation.nickname ? (
             <div className="flex">
               {/* Modify Button */}
               <div className="flex mr-20" onClick={modifyHandler}>
@@ -169,24 +178,24 @@ export default function CommentComponent({
       {/* 대댓글 List */}
       {replyList
         ? replyList.map((reply) => (
-            <div
-              className="flex items-center my-10"
-              key={"대댓글" + `${reply.commentId}`}
-            >
-              <div className="mr-10">
-                <Image
-                  src="/reply_arrow.png"
-                  alt="대댓글 화살표"
-                  width={15}
-                  height={17}
-                />
-              </div>
-              <div className="flex flex-col">
-                <div className="font-bold">{reply.nickname}</div>
-                <div>{reply.content}</div>
-              </div>
+          <div
+            className="flex items-center my-10"
+            key={"대댓글" + `${reply.commentId}`}
+          >
+            <div className="mr-10">
+              <Image
+                src="/reply_arrow.png"
+                alt="대댓글 화살표"
+                width={15}
+                height={17}
+              />
             </div>
-          ))
+            <div className="flex flex-col">
+              <div className="font-bold">{reply.nickname}</div>
+              <div>{reply.content}</div>
+            </div>
+          </div>
+        ))
         : null}
 
       {/* 댓글 수정 폼 */}

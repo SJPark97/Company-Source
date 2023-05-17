@@ -15,6 +15,7 @@ import CommentComponent from "@/components/community/CommentComponent";
 import QuickMenu from "@/components/QuickMenu";
 import DetailModifyButton from "@/components/community/DetailModifyButton";
 import DetailDeleteButton from "@/components/community/DetailDeleteButton";
+import { GetServerSidePropsContext } from "next";
 
 interface comment {
   commentGroup: number;
@@ -281,7 +282,7 @@ export default function freeBoardDetail({
   );
 }
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const detailId = context.query.detail;
   const cookies = parseCookies(context);
   const accessToken = cookies.accessToken ?? null;
