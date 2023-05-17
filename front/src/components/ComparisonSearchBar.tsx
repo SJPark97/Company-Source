@@ -44,9 +44,7 @@ export default function ComparisonSearchBar() {
 
   useEffect(() => {
     if (searchWord) {
-      console.log(searchWord)
       getCompanyInfo(searchWord)
-      // console.log(companyList)
     } else {
       setCompanyList([])
     }

@@ -34,8 +34,6 @@ export default function SelectedCard({ cardLocation }: cardLocation) {
 
   }, [leftCompanyInfo, rightCompanyInfo])
 
-  console.log(leftCompanyInfo, rightCompanyInfo)
-
   return (
     <div className="flex flex-col justify-between whitespace-nowrap relative w-full h-full border-[#AAAAAA] border-solid border-2 rounded-5 border-opacity-20" >
       <div className="flex mx-20 mt-20">

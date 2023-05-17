@@ -19,7 +19,6 @@ const rightSelectedCompanySlice = createSlice({
   initialState,
   reducers: {
     setRightCardCompany(state, action: CompanyInfoPayloadAction) {
-      console.log("오른쪽 카드 수정")
       state.corpId = action.payload.corpId;
       state.corpImg = action.payload.corpImg;
       state.corpName = action.payload.corpName;
@@ -27,7 +26,6 @@ const rightSelectedCompanySlice = createSlice({
       state.indutyName = action.payload.indutyName;
     },
     selectRightCard(state) {
-      console.log("오른쪽 카드 select")
       state.isSelected = true
     },
     unselectRightCard(state) {

@@ -21,7 +21,7 @@ export default function LandingDiscription({ title, content }: Iprops) {
         </div>
         <div
           className={
-            "text-28 text-[#aaaaaa] font-bold mt-[1vh] whitespace-pre-line tracking-tighter"
+            "ml-10 text-28 text-[#aaaaaa] font-bold mt-[1vh] whitespace-pre-line tracking-tighter"
           }
         >
           {content}

@@ -17,10 +17,10 @@ interface Iprops {
 export default function InnerCard({ cardItemList, type }: Iprops) {
 
   return (
-    <div className="flex flex-col p-10 mt-10 mb-40 border-gray-500 rounded-5 border-1 h-[350px]">
+    <div className="flex flex-col p-10 mt-10 mb-40 border-gray-500 rounded-5 border-1 overflow-y-auto h-[300px]">
       {cardItemList.map((item, index) => {
         return item.title !== "산업코드" && (
-          <div key={index} className="flex items-center justify-start h-full m-5">
+          <div key={index} className="flex grow items-center justify-start m-5">
             {type === "evaluation" ?
               <>
                 <div className="min-w-[230px] text-16">{item.analysisName}</div>
