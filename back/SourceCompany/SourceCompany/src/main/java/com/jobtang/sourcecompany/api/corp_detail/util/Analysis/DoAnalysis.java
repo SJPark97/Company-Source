@@ -53,7 +53,7 @@ public class DoAnalysis {
                         ,analysis105.analysis(analysisVariable)
                         ,analysis106.analysis(analysisVariable)
                         ,analysis108.analysis(analysisVariable)
-                        ,analysis114.analysis(analysisVariable)
+//                        ,analysis114.analysis(analysisVariable)
                         ,analysis303.analysis(analysisVariable)
                         ,analysis408.analysis(analysisVariable)
                 )))

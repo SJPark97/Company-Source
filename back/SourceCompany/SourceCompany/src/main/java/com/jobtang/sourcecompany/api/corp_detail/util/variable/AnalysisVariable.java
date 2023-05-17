@@ -13,6 +13,7 @@ public class AnalysisVariable {
     public String variableId;
     public String variableName;
     public EntityVariable variable;
+    public Boolean isInduty;
 
     //  세부계산 항목
     public Long netWorkingCapital; // 순운전자본 = 유동자산 - 유동부채
@@ -74,6 +75,11 @@ public class AnalysisVariable {
         this.variableId = entityVariable.getVariableId();
         this.variableName = entityVariable.getVariableName();
         this.variable = entityVariable;
+        if (variableId.length() == 1) {
+            this.isInduty = true;
+        } else {
+            this.isInduty = false;
+        }
 
         // 세부 정보 계산
         calculatevVriables();
