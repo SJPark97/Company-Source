@@ -1,9 +1,7 @@
 package com.jobtang.sourcecompany.api.corp_detail.util.Analysis;
 
-import com.jobtang.sourcecompany.api.corp_detail.dto.AnalysisDto;
 import com.jobtang.sourcecompany.api.corp_detail.dto.VariableDto;
 import com.jobtang.sourcecompany.api.corp_detail.util.Analysis.Analysis300.Analysis303;
-import com.jobtang.sourcecompany.api.corp_detail.util.Analysis.Analysis300.Analysis304;
 import com.jobtang.sourcecompany.api.corp_detail.util.Analysis.analysis100.*;
 import com.jobtang.sourcecompany.api.corp_detail.util.Analysis.analysis400.*;
 import com.jobtang.sourcecompany.api.corp_detail.util.variable.AnalysisVariable;
@@ -33,7 +31,6 @@ public class DoAnalysis {
     private final Analysis108 analysis108;
     private final Analysis114 analysis114;
     private final Analysis303 analysis303;
-    private final Analysis304 analysis304;
     private final Analysis408 analysis408;
 
 
@@ -58,7 +55,6 @@ public class DoAnalysis {
                         ,analysis108.analysis(analysisVariable)
                         ,analysis114.analysis(analysisVariable)
                         ,analysis303.analysis(analysisVariable)
-                        ,analysis304.analysis(analysisVariable)
                         ,analysis408.analysis(analysisVariable)
                 )))
                 .build();
