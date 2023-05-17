@@ -8,58 +8,60 @@ import {
   Tooltip,
   ReferenceLine,
 } from "recharts";
-import ComparisonLegend from "./ComparisonLegend";
+import Legend from "./Legend";
 
 interface Iprops {
-  corpAName: string,
-  corpBName: string,
-  analysisMethod?: string,
-  chartData: any
+  chartData: any;
 }
 
-export default function ComparisonChart({ corpAName, corpBName, chartData }: Iprops) {
+export default function Chart102({ chartData }: Iprops) {
 
-  // const [data, setData] = useState<any>();
+  const [data, setData] = useState<any>();
 
-  // useEffect(() => {
-  //   setData(chartData);
-  // }, []);
+  useEffect(() => {
+    setData(chartData);
+  }, []);
 
   return (
     <>
       <div>
 
         <div className="flex justify-center flex-nowrap text-12">
-          {chartData
-            ? chartData.map((item: any, index: number) => {
+          {data
+            ? data.data.result.map((item: any, index: number) => {
               return (
                 <div key={index}>
                   <BarChart
-                    width={135}
+                    width={120}
                     height={300}
                     data={[item]}
                     margin={{
                       top: 40,
-                      right: 40,
+                      right: 30,
                       left: 0,
-                      bottom: 20,
+                      bottom: 40,
                     }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" tickMargin={16} interval={3} />
+                    <XAxis dataKey="name" tickMargin={16} interval={1} />
                     <YAxis />
                     <Tooltip wrapperStyle={{ zIndex: "50" }} />
                     {/* <Legend /> */}
                     <ReferenceLine y={0} stroke="#000" />
-                    <Bar dataKey={corpAName} fill="#82ca9d" width={10} />
-                    <Bar dataKey={corpBName} fill="#8884d8" width={10} />
+                    <Bar
+                      dataKey={data.data.corp_name}
+                      fill={
+                        item["평가"] === "양호" ? "#82ca9d" : (item["평가"] === "불량" ? "red" : ("#efad45"))
+                      }
+                    />
+                    <Bar dataKey="산업평균" fill="#8884d8" />
                   </BarChart>
                 </div>
               );
             })
-            : ""}
+            : "데이터가 없어요 ㅠㅠ"}
         </div>
-        <ComparisonLegend corpAName={corpAName} corpBName={corpBName} />
+        <Legend compare="산업평균" />
       </div>
     </>
   );
