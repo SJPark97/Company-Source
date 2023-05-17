@@ -1,7 +1,7 @@
 package com.jobtang.sourcecompany.api.inquiry_comment.service;
 
-import com.jobtang.sourcecompany.api.exception.CustomException;
-import com.jobtang.sourcecompany.api.exception.ErrorCode;
+import com.jobtang.sourcecompany.api.exception.customerror.CustomException;
+import com.jobtang.sourcecompany.api.exception.customerror.ErrorCode;
 import com.jobtang.sourcecompany.api.inquiry.entity.Inquiry;
 import com.jobtang.sourcecompany.api.inquiry.repository.InquiryRepository;
 import com.jobtang.sourcecompany.api.inquiry_comment.dto.CreateInquiryCommentRequest;
@@ -11,12 +11,9 @@ import com.jobtang.sourcecompany.api.inquiry_comment.entity.InquiryComment;
 import com.jobtang.sourcecompany.api.inquiry_comment.repository.InquiryCommentRepository;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import com.jobtang.sourcecompany.api.user.repository.UserRepository;
-import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.*;
 
 @Service
 @RequiredArgsConstructor
