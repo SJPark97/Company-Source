@@ -69,27 +69,6 @@ public class CorpController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-//    @ApiOperation(
-//            value = "기업 추천",
-//            notes = "랜덤 기업 코드를 가진 5개 랜덤 기업 보여주기",
-//            response = CorpSearchListDto.class,
-//            responseContainer = "List"
-//    )
-//    @GetMapping("/recommend")
-//    public ResponseEntity<?> recommendCorp() {
-//        HashMap<String,Object> result = new HashMap<>();
-//        List<CorpSearchListDto> data = corpService.recommendCorp();
-//        if (data.size() == 0) {
-//            result.put("status", "204");
-//            result.put("message", "검색 결과가 없습니다");
-//            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
-//        }
-//        result.put("data", data);
-//        result.put("message", "");
-//        result.put("status", "200");
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
-
 
     // 기업 개요 조회
     @ApiOperation(
@@ -112,17 +91,17 @@ public class CorpController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    // 랜덤기업 레디스에 저장
-    @ApiOperation(
-            value = "랜덤 기업 생성",
-            notes = "레디스에 순서 뒤섞어서 기업 저장",
-            response = void.class
-    )
-    @GetMapping("/makerandomcorp/2kdmqkwm")
-    public String makeRandomCorp() {
-        corpService.makeRandCorp();
-        return "랜덤 기업 저장 완료";
-    }
+//    // 랜덤기업 레디스에 저장
+//    @ApiOperation(
+//            value = "랜덤 기업 생성",
+//            notes = "레디스에 순서 뒤섞어서 기업 저장",
+//            response = void.class
+//    )
+//    @GetMapping("/makerandomcorp/2kdmqkwm")
+//    public String makeRandomCorp() {
+//        corpService.makeRandCorp();
+//        return "랜덤 기업 저장 완료";
+//    }
 
     // 홈화면 랜덤 기업 리스트 출력
     @ApiOperation(
@@ -170,8 +149,9 @@ public class CorpController {
             notes = "랜덤 산업 기업",
             response = CorpListResponseDto.class)
     @GetMapping("/induty")
-    public ResponseEntity<?> getIndutyCorp(int page, int size) {
-        return responseHandler.response(corpService.getIndutyCorps(page, size));
+    public ResponseEntity<?> getIndutyCorp() {
+//        return responseHandler.response(corpService.getIndutyCorps(page, size));
+        return responseHandler.response(corpService.getIndutyCorps());
     }
 
     @ApiOperation(
