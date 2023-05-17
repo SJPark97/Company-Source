@@ -64,7 +64,6 @@ public class AnalysisResultServiceImpl implements AnalysisResultService{
             case "108" : analysisResults = analysisResultRepository.findALlByResult108(pageSetting, "양호"); break;
             case "114" : analysisResults = analysisResultRepository.findALlByResult114(pageSetting, "양호"); break;
             case "303" : analysisResults = analysisResultRepository.findALlByResult303(pageSetting, "양호"); break;
-            case "304" : analysisResults = analysisResultRepository.findALlByResult304(pageSetting, "양호"); break;
             case "408" : analysisResults = analysisResultRepository.findALlByResult408(pageSetting, "양호"); break;
         }
         List<CorpSearchListDto> data = new ArrayList<>();

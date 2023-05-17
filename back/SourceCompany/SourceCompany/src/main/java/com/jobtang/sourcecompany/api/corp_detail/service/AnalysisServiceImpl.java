@@ -366,6 +366,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 
         List<String> corpIds = corpRepository.findAllCorpIds();
         for (String corpId : corpIds) {
+            if (corpId.equals("66666666")) {continue;}
             updateAnalysisCorp(corpId);
         }
         log.info("모든 기업 분석 완료!");
@@ -565,7 +566,6 @@ public class AnalysisServiceImpl implements AnalysisService {
                         return (corpVariable.getValue() >= 100) ? "양호" : "불량";
                 }
             case "303": return null;
-            case "304": return null;
             case "408":
                 return (corpVariable.getValue() >= 0.0380) ? "양호" : "불량";
                 }

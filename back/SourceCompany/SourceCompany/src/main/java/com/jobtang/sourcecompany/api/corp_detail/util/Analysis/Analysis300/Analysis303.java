@@ -22,7 +22,7 @@ public class Analysis303 implements AnalysisForm {
     private AnalysisVariable variable;
 
     private String analysisId = "303";
-    private String analysisName = "현금흐름표 분석(현금흐름과 주가비율)";
+    private String analysisName = "현금흐름표 분석";
 
     @Override
     public AnalysisDto analysis(AnalysisVariable variable) {
@@ -40,6 +40,9 @@ public class Analysis303 implements AnalysisForm {
         if (variable.cashFlowPerShare == null
                 || variable.priceCashFlowRatio == null
                 || variable.dividendSolvencyMultiple == null
+                || variable.cashFlowToDebtRatio == null
+                || variable.cashFlowToTotalDebtRatio == null
+                || variable.cashFlowInterestCoverageRatio == null
         ) {
             isExistAll = false;
         }
@@ -65,6 +68,21 @@ public class Analysis303 implements AnalysisForm {
                             ,new AnalysisResultDto().builder()
                                     .name("배당지급능력배수")
                                     .value(variable.dividendSolvencyMultiple)
+                                    .build()
+
+                            ,new AnalysisResultDto().builder()
+                                    .name("현금흐름 대 차입금 비율")
+                                    .value(variable.cashFlowToDebtRatio)
+                                    .build()
+
+                            ,new AnalysisResultDto().builder()
+                                    .name("현금흐름 대 총부채 비율")
+                                    .value(variable.cashFlowToTotalDebtRatio)
+                                    .build()
+
+                            ,new AnalysisResultDto().builder()
+                                    .name("현금흐름이자보상비율")
+                                    .value(variable.cashFlowInterestCoverageRatio)
                                     .build()
                     ));
         } catch (Exception e) {
