@@ -100,8 +100,8 @@ public class AnalysisServiceImpl implements AnalysisService {
                     for (AnalysisResultDto indutyResultDto : indutyAnalysis.getAnalysisResult()) {
                         if (corpResultDto.getName().equals(indutyResultDto.getName())) {
                             analysisResult.add(new HashMap(Map.of(
-                                    corp.getCorpName(), calculator.myRound(corpResultDto.getValue()),
-                                    "name", "참깨전자",
+                                    "참깨전자", calculator.myRound(corpResultDto.getValue()),
+                                    "name", corpResultDto.getName(),
                                     "산업평균", calculator.myRound(indutyResultDto.getValue()),
                                     "평가", "불량"
                             )));
