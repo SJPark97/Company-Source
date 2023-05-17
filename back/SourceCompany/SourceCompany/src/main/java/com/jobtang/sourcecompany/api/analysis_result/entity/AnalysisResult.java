@@ -30,6 +30,16 @@ public class AnalysisResult extends BaseEntity {
     private String result113;
     private String result405;
 
+    //버전2
+    private String result102;
+    private String result105;
+    private String result106;
+    private String result108;
+    private String result114;
+    private String result303;
+    private String result304;
+    private String result408;
+
     public void updateResult(String analysisId, String rate){
         switch (analysisId) {
             case "101": this.result101 = rate; break;
@@ -40,6 +50,15 @@ public class AnalysisResult extends BaseEntity {
             case "111": this.result111 = rate; break;
             case "113": this.result113 = rate; break;
             case "405": this.result405 = rate; break;
+
+            case "102": this.result102 = rate; break;
+            case "105": this.result105 = rate; break;
+            case "106": this.result106 = rate; break;
+            case "108": this.result108 = rate; break;
+            case "114": this.result114 = rate; break;
+            case "303": this.result303 = rate; break;
+            case "304": this.result304 = rate; break;
+            case "408": this.result408 = rate; break;
         }
     }
 }
