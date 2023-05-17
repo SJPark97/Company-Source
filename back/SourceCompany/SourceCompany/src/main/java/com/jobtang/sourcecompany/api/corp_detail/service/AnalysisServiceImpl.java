@@ -99,10 +99,9 @@ public class AnalysisServiceImpl implements AnalysisService {
                 for (AnalysisResultDto corpResultDto : corpAnalysis.getAnalysisResult()) {
                     for (AnalysisResultDto indutyResultDto : indutyAnalysis.getAnalysisResult()) {
                         if (corpResultDto.getName().equals(indutyResultDto.getName())) {
-                            String rate = rate(analysisId, corpResultDto, indutyResultDto);
                             analysisResult.add(new HashMap(Map.of(
                                     corp.getCorpName(), calculator.myRound(corpResultDto.getValue()),
-                                    "name", corpResultDto.getName(),
+                                    "name", "참깨전자",
                                     "산업평균", calculator.myRound(indutyResultDto.getValue()),
                                     "평가", "불량"
                             )));
