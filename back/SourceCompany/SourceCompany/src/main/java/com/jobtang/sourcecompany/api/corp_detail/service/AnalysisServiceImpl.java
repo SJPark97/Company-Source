@@ -180,9 +180,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 
         try {
             for (AnalysisResultDto corpResultDto : corpAnalysis.getAnalysisResult()) {
-                System.out.println(corpResultDto.toString());
                 for (AnalysisResultDto indutyResultDto : indutyAnalysis.getAnalysisResult()) {
-                    System.out.println(indutyResultDto.toString());
                     if (corpResultDto.getName().equals(indutyResultDto.getName())) {
                         String rate = rating(analysisId, corpResultDto, indutyResultDto);
                         if (rate.equals("고평가")) {
@@ -203,7 +201,6 @@ public class AnalysisServiceImpl implements AnalysisService {
                 }
             }
         } catch (Exception e) {
-            System.out.println("ㅇㅅㅇ????");
         }
         }
         // 종합 평가
@@ -214,7 +211,7 @@ public class AnalysisServiceImpl implements AnalysisService {
                 // 60% 이상이 양호이면 양호, 30% 이하는 불량, 그 외는 불량
             } else if (goodCnt >= corpAnalysis.getAnalysisResult().size() * 6 / 10) {
                 totalRate = "양호";
-            } else if (goodCnt < corpAnalysis.getAnalysisResult().size() * 6 / 10 ||
+            } else if (goodCnt < corpAnalysis.getAnalysisResult().size() * 6 / 10 &&
                     goodCnt >= corpAnalysis.getAnalysisResult().size() * 3 / 10) {
                 totalRate = "보통";
             } else if (goodCnt < corpAnalysis.getAnalysisResult().size() * 3 / 10) {
@@ -229,7 +226,6 @@ public class AnalysisServiceImpl implements AnalysisService {
             analysisResultService.updateAnalysisResult(corp, corpAnalysis.getAnalysisId(), totalRate);
             return null;
         }
-
         return new AnalysisResponseDto().builder()
                 .exist_all((corpAnalysis.getIsExistAll().equals(true) && indutyAnalysis.getIsExistAll().equals(true)) ? true : false)
                 .analysis_method(corpAnalysis.getAnalysisId())
@@ -452,7 +448,6 @@ public class AnalysisServiceImpl implements AnalysisService {
         int usage = 0;
 
         for (Corp corp : corps) {
-            System.out.println(corp.getCorpName());
             int value = updateAnalysisGpt(corp);
             usage += value;
             log.info("현 사용량 : " + value + " / 누적사용량 : " + usage + " / 회사명 : " + corp.getCorpName());
@@ -533,11 +528,11 @@ public class AnalysisServiceImpl implements AnalysisService {
                     case "총자산회전율":
                     case "매출액영업이익률":
                         return (corpVariable.getValue() >= indutyVariable.getValue()) ? (corpVariable.getValue() >= indutyVariable.getValue() * 0.8) ? "양호" : "보통" : "불량";
-                    case "총자본순이익률(ROI)":
+                    case "총자본순이익률 (ROI)":
                         return (corpVariable.getValue() >= indutyVariable.getValue() * 0.8 ||
                                 corpVariable.getValue() <= indutyVariable.getValue() * 1.2) ? "양호" : "불량";
-                    case "총자산영업이익률(ROA)":
-                    case "자기자본순이익률(ROE)":
+                    case "총자산영업이익률 (ROA)":
+                    case "자기자본순이익률 (ROE)":
                         return (corpVariable.getValue() >= indutyVariable.getValue()) ? "양호" : "불량";
                 }
             case "106":
@@ -567,7 +562,17 @@ public class AnalysisServiceImpl implements AnalysisService {
                     case "브리체트의 지수법":
                         return (corpVariable.getValue() >= 100) ? "양호" : "불량";
                 }
-            case "303": return null;
+            case "303":
+                switch (corpVariable.getName()) {
+                    case "주당현금흐름":
+                    case "주가현금흐름비율":
+                    case "배당지급능력배수":
+                    case "현금흐름이자보상비율":
+                        return (corpVariable.getValue() >= indutyVariable.getValue()) ? (corpVariable.getValue() >= indutyVariable.getValue() * 0.8) ? "양호" : "보통" : "불량";
+                    case "현금흐름 대 차입금 비율":
+                    case "현금흐름 대 총부채 비율":
+                        return (corpVariable.getValue() < indutyVariable.getValue()) ? (corpVariable.getValue() < indutyVariable.getValue() * 1.2) ? "양호" : "보통" : "불량";
+                }
             case "408":
                 return (corpVariable.getValue() >= 0.0380) ? "양호" : "불량";
                 }

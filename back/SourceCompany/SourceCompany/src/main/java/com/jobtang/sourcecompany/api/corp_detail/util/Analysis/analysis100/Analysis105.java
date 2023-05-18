@@ -88,15 +88,15 @@ public class Analysis105 implements AnalysisForm {
                                     .build(),
 
                             new AnalysisResultDto().builder()
-                                    .name("총자본순이익률(ROI)")
+                                    .name("총자본순이익률 (ROI)")
                                     .value(variable.returnOnInvestment)
                                     .build(),
                             new AnalysisResultDto().builder()
-                                    .name("총자산영업이익률(ROA)")
+                                    .name("총자산영업이익률 (ROA)")
                                     .value(variable.totalAssetsOperatwingProfiRate)
                                     .build(),
                             new AnalysisResultDto().builder()
-                                    .name("자기자본순이익률(ROE)")
+                                    .name("자기자본순이익률 (ROE)")
                                     .value(variable.returnOnEquity)
                                     .build()
                     ));
