@@ -48,14 +48,14 @@ public class AnalysisController {
 
     // 업데이트
 
-    @ApiOperation(
-            value = "분석법 정보 업데이트",
-            notes = "MongoDB의 분석법 업데이트")
-    @GetMapping("/update/analysisInfo")
-    public ResponseEntity updateAnalysisInfo(){
-        analysisService.updateAnalysisInfo();
-        return responseHandler.response("완료");
-    }
+//    @ApiOperation(
+//            value = "분석법 정보 업데이트",
+//            notes = "MongoDB의 분석법 업데이트")
+//    @GetMapping("/update/analysisInfo")
+//    public ResponseEntity updateAnalysisInfo(){
+//        analysisService.updateAnalysisInfo();
+//        return responseHandler.response("완료");
+//    }
 
     @ApiOperation(
             value = "모든 기업 분석 업데이트",
