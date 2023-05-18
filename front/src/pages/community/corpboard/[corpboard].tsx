@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import WriteButton from "@/components/community/WriteButton";
 import BoardSearchBar from "@/components/community/BoardSearchBar";
+import Head from "next/head";
 
 export default function CorpBoardRecommend({ data }: { data: any }) {
   const router = useRouter();
@@ -57,16 +58,36 @@ export default function CorpBoardRecommend({ data }: { data: any }) {
 
   return (
     <>
+      <Head>
+        <title>컴퍼니소스 | 기업 게시판</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content="컴퍼니소스(Company Source)의 기업 게시판 페이지 입니다."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://company-source.com/community/corpboard" />
+        <meta property="og:title" content="Company Source" />
+        <meta property="og:image" content="/company_default.jpg" />
+        <meta
+          property="og:description"
+          content="기업분석이 어려우신가요? Company Source와 함께 해보세요."
+        />
+        <meta
+          name="google-site-verification"
+          content="0FzOO996BLTIEWFgwlmmYv-F1WmHiM6SrbwEbK9-p3k"
+        />
+      </Head>
       <NavBar />
       <QuickMenu />
-      <div className="relaitve flex justify-center">
+      <div className="flex justify-center relaitve">
         <div className="absolute top-100">
           <BoardSearchBar />
         </div>
       </div>
       <BoardNavBar />
       <div className="flex flex-col whitespace-nowrap w-[1200px] mx-auto">
-        <div className="flex font-bold py-10 border-b-1 border-gray-300">
+        <div className="flex py-10 font-bold border-gray-300 border-b-1">
           <div className="text-center w-70">번호</div>
           <div className="text-center w-[550px]">제목</div>
           <div className="text-center w-[200px]">닉네임</div>
@@ -86,10 +107,10 @@ export default function CorpBoardRecommend({ data }: { data: any }) {
                 <div className="flex py-10">
                   <div className="text-center w-70">{post.communityId}</div>
                   <div className="flex w-[550px]">
-                    <div className="line-clamp-1 mr-10">
+                    <div className="mr-10 line-clamp-1">
                       {`${post.title}` + "  "}
                     </div>
-                    <div className="text-brand font-bold">
+                    <div className="font-bold text-brand">
                       [{post.commentCount}]
                     </div>
                   </div>
@@ -102,14 +123,14 @@ export default function CorpBoardRecommend({ data }: { data: any }) {
             ))}
         </div>
       </div>
-      <div className="relative flex justify-center items-center my-30">
+      <div className="relative flex items-center justify-center my-30">
         <Link href={"/community/corpboard/" + `${prevPage}`}>
           <Image
             src="/prev_page.png"
             alt="이전페이지"
             width={52}
             height={64}
-            className="w-26 h-32 mx-20"
+            className="h-32 mx-20 w-26"
           />
         </Link>
         {page.map((page) => (
@@ -120,12 +141,11 @@ export default function CorpBoardRecommend({ data }: { data: any }) {
             <div
               className={
                 "mx-20 " +
-                `${
-                  router.query.corpboard &&
+                `${router.query.corpboard &&
                   typeof router.query.corpboard === "string" &&
                   parseInt(router.query.corpboard) === page
-                    ? "font-bold text-24"
-                    : null
+                  ? "font-bold text-24"
+                  : null
                 }`
               }
             >
@@ -139,7 +159,7 @@ export default function CorpBoardRecommend({ data }: { data: any }) {
             alt="이전페이지"
             width={52}
             height={64}
-            className="w-26 h-32 mx-20"
+            className="h-32 mx-20 w-26"
           />
         </Link>
         <div className="absolute text-center ml-[1130px]">

@@ -4,6 +4,7 @@ import ComparisonChart from "@/components/comparison/ComparisonChart";
 import ComparisonTitle from "@/components/comparison/ComparisonTitle";
 import { SERVER_URL } from "@/utils/url";
 import axios from "axios";
+import Head from "next/head";
 import Image from "next/image";
 
 
@@ -17,6 +18,27 @@ export default function corpB({ data }: corpAcorpBProps) {
 
   return (
     <>
+      <Head>
+        <title>{`컴퍼니소스 | ${data.data.corpA.corpName} vs ${data.data.corpB.corpName}`}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content={`${data.data.corpA.corpName}기업과
+          ${data.data.corpB.corpName}기업의 비교 결과}`}
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://company-source.com/${data.data.corpA.corpId}/${data.data.corpB.corpId}`} />
+        <meta property="og:title" content="Company Source" />
+        <meta property="og:image" content="/company_default.jpg" />
+        <meta
+          property="og:description"
+          content="기업분석이 어려우신가요? Company Source와 함께 해보세요."
+        />
+        <meta
+          name="google-site-verification"
+          content="0FzOO996BLTIEWFgwlmmYv-F1WmHiM6SrbwEbK9-p3k"
+        />
+      </Head>
       <NavBar />
       <div className="flex flex-col bg-no-repeat bg-cover bg-comparison h-[400px]">
         <div className="bg-gradient-to-b from-[rgba(255,255,255,0)] to-[rgba(255,255,255,1)] h-[400px]">

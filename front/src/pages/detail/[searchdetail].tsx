@@ -29,22 +29,19 @@ export default function searchdetail({
   return (
     <>
       <Head>
-        <title>{`컴퍼니소스 | ${
-          searchdetail ? companyOverviewInfo.corpName : "기업"
-        }의 분석 결과`}</title>
+        <title>{`컴퍼니소스 | ${searchdetail ? companyOverviewInfo.corpName : "기업"
+          }의 분석 결과`}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta
           name="description"
-          content={`컴퍼니소스에서 검색한 ${
-            searchdetail ? companyOverviewInfo.corpName : "기업"
-          }의 분석 결과입니다.}`}
+          content={`컴퍼니소스에서 검색한 ${searchdetail ? companyOverviewInfo.corpName : "기업"
+            }의 분석 결과입니다.}`}
         />
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content={`https://company-source.com/detail/${
-            searchdetail ? companyOverviewInfo.corpId : ""
-          }`}
+          content={`https://company-source.com/detail/${searchdetail ? companyOverviewInfo.corpId : ""
+            }`}
         />
         <meta property="og:title" content="Company Source" />
         <meta property="og:image" content="/company_default.jpg" />

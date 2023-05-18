@@ -7,6 +7,7 @@ import {
   signUpAxios,
 } from "@/utils/user/api";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function SignUp() {
   const router = useRouter();
@@ -172,8 +173,28 @@ export default function SignUp() {
 
   return (
     <>
+      <Head>
+        <title>컴퍼니소스 | 회원가입</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content="컴퍼니소스(Company Source)에서는 재무제표를 이용한 기업분석을 제공하며 여러 기업들과 결과를 비교해볼 수 있습니다. 컴퍼니소스(Company Source)의 커뮤니티에서 기업에 대한 여러분의 의견을 다른 사람들과 공유해보세요."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://company-source.com/signup" />
+        <meta property="og:title" content="Company Source" />
+        <meta property="og:image" content="/company_default.jpg" />
+        <meta
+          property="og:description"
+          content="기업분석이 어려우신가요? Company Source와 함께 해보세요."
+        />
+        <meta
+          name="google-site-verification"
+          content="0FzOO996BLTIEWFgwlmmYv-F1WmHiM6SrbwEbK9-p3k"
+        />
+      </Head>
       <div className="flex flex-col items-center my-[10px]">
-        <p className="text-40 text-brand font-bold mb-10">Sign Up</p>
+        <p className="mb-10 font-bold text-40 text-brand">Sign Up</p>
         <div className="flex flex-col border-gray-300 border-1 w-[550px] h-[820px] p-56">
           <form onSubmit={signUpHandler}>
             {/* 아이디 입력 */}
@@ -183,7 +204,7 @@ export default function SignUp() {
                   아이디
                 </label>
                 <button
-                  className="px-10 py-5 border-1 rounded-10 ml-30 mr-30 bg-brand text-white"
+                  className="px-10 py-5 text-white border-1 rounded-10 ml-30 mr-30 bg-brand"
                   type="button"
                   onClick={idCheckHandler}
                 >
@@ -194,7 +215,7 @@ export default function SignUp() {
                     사용할 수 있는 ID 입니다.
                   </div>
                 ) : id !== null && id.length === 0 ? null : (
-                  <div className="text-10 text-red-500">
+                  <div className="text-red-500 text-10">
                     중복체크를 해주세요.
                   </div>
                 )}
@@ -264,7 +285,7 @@ export default function SignUp() {
                 </label>
 
                 <button
-                  className="px-10 py-5 border-1 rounded-10 ml-30 mr-30 bg-brand text-white"
+                  className="px-10 py-5 text-white border-1 rounded-10 ml-30 mr-30 bg-brand"
                   type="button"
                   onClick={nickNameCheckHandler}
                 >
@@ -275,7 +296,7 @@ export default function SignUp() {
                     사용할 수 있는 닉네임 입니다.
                   </div>
                 ) : nickName !== null && nickName.length === 0 ? null : (
-                  <div className="text-10 text-red-500">
+                  <div className="text-red-500 text-10">
                     중복체크를 해주세요.
                   </div>
                 )}
@@ -334,7 +355,7 @@ export default function SignUp() {
                 id="birthDate"
                 type="date"
                 max={maxDate}
-                className="mt-10 border-2 rounded-10 p-10"
+                className="p-10 mt-10 border-2 rounded-10"
                 onChange={birthDateHandler}
               />
             </div>

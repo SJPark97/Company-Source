@@ -3,6 +3,7 @@ import Link from "next/link";
 import { parseCookies, setCookie, destroyCookie } from "nookies";
 import { loginAxios } from "@/utils/user/api";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function Login() {
   const router = useRouter();
@@ -64,6 +65,26 @@ export default function Login() {
 
   return (
     <>
+      <Head>
+        <title>컴퍼니소스 | 로그인</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content="컴퍼니소스(Company Source)에서는 재무제표를 이용한 기업분석을 제공하며 여러 기업들과 결과를 비교해볼 수 있습니다. 컴퍼니소스(Company Source)의 커뮤니티에서 기업에 대한 여러분의 의견을 다른 사람들과 공유해보세요."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://company-source.com/login" />
+        <meta property="og:title" content="Company Source" />
+        <meta property="og:image" content="/company_default.jpg" />
+        <meta
+          property="og:description"
+          content="기업분석이 어려우신가요? Company Source와 함께 해보세요."
+        />
+        <meta
+          name="google-site-verification"
+          content="0FzOO996BLTIEWFgwlmmYv-F1WmHiM6SrbwEbK9-p3k"
+        />
+      </Head>
       <div className="flex flex-col items-center my-[60px]">
         <p className="text-40 text-brand font-bold mb-[5vh]">Log In</p>
         <div className="flex flex-col border-gray-300 border-1 w-[550px] h-[400px] p-56">
