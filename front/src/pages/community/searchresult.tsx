@@ -31,7 +31,6 @@ export default function CommunitySearchResult({
 }) {
   const router = useRouter();
   const [pages, setPages] = useState<Array<number>>([]);
-  console.log(data.data);
   useEffect(() => {
     const tempArr = [];
     if (data.data.pageTotal <= 10) {
@@ -60,14 +59,14 @@ export default function CommunitySearchResult({
 
       {/* body */}
       <div className="w-[1200px] mx-auto">
-        <div className="text-24 py-50 border-b-2 border-brand">
+        <div className="border-b-2 text-24 py-50 border-brand">
           '<span className="font-bold">{keyword}</span>
           '으로 검색한 결과입니다.
         </div>
         <SearchResultHeader />
 
         {/* 게시물 목록 */}
-        <div className="border-b-1 border-gray-400">
+        <div className="border-gray-400 border-b-1">
           {data.data.readAllCommunityResponses &&
             data.data.readAllCommunityResponses.map((post: Post) => (
               // Link설정 필요
