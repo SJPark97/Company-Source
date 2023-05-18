@@ -11,7 +11,7 @@ import ToScrollTopButton from "@/components/landing/ToScrollTopButton";
 export default function Home() {
   const firstTitle = "다양한 분석 기법을\n 차트로 한눈에 볼 수 있어요.";
   const firstContent =
-    "Company Source에서 제공하는\n 10가지 분석 기법을 만나보세요.";
+    "Company Source에서 제공하는\n 15가지 분석 기법을 만나보세요.";
   const secondTitle =
     "당신이 원하는 분석 기법으로\n 다양한 기업들을 비교해보세요.";
   const secondContent = "두 기업의 지표를 동시에 비교할 수 있어요.";

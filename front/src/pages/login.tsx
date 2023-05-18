@@ -51,6 +51,7 @@ export default function Login() {
       // }
     } else if (!res) {
       // 로그인 실패시 FailMessage 상태 변경
+      alert("아이디나 비밀번호를 확인해주세요.");
       setFailMessage(true);
     }
   };
