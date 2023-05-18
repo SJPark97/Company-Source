@@ -40,10 +40,10 @@ export default function SearchBar({ getData }: Iprops) {
   const onSubmitSearchHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     if (searchWord === undefined) {
-      alert("asdfsd");
+      alert("유효하지 않은 검색어 입니다.");
       return;
     } else if ((searchWord as string).length <= 1) {
-      alert("1글자 미만 X");
+      alert("검색어를 2글자 이상으로 작성해주세요.");
       return;
     }
 
