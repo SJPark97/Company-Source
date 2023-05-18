@@ -62,6 +62,7 @@ public class Analysis114 implements AnalysisForm {
 
     @Override
     public void checkNull() {
+        try {
         if (variable.liquidityRatio == null
                 || variable.debtToEquityRatio == null
                 || variable.nonCurrentRatio == null
@@ -91,8 +92,10 @@ public class Analysis114 implements AnalysisForm {
                 || indutyVariable.returnOnAssets == null
         ) {
             isExistAll = false;
-        } else {
-    }}
+        }}catch (Exception e) {
+            isExistAll = false;
+        }
+    }
 
     @Override
     public List<AnalysisResultDto> calculate() {

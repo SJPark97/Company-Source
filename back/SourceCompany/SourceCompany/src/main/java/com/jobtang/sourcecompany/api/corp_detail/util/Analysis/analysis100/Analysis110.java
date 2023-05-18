@@ -49,7 +49,7 @@ public class Analysis110 implements AnalysisForm {
         List<AnalysisResultDto> result = new ArrayList<>();
         try {
             AnalysisResultDto analysisResultDto1 = new AnalysisResultDto().builder()
-                    .name("주가순자산비율(PBR)")
+                    .name("주가순자산비율 (PBR)")
                     .value(variable.priceBookValueRatio)
                     .build();
             analysisResultDto1.round();
