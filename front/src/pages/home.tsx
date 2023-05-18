@@ -168,7 +168,7 @@ export default function Home() {
                 className="font-bold text-white lg:text-26 xl:text-29 2xl:text-32 text-shadow animate-fadeIn"
                 style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)" }}
               >
-                약 15개의 분석 방법으로 분석했습니다.
+                약 1개의 분석 방법으로 분석했습니다.
               </div>
             </div>
             <SearchBar getData={getData} />
@@ -225,9 +225,10 @@ export default function Home() {
                 />
               ))}
           </div>
-          {loading && <div> 로딩중 </div>}
           {!loading && (
-            <div ref={loaderRef} className="absolute bottom-[600px]"></div>
+            <div ref={loaderRef} className="absolute bottom-[600px]">
+              로딩중 입니다
+            </div>
           )}
         </div>
       </div>
