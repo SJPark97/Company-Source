@@ -35,8 +35,7 @@ spring:
       authentication-database: ENC(nhaDKWfag4QMbr8bFmCKqQ==)
       username: ENC(714l5ORmsn5+K+2ZjgrecA==)
       password: ENC(y7QgHOR0XwHMLkthu/eF2g==)
-#      database: ENC(3KwqupVoDR/3A/pHs9GrC62wBeW0jeEF)
-      database: cs-test
+      database: ENC(3KwqupVoDR/3A/pHs9GrC62wBeW0jeEF)
   redis:
     # 운영서버
 #    host: company-source.com
