@@ -9,6 +9,7 @@ import Image from "next/image";
 import HomeQuickMenu from "@/components/home/HomeQuickMenu";
 import GoodCorpList from "@/components/home/GoodCorpList";
 import { CSSTransition } from "react-transition-group";
+import { MoonLoader } from "react-spinners";
 // import { clearInterval } from "timers";
 
 interface bigCard {
@@ -65,8 +66,6 @@ export default function Home() {
         size: 5,
       },
     });
-    console.log(res.data.data.kind);
-    console.log(res.data.data.corps);
     setGoodCorpSubject(res.data.data.kind);
     setGoodCorpList(res.data.data.corps);
   };
@@ -74,8 +73,6 @@ export default function Home() {
   // 산업별 기업 리스트 불러오는 함수
   const getIndutyCorpList = async () => {
     const res = await axios.get(SERVER_URL + "/corp/induty");
-    console.log(res.data.data.kind);
-    console.log(res.data.data.corps);
     setIndutyCorpSubject(res.data.data.kind);
     setIndutyCorpList(res.data.data.corps);
   };
@@ -88,13 +85,12 @@ export default function Home() {
         size: 5,
       },
     });
-    console.log(res.data.data.kind);
-    console.log(res.data.data.corps);
     setTopSalesCorpSubject(res.data.data.kind);
     setTopSalesCorpList(res.data.data.corps);
   };
 
   useEffect(() => {
+    console.log(loading);
     const observer = new IntersectionObserver(
       (entries) => {
         const firstEntry = entries[0];
@@ -130,7 +126,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveBlockIndex((prevIndex) => (prevIndex + 1) % 3);
-    }, 10000);
+    }, 3000);
 
     return () => {
       clearInterval(timer);
@@ -168,7 +164,7 @@ export default function Home() {
                 className="font-bold text-white lg:text-26 xl:text-29 2xl:text-32 text-shadow animate-fadeIn"
                 style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)" }}
               >
-                약 10개의 분석 방법으로 분석했습니다.
+                약 1개의 분석 방법으로 분석했습니다.
               </div>
             </div>
             <SearchBar getData={getData} />
@@ -178,6 +174,9 @@ export default function Home() {
             alt="홈 이미지"
             fill
             className="absolute"
+            placeholder="blur"
+            blurDataURL="/home_background.jpg"
+            loading="lazy"
           />
         </div>
         <HomeQuickMenu />
@@ -210,7 +209,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mx-auto flex max-w-[1300px]">
+        <div className="mx-auto flex flex-col max-w-[1300px]">
           <div className="flex flex-wrap justify-around">
             {corpList &&
               corpList.map((corp) => (
@@ -222,9 +221,16 @@ export default function Home() {
                 />
               ))}
           </div>
-          {loading && <div></div>}
+          <div className="flex flex-col items-center">
+            <MoonLoader
+              color="#AAAAAA"
+              loading={true}
+              size={40}
+              className="my-30"
+            />
+          </div>
           {!loading && (
-            <div ref={loaderRef} className="absolute bottom-[400px]"></div>
+            <div ref={loaderRef} className="absolute bottom-[400px] z-50"></div>
           )}
         </div>
       </div>
