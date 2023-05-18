@@ -28,7 +28,7 @@ export default function BigCard({ id, name, image }: Iprops) {
                 className="mx-auto w-[110 px] h-[126px]"
                 placeholder="blur"
                 blurDataURL={image}
-                loading="lazy"
+                // loading="lazy"
               />
             </div>
           ) : (
