@@ -1,15 +1,11 @@
 import NavBar from "@/components/NavBar";
 import CompanyComparisonWindow from "@/components/comparison/CompanyComparisonWindow";
 import ComparisonChart from "@/components/comparison/ComparisonChart";
-import ComparisonModal from "@/components/comparison/ComparisonModal";
-import ComparisonStartMessage from "@/components/comparison/ComparisonStartMessage";
 import ComparisonTitle from "@/components/comparison/ComparisonTitle";
-import SelectedCard from "@/components/comparison/SelectedCard";
 import { SERVER_URL } from "@/utils/url";
 import axios from "axios";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+
 
 interface corpAcorpBProps {
   data: any;
@@ -18,7 +14,6 @@ interface corpAcorpBProps {
 export default function corpB({ data }: corpAcorpBProps) {
 
   // const [showMessage, setShowMessage] = useState<boolean>();
-
 
   return (
     <>
@@ -74,6 +69,7 @@ export default function corpB({ data }: corpAcorpBProps) {
                           name={item.analysis_name}
                           description={item.analysisInfo.analysis_description}
                           width={width.info}
+                          analysisInfo={item.analysisInfo}
                         />
                         {/* 차트 부분 */}
                         <div className="h-auto pr-20 mt-10 mb-20 bg-white border-gray-500 rounded-5 border-1">
