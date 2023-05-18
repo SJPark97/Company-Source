@@ -37,6 +37,6 @@ public interface CommunityRepository  extends JpaRepository<Community , Long> {
 //          "and c.community_id = l.community_id\n" +
 //          "order by l_cnt DESC\n" +
 //          "limit :n" )
-  List<Community> findByCommunityTypeAndLikesCntGreaterThanEqualOrderByCreatedDateDesc(String communityType ,int likesCnt ,Pageable pageable);
+  List<Community> findByCommunityTypeAndIsActiveTrueAndLikesCntGreaterThanEqualOrderByCreatedDateDesc(String communityType ,int likesCnt ,Pageable pageable);
 
 }
