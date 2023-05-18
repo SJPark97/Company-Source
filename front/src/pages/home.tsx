@@ -9,6 +9,7 @@ import Image from "next/image";
 import HomeQuickMenu from "@/components/home/HomeQuickMenu";
 import GoodCorpList from "@/components/home/GoodCorpList";
 import { CSSTransition } from "react-transition-group";
+import { MoonLoader } from "react-spinners";
 // import { clearInterval } from "timers";
 
 interface bigCard {
@@ -65,8 +66,6 @@ export default function Home() {
         size: 5,
       },
     });
-    console.log(res.data.data.kind);
-    console.log(res.data.data.corps);
     setGoodCorpSubject(res.data.data.kind);
     setGoodCorpList(res.data.data.corps);
   };
@@ -74,8 +73,6 @@ export default function Home() {
   // 산업별 기업 리스트 불러오는 함수
   const getIndutyCorpList = async () => {
     const res = await axios.get(SERVER_URL + "/corp/induty");
-    console.log(res.data.data.kind);
-    console.log(res.data.data.corps);
     setIndutyCorpSubject(res.data.data.kind);
     setIndutyCorpList(res.data.data.corps);
   };
@@ -88,13 +85,12 @@ export default function Home() {
         size: 5,
       },
     });
-    console.log(res.data.data.kind);
-    console.log(res.data.data.corps);
     setTopSalesCorpSubject(res.data.data.kind);
     setTopSalesCorpList(res.data.data.corps);
   };
 
   useEffect(() => {
+    console.log(loading);
     const observer = new IntersectionObserver(
       (entries) => {
         const firstEntry = entries[0];
@@ -213,7 +209,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mx-auto flex max-w-[1300px]">
+        <div className="mx-auto flex flex-col max-w-[1300px]">
           <div className="flex flex-wrap justify-around">
             {corpList &&
               corpList.map((corp) => (
@@ -225,11 +221,17 @@ export default function Home() {
                 />
               ))}
           </div>
-          {loading && <div>로딩중입니다 .!!!!!!!!!!!!!!!!!</div>}
+          <div className="flex flex-col items-center">
+            <div className="text-30 text-gray-300">Loading...</div>
+            <MoonLoader
+              color="#AAAAAA"
+              loading={true}
+              size={40}
+              className="my-30"
+            />
+          </div>
           {!loading && (
-            <div ref={loaderRef} className="absolute bottom-[600px]">
-              로딩중 입니다 @@@@@@@@@@@@@@@@@@@
-            </div>
+            <div ref={loaderRef} className="absolute bottom-[400px] z-50"></div>
           )}
         </div>
       </div>
