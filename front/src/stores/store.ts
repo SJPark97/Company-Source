@@ -10,6 +10,7 @@ const reducers = combineReducers({
   controlModal: controlModalSlice,
   leftSelectedCompany: leftSelectedCompanySlice,
   rightSelectedCompany: rightSelectedCompanySlice,
+  controlInfoDetail: controlInfoDetailSlice,
   //   navbar: navbarSlice,
 });
 
