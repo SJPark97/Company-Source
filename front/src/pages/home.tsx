@@ -225,7 +225,7 @@ export default function Home() {
                 />
               ))}
           </div>
-          {loading && <div></div>}
+          {loading && <div> 로딩중 </div>}
           {!loading && (
             <div ref={loaderRef} className="absolute bottom-[600px]"></div>
           )}
