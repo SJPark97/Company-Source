@@ -33,7 +33,6 @@ export default function InfoModal({ analysisInfo, open, handleClose, handleOpen 
           <h1 className='font-bold text-28'>
             {InfoContent.analysisInfo.analysis_name}
           </h1>
-          {/* <button onClick={() => setSecondary(!secondary)} className='absolute top-0 left-0 px-5 py-2 m-20 text-white bg-brand rounded-2'>확장하기</button> */}
           <List className='flex'>
             {InfoContent.analysisInfo.analysis_detail.map((items) => {
               i += 1;
