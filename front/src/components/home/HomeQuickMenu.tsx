@@ -49,7 +49,7 @@ export default function HomeQuickMenu() {
 
   return (
     <div
-      className="flex flex-col items-center border-1 border-gray-200 rounded-tr-10 rounded-tl-10 absolute right-30 top-[100px] bg-white w-[100px] shadow-lg"
+      className="flex flex-col z-50 items-center border-1 border-gray-200 rounded-tr-10 rounded-tl-10 absolute right-30 top-[100px] bg-white w-[100px] shadow-lg"
       ref={quickMenuRef}
     >
       <div className="bg-white font-bold rounded-tr-9 rounded-tl-9">Hot</div>

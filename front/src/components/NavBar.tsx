@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { parseCookies, destroyCookie } from "nookies";
+import { Tooltip } from "@material-tailwind/react";
 
 export default function NavBar() {
   const router = useRouter();
@@ -10,8 +11,14 @@ export default function NavBar() {
   // 로그인 여부 state
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
+  // 닉네임 state
+  const [nickName, setNickName] = useState<string>("");
+  const cookies = parseCookies();
   const logOutHandler = () => {
-    destroyCookie(null, "accessToken");
+    destroyCookie(null, "accessToken", { path: "/" });
+    destroyCookie(null, "nickName", { path: "/" });
+    setIsLoggedIn(false);
+    setNickName("");
     router.reload();
   };
 
@@ -20,6 +27,9 @@ export default function NavBar() {
     const cookies = parseCookies();
     if (cookies.accessToken) {
       setIsLoggedIn(true);
+    }
+    if (cookies.nickName) {
+      setNickName(cookies.nickName);
     }
   }, []);
 
@@ -78,11 +88,11 @@ export default function NavBar() {
               className={
                 "mx-[3vw] " +
                 `${
-                  router.pathname === "/" || router.pathname === "/home"
-                    ? "text-white"
+                  router.pathname.slice(0, 11) === "/comparison"
+                    ? "text-black font-bold"
                     : `${
-                        router.pathname === "/comparison"
-                          ? "text-black font-bold"
+                        router.pathname === "/" || router.pathname === "/home"
+                          ? "text-white"
                           : "text-gray-400"
                       }`
                 }`
@@ -113,28 +123,52 @@ export default function NavBar() {
         </div>
 
         {/* User Icon */}
-        {/* <div className="flex items-center">
+        <div className="flex items-center">
           {router.pathname === "/" || router.pathname === "/home" ? (
-            // <Link href="/login">
-            <Link href={isLoggedIn ? "/mypage" : "/login"}>
-              <Image
-                src="/white_user.png"
-                alt="white_user.png"
-                width={40}
-                height={40}
-              />
-            </Link>
+            <Tooltip
+              content={nickName}
+              animate={{
+                mount: { scale: 1, y: 0 },
+                unmount: { scale: 0, y: -30 },
+              }}
+              className={
+                "p-[10px] bg-white text-black rounded-10" +
+                `${cookies.nickName ? "" : " hidden"}`
+              }
+            >
+              <Link href={isLoggedIn ? "/mypage" : "/login"}>
+                <Image
+                  src="/white_user.png"
+                  alt="white_user.png"
+                  width={40}
+                  height={40}
+                />
+              </Link>
+            </Tooltip>
           ) : (
-            <Link href={isLoggedIn ? "/mypage" : "/login"}>
-              <Image src="/user.png" alt="user.png" width={40} height={40} />
-            </Link>
+            <Tooltip
+              content={nickName}
+              animate={{
+                mount: { scale: 1, y: 0 },
+                unmount: { scale: 0, y: -30 },
+              }}
+              className={
+                "p-[10px] rounded-10" + `${cookies.nickName ? "" : " hidden"}`
+              }
+            >
+              <Link href={isLoggedIn ? "/mypage" : "/login"}>
+                <Image src="/user.png" alt="user.png" width={40} height={40} />
+              </Link>
+            </Tooltip>
           )}
           {isLoggedIn ? (
             <div
               className={
                 "ml-20 cursor-pointer " +
                 `${
-                  router.pathname !== "mypage" ? "text-white" : "text-gray-400"
+                  router.pathname !== "/" && router.pathname !== "/home"
+                    ? "text-gray-400"
+                    : "text-white"
                 }`
               }
               onClick={logOutHandler}
@@ -142,7 +176,7 @@ export default function NavBar() {
               로그아웃
             </div>
           ) : null}
-        </div> */}
+        </div>
       </div>
     </>
   );

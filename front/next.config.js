@@ -4,7 +4,12 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    domains: ["board.jinhak.com", "media.vingle.net", "logo.clearbit.com"],
+    domains: [
+      "board.jinhak.com",
+      "media.vingle.net",
+      "logo.clearbit.com",
+      "github.com",
+    ],
   },
   swcMinify: true,
   experimental: {},

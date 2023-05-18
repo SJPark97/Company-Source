@@ -1,7 +1,9 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function BoardSearchBar() {
-  const [searchType, setSearchType] = useState<string>("");
+  const router = useRouter();
+  const [searchType, setSearchType] = useState<string>("title");
   const [searchWord, setSearchWord] = useState<string | undefined | null>("");
 
   const searchTypeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -10,6 +12,14 @@ export default function BoardSearchBar() {
 
   const searchWordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(e.target.value);
+  };
+
+  const searchHandler = (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    router.push({
+      pathname: `/community/searchresult`,
+      query: { searchType, searchWord, page: 1 },
+    });
   };
 
   return (
@@ -21,13 +31,12 @@ export default function BoardSearchBar() {
             value={searchType}
             onChange={searchTypeHandler}
           >
-            <option>제목+내용</option>
-            <option>작성자</option>
-            <option>제목</option>
+            <option value="title">제목</option>
+            <option value="content">내용</option>
           </select>
           <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none bg-brand">
             <svg
-              className="w-40 h-40 fill-current text-white"
+              className="w-40 h-40 text-white fill-current"
               viewBox="0 0 20 20"
             >
               <path
@@ -39,10 +48,10 @@ export default function BoardSearchBar() {
           </div>
         </div>
         <div className="w-full">
-          <form className="h-full">
+          <form className="h-full" onSubmit={searchHandler}>
             <input
               type="text"
-              className="w-full h-full outline-none pl-10"
+              className="w-full h-full pl-10 outline-none"
               onChange={searchWordHandler}
             />
           </form>

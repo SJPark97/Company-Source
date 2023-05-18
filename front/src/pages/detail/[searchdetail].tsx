@@ -8,17 +8,20 @@ import { SERVER_URL } from "@/utils/url";
 import analysisCodeList from "@/models/analysisCodeList";
 import Image from "next/image";
 import Head from "next/head";
+import formatDescription from "@/utils/formatDescription";
 
 interface searchdetaiProps {
   analysisList: [];
   evaluaionSummary: [];
   companyOverviewInfo: any;
+  gptAnalysis: string;
 }
 
 export default function searchdetail({
   analysisList,
   companyOverviewInfo,
   evaluaionSummary,
+  gptAnalysis,
 }: searchdetaiProps) {
   const router = useRouter();
   const { searchdetail } = router.query;
@@ -26,14 +29,23 @@ export default function searchdetail({
   return (
     <>
       <Head>
-        <title>{`컴퍼니소스 | ${searchdetail ? companyOverviewInfo.corpName : "기업"}의 분석 결과`}</title>
+        <title>{`컴퍼니소스 | ${
+          searchdetail ? companyOverviewInfo.corpName : "기업"
+        }의 분석 결과`}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta
           name="description"
-          content={`컴퍼니소스에서 검색한 ${searchdetail ? companyOverviewInfo.corpName : "기업"}의 분석 결과입니다.}`}
+          content={`컴퍼니소스에서 검색한 ${
+            searchdetail ? companyOverviewInfo.corpName : "기업"
+          }의 분석 결과입니다.}`}
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={`https://company-source.com/detail/${searchdetail ? companyOverviewInfo.corpId : ""}`} />
+        <meta
+          property="og:url"
+          content={`https://company-source.com/detail/${
+            searchdetail ? companyOverviewInfo.corpId : ""
+          }`}
+        />
         <meta property="og:title" content="Company Source" />
         <meta property="og:image" content="/company_default.jpg" />
         <meta
@@ -86,14 +98,39 @@ export default function searchdetail({
             </>
           )}
         </div>
-        <div className="mb-100"></div>
 
+        {/* GPT 분석 */}
+        <div className="bg-white border-gray-500 rounded-5 mt-100 mx-[13vw] border-1">
+          {searchdetail && (
+            <>
+              <div className="ml-[3vw] mt-40 text-24 font-bold">
+                <div className="flex text-white">
+                  <Image
+                    src="/gpt.png"
+                    alt="gpt"
+                    width={1500}
+                    height={1500}
+                    className="self-center w-30 h-30 rounded-2"
+                  />
+                  <span className="ml-12 text-black">GPT의 기업설명</span>
+                </div>
+                <div className="text-18 my-40 mr-[3vw] font-normal">
+                  {formatDescription(gptAnalysis)}
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* 페이지 최하단 마진100 */}
+        <div className="mb-100"></div>
       </div>
     </>
   );
 }
 
 export const getStaticPaths = async () => {
+  // // 빌드 시에 html 페이지를 모두 렌더링하는 코드
   // const res = await axios.get(
   //   SERVER_URL + `/corp/all`
   // );
@@ -107,6 +144,8 @@ export const getStaticPaths = async () => {
   //   })),
   //   fallback: true,
   // };
+
+  // 페이지 최초 방문 시 html을 렌더링해주는 방법
   return {
     paths: [],
     fallback: true,
@@ -119,6 +158,7 @@ export const getStaticProps = async ({ params }: any) => {
   const getAnalysisList = [];
   const evaluaionSummary = [];
 
+  // 차트 데이터 받아오는 API
   for (const analysisCode of analysisCodeList) {
     const res = await axios.get(
       SERVER_URL + `/analysis/${analysisCode.id}/${companyId}`
@@ -138,15 +178,28 @@ export const getStaticProps = async ({ params }: any) => {
     }
   }
 
+  // 기업 개요 데이터 받아오는 API
   const { data: getCompanyOverviewInfo } = await axios.get(
     SERVER_URL + `/corp/info/${companyId}`
   );
+
+  // GPT 데이터 받아오는 API
+  const getGptAnalysis = await axios.get(
+    SERVER_URL + `/analysis/gpt/${companyId}`
+  );
+  let gptAnalysis = "";
+  if (getGptAnalysis.status === 200) {
+    gptAnalysis = getGptAnalysis.data.data;
+  } else {
+    gptAnalysis = "데이터가 없어요ㅠㅠ";
+  }
 
   return {
     props: {
       analysisList: getAnalysisList,
       evaluaionSummary: evaluaionSummary,
       companyOverviewInfo: getCompanyOverviewInfo.data,
+      gptAnalysis: gptAnalysis,
     },
   };
 };

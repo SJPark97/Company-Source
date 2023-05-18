@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { parseCookies, setCookie, destroyCookie } from "nookies";
 import { loginAxios } from "@/utils/user/api";
@@ -9,6 +9,7 @@ export default function Login() {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [failMessage, setFailMessage] = useState<boolean>(false);
+  const [isRedirect, setIsRedirect] = useState<string>("");
 
   const idHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
@@ -20,22 +21,46 @@ export default function Login() {
 
   const loginHandler = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await loginAxios(id, password);
 
+    if (!id) {
+      setFailMessage(true);
+      return;
+    }
+    if (!password) {
+      setFailMessage(true);
+    }
+    const res = await loginAxios(id, password);
     // 로그인 성공해서 'data'키가 있으면 쿠키 저장
-    if (res.token) {
+    if (res) {
       const cookies = parseCookies();
       setCookie(null, "accessToken", res.token, {
         maxAge: 60 * 60 * 24,
         secure: true,
         path: "/",
       });
-      router.push("/home");
+      setCookie(null, "nickName", res.nickname, {
+        maxAge: 60 * 60 * 24,
+        secure: true,
+        path: "/",
+      });
+      router.back();
+      // if (isRedirect) {
+      //   router.push("/" + `${isRedirect}`);
+      // } else {
+      //   router.push("/home");
+      // }
+    } else if (!res) {
       // 로그인 실패시 FailMessage 상태 변경
-    } else if (!res.data) {
+      alert("아이디나 비밀번호를 확인해주세요.");
       setFailMessage(true);
     }
   };
+
+  useEffect(() => {
+    if (router.query.redirect && typeof router.query.redirect === "string") {
+      setIsRedirect(router.query.redirect);
+    }
+  }, [router]);
 
   return (
     <>

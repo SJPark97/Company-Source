@@ -19,26 +19,31 @@ export default function BigCard({ id, name, image }: Iprops) {
           <div className="bg-brand w-[100%] h-[10px] rounded-tl-5 rounded-tr-5"></div>
           {image ? (
             <div className="relative">
-              <Image
+              <div className="flex justify-center items-center my-20">
+                <img src={image} alt="기업 로고 이미지" className="w-80 h-80" />
+              </div>
+              {/* <Image
                 src={image}
-                alt="naver.logo_small.ng"
+                alt="기업 로고 이미지"
                 // fill
                 width={164}
                 height={164}
-                className="mx-auto w-[110px] h-[126px]"
+                className="mx-auto w-[110 px] h-[126px]"
                 placeholder="blur"
                 blurDataURL={image}
-              />
+                // loading="lazy"
+              /> */}
             </div>
           ) : (
             <Image
               src="/company_default.jpg"
-              alt="default_image"
+              alt="default 이미지"
               width={164}
               height={164}
               className="w-auto h-auto mx-auto"
               placeholder="blur"
               blurDataURL="/company_default.jpg"
+              loading="lazy"
             />
           )}
 

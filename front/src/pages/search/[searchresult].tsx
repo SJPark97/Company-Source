@@ -15,30 +15,42 @@ type bigCard = {
 
 export default function searchresult() {
   const [searchResult, setSearchResult] = useState<Array<bigCard>>([]);
-  const getData = async (keyWord: string | string[] | undefined) => {
-    const { data } = await axios.get(SERVER_URL + `/corp/list/${keyWord}`);
+  const getData = async (keyWord: string | undefined) => {
+    const { data } = await axios.get(SERVER_URL + `/corp/list/`, {
+      params: {
+        inputValue: keyWord,
+      },
+    });
     setSearchResult(data.data);
   };
 
   const router = useRouter();
   useEffect(() => {
     if (router !== undefined) {
-      getData(router.query.searchresult);
+      getData(router.query.searchresult as string);
     }
   }, [router]);
 
   return (
-    <div className="relative">
+    <div className="relative h-screen bg-analysisBg z-0">
       <div className="h-[250px] bg-white">
         <NavBar />
         <HomeQuickMenu />
         <SearchBar getData={getData} />
       </div>
       <hr></hr>
-      <div className="w-[100vw] bg-analysisBg">
-        <div className="mx-[12vw] py-[3vh] font-bold text-20">
-          '{router.query && router.query.searchresult}' 으로 검색한 결과입니다.
-        </div>
+      <div className="w-[100vw]">
+        {searchResult ? (
+          <div className="mx-[12vw] py-[3vh] font-bold text-20">
+            '{router.query && router.query.searchresult}' 으로 검색한
+            결과입니다.
+          </div>
+        ) : (
+          <div className="mx-[12vw] py-[3vh] font-bold text-20">
+            '{router.query && router.query.searchresult}' 검색결과가 없습니다.
+          </div>
+        )}
+
         <div className="flex flex-wrap mx-[10vw]">
           {searchResult &&
             searchResult.map((corp) => (
@@ -46,6 +58,7 @@ export default function searchresult() {
                 id={corp.corpId}
                 name={corp.corpName}
                 image={corp.corpImg}
+                key={"search" + `${corp.corpName}`}
               />
             ))}
         </div>
