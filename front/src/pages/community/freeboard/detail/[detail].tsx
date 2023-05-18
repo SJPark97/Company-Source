@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
+import Link from "next/link";
 import { parseCookies } from "nookies";
 import {
   cancelLikeDetailAxios,
@@ -137,9 +138,11 @@ export default function freeBoardDetail({
         </div>
       ) : (
         <div className="flex flex-col w-[1200px] mx-auto">
-          <div className="text-24 mt-50 my-10 font-bold">
-            {boardName} 게시판
-          </div>
+          <Link href={"/community/" + `${currentLocation}`}>
+            <div className="text-24 mt-50 my-10 font-bold">
+              {boardName} 게시판
+            </div>
+          </Link>
           <div className="flex bg-brand h-2 rounded-20 items-center"></div>
 
           {/* 제목, 작성자, 작성시간 */}
