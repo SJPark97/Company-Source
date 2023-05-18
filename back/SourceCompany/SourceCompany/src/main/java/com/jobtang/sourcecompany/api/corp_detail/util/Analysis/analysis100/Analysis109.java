@@ -49,7 +49,7 @@ public class Analysis109 implements AnalysisForm {
         List<AnalysisResultDto> result = new ArrayList<>();
         try {
             AnalysisResultDto analysisResultDto1 = new AnalysisResultDto().builder()
-                    .name("주가이익비율(PER)")
+                    .name("주가이익비율 (PER)")
                     .value(variable.priceEarningRatio)
                     .build();
             analysisResultDto1.round();
