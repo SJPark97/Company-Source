@@ -23,7 +23,12 @@ export default function RecommendCard({ corp }: { corp: corpInformation }) {
       <div>
         {corp.corpImg ? (
           <div className="relative">
-            <Image
+            <img
+              src={corp.corpImg}
+              alt="기업 로고 이미지"
+              className="w-82 h-82 mx-auto my-20"
+            />
+            {/* <Image
               src={corp.corpImg}
               alt="기업 로고 이미지"
               // fill
@@ -33,7 +38,7 @@ export default function RecommendCard({ corp }: { corp: corpInformation }) {
               placeholder="blur"
               blurDataURL={corp.corpImg}
               loading="lazy"
-            />
+            /> */}
           </div>
         ) : (
           <Image
@@ -60,12 +65,14 @@ export default function RecommendCard({ corp }: { corp: corpInformation }) {
         </div>
       </div>
       <div
-        className={`bg-opacity-80 w-full h-full top-0 left-0 absolute ${hovered ? "visible" : "invisible"
-          }`}
+        className={`bg-opacity-80 w-full h-full top-0 left-0 absolute ${
+          hovered ? "visible" : "invisible"
+        }`}
       >
         <span
-          className={`absolute w-[20%] h-[200%] -top-[120px] -left-[200px] bg-white bg-opacity-60 blur-sm transform rotate-45 transition-all duration-1000 ${hovered ? "translate-x-[2000%]" : ""
-            }`}
+          className={`absolute w-[20%] h-[200%] -top-[120px] -left-[200px] bg-white bg-opacity-60 blur-sm transform rotate-45 transition-all duration-1000 ${
+            hovered ? "translate-x-[2000%]" : ""
+          }`}
         ></span>
       </div>
     </div>
