@@ -95,9 +95,6 @@ export default function SearchBar({ getData }: Iprops) {
             }
           }
         })
-        .catch((err) => {
-          console.error(err);
-        });
     } else {
       setIsHaveInputValue(false);
       setAutoCompleteList([]);
@@ -120,7 +117,7 @@ export default function SearchBar({ getData }: Iprops) {
         <div className="flex flex-col">
           <form onSubmit={onSubmitSearchHandler}>
             <div className="relative w-[60vw]">
-              <span className="absolute ml-15 mt-20">
+              <span className="absolute mt-20 ml-15">
                 <Image
                   src="/search.png"
                   alt="search.png"
@@ -136,10 +133,9 @@ export default function SearchBar({ getData }: Iprops) {
                 placeholder="기업을 검색해 보세요."
                 className={
                   "border-brand w-[60vw] h-60 hover:shadow-whole shadow-brand focus:outline-none placeholder-gray-400 px-40 " +
-                  `${
-                    autoCompleteList.length && isHaveInputValue
-                      ? "rounded-tr-30 rounded-tl-30 border-t-2 border-l-2 border-r-2"
-                      : "rounded-full border-brand border-2"
+                  `${autoCompleteList.length && isHaveInputValue
+                    ? "rounded-tr-30 rounded-tl-30 border-t-2 border-l-2 border-r-2"
+                    : "rounded-full border-brand border-2"
                   }`
                 }
               />
@@ -159,7 +155,7 @@ export default function SearchBar({ getData }: Iprops) {
                   as={`/detail/${item.corpId}`}
                   key={"autocomplete" + `${item.corpName}`}
                 >
-                  <div className="flex p-10 relative border-1 hover:bg-gray-200">
+                  <div className="relative flex p-10 border-1 hover:bg-gray-200">
                     <span className="absolute top-13 left-15">
                       <Image
                         src="/search.png"

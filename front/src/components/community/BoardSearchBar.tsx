@@ -7,7 +7,6 @@ export default function BoardSearchBar() {
   const [searchWord, setSearchWord] = useState<string | undefined | null>("");
 
   const searchTypeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value);
     setSearchType(e.target.value);
   };
 
@@ -37,7 +36,7 @@ export default function BoardSearchBar() {
           </select>
           <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none bg-brand">
             <svg
-              className="w-40 h-40 fill-current text-white"
+              className="w-40 h-40 text-white fill-current"
               viewBox="0 0 20 20"
             >
               <path
@@ -52,7 +51,7 @@ export default function BoardSearchBar() {
           <form className="h-full" onSubmit={searchHandler}>
             <input
               type="text"
-              className="w-full h-full outline-none pl-10"
+              className="w-full h-full pl-10 outline-none"
               onChange={searchWordHandler}
             />
           </form>

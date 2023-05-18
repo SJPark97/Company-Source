@@ -90,7 +90,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-    console.log(loading);
     const observer = new IntersectionObserver(
       (entries) => {
         const firstEntry = entries[0];
@@ -133,7 +132,7 @@ export default function Home() {
     };
   }, []);
 
-  const getData = async (keyWord: string | string[] | undefined) => {};
+  const getData = async (keyWord: string | string[] | undefined) => { };
   return (
     <>
       <Head>

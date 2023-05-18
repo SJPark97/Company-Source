@@ -93,7 +93,6 @@ export default function CommentComponent({
       }
       return
     }
-    console.log('2222')
     setIsReply((prev) => !prev);
     setIsModify(false);
   };
@@ -132,7 +131,7 @@ export default function CommentComponent({
   }, []);
 
   return (
-    <div className="flex flex-col border-t-1 border-b-1 border-gray-200 py-20 px-10">
+    <div className="flex flex-col px-10 py-20 border-gray-200 border-t-1 border-b-1">
       <div className="flex justify-between">
         <div className="font-bold">{commentInformation.nickname}</div>
         <div className="flex">
@@ -202,8 +201,8 @@ export default function CommentComponent({
       {
         // isModify는 사용자가 수정 버튼을 누르면 true가 된다.
         isModify ? (
-          <div className="flex flex-col h-180 border-1 border-gray-400 rounded-10">
-            <div className="flex justify-between items-center p-20">
+          <div className="flex flex-col border-gray-400 h-180 border-1 rounded-10">
+            <div className="flex items-center justify-between p-20">
               <div>댓글 수정</div>
               <div
                 className="flex items-center cursor-pointer"
@@ -221,7 +220,7 @@ export default function CommentComponent({
               </div>
             </div>
 
-            <div className="flex pb-20 px-20">
+            <div className="flex px-20 pb-20">
               <textarea
                 className="w-[1060px] border-2 border-gray-200 rounded-10 resize-none focus:outline-brand"
                 defaultValue={commentInformation.content}
@@ -229,7 +228,7 @@ export default function CommentComponent({
                 onChange={modifyInputValueHandler}
               />
               <div className="flex justify-center" onClick={modifySubmit}>
-                <div className="flex items-center justify-center w-90 h-80 ml-20 text-center bg-brand rounded-10 text-white cursor-pointer">
+                <div className="flex items-center justify-center ml-20 text-center text-white cursor-pointer w-90 h-80 bg-brand rounded-10">
                   수정
                 </div>
               </div>
@@ -240,8 +239,8 @@ export default function CommentComponent({
 
       {/* Reply 폼 */}
       {isReply ? (
-        <div className="flex flex-col h-180 border-1 border-gray-400 rounded-10">
-          <div className="flex justify-between items-center p-20">
+        <div className="flex flex-col border-gray-400 h-180 border-1 rounded-10">
+          <div className="flex items-center justify-between p-20">
             <div>대댓글 작성</div>
             <div
               className="flex items-center cursor-pointer"
@@ -259,7 +258,7 @@ export default function CommentComponent({
             </div>
           </div>
 
-          <div className="flex pb-20 px-20">
+          <div className="flex px-20 pb-20">
             <textarea
               className="w-[1060px] border-2 border-gray-200 rounded-10 resize-none focus:outline-brand"
               defaultValue=""
@@ -267,7 +266,7 @@ export default function CommentComponent({
               onChange={replyInputValueHandler}
             />
             <div className="flex justify-center" onClick={replySubmit}>
-              <div className="flex items-center justify-center w-90 h-80 ml-20 text-center bg-brand rounded-10 text-white cursor-pointer">
+              <div className="flex items-center justify-center ml-20 text-center text-white cursor-pointer w-90 h-80 bg-brand rounded-10">
                 등록
               </div>
             </div>
