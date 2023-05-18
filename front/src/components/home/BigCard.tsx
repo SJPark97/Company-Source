@@ -19,7 +19,10 @@ export default function BigCard({ id, name, image }: Iprops) {
           <div className="bg-brand w-[100%] h-[10px] rounded-tl-5 rounded-tr-5"></div>
           {image ? (
             <div className="relative">
-              <Image
+              <div className="flex justify-center items-center my-20">
+                <img src={image} alt="기업 로고 이미지" className="w-80 h-80" />
+              </div>
+              {/* <Image
                 src={image}
                 alt="기업 로고 이미지"
                 // fill
@@ -29,7 +32,7 @@ export default function BigCard({ id, name, image }: Iprops) {
                 placeholder="blur"
                 blurDataURL={image}
                 // loading="lazy"
-              />
+              /> */}
             </div>
           ) : (
             <Image
