@@ -126,7 +126,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveBlockIndex((prevIndex) => (prevIndex + 1) % 3);
-    }, 10000);
+    }, 3000);
 
     return () => {
       clearInterval(timer);
@@ -222,7 +222,6 @@ export default function Home() {
               ))}
           </div>
           <div className="flex flex-col items-center">
-            <div className="text-30 text-gray-300">Loading...</div>
             <MoonLoader
               color="#AAAAAA"
               loading={true}
