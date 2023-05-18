@@ -229,7 +229,7 @@ public class CommunityServiceImpl implements CommunityService {
   @Override
   public ReadRandingCommunityResponse readRandingCommunity(int standard ,Pageable pageable) {
     // corpHot
-    List<ReadAllCommunityResponse> corpHot = communityRepository.findByCommunityTypeAndLikesCntGreaterThanEqualOrderByCreatedDateDesc("기업",standard ,pageable)
+    List<ReadAllCommunityResponse> corpHot = communityRepository.findByCommunityTypeAndIsActiveTrueAndLikesCntGreaterThanEqualOrderByCreatedDateDesc("기업",standard ,pageable)
 //    List<ReadAllCommunityResponse> corpHot = communityRepository.findTopNByCommunityTypeAndLikesCntGreaterThanEqualOrderByCreatedDateDesc(pageCnt,"기업",standard);
             .stream().map(community -> {
               String key = "viewComm" + community.getId();
@@ -241,7 +241,7 @@ public class CommunityServiceImpl implements CommunityService {
               return ReadAllCommunityResponse.EntityToDTO(community, redisViewCnt);
             }).collect(Collectors.toList());
     // freeHot
-    List<ReadAllCommunityResponse> freeHot = communityRepository.findByCommunityTypeAndLikesCntGreaterThanEqualOrderByCreatedDateDesc("자유",standard ,pageable)
+    List<ReadAllCommunityResponse> freeHot = communityRepository.findByCommunityTypeAndIsActiveTrueAndLikesCntGreaterThanEqualOrderByCreatedDateDesc("자유",standard ,pageable)
 //    List<ReadAllCommunityResponse> freeHot = communityRepository.findTopNByCommunityTypeAndLikesCntGreaterThanEqualOrderByCreatedDateDesc(pageCnt,"자유",standard)
             .stream().map(community -> {
               String key = "viewComm" + community.getId();
