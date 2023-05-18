@@ -49,7 +49,7 @@ public class Analysis111 implements AnalysisForm {
         List<AnalysisResultDto> result = new ArrayList<>();
         try {
             AnalysisResultDto analysisResultDto1 = new AnalysisResultDto().builder()
-                    .name("주가매출액비율(PSR)")
+                    .name("주가매출액비율 (PSR)")
                     .value(variable.priceSalesRatio)
                     .build();
             analysisResultDto1.round();

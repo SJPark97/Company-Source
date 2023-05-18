@@ -1,11 +1,13 @@
 package com.jobtang.sourcecompany.api.corp.service;
 
-import com.jobtang.sourcecompany.api.corp.dto.CorpAutoSearchDto;
-import com.jobtang.sourcecompany.api.corp.dto.CorpInfoDto;
-import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
-import com.jobtang.sourcecompany.api.corp.dto.Info;
+import com.jobtang.sourcecompany.api.analysis_result.service.AnalysisResultService;
+import com.jobtang.sourcecompany.api.corp.dto.*;
 import com.jobtang.sourcecompany.api.corp.entity.Corp;
 import com.jobtang.sourcecompany.api.corp.repository.CorpRepository;
+import com.jobtang.sourcecompany.api.corp_detail.service.CorpDetailService;
+import com.jobtang.sourcecompany.api.exception.customerror.CustomException;
+import com.jobtang.sourcecompany.api.exception.customerror.ErrorCode;
+import com.jobtang.sourcecompany.api.induty_detail.repository.IndutyDetailRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -26,12 +28,23 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CorpServiceImpl implements CorpService{
+    private final AnalysisResultService analysisResultService;
+    private final CorpDetailService corpDetailService;
+    private final IndutyDetailRepository indutyDetailRepository;
     private final CorpRepository corpRepository;
     private final ModelMapper mapper = new ModelMapper();
     private final RedisTemplate<String, CorpSearchListDto> redisTemplate;
     private final RedisTemplate<String, Integer> integerRedisTemplate;
 
     public List<CorpSearchListDto> searchCorp(String inputValue) {
+        // 검색값 유효성 검사
+        // 양쪽 공백제거, 특수문자(-공백) 제거
+        inputValue = inputValue.trim().replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9-&]","");
+
+        // 유효성 검사후 inputValue가 이제 없으면 검색 X
+        if (inputValue.equals("")) {
+            return new ArrayList<>();
+        }
         // %value% 형식으로 LIKE 검색
         // totalview 기준으로 역순(내림차순) 정렬
         // Dto 형식대로 매핑
@@ -42,22 +55,23 @@ public class CorpServiceImpl implements CorpService{
     }
 
     public List<CorpAutoSearchDto> autoSearchCorp(String inputValue) {
+        // 검색값 유효성 검사
+        // 양쪽 공백제거, 특수문자(-공백) 제거
+        inputValue = inputValue.trim().replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9-&]","");
+
+        // 유효성 검사후 inputValue가 이제 없으면 검색 X
+        if (inputValue.equals("")) {
+            return new ArrayList<>();
+        }
         // value% 형식으로 LIKE 검색
         // totalview 기준으로 역순(내림차순) 정렬
         // 5개만 추출
         return corpRepository.findByCorpNameStartingWith(inputValue).stream()
                 .sorted(Comparator.comparing(Corp::getTotalView).reversed())
-                .limit(10)
+                .limit(5)
                 .map(c -> mapper.map(c, CorpAutoSearchDto.class))
                 .collect(Collectors.toList());
     }
-
-//    public List<CorpSearchListDto> recommendCorp() {
-//        // 기업 코드를 랜덤 1개 뽑기
-//        List<String> indutyCodeList =
-//
-//        // 해당 기업코드를 가진것 랜덤 5개만 뽑기
-//    }
 
     public CorpInfoDto corpInfo(String corpId) {
         // jpa를 사용해서 해당 corpid로 조회
@@ -86,6 +100,7 @@ public class CorpServiceImpl implements CorpService{
         }
     }
 
+    @Scheduled(cron = "0 0 0/3 * * ?") // 3시간마다 업데이트. 0,3,6,9,12,15,18,21시
     public void makeRandCorp() {
         // 랜덤 corp 만든거 전부 삭제
 //        Set<String> keysSet = redisTemplate.keys("randcorp_*");
@@ -96,16 +111,9 @@ public class CorpServiceImpl implements CorpService{
 
         // 모든 기업 가져오기
         List<Corp> corps = corpRepository.findAll();
-//        List<Corp> corps = corpRepository.findByCorpNameContains("삼성");
         // 무작위로 셔플
         Collections.shuffle(corps);
         // 순회하면서 하나의 기업정보 객체를 CorpSearchListDto로 매핑해주고
-        // randcorp_corpId key 형태로 집어넣기
-//        for (Corp corp:corps) {
-//            ValueOperations<String, CorpSearchListDto> vop = redisTemplate.opsForValue();
-//            CorpSearchListDto randCorp = mapper.map(corp, CorpSearchListDto.class);
-//            vop.set("randcorp_"+corp.getCorpId(), randCorp);
-//        }
         // randcorp:1~N key 형태로 집어넣기
         int idx = 0;
         for (Corp corp:corps) {
@@ -120,32 +128,9 @@ public class CorpServiceImpl implements CorpService{
     @Transactional
     public List<CorpSearchListDto> randCorp(int page) {
         List<CorpSearchListDto> corpSearchListDtoList = new ArrayList<>();
-        // 모든 randCorp 기업은 randcorp_corpId 이므로 randcorp_* 형태로 모든 키 가져오기
-        // jpa에 비유하면 findAllRandcorp 같은상태
-//        Set<String> redisKeys = redisTemplate.keys("randcorp_*");
-//        // stream으로
-//        List<String> keys = redisKeys.stream()
-//                .skip((long) (page-1) *6)
-//                .limit(6)
-//                .collect(Collectors.toList());
-////                .map(key-> corpSearchListDtoList.add(redisTemplate.opsForValue().get(key)))
-//        for (String key:keys) {
-//            corpSearchListDtoList.add(redisTemplate.opsForValue().get(key));
-//        }
-        for (int i = (page-1)*6; i < page * 6 ; i++) {
+        for (int i = (page-1)*10; i < page * 10 ; i++) {
             corpSearchListDtoList.add(redisTemplate.opsForValue().get("randcorp:"+i));
         }
-
-
-        // 순회를 위해(hasNext) Iterator로 변경
-//        Iterator<String> it = redisKeys.iterator();
-        // 순회
-//        while (it.hasNext()) {
-//            String data = it.next();
-//            // DtoList에 redisTemplate 값을 가져와서 넣기.
-//            // 이미 redisTemplate에 value를 CorpSearchListDto로 지정
-//            corpSearchListDtoList.add(redisTemplate.opsForValue().get(data));
-//        }
         return corpSearchListDtoList;
     }
 
@@ -195,7 +180,9 @@ public class CorpServiceImpl implements CorpService{
     public List<CorpSearchListDto> getHotCorps(int page, int size) {
         Pageable pageSetting = PageRequest.of(size, page);
         Page<Corp> corps = corpRepository.findAllByOrderByYesterdayViewDesc(pageSetting);
-
+        if (corps == null){
+            throw new CustomException(ErrorCode.CORP_NOT_FOUND);
+        }
         List<CorpSearchListDto> result = new ArrayList<>();
 
         for (Corp corp: corps) {
@@ -205,7 +192,39 @@ public class CorpServiceImpl implements CorpService{
         return result;
     }
 
+    @Override
+    public CorpListResponseDto getIndutyCorps() {
+//        Pageable pageSetting = PageRequest.of(size, page);
+//        List indutycodes = new ArrayList(List.of("A","B","C","D","E","F","G","H","I","J","K","L","M","N","P","R","S"));
+        List indutycodes = new ArrayList(List.of("A","C","D","E","F","G","H","I","J","K","L","M","N","P","R"));
 
+        Random random = new Random();
+        String targetCode = String.valueOf(indutycodes.get(random.nextInt(indutycodes.size())));
+
+//        Page<Corp> corps = corpRepository.findAllByIndutyCode(pageSetting, targetCode);
+        List<Corp> corps = corpRepository.findAllByIndutyCode(targetCode);
+        if (corps == null){throw new CustomException(ErrorCode.CORP_NOT_FOUND);}
+
+
+        List<CorpSearchListDto> data = new ArrayList<>();
+        for (Corp corp: corps) {
+            data.add(mapper.map(corp, CorpSearchListDto.class));
+        }
+        return new CorpListResponseDto().builder()
+                .kind(indutyDetailRepository.findByIndutyCode(targetCode).getIndutyName())
+                .corps(data)
+                .build();
+    }
+
+    @Override
+    public CorpListResponseDto getGoodResultCorps(int size, int page) {
+        return analysisResultService.GetGoodCorps(size, page);
+    }
+
+    @Override
+    public CorpListResponseDto getTopSalesCorps(int size, int page) {
+        return corpDetailService.getTopSalesCorps(size, page);
+    }
 
 
 }

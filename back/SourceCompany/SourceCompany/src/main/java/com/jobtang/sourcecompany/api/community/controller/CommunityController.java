@@ -3,13 +3,9 @@ package com.jobtang.sourcecompany.api.community.controller;
 
 import com.jobtang.sourcecompany.api.community.dto.*;
 import com.jobtang.sourcecompany.api.community.service.CommunityService;
-import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
-import com.jobtang.sourcecompany.api.exception.CustomException;
-import com.jobtang.sourcecompany.api.exception.ErrorCode;
-import com.jobtang.sourcecompany.api.user.entity.User;
-import com.jobtang.sourcecompany.api.user.repository.UserRepository;
+import com.jobtang.sourcecompany.api.exception.customerror.CustomException;
+import com.jobtang.sourcecompany.api.exception.customerror.ErrorCode;
 import com.jobtang.sourcecompany.api.user.service.JwtService;
-import com.jobtang.sourcecompany.config.JwtTokenProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -17,15 +13,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 
 @Slf4j
+@CrossOrigin(originPatterns = "http://k8b107.p.ssafy.io")
+//@CrossOrigin(originPatterns = "http://comapny-source.com")
 @RestController
 @RequestMapping("/api/v1/community")
 @RequiredArgsConstructor
@@ -35,7 +33,63 @@ public class CommunityController {
   // 테스트 용 유저 가져오기
   private final JwtService jwtService;
 
+  /**
+   *
+   * 마이페이지 조회
+   *
+   */
 
+  /**
+   *  조회수 추가하는 api
+   */
+  @ApiOperation(
+          value = "게시글 조회수 올리기",
+          notes = "조회수만 올리기 , 올라간 조회수   리턴"
+
+  )
+  @PostMapping("/add/view/{communityId}")
+  public ResponseEntity<?> addViewCommunity( @PathVariable Long communityId) {
+
+    HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result = new HashMap<>();
+    int response = communityService.addViewCommunity(communityId);
+    result.put("data", response);
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+  }
+
+
+  /**
+   * 전체 검색
+   *
+   */
+  /**
+   * /community/all/search?type={type}&content={content}&free_size={free_size}&free_page={free_page}&corp_size={corp_size}&corp_page={corp_page} GET
+   * 전체 게시판의 글들을 검색하는 메소드
+   * is_active ==0 인 것들은 거르는 것 필요
+   * type == (글쓴이, 내용 ,제목) 으로 거르기
+   */
+  @ApiOperation(
+          value = "전체 게시글 검색",
+          notes = "전체 게시글들을 검색, 기업과 자유게시판을 나눠서 리턴"
+
+  )
+  @GetMapping("/all/search")
+  public ResponseEntity<?> searchAllCommunity(@RequestParam String content, @RequestParam String type,
+                                               @ApiParam(value = "사이즈", required = true, defaultValue = "5", example = "5") @RequestParam(value = "size", required = true, defaultValue = "20") Integer size,
+                                               @ApiParam(value = "페이지", required = true, defaultValue = "0", example = "0") @RequestParam(value = "page", required = true, defaultValue = "0") Integer page
+  ) {
+    Pageable free_pageable = PageRequest.of(page, size);
+
+    HttpHeaders headers = new HttpHeaders();
+    HashMap<String, Object> result = new HashMap<>();
+    PagingCommunityResponse response = communityService.searchCommunity("all", content, type, free_pageable);
+
+    result.put("data", response);
+    return new ResponseEntity<>(result, headers, HttpStatus.OK);
+  }
+
+  // view : 조회수순
+  // likes : 좋아요 순
 
   /**
    * /community/randing GET
@@ -49,10 +103,12 @@ public class CommunityController {
 
   )
   @GetMapping("/randing")
-  public ResponseEntity<?> readRandingCommunity() {
+  public ResponseEntity<?> readRandingCommunity(@ApiParam(value = "인기글 컷 추천수", required = true, defaultValue = "10", example = "10") @RequestParam(value = "standard", required = true, defaultValue = "10") Integer standard,
+                                                @ApiParam(value = "리턴할 게시글 수", required = true, defaultValue = "8", example = "8") @RequestParam(value = "pageCnt", required = true, defaultValue = "8") Integer pageCnt) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    ReadRandingCommunityResponse response = communityService.readRandingCommunity();
+    Pageable pageable = PageRequest.of( 0, pageCnt);
+    ReadRandingCommunityResponse response = communityService.readRandingCommunity(standard , pageable);
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
@@ -76,9 +132,8 @@ public class CommunityController {
 
     HashMap<String, Object> result = new HashMap<>();
     HttpHeaders headers = new HttpHeaders();
-
-    communityService.createCommunity("기업",userId, createCommunityRequest);
-    result.put("data", "success");
+    Long communityId =communityService.createCommunity("기업",userId, createCommunityRequest);
+    result.put("data", communityId);
     return new ResponseEntity<>(result, HttpStatus.CREATED);
 
   }
@@ -93,11 +148,18 @@ public class CommunityController {
           notes = "해당 게시판의 detail한 정보와 달린 댓글들을 리턴해주고 , 조회수를 늘려주는 메소드"
   )
   @GetMapping("/corp/{communityId}")
-  public ResponseEntity<?> findCorpCommunityDetail(@PathVariable Long communityId) {
+  public ResponseEntity<?> findCorpCommunityDetail(@RequestHeader HttpHeaders header , @PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-
-    ReadCommunityDetailResponse response = communityService.readCommunityDetail("기업", communityId);
+    // HTTP 요청 헤더에서 'Auth' 항목이 있는지 확인
+    String token = header.getFirst("Authorization");
+    Long userId = 0L;
+    if (token != null && !token.isEmpty()) {
+      // 'Auth' 헤더가 존재하고 값이 비어있지 않은 경우
+      // TODO: 헤더 값을 이용한 작업 수행
+      userId = jwtService.userPkByToken(token);
+    }
+    ReadCommunityDetailResponse response = communityService.readCommunityDetail(userId, "기업", communityId);
 
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
@@ -121,9 +183,10 @@ public class CommunityController {
                                                @ApiParam(value = "페이지 번호", required = true, defaultValue = "0", example = "0") @RequestParam(value = "page", required = true, defaultValue = "0") Integer page,
                                                @ApiParam(value = "페이지 크기", required = true, defaultValue = "5", example = "5") @RequestParam(value = "size", required = true, defaultValue = "20") Integer size) {
     Pageable pageable = PageRequest.of(page, size);
+
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    List<ReadAllCommunityResponse> response = communityService.searchCommunity("기업", content, type, pageable);
+    PagingCommunityResponse response = communityService.searchCommunity("기업", content, type, pageable);
 
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
@@ -142,15 +205,28 @@ public class CommunityController {
   @GetMapping("/corp")
   public ResponseEntity<?> findAllCorpCommunity(
           @ApiParam(value = "페이지 번호", required = true, defaultValue = "0", example = "0")  @RequestParam(value = "page", required = true, defaultValue = "0") Integer page,
-          @ApiParam(value = "페이지 크기", required = true, defaultValue = "5", example = "5")  @RequestParam(value = "size", required = true, defaultValue = "20") Integer size
-  ) {
-    Pageable pageable = PageRequest.of(page, size);
+          @ApiParam(value = "페이지 크기", required = true, defaultValue = "5", example = "5")  @RequestParam(value = "size", required = true, defaultValue = "20") Integer size,
+          @ApiParam(value = "정렬 방식", required = true, defaultValue = "all", example = "all")  @RequestParam(value = "sort", required = true, defaultValue = "All") String sort
 
+  ) {
+    Sort sorting;
+    if(sort.equals("all")){
+      sorting = Sort.by(Sort.Direction.DESC,"createdDate");
+    }
+    else if(sort.equals("view")){
+      sorting = Sort.by(Sort.Direction.DESC,"totalView");
+    } else if (sort.equals("likes")) {
+      sorting = Sort.by(Sort.Direction.DESC,"likesCnt");
+    } else{
+      throw  new CustomException(ErrorCode.WRONG_INPUT_DATA);
+    }
+    Pageable pageable = PageRequest.of(page, size,sorting);
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
     System.out.println(pageable);
-    List<ReadAllCommunityResponse> response = communityService.readAllCommunity(pageable);
-    result.put("data", response);
+    PagingCommunityResponse response = communityService.readAllCommunity("기업",sort , pageable);
+    result.put("data", response.getReadAllCommunityResponses());
+    result.put("totalPage" , response.getPageTotal());
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 
@@ -164,11 +240,11 @@ public class CommunityController {
           notes = "해당 게시글을 수정하는 메소드"
   )
   @PutMapping("/corp")
-  public ResponseEntity<?> updateCorpCommunity(@RequestBody UpdateCommunityRequest updateCommunityRequest) {
+  public ResponseEntity<?> updateCorpCommunity(@RequestHeader("Authorization") String token ,@RequestBody UpdateCommunityRequest updateCommunityRequest) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-
-    result.put("data", communityService.updateCommunity(updateCommunityRequest));
+    Long userId = jwtService.userPkByToken(token);
+    result.put("data", communityService.updateCommunity(userId ,updateCommunityRequest));
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
 
   }
@@ -182,11 +258,11 @@ public class CommunityController {
           notes = "해당 게시글을 삭제하는 메소드"
   )
   @DeleteMapping("/corp/{communityId}")
-  public ResponseEntity<?> removeCorpCommunity(@PathVariable Long communityId) {
+  public ResponseEntity<?> removeCorpCommunity(@RequestHeader("Authorization") String token ,@PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-
-    communityService.deleteCommunity(communityId);
+    Long userId =jwtService.userPkByToken(token);
+    communityService.deleteCommunity(userId ,communityId);
     result.put("data", "success");
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
 
@@ -218,14 +294,15 @@ public class CommunityController {
     User user = token.getLoginedUser();
      */
 //    User user = userRepository.findById(10L).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
     Long userId= jwtService.userPkByToken(token);
 
     HashMap<String, Object> result = new HashMap<>();
     HttpHeaders headers = new HttpHeaders();
 
-    communityService.createCommunity("자유", userId, createCommunityRequest);
+    Long communityId = communityService.createCommunity("자유", userId, createCommunityRequest);
 
-    result.put("data", "success");
+    result.put("data", communityId);
     return new ResponseEntity<>(result, HttpStatus.CREATED);
 
   }
@@ -240,11 +317,18 @@ public class CommunityController {
           notes = "해당 게시판의 detail한 정보와 달린 댓글들을 리턴해주고 , 조회수를 늘려주는 메소드"
   )
   @GetMapping("/free/{communityId}")
-  public ResponseEntity<?> findFreeCommunityDetail(@PathVariable Long communityId) {
+  public ResponseEntity<?> findFreeCommunityDetail(@RequestHeader HttpHeaders header , @PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-
-    ReadCommunityDetailResponse response = communityService.readCommunityDetail("자유", communityId);
+    // HTTP 요청 헤더에서 'Auth' 항목이 있는지 확인
+    String token = header.getFirst("Authorization");
+    Long userId = 0L;
+    if (token != null && !token.isEmpty()) {
+      // 'Auth' 헤더가 존재하고 값이 비어있지 않은 경우
+      // TODO: 헤더 값을 이용한 작업 수행
+      userId = jwtService.userPkByToken(token);
+    }
+    ReadCommunityDetailResponse response = communityService.readCommunityDetail(userId ,"자유", communityId);
 
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
@@ -270,7 +354,7 @@ public class CommunityController {
     Pageable pageable = PageRequest.of(page, size);
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    List<ReadAllCommunityResponse> response = communityService.searchCommunity("자유", content, type, pageable);
+    PagingCommunityResponse response = communityService.searchCommunity("자유", content, type, pageable);
     result.put("data", response);
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
@@ -288,12 +372,25 @@ public class CommunityController {
   @GetMapping("/free")
   public ResponseEntity<?> findAllFreeCommunity(
           @ApiParam(value = "페이지 번호", required = true, defaultValue = "0", example = "0")  @RequestParam(value = "page", required = true, defaultValue = "0") Integer page,
-          @ApiParam(value = "페이지 크기", required = true, defaultValue = "5", example = "5")  @RequestParam(value = "size", required = true, defaultValue = "20") Integer size) {
-    Pageable pageable = PageRequest.of(page, size);
+          @ApiParam(value = "페이지 크기", required = true, defaultValue = "5", example = "5")  @RequestParam(value = "size", required = true, defaultValue = "20") Integer size,
+          @ApiParam(value = "정렬 방식", required = true, defaultValue = "all", example = "all , view , likes")  @RequestParam(value = "sort", required = true, defaultValue = "all") String sort) {
+    Sort sorting;
+    if(sort.equals("all")){
+      sorting = Sort.by(Sort.Direction.DESC,"createdDate");
+    }
+    else if(sort.equals("view")){
+      sorting = Sort.by(Sort.Direction.DESC,"totalView");
+    } else if (sort.equals("likes")) {
+      sorting = Sort.by(Sort.Direction.DESC,"likesCnt");
+    } else{
+      throw  new CustomException(ErrorCode.WRONG_INPUT_DATA);
+    }
+    Pageable pageable = PageRequest.of(page, size,sorting);
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-    List<ReadAllCommunityResponse> response = communityService.readAllCommunity(pageable);
-    result.put("data", response);
+    PagingCommunityResponse response = communityService.readAllCommunity("자유",sort , pageable);
+    result.put("data", response.getReadAllCommunityResponses());
+    result.put("totalPage" , response.getPageTotal());
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
   }
 
@@ -310,8 +407,8 @@ public class CommunityController {
   public ResponseEntity<?> updateFreeCommunity(@RequestHeader("Authorization") String token ,@RequestBody UpdateCommunityRequest updateCommunityRequest) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-
-    result.put("data", communityService.updateCommunity(updateCommunityRequest));
+    Long userId = jwtService.userPkByToken(token);
+    result.put("data", communityService.updateCommunity(userId, updateCommunityRequest));
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
 
   }
@@ -328,8 +425,8 @@ public class CommunityController {
   public ResponseEntity<?> removeFreeCommunity(@RequestHeader("Authorization") String token ,@PathVariable Long communityId) {
     HttpHeaders headers = new HttpHeaders();
     HashMap<String, Object> result = new HashMap<>();
-
-    communityService.deleteCommunity(communityId);
+    Long userId = jwtService.userPkByToken(token);
+    communityService.deleteCommunity(userId ,communityId);
     result.put("data", "success");
     return new ResponseEntity<>(result, headers, HttpStatus.OK);
 

@@ -9,10 +9,9 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.UnsupportedEncodingException;
+import java.time.Duration;
 import java.util.Random;
 
-import static org.springframework.security.core.context.SecurityContextHolder.setContext;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +45,8 @@ public class EmailServiceImpl implements EmailService {
         return authNum;
     }
 
-    //메일 양식 작성
+    // 메일 양식 작성해서 전송
+    // 코드 전송후 레디스에 5분 유효기간으로 저장
     public void sendEmailCert(String email){
 
         String authNum = createCode(); //인증 코드 생성
@@ -86,12 +86,13 @@ public class EmailServiceImpl implements EmailService {
             es.printStackTrace();
             throw new IllegalArgumentException();
         }
-
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        valueOperations.set(toEmail, authNum);
+        Duration expireDuration = Duration.ofSeconds(60 * 5L);
+        valueOperations.set(toEmail.replace("\"",""), authNum, expireDuration);
     }
 
     // 이메일 체크
+    // 이메일을 레디스에서 키값으로 조회후, 받은 코드값과 비교해서 확인처리
     public boolean checkEmailCert(EmailAndCode emailAndCode) {
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
         String setCode = valueOperations.get(emailAndCode.getEmail());

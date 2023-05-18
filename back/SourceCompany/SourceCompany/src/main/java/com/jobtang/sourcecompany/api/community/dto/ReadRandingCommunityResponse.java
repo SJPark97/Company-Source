@@ -14,7 +14,5 @@ import java.util.List;
 public class ReadRandingCommunityResponse {
   private List<ReadAllCommunityResponse> corpHot;
   private List<ReadAllCommunityResponse> freeHot;
-  private List<ReadAllCommunityResponse> corpRecent;
-  private List<ReadAllCommunityResponse> freeRecent;
 
 }

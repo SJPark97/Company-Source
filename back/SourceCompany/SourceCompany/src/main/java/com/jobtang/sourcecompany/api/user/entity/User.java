@@ -5,6 +5,7 @@ import com.jobtang.sourcecompany.api.community.entity.Community;
 import com.jobtang.sourcecompany.api.faq.entity.Faq;
 import com.jobtang.sourcecompany.api.inquiry.entity.Inquiry;
 import com.jobtang.sourcecompany.api.inquiry_comment.entity.InquiryComment;
+import com.jobtang.sourcecompany.api.likes.entity.Likes;
 import com.jobtang.sourcecompany.api.scrap.entity.Scrap;
 import com.jobtang.sourcecompany.util.BaseEntity;
 import com.sun.istack.NotNull;
@@ -19,7 +20,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Entity
@@ -35,9 +35,6 @@ public class User extends BaseEntity implements UserDetails  {
 
   @NotNull
   @Column(nullable = false)
-//  @ElementCollection
-//  private List<Role> role;
-//  private List<String> role;
   private String role;
 
   @NotNull
@@ -85,6 +82,11 @@ public class User extends BaseEntity implements UserDetails  {
   @OneToMany(mappedBy = "user" )
   private List<Faq> faqs = new ArrayList<>();
 
+  @JsonIgnore
+  @OneToMany(mappedBy = "user" )
+  private List<Likes> likes = new ArrayList<>();
+
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     Collection<GrantedAuthority> authorities = new ArrayList<>();
@@ -92,9 +94,6 @@ public class User extends BaseEntity implements UserDetails  {
     for(String role : role.split(",")){
       authorities.add(new SimpleGrantedAuthority(role));
     }
-//    for(String r:role) {
-//      authorities.add(new SimpleGrantedAuthority(r));
-//    }
     return authorities;
   }
   @Override

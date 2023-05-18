@@ -3,19 +3,17 @@ package com.jobtang.sourcecompany.api.corp.controller;
 import com.jobtang.sourcecompany.api.corp.dto.CorpAutoSearchDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpInfoDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
-import com.jobtang.sourcecompany.api.corp.entity.Corp;
+import com.jobtang.sourcecompany.api.corp.dto.CorpListResponseDto;
 import com.jobtang.sourcecompany.api.corp.service.CorpService;
-import io.lettuce.core.dynamic.annotation.Param;
+import com.jobtang.sourcecompany.util.ResponseHandler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,6 +24,7 @@ import java.util.List;
 @Api("기업 정보 API")
 public class CorpController {
     private final CorpService corpService;
+    private final ResponseHandler responseHandler;
 
     // 기업 이름 검색
     @ApiOperation(
@@ -34,14 +33,14 @@ public class CorpController {
             response = CorpSearchListDto.class,
             responseContainer = "List"
     )
-    @GetMapping("/list/{inputValue}")
-    public ResponseEntity<?> searchCorp(@PathVariable String inputValue) {
+    @GetMapping("/list/")
+    public ResponseEntity<?> searchCorp(@RequestParam String inputValue) {
         HashMap<String,Object> result = new HashMap<>();
         List<CorpSearchListDto> data = corpService.searchCorp(inputValue);
         if (data.size() == 0) {
             result.put("status", "204");
             result.put("message", "검색 결과가 없습니다");
-            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
         }
         result.put("data", data);
         result.put("message", "");
@@ -55,41 +54,20 @@ public class CorpController {
             response = CorpAutoSearchDto.class,
             responseContainer = "List"
     )
-    @GetMapping("/autosearch/{inputValue}")
-    public ResponseEntity<?> autoSearchCorp(@PathVariable String inputValue) {
+    @GetMapping("/autosearch/")
+    public ResponseEntity<?> autoSearchCorp(@RequestParam String inputValue) {
         HashMap<String,Object> result = new HashMap<>();
         List<CorpAutoSearchDto> data = corpService.autoSearchCorp(inputValue);
         if (data.size() == 0) {
             result.put("status", "204");
             result.put("message", "검색 결과가 없습니다");
-            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
         }
         result.put("data", data);
         result.put("message", "");
         result.put("status", "200");
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
-//    @ApiOperation(
-//            value = "기업 추천",
-//            notes = "랜덤 기업 코드를 가진 5개 랜덤 기업 보여주기",
-//            response = CorpSearchListDto.class,
-//            responseContainer = "List"
-//    )
-//    @GetMapping("/recommend")
-//    public ResponseEntity<?> recommendCorp() {
-//        HashMap<String,Object> result = new HashMap<>();
-//        List<CorpSearchListDto> data = corpService.recommendCorp();
-//        if (data.size() == 0) {
-//            result.put("status", "204");
-//            result.put("message", "검색 결과가 없습니다");
-//            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
-//        }
-//        result.put("data", data);
-//        result.put("message", "");
-//        result.put("status", "200");
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
 
 
     // 기업 개요 조회
@@ -113,17 +91,17 @@ public class CorpController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    // 랜덤기업 레디스에 저장
-    @ApiOperation(
-            value = "랜덤 기업 생성",
-            notes = "레디스에 순서 뒤섞어서 기업 저장",
-            response = void.class
-    )
-    @GetMapping("/makerandomcorp/2kdmqkwm")
-    public String makeRandomCorp() {
-        corpService.makeRandCorp();
-        return "랜덤 기업 저장 완료";
-    }
+//    // 랜덤기업 레디스에 저장
+//    @ApiOperation(
+//            value = "랜덤 기업 생성",
+//            notes = "레디스에 순서 뒤섞어서 기업 저장",
+//            response = void.class
+//    )
+//    @GetMapping("/makerandomcorp/2kdmqkwm")
+//    public String makeRandomCorp() {
+//        corpService.makeRandCorp();
+//        return "랜덤 기업 저장 완료";
+//    }
 
     // 홈화면 랜덤 기업 리스트 출력
     @ApiOperation(
@@ -140,14 +118,14 @@ public class CorpController {
             result.put("status", "204");
             result.put("message", "잘못된 페이징입니다");
             result.put("pageNum", page);
-            result.put("totalPageNum", "385");
+            result.put("totalPageNum", "230");
             return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
         }
         result.put("data", data);
         result.put("message", "");
         result.put("status", "200");
         result.put("pageNum", page);
-        result.put("totalPageNum", "385");
+        result.put("totalPageNum", "230");
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -157,18 +135,40 @@ public class CorpController {
         return new ResponseEntity<List<String>>(result, HttpStatus.OK);
     }
 
+    @ApiOperation(
+            value = "핫기업",
+            notes = "어제 조회수 높은 기업 반환",
+            response = CorpSearchListDto.class)
     @GetMapping("/hotcorp")
     public ResponseEntity<?> getHotCorp(int page, int size) {
-        List<CorpSearchListDto> data = corpService.getHotCorps(size, page);
-        HashMap<String, Object> result = new HashMap<>();
-        if (data == null) {
-            result.put("status", "204");
-            result.put("message", "페이징 내용이 없습니다");
-            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
-        }
-        result.put("data", data);
-        result.put("message", "");
-        result.put("status", 200);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return responseHandler.response(corpService.getHotCorps(size, page));
+    }
+
+    @ApiOperation(
+            value = "랜덤 산업 기업",
+            notes = "랜덤 산업 기업",
+            response = CorpListResponseDto.class)
+    @GetMapping("/induty")
+    public ResponseEntity<?> getIndutyCorp() {
+//        return responseHandler.response(corpService.getIndutyCorps(page, size));
+        return responseHandler.response(corpService.getIndutyCorps());
+    }
+
+    @ApiOperation(
+            value = "평가 양호 기업",
+            notes = "평가 양호 기업",
+            response = CorpListResponseDto.class)
+    @GetMapping("/goodresult")
+    public ResponseEntity<?> getGoodResultCorp(int page, int size) {
+        return responseHandler.response(corpService.getGoodResultCorps(page, size));
+    }
+
+    @ApiOperation(
+            value = "매출 상위 기업",
+            notes = "평가 양호 기업",
+            response = CorpListResponseDto.class)
+    @GetMapping("/sales")
+    public ResponseEntity<?> getTopSalesCorp(int page, int size) {
+        return responseHandler.response(corpService.getTopSalesCorps(page, size));
     }
 }

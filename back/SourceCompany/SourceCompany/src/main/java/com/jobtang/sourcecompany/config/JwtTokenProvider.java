@@ -1,6 +1,6 @@
 package com.jobtang.sourcecompany.config;
-import com.jobtang.sourcecompany.api.exception.CustomException;
-import com.jobtang.sourcecompany.api.exception.ErrorCode;
+import com.jobtang.sourcecompany.api.exception.customerror.CustomException;
+import com.jobtang.sourcecompany.api.exception.customerror.ErrorCode;
 import com.jobtang.sourcecompany.api.user.entity.User;
 import com.jobtang.sourcecompany.api.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
@@ -8,6 +8,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +19,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 // 토큰을 생성하고 검증
@@ -26,7 +26,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
-    private String secretKey = "myprojectsecret";
+
+    @Value("${jwt.secretkey}")
+    private String secretKey;
+//    private String secretKey = "myprojectsecret";
 
     // 임시 severtKey
     
@@ -48,10 +51,11 @@ public class JwtTokenProvider {
     // JWT 토큰 생성
 //    public String createToken(String userPk, String role) {
     public String createToken(User user, String role) {
-        // 유저 식별값 claims에 넣어주기. 현재는 email이 들어가있음
+        // 유저 식별값 claims에 넣어주기. 현재는 userId이 들어가있음
         Claims claims = Jwts.claims().setSubject(String.valueOf(user.getId()));
         // 유저 role을 넣어주기. 현재는 ROLE_권한 식으로 String으로 들어가있음
         claims.put("role", role);
+        // username. 즉 email 넣어주기
         claims.put("username", user.getEmail());
         Date now = new Date();
         return Jwts.builder()
@@ -101,7 +105,8 @@ public class JwtTokenProvider {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
-            return false;
+            throw new CustomException("토큰 유효기간 만료",ErrorCode.TOKEN_EXPIRATION_FAIL);
+//            return false;
         }
     }
 }

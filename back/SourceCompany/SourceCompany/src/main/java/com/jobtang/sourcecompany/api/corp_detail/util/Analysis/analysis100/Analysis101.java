@@ -38,7 +38,7 @@ public class Analysis101 implements AnalysisForm {
 
     @Override
     public void checkNull() {
-        if (variable.liquidityRatio == null || variable.quickRatio == null || variable.cashRatio == null || variable.netWorkingCapital == null) {
+        if (variable.liquidityRatio == null || variable.quickRatio == null || variable.cashRatio == null || variable.netWorkingCapitalToTotalAsset == null) {
             isExistAll = false;
         }
     }
@@ -67,7 +67,7 @@ public class Analysis101 implements AnalysisForm {
             result.add(analysisResultDto2);
 
             AnalysisResultDto analysisResultDto3 = new AnalysisResultDto().builder()
-                    .name("당좌비율")
+                    .name("현금비율")
                     .value(variable.cashRatio)
                     .build();
             analysisResultDto3.round();

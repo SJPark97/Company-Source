@@ -15,4 +15,3 @@ public interface IndutyDetailRepository extends JpaRepository<IndutyDetail, Stri
 
 //    @Query("SELECT corp.corpId FROM Corp corp")
 //    List<String> findAllCorpIds();
-

@@ -3,9 +3,8 @@ package com.jobtang.sourcecompany.api.corp.service;
 import com.jobtang.sourcecompany.api.corp.dto.CorpAutoSearchDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpInfoDto;
 import com.jobtang.sourcecompany.api.corp.dto.CorpSearchListDto;
-import com.jobtang.sourcecompany.api.corp.entity.Corp;
+import com.jobtang.sourcecompany.api.corp.dto.CorpListResponseDto;
 
-import java.util.HashMap;
 import java.util.List;
 
 public interface CorpService {
@@ -14,13 +13,10 @@ public interface CorpService {
 
     List<CorpAutoSearchDto> autoSearchCorp(String inputValue);
 
-//    List<CorpSearchListDto> recommendCorp();
 
     CorpInfoDto corpInfo(String corpId);
 
     void makeRandCorp();
-
-//    HashMap<String, Object> randCorp();
 
     List<CorpSearchListDto> randCorp(int page);
 
@@ -30,4 +26,11 @@ public interface CorpService {
     List<String> getCorpAll();
 
     List<CorpSearchListDto> getHotCorps(int size, int page);
+
+//    CorpListResponseDto getIndutyCorps(int size, int page);
+    CorpListResponseDto getIndutyCorps();
+
+    CorpListResponseDto getGoodResultCorps(int size, int page);
+
+    CorpListResponseDto getTopSalesCorps(int size, int page);
 }
