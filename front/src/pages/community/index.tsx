@@ -20,19 +20,6 @@ interface post {
 
 export default function Community({ data }: { data: any }) {
   return (
-    // 준비중 페이지
-    // <div className="flex flex-col items-center">
-    //   <NavBar />
-    //   <Image
-    //     src="/service_waiting.jpg"
-    //     alt="서비스 준비 페이지"
-    //     width={700}
-    //     height={1}
-    //   />
-    //   <div className="text-40 font-bold">서비스 준비중입니다.</div>
-    // </div>
-
-    // 개발중 페이지
     <div className="relative">
       <NavBar />
       <QuickMenu />
@@ -49,7 +36,9 @@ export default function Community({ data }: { data: any }) {
       <div className="flex w-[1300px] mx-auto justify-between mt-50 mb-50">
         <div className="flex flex-col w-[600px]">
           <div className="flex justify-between mb-10">
-            <div className="font-bold">기업 게시판</div>
+            <Link href="/community/corpboard">
+              <div className="font-bold">기업 게시판</div>
+            </Link>
             <Link href="/community/corpboard">
               <div className="flex items-center">
                 <div className="text-[#AAAAAA] mr-10">더보기</div>
@@ -79,7 +68,9 @@ export default function Community({ data }: { data: any }) {
 
         <div className="flex flex-col w-[600px]">
           <div className="flex justify-between mb-10">
-            <div className="font-bold">자유 게시판</div>
+            <Link href="/community/freeboard">
+              <div className="font-bold">자유 게시판</div>
+            </Link>
             <Link href="/community/freeboard">
               <div className="flex items-center">
                 <div className="text-[#AAAAAA] mr-10">더보기</div>
