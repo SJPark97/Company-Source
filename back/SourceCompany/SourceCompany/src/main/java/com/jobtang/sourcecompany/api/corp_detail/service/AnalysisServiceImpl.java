@@ -375,13 +375,13 @@ public class AnalysisServiceImpl implements AnalysisService {
         }
         log.info("모든 산업 분석 완료!");
 
-        // entity 저장
-//        for (String corpId : corpIds) {
-//            for (String analysisId : basicSetting.getAnalysisIds()) {
-//                getCorpAnalysis(analysisId, corpId, 1);
-//            }
-//        }
-//        log.info("모든 기업 분석결과 저장 완료!");
+//         entity 저장
+        for (String corpId : corpIds) {
+            for (String analysisId : basicSetting.getAnalysisIds()) {
+                getCorpAnalysis(analysisId, corpId, 1);
+            }
+        }
+        log.info("모든 기업 분석결과 저장 완료!");
     }
 
     @Override
