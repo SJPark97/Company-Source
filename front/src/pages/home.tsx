@@ -178,6 +178,9 @@ export default function Home() {
             alt="홈 이미지"
             fill
             className="absolute"
+            placeholder="blur"
+            blurDataURL="/home_background.jpg"
+            loading="lazy"
           />
         </div>
         <HomeQuickMenu />
