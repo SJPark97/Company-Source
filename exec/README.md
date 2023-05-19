@@ -1,1 +1,1 @@
-[포팅매뉴얼](https://lab.ssafy.com/tjwlsdud33/S08P31B107.git)
+[포팅매뉴얼](https://fossil-hub-8c4.notion.site/7a37b84ccc8d469ab2f7fe3e4326351fhttps://fossil-hub-8c4.notion.site/7a37b84ccc8d469ab2f7fe3e4326351f)
