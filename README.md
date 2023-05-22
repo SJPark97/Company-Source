@@ -145,6 +145,19 @@
 
 ### ⚡ 서버사이드 렌더링 ⚡
 
+- Next.js 프레임워크를 이용하여 server side rendering을 적용
+
+- 빠른 초기 로딩속도
+
+![image](https://github.com/GangYunGit/TIL/assets/109258306/4a3b5da2-fd8e-4f71-869e-2335953f34d7)
+
+- 검색 엔진 최적화 : google 검색 및 sns 링크 공유
+
+![컴퍼니소스 구글 검색](https://github.com/GangYunGit/TIL/assets/109258306/a5d82289-bf9f-499d-b89c-4283980deec7)
+
+![image](https://github.com/GangYunGit/TIL/assets/109258306/fdeceb9a-bf5e-4dbc-be55-507c9fbd26ef)
+
+
 <br>
 <br>
 
@@ -170,8 +183,18 @@
 - Python `3.10.10`
 
 **[ Frontend ]**
-- npm `9.5.0`
-- node `18.15.0`
+- npm `9.6.2`
+- node `18.12.1`
+- typescript `5.0.4`
+- tailwindcss `3.3.1`
+- next `13.3.0`
+- react-redux `8.0.5`
+- reduxjs/toolkit `1.9.5`
+- nookies `2.5.2`
+- chart.js `4.3.0`
+- mui/material `5.13.0`
+- gtga.js `0.0.12`
+
 
 **[ DB ]**
 - MySQL `8.0.30`
