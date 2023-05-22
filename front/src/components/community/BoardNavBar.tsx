@@ -23,7 +23,9 @@ export default function BoardNavBar() {
   return (
     <div className="flex flex-col items-center">
       <div className="w-[1200px]">
-        <div className="text-24 font-bold my-50">{boardName} 게시판</div>
+        <Link href={"/community/" + `${routerArr[2]}`}>
+          <div className="text-24 font-bold my-50">{boardName} 게시판</div>
+        </Link>
         <div className="flex bg-brand h-50 text-white items-center rounded-20 min-w-1228">
           <Link href={all}>
             <div

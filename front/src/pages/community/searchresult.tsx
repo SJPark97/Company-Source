@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import PageBox from "@/components/community/search/PageBox";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 interface Post {
   commentCount: number;
@@ -31,7 +32,6 @@ export default function CommunitySearchResult({
 }) {
   const router = useRouter();
   const [pages, setPages] = useState<Array<number>>([]);
-  console.log(data.data);
   useEffect(() => {
     const tempArr = [];
     if (data.data.pageTotal <= 10) {
@@ -55,19 +55,39 @@ export default function CommunitySearchResult({
   }, [router]);
   return (
     <>
+      <Head>
+        <title>컴퍼니소스 | 커뮤니티</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content="컴퍼니소스(Company Source)의 커뮤니티 페이지 입니다."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://company-source.com/community" />
+        <meta property="og:title" content="Company Source" />
+        <meta property="og:image" content="/company_default.jpg" />
+        <meta
+          property="og:description"
+          content="기업분석이 어려우신가요? Company Source와 함께 해보세요."
+        />
+        <meta
+          name="google-site-verification"
+          content="0FzOO996BLTIEWFgwlmmYv-F1WmHiM6SrbwEbK9-p3k"
+        />
+      </Head>
       <NavBar />
       <QuickMenu />
 
       {/* body */}
       <div className="w-[1200px] mx-auto">
-        <div className="text-24 py-50 border-b-2 border-brand">
+        <div className="border-b-2 text-24 py-50 border-brand">
           '<span className="font-bold">{keyword}</span>
           '으로 검색한 결과입니다.
         </div>
         <SearchResultHeader />
 
         {/* 게시물 목록 */}
-        <div className="border-b-1 border-gray-400">
+        <div className="border-gray-400 border-b-1">
           {data.data.readAllCommunityResponses &&
             data.data.readAllCommunityResponses.map((post: Post) => (
               // Link설정 필요

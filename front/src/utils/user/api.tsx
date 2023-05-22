@@ -6,7 +6,6 @@ export const idCheckAxios = async (id: string) => {
     const response = await axios.get(SERVER_URL + `/user/validusername/${id}`);
     return response.data;
   } catch (error) {
-    console.error(error);
     return null;
   }
 };
@@ -18,7 +17,6 @@ export const nickNameCheckAxios = async (nickName: string) => {
     );
     return response.data;
   } catch (error) {
-    // console.error(error);
     return null;
   }
 };
@@ -40,7 +38,6 @@ export const signUpAxios = async (
     });
     return response;
   } catch (error) {
-    console.error(error);
     return null;
   }
 };
@@ -53,7 +50,6 @@ export const loginAxios = async (id: string, password: string) => {
     });
     return response.data.data;
   } catch (error) {
-    console.error(error);
     return null;
   }
 };
