@@ -43,23 +43,23 @@
 
 🚩 **프로젝트 요약**
 
-| Application | Language | Framework | DB |
-| --- | --- | --- | --- |
-| ✅ Desktop Web | ✅ JavaScript | 🔲 Vue.js | ✅ Mysql
-| 🔲 Mobile Web | 🔲 TypeScript | ✅ React | ✅ MongoDB
-| 🔲 Responsive Web | 🔲 C/C++ | ✅ NEXT.JS | ✅ Redis
-| 🔲 Android App | 🔲 C# | 🔲 Node.js |
-| 🔲 iOS App | ✅ Python | 🔲 Flask/Django |
-| 🔲 Desktop App | ✅ Java | ✅ Spring/Springboot |
+| Application      | Language     | Framework           | DB        |
+| ---------------- | ------------ | ------------------- | --------- |
+| ✅ Desktop Web    | ✅ JavaScript | 🔲 Vue.js            | ✅ Mysql   |
+| 🔲 Mobile Web     | 🔲 TypeScript | ✅ React             | ✅ MongoDB |
+| 🔲 Responsive Web | 🔲 C/C++      | ✅ NEXT.JS           | ✅ Redis   |
+| 🔲 Android App    | 🔲 C#         | 🔲 Node.js           |
+| 🔲 iOS App        | ✅ Python     | 🔲 Flask/Django      |
+| 🔲 Desktop App    | ✅ Java       | ✅ Spring/Springboot |
 
 <br />
 <br />
 
 👨 **팀 소개 - 🏢컴퍼니소스🏢**
 
-| [김진호](https://github.com/kimjinho-dev) | [김성준](https://github.com/Vailish) | [한인환](https://github.com/haninan94) | [이강윤](https://github.com/GangYunGit) | [박승재](https://github.com/SJPark97) | [최현호](https://github.com/cwelly) |
-| --- | --- | --- | --- | --- | --- |
-| ![image](https://github.com/kimjinho-dev/Vita/assets/109258271/7633a18a-9882-4986-8fdf-57041fc08f30) | ![image](https://github.com/kimjinho-dev/Vita/assets/109258271/b320c0ca-76c6-42dc-852f-bfb2953c13d5) | ![image](https://github.com/kimjinho-dev/Vita/assets/109258271/5a1b6c06-bb35-4fe5-af1f-00afafd50c04) | ![image](https://github.com/kimjinho-dev/Vita/assets/109258271/fbab71ff-a2a9-4cfe-88f3-12fd322361db) | ![image](https://github.com/kimjinho-dev/Vita/assets/109258271/c639ccd8-631f-44f1-9cc8-997eb24f5860) | ![image](https://github.com/kimjinho-dev/Vita/assets/109258271/85748f6a-4754-415e-b5c5-a59cf487eef0)
+| [김진호](https://github.com/kimjinho-dev)                                                            | [김성준](https://github.com/Vailish)                                                                 | [한인환](https://github.com/haninan94)                                                               | [이강윤](https://github.com/GangYunGit)                                                              | [박승재](https://github.com/SJPark97)                                                                | [최현호](https://github.com/cwelly)                                                                  |
+| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| ![image](https://github.com/kimjinho-dev/Vita/assets/109258271/7633a18a-9882-4986-8fdf-57041fc08f30) | ![image](https://github.com/kimjinho-dev/Vita/assets/109258271/b320c0ca-76c6-42dc-852f-bfb2953c13d5) | ![image](https://github.com/kimjinho-dev/Vita/assets/109258271/5a1b6c06-bb35-4fe5-af1f-00afafd50c04) | ![image](https://github.com/kimjinho-dev/Vita/assets/109258271/fbab71ff-a2a9-4cfe-88f3-12fd322361db) | ![image](https://github.com/kimjinho-dev/Vita/assets/109258271/c639ccd8-631f-44f1-9cc8-997eb24f5860) | ![image](https://github.com/kimjinho-dev/Vita/assets/109258271/85748f6a-4754-415e-b5c5-a59cf487eef0) |
 
 <br />
 <br />
@@ -110,7 +110,8 @@
 - **기업분석** 과 **자유게시판** 2가지 게시판 종류
 - 커뮤니티 특성에 따라 글 작성
 
-![ezgif com-resize](https://github.com/kimjinho-dev/Vita/assets/109258271/004abc33-997b-4f36-998f-ea3db1e91924)
+![ezgif com-resize](https://github.com/GangYunGit/TIL/assets/109258306/09463a47-d57f-4f11-be84-18cf9845be92)
+
 
 <br />
 <br />
@@ -175,7 +176,7 @@
 **[ DB ]**
 - MySQL `8.0.30`
 
-**[ DevOpe ]**
+**[ DevOps ]**
 - Docker
 - Nginx
 - Jenkins
