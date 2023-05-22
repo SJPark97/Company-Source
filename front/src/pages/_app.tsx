@@ -52,7 +52,7 @@ export default function App({ Component, pageProps }: AppProps) {
       />
       <Provider store={store}>
         <PersistGate persistor={persistStore(store)}>
-          <Component {...pageProps} />
+          {() => <Component {...pageProps} />}
         </PersistGate>
       </Provider>
       <Question />

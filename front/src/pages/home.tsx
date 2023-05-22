@@ -136,7 +136,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>컴퍼니소스 기업검색</title>
+        <title>컴퍼니소스 | 기업검색</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="description" content="컴퍼니소스 기업검색 페이지입니다." />
         <meta property="og:type" content="website" />
@@ -163,7 +163,7 @@ export default function Home() {
                 className="font-bold text-white lg:text-26 xl:text-29 2xl:text-32 text-shadow animate-fadeIn"
                 style={{ textShadow: "2px 2px 2px rgba(0, 0, 0, 1)" }}
               >
-                약 1개의 분석 방법으로 분석했습니다.
+                약 15개의 분석 방법으로 분석했습니다.
               </div>
             </div>
             <SearchBar getData={getData} />

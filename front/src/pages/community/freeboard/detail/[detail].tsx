@@ -17,6 +17,7 @@ import QuickMenu from "@/components/QuickMenu";
 import DetailModifyButton from "@/components/community/DetailModifyButton";
 import DetailDeleteButton from "@/components/community/DetailDeleteButton";
 import { GetServerSidePropsContext } from "next";
+import Head from "next/head";
 
 interface comment {
   commentGroup: number;
@@ -130,6 +131,26 @@ export default function freeBoardDetail({
 
   return (
     <>
+      <Head>
+        <title>컴퍼니소스 | 자유 게시판</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content="컴퍼니소스(Company Source)의 자유 게시판 페이지 입니다."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://company-source.com/community/freeboard" />
+        <meta property="og:title" content="Company Source" />
+        <meta property="og:image" content="/company_default.jpg" />
+        <meta
+          property="og:description"
+          content="기업분석이 어려우신가요? Company Source와 함께 해보세요."
+        />
+        <meta
+          name="google-site-verification"
+          content="0FzOO996BLTIEWFgwlmmYv-F1WmHiM6SrbwEbK9-p3k"
+        />
+      </Head>
       <NavBar />
       <QuickMenu />
       {!data.data ? (
@@ -139,15 +160,15 @@ export default function freeBoardDetail({
       ) : (
         <div className="flex flex-col w-[1200px] mx-auto">
           <Link href={"/community/" + `${currentLocation}`}>
-            <div className="text-24 mt-50 my-10 font-bold">
+            <div className="my-10 font-bold text-24 mt-50">
               {boardName} 게시판
             </div>
           </Link>
-          <div className="flex bg-brand h-2 rounded-20 items-center"></div>
+          <div className="flex items-center h-2 bg-brand rounded-20"></div>
 
           {/* 제목, 작성자, 작성시간 */}
-          <div className="flex flex-col border-gray-400 border-b-2 py-15">
-            <div className="text-20 font-bold mb-5">{data.data.title}</div>
+          <div className="flex flex-col border-b-2 border-gray-400 py-15">
+            <div className="mb-5 font-bold text-20">{data.data.title}</div>
             <div className="flex justify-between">
               <div className="flex">
                 <div>{data.data.userName} | </div>
@@ -169,7 +190,7 @@ export default function freeBoardDetail({
                   <div className="ml-5">{likesCount}</div>
                 </div>
                 <div className="flex items-center ml-50">
-                  <div className="w-25 h-auto pt-3">
+                  <div className="h-auto pt-3 w-25">
                     <Image
                       src="/view.png"
                       alt="조회수"
@@ -186,7 +207,7 @@ export default function freeBoardDetail({
           {/* 게시물 삭제 및 수정 버튼 */}
           {isYourPost ? (
             <div className="relative pt-20">
-              <div className="absolute flex right-0 top-20">
+              <div className="absolute right-0 flex top-20">
                 {/* 수정 버튼 */}
                 <div className="mr-20">
                   <DetailModifyButton
@@ -212,7 +233,7 @@ export default function freeBoardDetail({
           {/* Like Box */}
           <div className="flex justify-center border-b-2 border-gray-400 py-50">
             <div
-              className="flex items-center border-2 border-brand p-10 rounded-10 cursor-pointer shadow-2xl"
+              className="flex items-center p-10 border-2 shadow-2xl cursor-pointer border-brand rounded-10"
               onClick={likeHandler}
             >
               <Image
@@ -220,7 +241,7 @@ export default function freeBoardDetail({
                 alt="좋아요"
                 width={80}
                 height={72}
-                className="w-28 h-24 mr-10"
+                className="h-24 mr-10 w-28"
               />
               <div className="font-bold">좋아요</div>
             </div>
@@ -246,7 +267,7 @@ export default function freeBoardDetail({
           </div>
 
           {/* Comment Create Box */}
-          <div className="h-180 border-2 border-gray-400 rounded-10">
+          <div className="border-2 border-gray-400 h-180 rounded-10">
             <div className="p-20">댓글 쓰기</div>
             <form>
               <div className="flex px-20">
@@ -270,7 +291,7 @@ export default function freeBoardDetail({
                 )}
                 <div className="flex justify-center">
                   <div
-                    className="flex items-center justify-center w-90 h-80 ml-20 text-center bg-brand rounded-10 text-white cursor-pointer"
+                    className="flex items-center justify-center ml-20 text-center text-white cursor-pointer w-90 h-80 bg-brand rounded-10"
                     onClick={createMyComment}
                   >
                     등록
